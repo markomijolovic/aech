@@ -135,7 +135,7 @@
     <ClInclude Include="types.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="component_array.cpp" />
+    <ClCompile Include="component_manager.cpp" />
     <ClCompile Include="engine.cpp" />
     <ClCompile Include="entity_manager.cpp" />
     <ClCompile Include="system_manager.cpp" />

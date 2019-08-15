@@ -49,14 +49,7 @@ namespace aech
 			get_component_array<T>()->remove_data(entity);
 		}
 
-		void entity_destroyed(entity_t entity)
-		{
-			for (const auto& el : m_component_arrays)
-			{
-				el.second->entity_destroyed(entity);
-			}
-		}
-
+		void entity_destroyed(entity_t entity);
 	private:
 
 		std::unordered_map<const char*, component_type_t>                   m_component_types{};
@@ -64,7 +57,7 @@ namespace aech
 		component_type_t                                                    m_next_component_type{};
 
 		/**
-		 * helper function to get casted pointer to the component_array_t of type T
+		 * helper function to get pointer to the component_array_t of type T
 		 */
 		template <typename T>
 		std::shared_ptr<component_array_t<T>> get_component_array()
