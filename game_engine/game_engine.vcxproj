@@ -80,6 +80,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
+      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -92,6 +93,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
+      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -108,6 +110,7 @@
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -124,26 +127,65 @@
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="camera.hpp" />
+    <ClInclude Include="camera_control_system.hpp" />
+    <ClInclude Include="components.hpp" />
     <ClInclude Include="component_manager.hpp" />
     <ClInclude Include="engine.hpp" />
     <ClInclude Include="entity_manager.hpp" />
+    <ClInclude Include="event.hpp" />
+    <ClInclude Include="event_manager.hpp" />
+    <ClInclude Include="mat4.hpp" />
+    <ClInclude Include="physics_system.hpp" />
+    <ClInclude Include="player_control_system.hpp" />
+    <ClInclude Include="render_system.hpp" />
+    <ClInclude Include="shader.hpp" />
     <ClInclude Include="system.hpp" />
     <ClInclude Include="system_manager.hpp" />
     <ClInclude Include="types.hpp" />
+    <ClInclude Include="vec2.hpp" />
+    <ClInclude Include="vec3.hpp" />
+    <ClInclude Include="vec4.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="camera.cpp" />
+    <ClCompile Include="camera_control_system.cpp" />
     <ClCompile Include="component_manager.cpp" />
     <ClCompile Include="engine.cpp" />
     <ClCompile Include="entity_manager.cpp" />
+    <ClCompile Include="event.cpp" />
+    <ClCompile Include="event_manager.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="mat4.cpp" />
+    <ClCompile Include="physics_system.cpp" />
+    <ClCompile Include="player_control_system.cpp" />
+    <ClCompile Include="render_system.cpp" />
+    <ClCompile Include="shader.cpp" />
     <ClCompile Include="system_manager.cpp" />
+    <ClCompile Include="vec2.cpp" />
+    <ClCompile Include="vec3.cpp" />
+    <ClCompile Include="vec4.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="component_array.hpp" />
+    <None Include="fragment.glsl" />
+    <None Include="packages.config" />
+    <None Include="vertex.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\nupengl.core.redist.0.1.0.1\build\native\nupengl.core.redist.targets" Condition="Exists('..\packages\nupengl.core.redist.0.1.0.1\build\native\nupengl.core.redist.targets')" />
+    <Import Project="..\packages\nupengl.core.0.1.0.1\build\native\nupengl.core.targets" Condition="Exists('..\packages\nupengl.core.0.1.0.1\build\native\nupengl.core.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\nupengl.core.redist.0.1.0.1\build\native\nupengl.core.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\nupengl.core.redist.0.1.0.1\build\native\nupengl.core.redist.targets'))" />
+    <Error Condition="!Exists('..\packages\nupengl.core.0.1.0.1\build\native\nupengl.core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\nupengl.core.0.1.0.1\build\native\nupengl.core.targets'))" />
+  </Target>
 </Project>
