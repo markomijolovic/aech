@@ -11,7 +11,7 @@ namespace aech
 		void update(float dt);
 
 	private:
-		std::unique_ptr<shader_t> shader;
+		shader_t* shader;
 		entity_t m_camera;
 
 		GLuint m_vao{};

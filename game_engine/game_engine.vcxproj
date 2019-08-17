@@ -143,6 +143,7 @@
     <ClInclude Include="physics_system.hpp" />
     <ClInclude Include="player_control_system.hpp" />
     <ClInclude Include="render_system.hpp" />
+    <ClInclude Include="resource_manager.hpp" />
     <ClInclude Include="shader.hpp" />
     <ClInclude Include="system.hpp" />
     <ClInclude Include="system_manager.hpp" />
@@ -164,6 +165,7 @@
     <ClCompile Include="physics_system.cpp" />
     <ClCompile Include="player_control_system.cpp" />
     <ClCompile Include="render_system.cpp" />
+    <ClCompile Include="resource_manager.cpp" />
     <ClCompile Include="shader.cpp" />
     <ClCompile Include="system_manager.cpp" />
     <ClCompile Include="vec2.cpp" />

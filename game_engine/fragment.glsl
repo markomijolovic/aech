@@ -1,9 +1,9 @@
-#version 330 core
+#version 450 core
 
 out vec4 FragColor;
 
 in vec3 normal;
-in vec3 fragPosWorld;
+in vec3 fragment_world_position;
 
 uniform vec3 uColor;
 
@@ -19,7 +19,7 @@ void main()
 
 	// Diffuse
 	vec3 norm = normalize(normal);
-	vec3 lightDir = normalize(lightPos - fragPosWorld);
+	vec3 lightDir = normalize(lightPos - fragment_world_position);
 	float diff = max(dot(norm, lightDir), 0.0);
 	vec3 diffuse = diff * lightColor;
 

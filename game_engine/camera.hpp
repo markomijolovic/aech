@@ -9,6 +9,6 @@ namespace aech
 	{
 		mat4_t projection;
 
-		static mat4_t make_projection_matrix(float fov, float near, float far, uint32_t width, uint32_t height);
+		static mat4_t make_perspective_projection(float fov, float near, float far, uint32_t width, uint32_t height);
 	};
 }

@@ -1,83 +1,82 @@
 #include "shader.hpp"
-#include "iostream"
-#include "fstream"
-#include "sstream"
+#include <iostream>
 
 namespace aech
 {
-	shader_t::shader_t(const std::string& vertex_path, const std::string& fragment_path)
+	void shader_t::compile(
+		const std::string& vertex_source,
+		const std::string& fragment_source,
+		const std::string& geometry_source)
 	{
-		std::string fragment_file_contents;
-		std::string vertex_file_contents;
+		auto s_vertex = glCreateShader(GL_VERTEX_SHADER);
+		auto vertex_data = vertex_source.c_str();
+		glShaderSource(s_vertex, 1, &vertex_data, nullptr);
+		glCompileShader(s_vertex);
+		check_compile_errors(s_vertex, "vertex");
 
-		// Read in the vertex shader
-		std::ifstream vertex_file;
+		auto s_fragment = glCreateShader(GL_FRAGMENT_SHADER);
+		auto fragment_data = fragment_source.c_str();
+		glShaderSource(s_fragment, 1, &fragment_data, nullptr);
+		glCompileShader(s_fragment);
+		check_compile_errors(s_fragment, "fragment");
 
-		vertex_file.open(vertex_path);
-		std::stringstream vertex_file_stream;
-		vertex_file_stream << vertex_file.rdbuf();
-		vertex_file.close();
-		vertex_file_contents = vertex_file_stream.str();
-
-		// Read in the fragment shader
-		std::ifstream fragment_file;
-
-		fragment_file.open(fragment_path);
-		std::stringstream fragment_file_stream;
-		fragment_file_stream << fragment_file.rdbuf();
-		fragment_file.close();
-		fragment_file_contents = fragment_file_stream.str();
-
-		auto vertex_shader = glCreateShader(GL_VERTEX_SHADER);
-
-		auto vertex_shader_source = vertex_file_contents.c_str();
-		glShaderSource(vertex_shader, 1, &vertex_shader_source, nullptr);
-		glCompileShader(vertex_shader);
-
-		int success;
-		char infoLog[512];
-		glGetShaderiv(vertex_shader, GL_COMPILE_STATUS, &success);
-
-		if (!success)
+		uint32_t s_geometry;
+		if (!geometry_source.empty())
 		{
-			glGetShaderInfoLog(vertex_shader, 512, nullptr, infoLog);
-			std::cerr << "Error compiling vertex shader: " << infoLog << "\n";
+			s_geometry = glCreateShader(GL_GEOMETRY_SHADER);
+			auto geometry_data = geometry_source.c_str();
+			glShaderSource(s_geometry, 1, &geometry_data, nullptr);
+			glCompileShader(s_geometry);
+			check_compile_errors(s_geometry, "geometry");
 		}
-
-
-		auto fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
-
-		auto fragment_shader_source = fragment_file_contents.c_str();
-		glShaderSource(fragment_shader, 1, &fragment_shader_source, nullptr);
-		glCompileShader(fragment_shader);
-		glGetShaderiv(fragment_shader, GL_COMPILE_STATUS, &success);
-
-		if (!success)
-		{
-			glGetShaderInfoLog(fragment_shader, 512, nullptr, infoLog);
-			std::cerr << "Error compiling fragment shader: " << infoLog << "\n";
-		}
-
 
 		m_id = glCreateProgram();
-
-		glAttachShader(m_id, vertex_shader);
-		glAttachShader(m_id, fragment_shader);
-		glLinkProgram(m_id);
-		glGetProgramiv(m_id, GL_LINK_STATUS, &success);
-
-		if (!success)
+		glAttachShader(m_id, s_vertex);
+		glAttachShader(m_id, s_fragment);
+		if (!geometry_source.empty())
 		{
-			glGetProgramInfoLog(m_id, 512, nullptr, infoLog);
-			std::cerr << "Error linking shaders: " << infoLog << "\n";
+			glAttachShader(m_id, s_vertex);
 		}
 
-		glDeleteShader(vertex_shader);
-		glDeleteShader(fragment_shader);
+		glLinkProgram(m_id);
+		check_compile_errors(m_id, "program");
+
+		glDeleteShader(s_vertex);
+		glDeleteShader(s_fragment);
+		if (!geometry_source.empty())
+		{
+			glDeleteShader(s_geometry);
+		}
 	}
 
 	void shader_t::use() const
 	{
 		glUseProgram(m_id);
+	}
+
+
+	void shader_t::check_compile_errors(uint32_t shader, const std::string& type)
+	{
+		GLint success;
+		if (type == "program")
+		{
+			glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+			if (success == 0)
+			{
+				GLchar info_log[1 << 10];
+				glGetProgramInfoLog(shader, 1 << 10, nullptr, info_log);
+				std::cerr << "ERROR::PROGRAM_LINKING_ERROR: " << info_log << '\n';
+			}
+		}
+		else
+		{
+			glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+			if (success == 0)
+			{
+				GLchar info_log[1 << 10];
+				glGetShaderInfoLog(shader, 1 << 10, nullptr, info_log);
+				std::cerr << "ERROR::SHADER_COMPILATION_ERROR(" << type << ")\n" << info_log << '\n';
+			}
+		}
 	}
 }

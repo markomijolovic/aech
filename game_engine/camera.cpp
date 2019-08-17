@@ -4,7 +4,7 @@
 
 namespace aech
 {
-	mat4_t camera_t::make_projection_matrix(float fov, float near_clip, float far_clip, unsigned int view_width, unsigned int view_height)
+	mat4_t camera_t::make_perspective_projection(float fov, float near_clip, float far_clip, unsigned int view_width, unsigned int view_height)
 	{
 		auto z_clip_bias0 =
 			(far_clip + near_clip)

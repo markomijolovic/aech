@@ -12,20 +12,38 @@ namespace aech
 	class shader_t
 	{
 	public:
-		shader_t(const std::string& vertex_path, const std::string& fragment_path);
+		shader_t() = default;
 		void use() const;
+		void compile(
+			const std::string& vertex_source,
+			const std::string& fragment_source,
+			const std::string& geometry_source
+		);
 
 		template<typename T>
 		void set_uniform(const std::string &name, const T&value)
 		{
 			if constexpr(std::is_same_v<T, mat4_t>) {
-				glUniformMatrix4fv(glGetUniformLocation(m_id, name.c_str()), 1, GL_TRUE, (GLfloat *)value.data);
+				glUniformMatrix4fv(glGetUniformLocation(m_id, name.c_str()), 1, GL_TRUE, (GLfloat *)(value.data));
 			}
 			else if constexpr(std::is_same_v<T, vec3_t>) {
-				glUniform3fv(glGetUniformLocation(m_id, name.c_str()), 1, (GLfloat *)&value);
+				glUniform3fv(glGetUniformLocation(m_id, name.c_str()), 1, (GLfloat*)(&value));
+			}
+			else if constexpr(std::is_same_v<T, bool>) {
+				glUniform1i(glGetUniformLocation(m_id, name.c_str()), (GLint)(value));
+			}
+			else if constexpr(std::is_same_v<T, int32_t>) {
+				glUniform1i(glGetUniformLocation(m_id, name.c_str()), value);
+			}
+			else if constexpr(std::is_same_v<T, uint32_t>) {
+				glUniform1ui(glGetUniformLocation(m_id, name.c_str()), value);
+			}
+			else if constexpr(std::is_same_v<T, float>) {
+				glUniform1f(glGetUniformLocation(m_id, name.c_str()), value);
 			}
 		}
 	private:
-		GLuint m_id;
+		uint32_t m_id;
+		void check_compile_errors(uint32_t id, const std::string &type);
 	};
 }

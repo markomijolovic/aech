@@ -2,6 +2,7 @@
 #include "engine.hpp"
 #include "components.hpp"
 #include "camera.hpp"
+#include "resource_manager.hpp"
 
 extern aech::engine_t engine;
 
@@ -9,8 +10,7 @@ namespace aech
 {
 	void render_system_t::init()
 	{
-		shader = std::make_unique<shader_t>("./vertex.glsl", "./fragment.glsl");
-
+		shader = &resource_manager::load_shader("./vertex.glsl", "./fragment.glsl", "", "shader");
 		m_camera = engine.create_entity();
 
 		engine.add_component(
@@ -23,7 +23,7 @@ namespace aech
 		engine.add_component(
 			m_camera,
 			camera_t{
-			camera_t::make_projection_matrix(45.0f, 0.1f, 1000.0f, 1280, 720)
+			camera_t::make_perspective_projection(45.0f, 0.1f, 1000.0f, 1280, 720)
 			}
 		);
 
@@ -194,10 +194,10 @@ namespace aech
 
 			mat4_t projection = camera.projection;
 
-			shader->set_uniform<mat4_t>("uModel", model);
-			shader->set_uniform<mat4_t>("uView", view);
-			shader->set_uniform<mat4_t>("uProjection", projection);
-			shader->set_uniform<vec3_t>("uColor", renderable.colour);
+			shader->set_uniform("model", model);
+			shader->set_uniform("view", view);
+			shader->set_uniform("projection", projection);
+			shader->set_uniform("uColor", renderable.colour);
 
 			glDrawArrays(GL_TRIANGLES, 0, 36);
 		}
