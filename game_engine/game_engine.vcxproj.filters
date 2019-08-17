@@ -43,8 +43,20 @@
     <Filter Include="Source Files\graphics">
       <UniqueIdentifier>{7a599fdb-b045-4d5d-bf33-017845b4569d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\shaders">
+    <Filter Include="Header Files\graphics\mesh">
+      <UniqueIdentifier>{bcf67301-419c-44bf-9e8c-7387435b333a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\graphics\mesh">
+      <UniqueIdentifier>{dabad1dc-1ba9-400c-aa97-b031154ef108}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\graphics\shaders">
       <UniqueIdentifier>{e2faf528-daab-4851-9a9b-4748b68a62cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\graphics\shaders">
+      <UniqueIdentifier>{a027a706-3dca-488b-aee3-ecf2d70f67bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\includes">
+      <UniqueIdentifier>{8ee4e678-79cf-402a-a22e-b14cb08328eb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -96,9 +108,6 @@
     <ClInclude Include="physics_system.hpp">
       <Filter>Header Files\systems</Filter>
     </ClInclude>
-    <ClInclude Include="shader.hpp">
-      <Filter>Header Files\graphics</Filter>
-    </ClInclude>
     <ClInclude Include="player_control_system.hpp">
       <Filter>Header Files\systems</Filter>
     </ClInclude>
@@ -113,6 +122,18 @@
     </ClInclude>
     <ClInclude Include="mat3.hpp">
       <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="mesh.hpp">
+      <Filter>Header Files\graphics\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="shader.hpp">
+      <Filter>Header Files\graphics\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="texture.hpp">
+      <Filter>Header Files\graphics\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_image.hpp">
+      <Filter>Header Files\includes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -155,9 +176,6 @@
     <ClCompile Include="physics_system.cpp">
       <Filter>Source Files\systems</Filter>
     </ClCompile>
-    <ClCompile Include="shader.cpp">
-      <Filter>Source Files\graphics</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -176,6 +194,18 @@
     <ClCompile Include="mat3.cpp">
       <Filter>Source Files\math</Filter>
     </ClCompile>
+    <ClCompile Include="mesh.cpp">
+      <Filter>Source Files\graphics\mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="shader.cpp">
+      <Filter>Source Files\graphics\shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="texture.cpp">
+      <Filter>Source Files\graphics\shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="stb_image.cpp">
+      <Filter>Header Files\includes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="component_array.hpp">
@@ -183,10 +213,10 @@
     </None>
     <None Include="packages.config" />
     <None Include="vertex.glsl">
-      <Filter>Source Files\shaders</Filter>
+      <Filter>Source Files\graphics\shaders</Filter>
     </None>
     <None Include="fragment.glsl">
-      <Filter>Source Files\shaders</Filter>
+      <Filter>Source Files\graphics\shaders</Filter>
     </None>
   </ItemGroup>
 </Project>
