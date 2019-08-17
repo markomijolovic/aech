@@ -19,10 +19,15 @@ using namespace aech;
 engine_t engine{};
 std::bitset<8> m_buttons{};
 
-constexpr uint32_t screen_width = 1280;
-constexpr uint32_t screen_height = 720;
+constexpr uint32_t screen_width = 1920;
+constexpr uint32_t screen_height = 1080;
+
+auto first_mouse = true;
+float last_x{};
+float last_y{};
 
 void key_callback(GLFWwindow* window, int key, int scan_code, int action, int mode);
+void mouse_callback(GLFWwindow* window, double x_pos, double y_pos);
 
 int main(int argc, char *argv[])
 {
@@ -32,7 +37,7 @@ int main(int argc, char *argv[])
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_RESIZABLE, false);
 
-	auto window = glfwCreateWindow(screen_width, screen_height, "ecs test", nullptr, nullptr);
+	auto window = glfwCreateWindow(screen_width, screen_height, "ecs test", glfwGetPrimaryMonitor(), nullptr);
 	glfwMakeContextCurrent(window);
 
 	glewExperimental = true;
@@ -40,6 +45,8 @@ int main(int argc, char *argv[])
 	glGetError();
 
 	glfwSetKeyCallback(window, key_callback);
+	glfwSetCursorPosCallback(window, mouse_callback);
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glViewport(0, 0, screen_width, screen_height);
 
 	glEnable(GL_DEPTH_TEST);
@@ -249,4 +256,25 @@ void key_callback(GLFWwindow* window, int key, int scan_code, int action, int mo
 			engine.send_event(event);
 		}
 	}
+}
+
+void mouse_callback(GLFWwindow* window, double x_pos, double y_pos)
+{
+	if (first_mouse)
+	{
+		last_x = x_pos;
+		last_y = y_pos;
+		first_mouse = false;
+	}
+
+	float x_offset = x_pos - last_x;
+	float y_offset = last_y - y_pos;
+
+	last_x = x_pos;
+	last_y = y_pos;
+
+	std::pair param = { x_offset, y_offset };
+	event_t event{ events::window::mouse };
+	event.set_param(events::window::params::mouse, param);
+	engine.send_event(event);
 }

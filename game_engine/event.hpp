@@ -9,16 +9,16 @@ namespace aech
 	{
 	public:
 		explicit  event_t(event_id_t type);
-		event_id_t get_type() const;
+		[[nodiscard]] event_id_t get_type() const;
 
 		template<typename T>
-		void set_param(event_id_t id, T value)
+		void set_param(param_id_t id, T value)
 		{
 			m_data[id] = value;
 		}
 
 		template <typename T>
-		T get_param(event_id_t id)
+		T get_param(param_id_t id)
 		{
 			return std::any_cast<T>(m_data[id]);
 		}
@@ -26,6 +26,6 @@ namespace aech
 
 	private:
 		event_id_t m_type{};
-		std::unordered_map<event_id_t, std::any> m_data{};
+		std::unordered_map<param_id_t, std::any> m_data{};
 	};
 }

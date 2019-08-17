@@ -14,6 +14,9 @@ namespace aech
 
 	private:
 		std::bitset<8> m_buttons{};
-		void input_listener(event_t& event);
+		float x_offset{};
+		float y_offset{};
+		void mouse_listener(event_t& event);
+		void keyboard_listener(event_t& event);
 	};
 }

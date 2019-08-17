@@ -1,10 +1,11 @@
 #pragma once
 #include "system.hpp"
 #include "shader.hpp"
-#include <memory>
+#include "components.hpp"
 
 namespace aech
 {
+
 	class render_system_t : public system_t {
 	public:
 		void init();

@@ -3,6 +3,7 @@
 #include "components.hpp"
 #include "camera.hpp"
 #include "resource_manager.hpp"
+#include "transforms.hpp"
 
 extern aech::engine_t engine;
 
@@ -137,15 +138,17 @@ namespace aech
 		auto& cameraTransform = engine.get_component<transform_t>(m_camera);
 		auto& camera = engine.get_component<camera_t>(m_camera);
 
+		auto view = get_view_matrix(cameraTransform);
+
 		for (auto const& entity : m_entities)
 		{
 			auto const& transform = engine.get_component<transform_t>(entity);
 			auto const& renderable = engine.get_component<renderable_t>(entity);
 
-			mat4_t view;
+			/*mat4_t view;
 			view.data[0][3] = -cameraTransform.position.x;
 			view.data[1][3] = -cameraTransform.position.y;
-			view.data[2][3] = -cameraTransform.position.z;
+			view.data[2][3] = -cameraTransform.position.z;*/
 
 			mat4_t rotY;
 

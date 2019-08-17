@@ -20,7 +20,7 @@ namespace aech
 	using param_id_t = std::uint32_t;
 	using entity_t = std::uint32_t;
 	using component_type_t = std::uint8_t;
-	constexpr entity_t         max_entities   = 20000;
+	constexpr entity_t         max_entities   = 10000;
 	constexpr component_type_t max_components = 32;
 	using signature_t = std::bitset<max_components>;
 
@@ -49,10 +49,12 @@ namespace aech
 	namespace events::window
 	{
 		constexpr event_id_t input = "Events::Window::INPUT"_hash;
+		constexpr event_id_t mouse = "Events::Window::MOUSE"_hash;
 	}
 
 	namespace events::window::params
 	{
 		constexpr param_id_t input = "Events::Window::Params::INPUT"_hash;
+		constexpr param_id_t mouse{ "Events::Window::Params::MOUSE"_hash };
 	}
 } // namespace aech
