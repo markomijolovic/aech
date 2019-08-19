@@ -44,6 +44,7 @@ namespace aech
 		void set_scale(const vec3_t& scale);
 		void set_scale(float scale);
 
+		scene_node_t() = default;
 		explicit scene_node_t(entity_t id);
 
 		void add_child(entity_t node);

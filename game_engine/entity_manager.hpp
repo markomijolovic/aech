@@ -28,7 +28,7 @@ namespace aech
 		 * value is that entity's signature - 
 		 * i.e. what components it has
 		 */
-		std::array<signature_t, max_entities> m_signatures{};
+		std::array<signature_t, max_entities + 1> m_signatures{};
 
 		uint32_t m_living_entities_count{};
 	};

@@ -15,12 +15,12 @@ namespace aech
 	class component_array_t : public component_array_i
 	{
 	public:
-		void insert_data(entity_t entity, T component)
+		void insert_data(entity_t entity, T&& component)
 		{
 			auto index = m_size;
 			m_entity_to_index[entity] = index;
 			m_index_to_entity[index] = entity;
-			m_component_array[index] = component;
+			m_component_array[index] = std::forward<T>(component);
 			m_size++;
 		}
 		
@@ -28,7 +28,7 @@ namespace aech
 		{
 			auto index = m_entity_to_index[entity];
 			auto index_of_last = m_size - 1;
-			m_component_array[index] = m_component_array[index_of_last];
+			m_component_array[index] = std::move(m_component_array[index_of_last]);
 
 			auto entity_of_last = m_index_to_entity[index_of_last];
 			m_entity_to_index[entity_of_last] = index;

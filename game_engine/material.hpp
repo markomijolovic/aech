@@ -5,6 +5,8 @@
 
 namespace aech
 {
+	class texture_cube_t;
+
 	enum class material_type_t
 	{
 		material_default ,
@@ -40,5 +42,40 @@ namespace aech
 		//shadow
 		bool cast_shadows = true;
 		bool receive_shadows = true;
+
+		template<typename T>
+		void set_uniform(const std::string &name, const T& value)
+		{
+			if constexpr (std::is_same_v<T, bool>) {
+				m_uniforms[name].type = shader_type_t::shader_type_bool;
+				m_uniforms[name].value = value;
+			} else if constexpr (std::is_same_v<T, int>) {
+				m_uniforms[name].type = shader_type_t::shader_type_int;
+				m_uniforms[name].value = value;
+			}
+			else if constexpr (std::is_same_v<T, vec2_t>) {
+				m_uniforms[name].type = shader_type_t::shader_type_vec2;
+				m_uniforms[name].value = value;
+			}
+			else if constexpr (std::is_same_v<T, vec3_t>) {
+				m_uniforms[name].type = shader_type_t::shader_type_vec3;
+				m_uniforms[name].value = value;
+			}
+			else if constexpr (std::is_same_v<T, vec4_t>) {
+				m_uniforms[name].type = shader_type_t::shader_type_vec4;
+				m_uniforms[name].value = value;
+			}
+			else if constexpr (std::is_same_v<T, mat4_t>) {
+				m_uniforms[name].type = shader_type_t::shader_type_mat4;
+				m_uniforms[name].value = value;
+			}
+			else if constexpr (std::is_same_v<T, mat3_t>) {
+				m_uniforms[name].type = shader_type_t::shader_type_mat3;
+				m_uniforms[name].value = value;
+			}
+		}
+
+		void set_texture(const std::string& name, const texture_t& texture, uint32_t unit);
+		void set_texture_cube(const std::string& name, const texture_cube_t& texture, uint32_t unit);
 	};
 }

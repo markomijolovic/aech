@@ -32,9 +32,9 @@ namespace aech
 		 * adds a component to the array for the specified entity
 		 */
 		template <typename T>
-		void add_component(entity_t entity, T component)
+		void add_component(entity_t entity, T&& component)
 		{
-			get_component_array<T>()->insert_data(entity, component);
+			get_component_array<T>()->insert_data(entity, std::forward<T>(component));
 		}
 
 		template <typename T>

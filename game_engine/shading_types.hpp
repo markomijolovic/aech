@@ -6,6 +6,7 @@
 #include "mat4.hpp"
 #include "mat3.hpp"
 #include "texture.hpp"
+#include "texture_cube.hpp"
 
 namespace aech
 {
@@ -49,7 +50,7 @@ namespace aech
 	{
 		shader_type_t type;
 		uint32_t unit;
-		texture_t texture;
+		std::variant<texture_t, texture_cube_t> texture;
 	};
 
 	struct vertex_attribute_t

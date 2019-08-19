@@ -14,7 +14,7 @@ namespace aech
 		register_component<scene_node_t>();
 		add_component(
 			m_root_node,
-			scene_node_t{m_root_node}
+			std::move(scene_node_t{m_root_node})
 		);
 	}
 

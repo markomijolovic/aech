@@ -67,6 +67,12 @@
     <Filter Include="Source Files\graphics\scene">
       <UniqueIdentifier>{1f201e33-2d10-4cd0-92c9-5bc6acb5b2e4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\graphics\lighting">
+      <UniqueIdentifier>{c19ab493-afae-4970-bb7a-0bf78e56497b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\graphics\rendering">
+      <UniqueIdentifier>{3cce3837-8da6-4548-9fdb-d788d5fd072e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="types.hpp">
@@ -159,6 +165,18 @@
     <ClInclude Include="main.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="point_light.hpp">
+      <Filter>Header Files\graphics\lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="directional_light.hpp">
+      <Filter>Header Files\graphics\lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="render_target.hpp">
+      <Filter>Header Files\graphics\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="texture_cube.hpp">
+      <Filter>Header Files\graphics\shaders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="component_manager.cpp">
@@ -232,6 +250,15 @@
     </ClCompile>
     <ClCompile Include="scene_node.cpp">
       <Filter>Source Files\graphics\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="render_target.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="material.cpp">
+      <Filter>Source Files\graphics\shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="texture_cube.cpp">
+      <Filter>Source Files\graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

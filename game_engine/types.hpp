@@ -19,9 +19,9 @@ namespace aech
 	using event_id_t = std::uint32_t;
 	using param_id_t = std::uint32_t;
 	using entity_t = std::uint32_t;
-	inline constexpr entity_t invalid_entity_id = 0;
+	inline constexpr entity_t invalid_entity_id = std::numeric_limits<entity_t>::max();
 	using component_type_t = std::uint8_t;
-	inline constexpr entity_t         max_entities   = 10000;
+	inline constexpr entity_t         max_entities   = 20000;
 	inline constexpr component_type_t max_components = 32;
 	using signature_t = std::bitset<max_components>;
 

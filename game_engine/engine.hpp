@@ -23,9 +23,9 @@ namespace aech
 		}
 
 		template <typename T>
-		void add_component(entity_t entity, T component)
+		void add_component(entity_t entity, T&& component)
 		{
-			m_component_manager->add_component<T>(entity, component);
+			m_component_manager->add_component<T>(entity, std::forward<T>(component));
 
 			auto signature = m_entity_manager->get_signature(entity);
 			signature.set(m_component_manager->get_component_type<T>(), true);

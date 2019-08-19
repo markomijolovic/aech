@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_RESIZABLE, false);
 
-	auto window = glfwCreateWindow(screen_width, screen_height, "ecs test", glfwGetPrimaryMonitor(), nullptr);
+	auto window = glfwCreateWindow(screen_width, screen_height, "ecs test", nullptr, nullptr);
 	glfwMakeContextCurrent(window);
 
 	glewExperimental = true;
@@ -96,7 +96,7 @@ int main(int argc, char *argv[])
 	}
 	render_system->init();
 
-	std::vector<entity_t> entities(max_entities-1);
+	std::vector<entity_t> entities(max_entities/2);
 
 	std::default_random_engine generator{};
 	std::uniform_real_distribution<float> rand_position(-100.0f, 100.0f);

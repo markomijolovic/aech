@@ -135,6 +135,7 @@
     <ClInclude Include="camera_control_system.hpp" />
     <ClInclude Include="components.hpp" />
     <ClInclude Include="component_manager.hpp" />
+    <ClInclude Include="directional_light.hpp" />
     <ClInclude Include="engine.hpp" />
     <ClInclude Include="entity_manager.hpp" />
     <ClInclude Include="event.hpp" />
@@ -147,7 +148,9 @@
     <ClInclude Include="mesh_loader.hpp" />
     <ClInclude Include="physics_system.hpp" />
     <ClInclude Include="player_control_system.hpp" />
+    <ClInclude Include="point_light.hpp" />
     <ClInclude Include="render_system.hpp" />
+    <ClInclude Include="render_target.hpp" />
     <ClInclude Include="resource_manager.hpp" />
     <ClInclude Include="scene_node.hpp" />
     <ClInclude Include="shader.hpp" />
@@ -156,6 +159,7 @@
     <ClInclude Include="system.hpp" />
     <ClInclude Include="system_manager.hpp" />
     <ClInclude Include="texture.hpp" />
+    <ClInclude Include="texture_cube.hpp" />
     <ClInclude Include="transforms.hpp" />
     <ClInclude Include="types.hpp" />
     <ClInclude Include="vec2.hpp" />
@@ -173,16 +177,19 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mat3.cpp" />
     <ClCompile Include="mat4.cpp" />
+    <ClCompile Include="material.cpp" />
     <ClCompile Include="mesh.cpp" />
     <ClCompile Include="physics_system.cpp" />
     <ClCompile Include="player_control_system.cpp" />
     <ClCompile Include="render_system.cpp" />
+    <ClCompile Include="render_target.cpp" />
     <ClCompile Include="resource_manager.cpp" />
     <ClCompile Include="scene_node.cpp" />
     <ClCompile Include="shader.cpp" />
     <ClCompile Include="stb_image.cpp" />
     <ClCompile Include="system_manager.cpp" />
     <ClCompile Include="texture.cpp" />
+    <ClCompile Include="texture_cube.cpp" />
     <ClCompile Include="transforms.cpp" />
     <ClCompile Include="vec2.cpp" />
     <ClCompile Include="vec3.cpp" />
