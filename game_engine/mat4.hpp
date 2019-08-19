@@ -18,6 +18,7 @@ namespace aech
 		mat4_t operator*(const mat4_t& rhs) const;
 		vec4_t operator*(const vec4_t& rhs) const;
 		mat4_t operator*(float rhs) const;
+		
 	};
 
 	mat4_t operator*(float lhs, const mat4_t& rhs);

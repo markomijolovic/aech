@@ -19,12 +19,13 @@ namespace aech
 	using event_id_t = std::uint32_t;
 	using param_id_t = std::uint32_t;
 	using entity_t = std::uint32_t;
+	inline constexpr entity_t invalid_entity_id = 0;
 	using component_type_t = std::uint8_t;
-	constexpr entity_t         max_entities   = 10000;
-	constexpr component_type_t max_components = 32;
+	inline constexpr entity_t         max_entities   = 10000;
+	inline constexpr component_type_t max_components = 32;
 	using signature_t = std::bitset<max_components>;
 
-	static constexpr float pi = 3.1415926535897932384626433832795029;
+	inline constexpr float pi = 3.1415926535897932384626433832795029;
 
 	enum class input_buttons
 	{
@@ -36,12 +37,12 @@ namespace aech
 		e
 	};
 
-	constexpr std::uint32_t fnv1a_32(char const* s, std::size_t count)
+	inline constexpr std::uint32_t fnv1a_32(char const* s, std::size_t count)
 	{
 		return ((count ? fnv1a_32(s, count - 1) : 2166136261u) ^ s[count]) * 16777619u; // NOLINT (hicpp-signed-bitwise)
 	}
 
-	constexpr uint32_t operator""_hash (const char *s, std::size_t count)
+	inline constexpr uint32_t operator""_hash (const char *s, std::size_t count)
 	{
 		return fnv1a_32(s, count);
 	}

@@ -12,7 +12,7 @@ namespace aech
 	class engine_t
 	{
 	public:
-		void                   init();
+		engine_t();
 		[[nodiscard]] entity_t create_entity() const;
 		void                   destroy_entity(entity_t entity) const;
 
@@ -78,6 +78,7 @@ namespace aech
 		std::unique_ptr<component_manager_t> m_component_manager;
 		std::unique_ptr<entity_manager_t>    m_entity_manager;
 		std::unique_ptr<system_manager_t>    m_system_manager;
-		std::unique_ptr<event_manager_t> m_event_manager;
+		std::unique_ptr<event_manager_t>	 m_event_manager;
+		entity_t m_root_node;
 	};
 } // namespace aech

@@ -1,9 +1,16 @@
 #include "vec3.hpp"
+#include "vec4.hpp"
 
 namespace aech
 {
 	vec3_t::vec3_t(float x, float y, float z)
 		:x {x}, y{y}, z{z}
+	{
+	}
+
+
+	vec3_t::vec3_t(const vec4_t& vec4)
+		: x{ vec4.x }, y{ vec4.y }, z{ vec4.z }
 	{
 	}
 

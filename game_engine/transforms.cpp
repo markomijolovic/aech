@@ -58,4 +58,15 @@ namespace aech
 		auto trans = translate(-transform.position.x, -transform.position.y, -transform.position.z);
 		return rotate * trans;
 	}
+
+
+	mat4_t translate(const vec3_t& vec3)
+	{
+		return translate(vec3.x, vec3.y, vec3.z);
+	}
+
+	mat4_t scale(const vec3_t& vec3)
+	{
+		return scale(vec3.x, vec3.y, vec3.z);
+	}
 }

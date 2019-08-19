@@ -2,7 +2,7 @@
 
 aech::entity_manager_t::entity_manager_t()
 {
-	for (entity_t entity = 0; entity < max_entities; entity++)
+	for (entity_t entity = 1; entity <= max_entities; entity++)
 	{
 		m_available_entities.push(entity);
 	}

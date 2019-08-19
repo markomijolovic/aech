@@ -1,13 +1,18 @@
 #pragma once
+#include "vec4.hpp"
 
 namespace aech
 {
+
 	class vec3_t
 	{
 	public:
-		float x, y, z;
+		float x{};
+		float y{};
+		float z{};
 
 		vec3_t() = default;
+		vec3_t(const vec4_t& vec4);
 		vec3_t(float x, float y, float z);
 
 		vec3_t& operator+=(const vec3_t& vec3);

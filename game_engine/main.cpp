@@ -13,14 +13,12 @@
 #include "camera_control_system.hpp"
 #include "render_system.hpp"
 #include "player_control_system.hpp"
+#include "main.hpp"
 
 using namespace aech;
 
-engine_t engine{};
 std::bitset<8> m_buttons{};
 
-constexpr uint32_t screen_width = 1920;
-constexpr uint32_t screen_height = 1080;
 
 auto first_mouse = true;
 float last_x{};
@@ -52,7 +50,6 @@ int main(int argc, char *argv[])
 	glEnable(GL_DEPTH_TEST);
 
 	//init
-	engine.init();
 
 	engine.register_component<camera_t>();
 	engine.register_component<gravity_t>();

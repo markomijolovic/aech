@@ -1,13 +1,21 @@
 #include "engine.hpp"
+#include "scene_node.hpp"
 
 namespace aech
 {
-	void engine_t::init()
+	engine_t::engine_t()
+		:
+		m_component_manager{ std::make_unique<component_manager_t>() },
+		m_entity_manager{ std::make_unique<entity_manager_t>() },
+		m_system_manager{ std::make_unique<system_manager_t>() },
+		m_event_manager{ std::make_unique<event_manager_t>() },
+		m_root_node{create_entity() }
 	{
-		m_component_manager = std::make_unique<component_manager_t>();
-		m_entity_manager    = std::make_unique<entity_manager_t>();
-		m_system_manager    = std::make_unique<system_manager_t>();
-		m_event_manager = std::make_unique<event_manager_t>();
+		register_component<scene_node_t>();
+		add_component(
+			m_root_node,
+			scene_node_t{m_root_node}
+		);
 	}
 
 	entity_t engine_t::create_entity() const
