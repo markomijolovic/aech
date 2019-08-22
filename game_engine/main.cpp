@@ -14,6 +14,9 @@
 #include "render_system.hpp"
 #include "player_control_system.hpp"
 #include "main.hpp"
+#include "renderer.hpp"
+#include "scene_node.hpp"
+#include "cube.hpp"
 
 using namespace aech;
 
@@ -27,7 +30,7 @@ float last_y{};
 void key_callback(GLFWwindow* window, int key, int scan_code, int action, int mode);
 void mouse_callback(GLFWwindow* window, double x_pos, double y_pos);
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -58,13 +61,14 @@ int main(int argc, char *argv[])
 	engine.register_component<rigid_body_t>();
 	engine.register_component<thrust_t>();
 	engine.register_component<transform_t>();
+	engine.register_component<scene_node_t>();
 
 	auto physics_system = engine.register_system<physics_system_t>();
 	{
 		signature_t signature{};
 		signature.set(engine.get_component_type<gravity_t>());
 		signature.set(engine.get_component_type<rigid_body_t>());
-		signature.set(engine.get_component_type<transform_t>());
+		signature.set(engine.get_component_type<scene_node_t>());
 		engine.set_system_signature<physics_system_t>(signature);
 	}
 	physics_system->init();
@@ -87,16 +91,24 @@ int main(int argc, char *argv[])
 	}
 	player_control_system->init();
 
-	auto render_system = engine.register_system<render_system_t>();
+	//auto render_system = engine.register_system<render_system_t>();
+	//{
+	//	signature_t signature{};
+	//	signature.set(engine.get_component_type<renderable_t>());
+	//	signature.set(engine.get_component_type<transform_t>());
+	//	engine.set_system_signature<render_system_t>(signature);
+	//}
+	//render_system->init();
+
+	auto renderer = engine.register_system<renderer_t>();
 	{
 		signature_t signature{};
-		signature.set(engine.get_component_type<renderable_t>());
-		signature.set(engine.get_component_type<transform_t>());
-		engine.set_system_signature<render_system_t>(signature);
+		signature.set(engine.get_component_type<scene_node_t>());
+		engine.set_system_signature<renderer_t>(signature);
 	}
-	render_system->init();
+	renderer->init();
 
-	std::vector<entity_t> entities(max_entities/2);
+	std::vector<entity_t> entities(max_entities / 2);
 
 	std::default_random_engine generator{};
 	std::uniform_real_distribution<float> rand_position(-100.0f, 100.0f);
@@ -105,6 +117,8 @@ int main(int argc, char *argv[])
 	std::uniform_real_distribution<float> rand_colour(0.0f, 1.0f);
 	std::uniform_real_distribution<float> rand_gravity(-10.0f, -1.0f);
 	auto scale = rand_scale(generator);
+
+	cube_t mesh{};
 
 	for (auto &entity: entities)
 	{
@@ -118,12 +132,8 @@ int main(int argc, char *argv[])
 			}
 		);
 
-		engine.add_component(
-			entity,
-			rigid_body_t{}
-		);
 
-		engine.add_component(
+		/*engine.add_component(
 			entity,
 			transform_t{
 				{rand_position(generator),rand_position(generator) + 100.0f,rand_position(generator)}
@@ -137,7 +147,32 @@ int main(int argc, char *argv[])
 			renderable_t{
 				{rand_colour(generator), rand_colour(generator), rand_colour(generator)} 
 			}
+		);*/
+
+		engine.add_component(entity,
+			scene_node_t {
+				entity
+			}
+			);
+
+		engine.add_component(
+			entity,
+			renderable_t{
+				{rand_colour(generator), rand_colour(generator), rand_colour(generator)}
+			}
 		);
+
+		engine.add_component(entity,
+			rigid_body_t{});
+
+		auto& scene_node = engine.get_component<scene_node_t>(entity);
+		scene_node.set_position({ rand_position(generator), rand_position(generator) + 100.0f, rand_position(generator) });
+		scene_node.set_rotation({ rand_rotation(generator), rand_rotation(generator), rand_rotation(generator), rand_rotation(generator) });
+		scene_node.set_position({ rand_position(generator), rand_position(generator) + 100.0f, rand_position(generator) });
+		scene_node.set_scale(scale);
+
+		scene_node.m_material = std::make_unique<material_t>(renderer->material_library.m_default_materials["default"]);
+		scene_node.m_mesh = std::make_unique<cube_t>();
 	}
 
 	auto delta_time = 0.0f;
@@ -150,7 +185,7 @@ int main(int argc, char *argv[])
 		player_control_system->update(delta_time);
 		camera_control_system->update(delta_time);
 		physics_system->update(delta_time);
-		render_system->update(delta_time);
+		renderer->update(delta_time);
 		
 		auto stop_time = std::chrono::high_resolution_clock::now();
 		delta_time = std::chrono::duration<float, std::chrono::seconds::period>(stop_time - start_time).count();

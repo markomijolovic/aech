@@ -14,6 +14,7 @@ namespace aech
 	 */
 	struct scene_node_t
 	{
+		// share meshes and materials?
 		std::unique_ptr<mesh_t> m_mesh{};
 		std::unique_ptr<material_t> m_material{};
 

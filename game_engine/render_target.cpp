@@ -54,4 +54,21 @@ namespace aech
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
+
+
+	void render_target_t::resize(uint32_t width, uint32_t height)
+	{
+		m_width = width;
+		m_height = height;
+
+		for (auto &attachment: m_colour_attachments)
+		{
+			attachment.resize(width, height);
+		}
+
+		if (m_depth_and_stencil)
+		{
+			m_depth_and_stencil_texture.resize(width, height);
+		}
+	}
 }

@@ -22,5 +22,7 @@ namespace aech
 		std::vector<texture_t> m_colour_attachments{};
 
 		render_target_t(uint32_t width, uint32_t height, GLenum type = GL_UNSIGNED_BYTE, uint32_t nr_colour_attachments = 1, bool depth_and_stencil = true);
+		void resize(uint32_t width, uint32_t height);
+	
 	};
 }

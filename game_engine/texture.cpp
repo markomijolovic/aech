@@ -88,4 +88,27 @@ namespace aech
 	{
 		glBindTexture(m_target, 0);
 	}
+
+
+	void texture_t::resize(uint32_t width, uint32_t height, uint32_t depth)
+	{
+		bind();
+		m_width = width;
+		m_height = height;
+		switch(m_type)
+		{
+		case GL_TEXTURE_1D:
+			glTexImage1D(m_target, 0, m_internal_format, m_width, 0, m_format, m_type, nullptr);
+			break;
+		case GL_TEXTURE_2D:
+			glTexImage2D(m_target, 0, m_internal_format, m_width, m_height, 0, m_format, m_type, nullptr);
+			break;
+		case GL_TEXTURE_3D:
+			glTexImage3D(m_target, 0, m_internal_format, m_width, m_height, m_depth, 0, m_format, m_type, nullptr);
+			break;
+		default:
+			//do nothing
+			break;
+		}
+	}
 }

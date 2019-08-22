@@ -7,6 +7,7 @@ namespace aech
 {
 	class texture_cube_t
 	{
+	public:
 		uint32_t m_id;
 
 		GLenum m_internal_format = GL_RGBA;

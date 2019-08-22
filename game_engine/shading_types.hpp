@@ -50,7 +50,7 @@ namespace aech
 	{
 		shader_type_t type;
 		uint32_t unit;
-		std::variant<texture_t, texture_cube_t> texture;
+		std::variant<const texture_t*, const texture_cube_t*> texture;
 	};
 
 	struct vertex_attribute_t

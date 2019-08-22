@@ -73,6 +73,9 @@
     <Filter Include="Header Files\graphics\rendering">
       <UniqueIdentifier>{3cce3837-8da6-4548-9fdb-d788d5fd072e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\graphics\rendering">
+      <UniqueIdentifier>{2e175eaf-e1a2-49e2-9581-a5789ff422ee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="types.hpp">
@@ -177,6 +180,15 @@
     <ClInclude Include="texture_cube.hpp">
       <Filter>Header Files\graphics\shaders</Filter>
     </ClInclude>
+    <ClInclude Include="renderer.hpp">
+      <Filter>Header Files\graphics\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="material_library.hpp">
+      <Filter>Header Files\graphics\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="cube.hpp">
+      <Filter>Header Files\graphics\mesh</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="component_manager.cpp">
@@ -259,6 +271,15 @@
     </ClCompile>
     <ClCompile Include="texture_cube.cpp">
       <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="material_library.cpp">
+      <Filter>Source Files\graphics\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="cube.cpp">
+      <Filter>Source Files\graphics\mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="renderer.cpp">
+      <Filter>Source Files\graphics\rendering</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

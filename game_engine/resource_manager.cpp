@@ -8,6 +8,7 @@
 #include "assimp/scene.h"
 #include <assimp/postprocess.h>
 #include <optional>
+#include "texture_cube.hpp"
 
 aech::shader_t& aech::resource_manager::load_shader(const std::string& vertex,
 	const std::string& fragment,
@@ -322,4 +323,62 @@ std::unique_ptr<mesh_t> resource_manager::parse_mesh(aiMesh* mesh, const aiScene
 
 
 	return retval;
+}
+
+texture_cube_t& resource_manager::load_texture_cube(const std::string& name,
+	const std::string& top,
+	const std::string& bottom,
+	const std::string& left,
+	const std::string& right,
+	const std::string& front,
+	const std::string& back)
+{
+	if (texture_cubes.find(name) != std::end(texture_cubes))
+	{
+		return texture_cubes[name];
+	}
+
+	texture_cube_t texture{};
+
+	stbi_set_flip_vertically_on_load(false);
+
+	std::vector<std::string> faces{ top, bottom, left, right, front, back };
+
+	for (size_t i = 0; i < faces.size(); i++)
+	{
+		int32_t width, height, number_of_components;
+		auto data = stbi_load(faces[i].c_str(), &width, &height, &number_of_components, 0);
+		if (data)
+		{
+			auto format = number_of_components == 3 ? GL_RGB : GL_RGBA;
+			texture.generate_face(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, width, height, format, GL_UNSIGNED_BYTE, data);
+			stbi_image_free(data);
+		}
+		else
+		{
+			std::cerr << "Cube texture at path: " << faces[i] << " failed to load\n";
+			stbi_image_free(data);
+			return texture;
+		}
+		if (texture.m_mipmap)
+		{
+			glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
+		}
+
+		return texture;
+	}
+
+}
+
+texture_cube_t& resource_manager::load_texture_cube(const std::string& name, const std::string& folder)
+{
+	return load_texture_cube(
+		name,
+		folder + "right.jpg",
+		folder + "left.jpg",
+		folder + "top.jpg",
+		folder + "bottom.jpg",
+		folder + "front.jpg",
+		folder + "back.jpg"
+	);
 }
