@@ -91,15 +91,6 @@ int main(int argc, char* argv[])
 	}
 	player_control_system->init();
 
-	//auto render_system = engine.register_system<render_system_t>();
-	//{
-	//	signature_t signature{};
-	//	signature.set(engine.get_component_type<renderable_t>());
-	//	signature.set(engine.get_component_type<transform_t>());
-	//	engine.set_system_signature<render_system_t>(signature);
-	//}
-	//render_system->init();
-
 	auto renderer = engine.register_system<renderer_t>();
 	{
 		signature_t signature{};

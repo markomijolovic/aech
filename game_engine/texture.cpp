@@ -33,7 +33,7 @@ namespace aech
 		m_internal_format = internal_format;
 		m_format = format;
 		m_type = type;
-
+		bind();
 		//m_target == GL_TEXTURE_2D
 		glTexImage2D(m_target, 0, m_internal_format, m_width,m_height, 0, m_format, m_type, data);
 		glTexParameteri(m_target, GL_TEXTURE_MIN_FILTER, m_filter_min);

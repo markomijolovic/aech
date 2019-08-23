@@ -127,15 +127,12 @@ aech::texture_t& aech::resource_manager::load_texture(const std::string& name,
 	}
 	stbi_image_free(data);
 
-	texture.m_width = width;
-	texture.m_height = height;
-
 	return textures[name] = texture;
 }
 
 aech::texture_t& aech::resource_manager::get_texture(const std::string& name)
 {
-	return textures[name];
+	return textures[name]; 
 }
 
 
