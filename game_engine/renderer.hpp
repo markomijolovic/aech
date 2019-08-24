@@ -35,15 +35,16 @@ namespace aech
 		bool m_shadows = true;
 		bool m_lights = true;
 		bool m_render_lights = true;
-		void init();
-		void update(float delta_time);
 		entity_t m_camera{};
 		vec2_t m_render_size{};
 		render_state_t m_render_state{};
 
+		
 		std::vector<directional_light_t> m_directional_lights{};
 		std::vector<point_light_t> m_point_lights{};
 		render_target_t m_render_target{ 0, 0 };
-		material_library_t material_library{};
+
+		renderer_t();
+		void update(float delta_time);
 	};
 }

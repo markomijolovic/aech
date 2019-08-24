@@ -4,9 +4,8 @@
 
 namespace aech
 {
-	class system_t
+	struct system_t
 	{
-	public:
-		std::set<entity_t> m_entities{};
+		std::set<entity_t> entities{};
 	};
 } // namespace aech

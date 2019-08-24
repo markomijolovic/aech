@@ -6,7 +6,7 @@ namespace aech
 	{
 		for (const auto& el : m_systems)
 		{
-			el.second->m_entities.erase(entity);
+			el.second->entities.erase(entity);
 		}
 	}
 
@@ -20,11 +20,11 @@ namespace aech
 
 			if ((entity_signature & system_signature) == system_signature)
 			{
-				system->m_entities.insert(entity);
+				system->entities.insert(entity);
 			}
 			else
 			{
-				system->m_entities.erase(entity);
+				system->entities.erase(entity);
 			}
 		}
 	}

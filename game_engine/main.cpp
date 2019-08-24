@@ -18,6 +18,7 @@
 #include "rigid_body.hpp"
 #include "mesh_filter.hpp"
 #include "resource_manager.hpp"
+#include "mesh_library.hpp"
 
 using namespace aech;
 
@@ -67,7 +68,6 @@ int main(int argc, char* argv[])
 		signature.set(engine.get_component_type<scene_node_t>());
 		engine.set_system_signature<physics_system_t>(signature);
 	}
-	physics_system->init();
 
 	auto camera_control_system = engine.register_system<camera_control_system_t>();
 	{
@@ -76,7 +76,6 @@ int main(int argc, char* argv[])
 		signature.set(engine.get_component_type<transform_t>());
 		engine.set_system_signature<camera_control_system_t>(signature);
 	}
-	camera_control_system->init();
 
 	//auto player_control_system = engine.register_system<player_control_system_t>();
 	//{
@@ -95,7 +94,6 @@ int main(int argc, char* argv[])
 		signature.set(engine.get_component_type<mesh_filter_t>());
 		engine.set_system_signature<renderer_t>(signature);
 	}
-	renderer->init();
 
 	std::vector<entity_t> entities(max_entities / 2);
 
@@ -154,7 +152,7 @@ int main(int argc, char* argv[])
 		scene_node.set_scale(scale);
 
 		// TODO: leak memory
-		mesh_filter_t mesh_filter{ new cube_t(),  &renderer->material_library.m_default_materials["default"] };
+		mesh_filter_t mesh_filter{ mesh_library::default_meshes["cube"].get(),  &material_library::default_materials["default"] };
 
 		engine.add_component(entity, mesh_filter);
 	}

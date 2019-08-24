@@ -9,8 +9,8 @@ namespace aech
 	class camera_control_system_t : public system_t
 	{
 	public:
-		void init();
 		void update(float dt);
+		camera_control_system_t();
 
 	private:
 		std::bitset<8> m_buttons{};

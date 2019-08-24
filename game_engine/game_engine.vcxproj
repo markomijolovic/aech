@@ -154,11 +154,14 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="mesh_library.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="physics_system.hpp" />
     <ClInclude Include="player_control_system.hpp" />
     <ClInclude Include="point_light.hpp" />
     <ClInclude Include="renderer.hpp" />
-    <ClInclude Include="render_system.hpp" />
     <ClInclude Include="render_target.hpp" />
     <ClInclude Include="resource_manager.hpp" />
     <ClInclude Include="scene_node.hpp" />
@@ -198,10 +201,10 @@
     <ClCompile Include="material.cpp" />
     <ClCompile Include="material_library.cpp" />
     <ClCompile Include="mesh.cpp" />
+    <ClCompile Include="mesh_library.cpp" />
     <ClCompile Include="physics_system.cpp" />
     <ClCompile Include="player_control_system.cpp" />
     <ClCompile Include="renderer.cpp" />
-    <ClCompile Include="render_system.cpp" />
     <ClCompile Include="render_target.cpp" />
     <ClCompile Include="resource_manager.cpp" />
     <ClCompile Include="scene_node.cpp" />

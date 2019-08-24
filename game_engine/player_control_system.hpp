@@ -8,8 +8,8 @@ namespace aech
 	class player_control_system_t : public system_t
 	{
 	public:
-		void init();
 		void update(float dt);
+		player_control_system_t();
 
 	private:
 		std::bitset<8> m_buttons;

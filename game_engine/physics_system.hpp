@@ -7,7 +7,7 @@ namespace aech
 	class physics_system_t : public system_t
 	{
 	public:
-		void init();
 		void update(float dt);
+		physics_system_t() = default;
 	};
 }

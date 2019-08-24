@@ -2,16 +2,15 @@
 #include "transforms.hpp"
 #include "main.hpp"
 #include "scene_node.hpp"
-
+#include "mesh_library.hpp"
 #include "transform.hpp"
 #include "mesh_filter.hpp"
 
 namespace aech
 {
-	void renderer_t::init()
+	renderer_t::renderer_t()
+		: m_camera{engine.create_entity()}
 	{
-		m_camera = engine.create_entity();
-
 		engine.add_component(
 			m_camera,
 			transform_t{
@@ -25,8 +24,10 @@ namespace aech
 			camera_t::make_perspective_projection(45.0f, 0.1f, 1000.0f, 1280, 720)
 			}
 		);
-	}
 
+		material_library::generate_default_materials();
+		mesh_library::generate_default_meshes();
+	}
 
 	void renderer_t::update(float delta_time)
 	{
@@ -39,7 +40,7 @@ namespace aech
 
 		auto view = get_view_matrix(cameraTransform);
 
-		for (auto const& entity : m_entities)
+		for (auto const& entity : entities)
 		{
 			auto& transform = engine.get_component<transform_t>(entity);
 			auto& scene_node = engine.get_component<scene_node_t>(entity);

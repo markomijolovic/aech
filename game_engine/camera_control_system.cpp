@@ -1,6 +1,5 @@
 #include "camera_control_system.hpp"
 #include "engine.hpp"
-#include "render_system.hpp"
 #include "transforms.hpp"
 #include "transform.hpp"
 
@@ -8,7 +7,7 @@ extern aech::engine_t engine;
 
 namespace aech
 {
-	void camera_control_system_t::init()
+	camera_control_system_t::camera_control_system_t()
 	{
 		auto fn = std::bind(&camera_control_system_t::mouse_listener, this, std::placeholders::_1);
 		engine.add_event_listener(events::window::mouse, fn);
@@ -19,7 +18,7 @@ namespace aech
 
 	void camera_control_system_t::update(float dt)
 	{
-		for (auto& entity : m_entities)
+		for (auto& entity : entities)
 		{
 			auto& transform = engine.get_component<transform_t>(entity);
 			auto speed = 200.0f;

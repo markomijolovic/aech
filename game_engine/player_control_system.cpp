@@ -6,7 +6,7 @@ extern aech::engine_t engine;
 
 namespace aech
 {
-	void player_control_system_t::init()
+	player_control_system_t::player_control_system_t()
 	{
 		auto fn = std::bind(&player_control_system_t::input_listener, this, std::placeholders::_1);
 		engine.add_event_listener(events::window::input, fn);
