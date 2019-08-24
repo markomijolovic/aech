@@ -14,16 +14,24 @@ namespace aech
 		template <typename T>
 		void register_component()
 		{
-			auto type_name = typeid(T).name();
+			using without_r = std::remove_reference_t<T>;
+			using with_lr = std::add_lvalue_reference_t<without_r>;
+			using with_rr = std::add_rvalue_reference_t<without_r>;
 
-			m_component_types.insert({type_name, m_next_component_type++});
-			m_component_arrays.insert({type_name, std::make_shared<component_array_t<T>>()});
+			auto type_name_without_r = typeid(without_r).name();
+			auto type_name_with_lr = typeid(with_lr).name();
+			auto type_name_with_rr = typeid(with_rr).name();
+
+			m_component_types.insert({ type_name_without_r, m_next_component_type++});
+			m_component_arrays.insert({ type_name_without_r, std::make_shared<component_array_t<T>>()});
+			m_component_arrays.insert({ type_name_with_lr, m_component_arrays[type_name_without_r]});
+			m_component_arrays.insert({ type_name_with_rr,  m_component_arrays[type_name_without_r] });
 		}
 
 		template <typename T>
 		component_type_t get_component_type()
 		{
-			auto type_name = typeid(T).name();
+			auto type_name = typeid(std::remove_reference_t<T>).name();
 
 			return m_component_types[type_name];
 		}

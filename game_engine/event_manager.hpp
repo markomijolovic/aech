@@ -12,7 +12,6 @@ namespace aech
 	public:
 		void add_listener(event_id_t event_id, const std::function<void(event_t&)>& listener);
 		void send_event(event_t& event);
-		void send_event(event_id_t event_id);
 	private:
 		std::unordered_map<event_id_t, std::list<std::function<void(event_t&)>>> listeners{};
 	};

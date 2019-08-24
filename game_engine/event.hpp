@@ -12,9 +12,9 @@ namespace aech
 		[[nodiscard]] event_id_t get_type() const;
 
 		template<typename T>
-		void set_param(param_id_t id, T value)
+		void set_param(param_id_t id, T&& value)
 		{
-			m_data[id] = value;
+			m_data[id] = std::forward<T>(value);
 		}
 
 		template <typename T>

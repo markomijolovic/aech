@@ -7,8 +7,10 @@
 #include "assimp/Importer.hpp"
 #include "assimp/scene.h"
 #include <assimp/postprocess.h>
-#include <optional>
 #include "texture_cube.hpp"
+#include "scene_node.hpp"
+#include "transform.hpp"
+#include "mesh_filter.hpp"
 
 aech::shader_t& aech::resource_manager::load_shader(const std::string& vertex,
 	const std::string& fragment,
@@ -65,9 +67,9 @@ aech::shader_t& aech::resource_manager::get_shader(const std::string& name)
 
 aech::texture_t& aech::resource_manager::load_texture(const std::string& name,
 	const std::string& path,
-	GLenum target,
-	GLenum format,
-	bool srgb)
+	const GLenum target,
+	const GLenum format,
+	const bool srgb)
 {
 	if (textures.find(name) != std::end(textures))
 	{
@@ -87,25 +89,25 @@ aech::texture_t& aech::resource_manager::load_texture(const std::string& name,
 		texture.m_internal_format = srgb ? GL_SRGB_ALPHA : GL_SRGB;
 	}
 
-	// make opengl happy
+	// make open-gl happy
 	stbi_set_flip_vertically_on_load(true);
 
 	int32_t width, height, number_of_components;
-	auto data = stbi_load(path.c_str(), &width, &height, &number_of_components, 0);
+	const auto data = stbi_load(path.c_str(), &width, &height, &number_of_components, 0);
 
 	if (data)
 	{
-		GLenum format{};
+		GLenum format_{};
 		switch(number_of_components)
 		{
 		case 1:
-			format = GL_RED;
+			format_ = GL_RED;
 			break;
 		case 3:
-			format = GL_RGB;
+			format_ = GL_RGB;
 			break;
 		case 4:
-			format = GL_RGBA;
+			format_ = GL_RGBA;
 			break;
 		default: 
 			//do nothing;
@@ -114,11 +116,11 @@ aech::texture_t& aech::resource_manager::load_texture(const std::string& name,
 
 		if (target == GL_TEXTURE_1D)
 		{
-			texture.generate(width, texture.m_internal_format, format, GL_UNSIGNED_BYTE, data);
+			texture.generate(width, texture.m_internal_format, format_, GL_UNSIGNED_BYTE, data);
 		}
 		else if (target == GL_TEXTURE_2D)
 		{
-			texture.generate(width,height, texture.m_internal_format, format, GL_UNSIGNED_BYTE, data);
+			texture.generate(width,height, texture.m_internal_format, format_, GL_UNSIGNED_BYTE, data);
 		}
 	}
 	else
@@ -153,7 +155,7 @@ aech::texture_t& aech::resource_manager::load_hdr_texture(const std::string& nam
 	if (stbi_is_hdr(path.c_str()))
 	{
 		int32_t width, height, number_of_components;
-		auto data = stbi_loadf(path.c_str(), &width, &height, &number_of_components, 0);
+		const auto data = stbi_loadf(path.c_str(), &width, &height, &number_of_components, 0);
 
 		if (data)
 		{
@@ -184,43 +186,64 @@ aech::texture_t& aech::resource_manager::load_hdr_texture(const std::string& nam
 	return textures[name] = texture;
 }
 
-entity_t resource_manager::process_node(const aiNode* node, const aiScene* scene)
+aech::entity_t resource_manager::process_node(const aiNode* node, const aiScene* scene)
 {
 
 	//TODO: parse materials
-
-	auto entity = engine.create_entity();
+	const auto entity = engine.create_entity();
 	engine.add_component(entity,
-		scene_node_t{ entity }
+		transform_t{}
 	);
-	auto& scene_node = engine.get_component<scene_node_t>(entity);
+	const auto transform = &engine.get_component<transform_t>(entity);
+	engine.add_component(entity,
+		scene_node_t{ transform }
+	);
+	engine.add_component(entity,
+		mesh_filter_t{}
+	);
+
+	auto scene_node = &engine.get_component<scene_node_t>(entity);
 
 	for (size_t i = 0; i < node->mNumMeshes; i++)
 	{
-		auto a_mesh = scene->mMeshes[node->mMeshes[i]];
+		const auto a_mesh = scene->mMeshes[node->mMeshes[i]];
 		auto a_material = scene->mMaterials[a_mesh->mMaterialIndex];
-		auto mesh = parse_mesh(a_mesh, scene);
-
+		const auto mesh = parse_mesh(a_mesh, scene);
+		auto &mesh_filter = engine.get_component<mesh_filter_t>(entity);
 		if (node ->mNumMeshes == 1)
 		{
-			scene_node.m_mesh = std::move(mesh);
+			// TODO: create mesh filter component
+			mesh_filter.mesh = mesh;
 		}
 		else
 		{
-			auto child_entity = engine.create_entity();
+			const auto child_entity = engine.create_entity();
+			engine.add_component(child_entity,
+				transform_t{}
+			);
+			const auto child_transform = &engine.get_component<transform_t>(child_entity);
 			engine.add_component(
 				child_entity,
-				scene_node_t{ child_entity }
+				scene_node_t{ child_transform }
 			);
-			auto& child_scene_node = engine.get_component<scene_node_t>(child_entity);
-			child_scene_node.m_mesh = std::move(mesh);
-			scene_node.add_child(child_entity);
+
+			engine.add_component(child_entity,
+				mesh_filter_t{}
+			);
+
+
+			const auto child_scene_node = &engine.get_component<scene_node_t>(child_entity);
+			auto &child_mesh_filter = engine.get_component<mesh_filter_t>(child_entity);
+			child_mesh_filter.mesh = mesh;
+			scene_node->add_child(child_scene_node);
 		}
 	}
 
 	for (size_t i = 0; i < node->mNumChildren; i++)
 	{
-		scene_node.add_child(process_node(node->mChildren[i], scene));
+		const auto child_id = process_node(node->mChildren[i], scene);
+		const auto child_scene_node = &engine.get_component<scene_node_t>(child_id);
+		scene_node->add_child(child_scene_node);
 	}
 
 	return entity;
@@ -243,37 +266,45 @@ entity_t resource_manager::load_mesh(const std::string& path)
 	return process_node(scene->mRootNode, scene);
 }
 
-std::unique_ptr<mesh_t> resource_manager::parse_mesh(aiMesh* mesh, const aiScene* scene)
+// TODO: caching of meshes
+mesh_t* resource_manager::parse_mesh(aiMesh* mesh, const aiScene* scene)
 {
-	auto retval = std::make_unique<mesh_t>();
-	retval->
+	const auto it = meshes.find(mesh);
+	if (it != std::end(meshes))
+	{
+		return &meshes[mesh];
+	}
+
+	auto ret_val = &meshes[mesh];
+	ret_val->
 		m_positions.resize(mesh->mNumVertices);
-	retval->
+	ret_val->
 		m_normals.resize(mesh->mNumVertices);
 
-	if (mesh->mNumUVComponents)
+	// TODO: ?????
+	if (mesh->mNumUVComponents[0])
 	{
-		retval->
+		ret_val->
 			m_uvs.resize(mesh->mNumVertices);
-		retval->
+		ret_val->
 			m_tangents.resize(mesh->mNumVertices);
-		retval->
+		ret_val->
 			m_bitangents.resize(mesh->mNumVertices);
 	}
 
-	retval->
+	ret_val->
 		m_indices.resize(mesh->mNumFaces * 3);
 
 	for (size_t i = 0; i < mesh->mNumVertices; i++)
 	{
-		retval->
+		ret_val->
 			m_positions[i] = vec3_t{
 			mesh->mVertices[i].x,
 			mesh->mVertices[i].y,
 			mesh->mVertices[i].z
 		};
 
-		retval->
+		ret_val->
 			m_normals[i] = vec3_t{
 			mesh->mNormals[i].x,
 			mesh->mNormals[i].y,
@@ -282,7 +313,7 @@ std::unique_ptr<mesh_t> resource_manager::parse_mesh(aiMesh* mesh, const aiScene
 
 		if (mesh->mTextureCoords[0])
 		{
-			retval->
+			ret_val->
 				m_uvs[i] = vec2_t{
 				mesh->mTextureCoords[0][i].x,
 				mesh->mTextureCoords[0][i].y
@@ -291,13 +322,13 @@ std::unique_ptr<mesh_t> resource_manager::parse_mesh(aiMesh* mesh, const aiScene
 
 		if (mesh->mTangents)
 		{
-			retval->
+			ret_val->
 				m_tangents[i] = vec3_t{
 				mesh->mTangents[i].x,
 				mesh->mTangents[i].y,
 				mesh->mTangents[i].z
 			};
-			retval->
+			ret_val->
 				m_bitangents[i] = vec3_t{
 				mesh->mBitangents[i].x,
 				mesh->mBitangents[i].y,
@@ -310,16 +341,15 @@ std::unique_ptr<mesh_t> resource_manager::parse_mesh(aiMesh* mesh, const aiScene
 	{
 		for (size_t j = 0; j < 3; j++)
 		{
-			retval->
+			ret_val->
 				m_indices[i * 3 + j] = mesh->mFaces[i].mIndices[j];
 		}
 	}
 
-	retval->
+	ret_val->
 		commit(true);
 
-
-	return retval;
+	return ret_val;
 }
 
 texture_cube_t& resource_manager::load_texture_cube(const std::string& name,
@@ -344,10 +374,10 @@ texture_cube_t& resource_manager::load_texture_cube(const std::string& name,
 	for (size_t i = 0; i < faces.size(); i++)
 	{
 		int32_t width, height, number_of_components;
-		auto data = stbi_load(faces[i].c_str(), &width, &height, &number_of_components, 0);
+		const auto data = stbi_load(faces[i].c_str(), &width, &height, &number_of_components, 0);
 		if (data)
 		{
-			auto format = number_of_components == 3 ? GL_RGB : GL_RGBA;
+			const auto format = number_of_components == 3 ? GL_RGB : GL_RGBA;
 			texture.generate_face(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, width, height, format, GL_UNSIGNED_BYTE, data);
 			stbi_image_free(data);
 		}
@@ -355,16 +385,14 @@ texture_cube_t& resource_manager::load_texture_cube(const std::string& name,
 		{
 			std::cerr << "Cube texture at path: " << faces[i] << " failed to load\n";
 			stbi_image_free(data);
-			return texture;
 		}
 		if (texture.m_mipmap)
 		{
 			glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
 		}
-
-		return texture;
 	}
 
+	return texture_cubes[name] = texture;
 }
 
 texture_cube_t& resource_manager::load_texture_cube(const std::string& name, const std::string& folder)

@@ -3,6 +3,9 @@
 #include "main.hpp"
 #include "scene_node.hpp"
 
+#include "transform.hpp"
+#include "mesh_filter.hpp"
+
 namespace aech
 {
 	void renderer_t::init()
@@ -38,12 +41,13 @@ namespace aech
 
 		for (auto const& entity : m_entities)
 		{
+			auto& transform = engine.get_component<transform_t>(entity);
 			auto& scene_node = engine.get_component<scene_node_t>(entity);
-			auto shader = scene_node.m_material->m_shader;
+			auto& mesh_filter = engine.get_component<mesh_filter_t>(entity);
+			auto shader = mesh_filter.material->m_shader;
 			shader->use();
-			glBindVertexArray(scene_node.m_mesh->m_vao);
-			auto const& transform = engine.get_component<transform_t>(entity);
-			auto const& renderable = engine.get_component<renderable_t>(entity);
+			glBindVertexArray(mesh_filter.mesh->m_vao);
+			// auto const& renderable = engine.get_component<renderable_t>(entity);
 
 			/*mat4_t view;
 			view.data[0][3] = -cameraTransform.position.x;
@@ -52,8 +56,8 @@ namespace aech
 
 			mat4_t rotY;
 
-			float cos_theta_y = cosf(scene_node.m_rotation.y);
-			float sin_theta_y = sinf(scene_node.m_rotation.y);
+			float cos_theta_y = cosf(transform.rotation.y);
+			float sin_theta_y = sinf(transform.rotation.y);
 
 			rotY.data[0][0] = cos_theta_y;
 			rotY.data[2][0] = -sin_theta_y;
@@ -63,8 +67,8 @@ namespace aech
 
 			mat4_t rotX;
 
-			float cosThetaX = cosf(scene_node.m_rotation.x);
-			float sinThetaX = sinf(scene_node.m_rotation.x);
+			float cosThetaX = cosf(transform.rotation.x);
+			float sinThetaX = sinf(transform.rotation.x);
 
 			rotX.data[1][1] = cosThetaX;
 			rotX.data[2][1] = sinThetaX;
@@ -74,8 +78,10 @@ namespace aech
 
 			mat4_t rotZ;
 
-			float cosThetaZ = cosf(scene_node.m_rotation.z);
-			float sinThetaZ = sinf(scene_node.m_rotation.z);
+			float cosThetaZ = cosf(transform.rotation.z);
+			float sinThetaZ = sinf(transform.rotation.z);
+
+			
 
 			rotZ.data[0][0] = cosThetaZ;
 			rotZ.data[1][0] = sinThetaZ;
@@ -84,14 +90,16 @@ namespace aech
 
 
 			mat4_t translate;
-			translate.data[0][3] = scene_node.m_position.x;
-			translate.data[1][3] = scene_node.m_position.y;
-			translate.data[2][3] = scene_node.m_position.z;
+			translate.data[0][3] = transform.position.x;
+			translate.data[1][3] = transform.position.y;
+			translate.data[2][3] = transform.position.z;
 
+
+			
 			mat4_t scaleMat;
-			scaleMat.data[0][0] = scene_node.m_scale.x;
-			scaleMat.data[1][1] = scene_node.m_scale.y;
-			scaleMat.data[2][2] = scene_node.m_scale.z;
+			scaleMat.data[0][0] = transform.scale.x;
+			scaleMat.data[1][1] = transform.scale.y;
+			scaleMat.data[2][2] = transform.scale.z;
 
 			mat4_t model = translate * scaleMat * rotY;
 
@@ -100,7 +108,7 @@ namespace aech
 			shader->set_uniform("model", model);
 			shader->set_uniform("view", view);
 			shader->set_uniform("projection", projection);
-			shader->set_uniform("uColor", renderable.colour);
+			// shader->set_uniform("uColor", renderable.colour);
 
 			glDrawArrays(GL_TRIANGLES, 0, 36);
 		}

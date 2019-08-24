@@ -1,7 +1,6 @@
 #pragma once
 #include "system.hpp"
 #include "shader.hpp"
-#include "components.hpp"
 
 namespace aech
 {

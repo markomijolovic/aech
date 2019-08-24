@@ -1,5 +1,6 @@
 #include "engine.hpp"
 #include "scene_node.hpp"
+#include "transform.hpp"
 
 namespace aech
 {
@@ -11,10 +12,14 @@ namespace aech
 		m_event_manager{ std::make_unique<event_manager_t>() },
 		m_root_node{create_entity() }
 	{
+		register_component<transform_t>();
 		register_component<scene_node_t>();
+		add_component(m_root_node,
+			transform_t{}
+		);
 		add_component(
 			m_root_node,
-			std::move(scene_node_t{m_root_node})
+			scene_node_t{ &get_component<transform_t>(m_root_node) }
 		);
 	}
 
@@ -41,8 +46,4 @@ namespace aech
 		m_event_manager->send_event(event);
 	}
 
-	void engine_t::send_event(event_id_t event_id)
-	{
-		m_event_manager->send_event(event_id);
-	}
 } // namespace aech

@@ -22,8 +22,7 @@ namespace aech
 		uint32_t m_ebo{};
 		
 		mesh_t() = default;
-
-
+	
 		void commit(bool interleave = true);
 	};
 }

@@ -2,10 +2,10 @@
 #include "mat4.hpp"
 #include "vec3.hpp"
 #include "types.hpp"
-#include "components.hpp"
 
 namespace aech
 {
+	struct transform_t;
 
 	inline auto radians(float angle)
 	{

@@ -24,7 +24,7 @@ namespace aech
 
 	vec4_t mat4_t::operator*(const vec4_t& rhs) const
 	{
-		return vec4_t{
+		return {
 			(rhs.x * data[0][0]) + (rhs.y * data[0][1]) + (rhs.z * data[0][2]) + (rhs.w * data[0][3]),
 			(rhs.x * data[1][0]) + (rhs.y * data[1][1]) + (rhs.z * data[1][2]) + (rhs.w * data[1][3]),
 			(rhs.x * data[2][0]) + (rhs.y * data[2][1]) + (rhs.z * data[2][2]) + (rhs.w * data[2][3]),

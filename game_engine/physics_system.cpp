@@ -1,9 +1,10 @@
 #include "physics_system.hpp"
 #include "engine.hpp"
-#include "components.hpp"
+#include "main.hpp"
 #include "scene_node.hpp"
-
-extern aech::engine_t engine;
+#include "rigid_body.hpp"
+#include "gravity.hpp"
+#include "transform.hpp"
 
 namespace aech
 {
@@ -15,14 +16,11 @@ namespace aech
 	{
 		for (const auto &entity: m_entities)
 		{
-			auto& scene_node = engine.get_component<scene_node_t>(entity);
+			auto& transform = engine.get_component<transform_t>(entity);
 			auto& rigid_body = engine.get_component<rigid_body_t>(entity);
 
-			const auto& gravity = engine.get_component<gravity_t>(entity);
-			scene_node.m_ditry = true;
-			scene_node.m_position += rigid_body.velocity * dt;
-
-			rigid_body.velocity += gravity.force * dt;
+			transform.position += rigid_body.velocity * dt;
+			rigid_body.velocity += rigid_body.acceleration * dt;
 		}
 	}
 }

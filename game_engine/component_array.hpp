@@ -12,7 +12,7 @@ namespace aech
 	};
 
 	template <typename T>
-	class component_array_t : public component_array_i
+	class component_array_t final : public component_array_i
 	{
 	public:
 		void insert_data(entity_t entity, T&& component)
@@ -45,7 +45,7 @@ namespace aech
 			return m_component_array[index];
 		}
 
-		void entity_destroyed(entity_t entity)
+		void entity_destroyed(entity_t entity) override
 		{
 			auto it = m_entity_to_index.find(entity);
 			if (it != std::end(m_entity_to_index))
@@ -55,7 +55,7 @@ namespace aech
 		}
 
 	private:
-		std::array<T, max_entities> m_component_array{};
+		std::array<std::remove_reference_t<T>, max_entities> m_component_array{};
 
 		/**
 		 * maps entity ID to array index

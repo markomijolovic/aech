@@ -1,11 +1,10 @@
 #include "render_system.hpp"
 #include "engine.hpp"
-#include "components.hpp"
 #include "camera.hpp"
 #include "resource_manager.hpp"
 #include "transforms.hpp"
-
-extern aech::engine_t engine;
+#include "transform.hpp"
+#include "main.hpp"
 
 namespace aech
 {
@@ -143,7 +142,6 @@ namespace aech
 		for (auto const& entity : m_entities)
 		{
 			auto const& transform = engine.get_component<transform_t>(entity);
-			auto const& renderable = engine.get_component<renderable_t>(entity);
 
 			/*mat4_t view;
 			view.data[0][3] = -cameraTransform.position.x;
@@ -200,7 +198,7 @@ namespace aech
 			shader->set_uniform("model", model);
 			shader->set_uniform("view", view);
 			shader->set_uniform("projection", projection);
-			shader->set_uniform("uColor", renderable.colour);
+			// shader->set_uniform("uColor", renderable.colour);
 
 			glDrawArrays(GL_TRIANGLES, 0, 36);
 		}

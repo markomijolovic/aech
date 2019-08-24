@@ -133,7 +133,6 @@
   <ItemGroup>
     <ClInclude Include="camera.hpp" />
     <ClInclude Include="camera_control_system.hpp" />
-    <ClInclude Include="components.hpp" />
     <ClInclude Include="component_manager.hpp" />
     <ClInclude Include="cube.hpp" />
     <ClInclude Include="directional_light.hpp" />
@@ -141,13 +140,20 @@
     <ClInclude Include="entity_manager.hpp" />
     <ClInclude Include="event.hpp" />
     <ClInclude Include="event_manager.hpp" />
+    <ClInclude Include="gravity.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="main.hpp" />
     <ClInclude Include="mat3.hpp" />
     <ClInclude Include="mat4.hpp" />
     <ClInclude Include="material.hpp" />
     <ClInclude Include="material_library.hpp" />
     <ClInclude Include="mesh.hpp" />
-    <ClInclude Include="mesh_loader.hpp" />
+    <ClInclude Include="mesh_filter.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="physics_system.hpp" />
     <ClInclude Include="player_control_system.hpp" />
     <ClInclude Include="point_light.hpp" />
@@ -156,6 +162,10 @@
     <ClInclude Include="render_target.hpp" />
     <ClInclude Include="resource_manager.hpp" />
     <ClInclude Include="scene_node.hpp" />
+    <ClInclude Include="rigid_body.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="shader.hpp" />
     <ClInclude Include="shading_types.hpp" />
     <ClInclude Include="stb_image.hpp" />
@@ -163,6 +173,10 @@
     <ClInclude Include="system_manager.hpp" />
     <ClInclude Include="texture.hpp" />
     <ClInclude Include="texture_cube.hpp" />
+    <ClInclude Include="transform.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="transforms.hpp" />
     <ClInclude Include="types.hpp" />
     <ClInclude Include="vec2.hpp" />
@@ -203,9 +217,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="component_array.hpp" />
-    <None Include="fragment.glsl" />
     <None Include="packages.config" />
-    <None Include="vertex.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -21,7 +21,7 @@ namespace aech
 		std::unordered_map<std::string, uniform_value_t> m_uniforms{};
 		std::unordered_map<std::string, uniform_value_sampler_t> m_sampler_uniforms{};
 		material_type_t type{ material_type_t::material_custom };
-		vec4_t colour{};
+		vec3_t colour{};
 
 		//depth
 		bool depth_test = true;
@@ -61,7 +61,7 @@ namespace aech
 				m_uniforms[name].type = shader_type_t::shader_type_vec3;
 				m_uniforms[name].value = value;
 			}
-			else if constexpr (std::is_same_v<T, vec4_t>) {
+			else if constexpr (std::is_same_v<T, vec3_t>) {
 				m_uniforms[name].type = shader_type_t::shader_type_vec4;
 				m_uniforms[name].value = value;
 			}

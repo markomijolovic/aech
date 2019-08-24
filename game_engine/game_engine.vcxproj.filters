@@ -76,6 +76,9 @@
     <Filter Include="Source Files\graphics\rendering">
       <UniqueIdentifier>{2e175eaf-e1a2-49e2-9581-a5789ff422ee}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\physics">
+      <UniqueIdentifier>{3f0f3d5e-190f-4dec-b640-b70826a0dab4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="types.hpp">
@@ -114,9 +117,6 @@
     <ClInclude Include="mat4.hpp">
       <Filter>Header Files\math</Filter>
     </ClInclude>
-    <ClInclude Include="components.hpp">
-      <Filter>Header Files\components</Filter>
-    </ClInclude>
     <ClInclude Include="camera.hpp">
       <Filter>Header Files\components</Filter>
     </ClInclude>
@@ -153,12 +153,6 @@
     <ClInclude Include="resource_manager.hpp">
       <Filter>Header Files\graphics\resource management</Filter>
     </ClInclude>
-    <ClInclude Include="mesh_loader.hpp">
-      <Filter>Header Files\graphics\resource management</Filter>
-    </ClInclude>
-    <ClInclude Include="scene_node.hpp">
-      <Filter>Header Files\graphics\scene</Filter>
-    </ClInclude>
     <ClInclude Include="material.hpp">
       <Filter>Header Files\graphics\shaders</Filter>
     </ClInclude>
@@ -188,6 +182,21 @@
     </ClInclude>
     <ClInclude Include="cube.hpp">
       <Filter>Header Files\graphics\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="transform.hpp">
+      <Filter>Header Files\components</Filter>
+    </ClInclude>
+    <ClInclude Include="rigid_body.hpp">
+      <Filter>Header Files\components</Filter>
+    </ClInclude>
+    <ClInclude Include="gravity.hpp">
+      <Filter>Header Files\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="mesh_filter.hpp">
+      <Filter>Header Files\graphics\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="scene_node.hpp">
+      <Filter>Header Files\graphics\scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -260,9 +269,6 @@
     <ClCompile Include="stb_image.cpp">
       <Filter>Header Files\includes</Filter>
     </ClCompile>
-    <ClCompile Include="scene_node.cpp">
-      <Filter>Source Files\graphics\scene</Filter>
-    </ClCompile>
     <ClCompile Include="render_target.cpp">
       <Filter>Source Files\graphics</Filter>
     </ClCompile>
@@ -281,17 +287,14 @@
     <ClCompile Include="renderer.cpp">
       <Filter>Source Files\graphics\rendering</Filter>
     </ClCompile>
+    <ClCompile Include="scene_node.cpp">
+      <Filter>Source Files\graphics\scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="component_array.hpp">
       <Filter>Header Files\core</Filter>
     </None>
     <None Include="packages.config" />
-    <None Include="vertex.glsl">
-      <Filter>Source Files\graphics\shaders</Filter>
-    </None>
-    <None Include="fragment.glsl">
-      <Filter>Source Files\graphics\shaders</Filter>
-    </None>
   </ItemGroup>
 </Project>

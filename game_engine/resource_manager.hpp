@@ -6,6 +6,7 @@
 #include "mesh.hpp"
 #include "scene_node.hpp"
 #include <optional>
+#include "texture_cube.hpp"
 
 struct aiMesh;
 struct aiNode;
@@ -16,11 +17,11 @@ namespace aech::resource_manager
 	inline std::unordered_map<std::string, shader_t> shaders{};
 	inline std::unordered_map<std::string, texture_t> textures{};
 	inline std::unordered_map<std::string, texture_cube_t> texture_cubes{};
-	inline std::vector<mesh_t*> meshes{};
+	inline std::unordered_map<aiMesh*, mesh_t> meshes{};
 
 	entity_t load_mesh(const std::string& path);
 	entity_t process_node(const aiNode* node, const aiScene* scene);
-	std::unique_ptr<mesh_t> parse_mesh(aiMesh* mesh, const aiScene* scene);
+	mesh_t* parse_mesh(aiMesh* mesh, const aiScene* scene);
 
 	shader_t& load_shader(
 		const std::string& vertex,

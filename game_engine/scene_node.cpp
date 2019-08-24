@@ -1,126 +1,97 @@
-#include "scene_node.hpp"
 #include "transforms.hpp"
+#include "main.hpp"
+#include "transform.hpp"
+#include "scene_node.hpp"
 
 namespace aech
 {
-	scene_node_t::scene_node_t(entity_t id)
-		: m_id{id}
+	scene_node_t::scene_node_t(transform_t* transform, scene_node_t* parent)
+		: m_parent{parent}, m_transform{transform}
 	{
 	}
 
-
-	void scene_node_t::set_position(const vec3_t& position)
+	void scene_node_t::set_position(const vec3_t& position) const
 	{
-		m_position = position;
-		m_ditry = true;
+		m_transform->position = position;
 	}
 
-	void scene_node_t::set_rotation(const vec4_t& rotation)
+	void scene_node_t::set_rotation(const vec3_t& rotation) const
 	{
-		m_rotation = rotation;
-		m_ditry = true;
+		m_transform->rotation = rotation;
 	}
 
-	void scene_node_t::set_scale(const vec3_t& scale)
+	void scene_node_t::set_scale(const vec3_t& scale) const
 	{
-		m_scale = scale;
-		m_ditry = true;
+		m_transform->scale = scale;
 	}
 
-	void scene_node_t::set_scale(float scale)
+	void scene_node_t::set_scale(float scale) const
 	{
-		m_scale = {scale, scale, scale};
-		m_ditry = true;
+		m_transform->scale = { scale, scale, scale };
 	}
 
-	vec3_t scene_node_t::get_local_position()
+	vec3_t scene_node_t::get_local_position() const
 	{
-		return m_position;
+		return m_transform->position;
 	}
 
-	vec3_t scene_node_t::get_local_scale()
+	vec3_t scene_node_t::get_local_scale() const
 	{
-		return m_scale;
+		return m_transform->scale;
 	}
 
-	vec4_t scene_node_t::get_local_rotation()
+	vec3_t scene_node_t::get_local_rotation() const
 	{
-		return m_rotation;
+		return m_transform->rotation;
 	}
 
 	vec3_t scene_node_t::get_world_position()
 	{
-		auto transform = get_transform();
-		auto pos = transform * vec4_t{ m_position, 1.0f };
-		return { pos };
+		const auto transform_matrix = get_transform();
+		auto pos = transform_matrix * vec4_t{ m_transform->position, 1.0f };
+		return vec3_t{ pos };
 	}
 
-
-	mat4_t& scene_node_t::get_transform()
+	mat4_t scene_node_t::get_transform() const
 	{
-		if (m_ditry )
+		auto transform_matrix = rotate(m_transform->rotation.x, { 1.0f, 0.0f, 0.0f });
+		transform_matrix *= rotate(m_transform->rotation.y, { 0.0f, 1.0f, 0.0f });
+		transform_matrix *= rotate(m_transform->rotation.z, { 0.0f, 0.0f, 1.0f });
+
+		transform_matrix *= scale(m_transform->scale);
+		transform_matrix *= translate(m_transform->position);
+
+		if (m_parent)
 		{
-			update_transform(false);
+			transform_matrix = m_parent->get_transform() * transform_matrix;
 		}
-		return m_transform;
+
+		return transform_matrix;
 	}
 
-	vec3_t scene_node_t::get_world_scale()
+	vec3_t scene_node_t::get_world_scale() const
 	{
 		auto transform = get_transform();
 		return { transform.data[0][0], transform.data[1][1], transform.data[2][2] };
 	}
 
-	void scene_node_t::add_child(entity_t node)
+	void scene_node_t::add_child(scene_node_t* node)
 	{
-		auto &scene_node = engine.get_component<scene_node_t>(node);
-		if (scene_node.m_parent != invalid_entity_id)
+		if (node->m_parent)
 		{
-			auto &parent = engine.get_component<scene_node_t>(scene_node.m_parent);
-			parent.remove_child(node);
+			node->m_parent->remove_child(node);
 		}
-		scene_node.m_parent = m_id;
+		node->m_parent = this;
 		m_children.push_back(node);
 	}
 
-	void scene_node_t::remove_child(entity_t id)
+	void scene_node_t::remove_child(scene_node_t* node)
 	{
 		
-		auto it = std::find(std::begin(m_children), std::end(m_children), id);
+		auto it = std::find(std::begin(m_children), std::end(m_children), node);
 		if (it != std::end(m_children))
 		{
 			m_children.erase(it);
-		}
-	}
-
-	void scene_node_t::update_transform(bool update_previous)
-	{
-		if (update_previous)
-		{
-			m_prev_transform = m_transform;
-		}
-
-		if (m_ditry)
-		{
-			m_transform = rotate(m_rotation.w, vec3_t{ m_rotation });
-			m_transform *= scale(m_scale);
-			m_transform *= translate(m_position);
-
-			if(m_parent != invalid_entity_id)
-			{
-				auto &parent = engine.get_component<scene_node_t>(m_parent);
-				m_transform = parent.m_transform * m_transform;
-			}
-		}
-
-		for (auto child : m_children)
-		{
-			auto &child_node = engine.get_component<scene_node_t>(child);
-			if (m_ditry)
-			{
-				child_node.m_ditry = true;
-			}
-			child_node.update_transform(update_previous);
 		}
 	}
 }

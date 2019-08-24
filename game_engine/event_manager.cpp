@@ -13,12 +13,4 @@ namespace aech
 		for (const auto& listener : listeners[type])
 			listener(event);
 	}
-
-	void event_manager_t::send_event(event_id_t event_id)
-	{
-		event_t event{ event_id };
-
-		for (const auto& listener : listeners[event_id])
-			listener(event);
-	}
 }
