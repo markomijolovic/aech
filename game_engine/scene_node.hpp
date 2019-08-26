@@ -13,9 +13,6 @@ namespace aech
 	 */
 	struct scene_node_t
 	{
-		// share meshes and materials?
-		// TODO: remove this, place in renderable component
-
 		std::vector<scene_node_t*> m_children{};
 		scene_node_t* m_parent{};
 		transform_t* m_transform{};

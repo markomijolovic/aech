@@ -77,15 +77,6 @@ int main(int argc, char* argv[])
 		engine.set_system_signature<camera_control_system_t>(signature);
 	}
 
-	//auto player_control_system = engine.register_system<player_control_system_t>();
-	//{
-	//	signature_t signature{};
-	//	signature.set(engine.get_component_type<player_t>());
-	//	signature.set(engine.get_component_type<transform_t>());
-	//	engine.set_system_signature<player_control_system_t>(signature);
-	//}
-	//player_control_system->init();
-
 	auto renderer = engine.register_system<renderer_t>();
 	{
 		signature_t signature{};
@@ -95,7 +86,7 @@ int main(int argc, char* argv[])
 		engine.set_system_signature<renderer_t>(signature);
 	}
 
-	std::vector<entity_t> entities(max_entities / 2);
+	std::vector<entity_t> entities(max_entities / 2000);
 
 	std::default_random_engine generator{};
 	std::uniform_real_distribution<float> rand_position(-100.0f, 100.0f);
@@ -104,8 +95,6 @@ int main(int argc, char* argv[])
 	std::uniform_real_distribution<float> rand_colour(0.0f, 1.0f);
 	std::uniform_real_distribution<float> rand_gravity(-10.0f, -1.0f);
 	auto scale = rand_scale(generator);
-
-	cube_t mesh{};
 
 	for (auto &entity: entities)
 	{
@@ -151,8 +140,7 @@ int main(int argc, char* argv[])
 		scene_node.set_position({ rand_position(generator), rand_position(generator) + 100.0f, rand_position(generator) });
 		scene_node.set_scale(scale);
 
-		// TODO: leak memory
-		mesh_filter_t mesh_filter{ mesh_library::default_meshes["cube"].get(),  &material_library::default_materials["default"] };
+		mesh_filter_t mesh_filter{ mesh_library::default_meshes["sphere"].get(),  &material_library::default_materials["default"] };
 
 		engine.add_component(entity, mesh_filter);
 	}

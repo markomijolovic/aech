@@ -171,6 +171,10 @@
     </ClInclude>
     <ClInclude Include="shader.hpp" />
     <ClInclude Include="shading_types.hpp" />
+    <ClInclude Include="sphere.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="stb_image.hpp" />
     <ClInclude Include="system.hpp" />
     <ClInclude Include="system_manager.hpp" />
@@ -209,6 +213,7 @@
     <ClCompile Include="resource_manager.cpp" />
     <ClCompile Include="scene_node.cpp" />
     <ClCompile Include="shader.cpp" />
+    <ClCompile Include="sphere.cpp" />
     <ClCompile Include="stb_image.cpp" />
     <ClCompile Include="system_manager.cpp" />
     <ClCompile Include="texture.cpp" />
@@ -221,6 +226,8 @@
   <ItemGroup>
     <None Include="component_array.hpp" />
     <None Include="packages.config" />
+    <None Include="shaders\default_fragment.glsl" />
+    <None Include="shaders\default_vertex.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

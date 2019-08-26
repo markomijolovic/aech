@@ -198,6 +198,9 @@
     <ClInclude Include="mesh_library.hpp">
       <Filter>Header Files\graphics\mesh</Filter>
     </ClInclude>
+    <ClInclude Include="sphere.hpp">
+      <Filter>Header Files\graphics\mesh</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="component_manager.cpp">
@@ -290,11 +293,16 @@
     <ClCompile Include="mesh_library.cpp">
       <Filter>Source Files\graphics\mesh</Filter>
     </ClCompile>
+    <ClCompile Include="sphere.cpp">
+      <Filter>Source Files\graphics\mesh</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="component_array.hpp">
       <Filter>Header Files\core</Filter>
     </None>
     <None Include="packages.config" />
+    <None Include="shaders\default_vertex.glsl" />
+    <None Include="shaders\default_fragment.glsl" />
   </ItemGroup>
 </Project>
