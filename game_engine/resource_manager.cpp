@@ -10,6 +10,7 @@
 #include "texture_cube.hpp"
 #include "scene_node.hpp"
 #include "transform.hpp"
+#include "material_library.hpp"
 #include "mesh_filter.hpp"
 
 aech::shader_t& aech::resource_manager::load_shader(const std::string& vertex,
@@ -188,8 +189,6 @@ aech::texture_t& aech::resource_manager::load_hdr_texture(const std::string& nam
 
 aech::entity_t resource_manager::process_node(const aiNode* node, const aiScene* scene)
 {
-
-	//TODO: parse materials
 	const auto entity = engine.create_entity();
 	engine.add_component(entity,
 		transform_t{}
@@ -207,12 +206,13 @@ aech::entity_t resource_manager::process_node(const aiNode* node, const aiScene*
 	for (size_t i = 0; i < node->mNumMeshes; i++)
 	{
 		const auto a_mesh = scene->mMeshes[node->mMeshes[i]];
-		auto a_material = scene->mMaterials[a_mesh->mMaterialIndex];
 		const auto mesh = parse_mesh(a_mesh, scene);
+		const auto a_material = scene->mMaterials[a_mesh->mMaterialIndex];
+		const auto material = parse_material(scene, a_material);
 		auto &mesh_filter = engine.get_component<mesh_filter_t>(entity);
 		if (node ->mNumMeshes == 1)
 		{
-			// TODO: create mesh filter component
+			mesh_filter.material = material;
 			mesh_filter.mesh = mesh;
 		}
 		else
@@ -235,6 +235,7 @@ aech::entity_t resource_manager::process_node(const aiNode* node, const aiScene*
 			const auto child_scene_node = &engine.get_component<scene_node_t>(child_entity);
 			auto &child_mesh_filter = engine.get_component<mesh_filter_t>(child_entity);
 			child_mesh_filter.mesh = mesh;
+			child_mesh_filter.material = material;
 			scene_node->add_child(child_scene_node);
 		}
 	}
@@ -257,7 +258,7 @@ entity_t resource_manager::load_mesh(const std::string& path)
 		aiProcess_CalcTangentSpace
 	);
 
-	if (!scene)
+	if (!scene || scene->mFlags == AI_SCENE_FLAGS_INCOMPLETE)
 	{
 		std::cerr << "Assimp failed to load scene at path: " << path << '\n';
 		return invalid_entity_id;
@@ -266,8 +267,7 @@ entity_t resource_manager::load_mesh(const std::string& path)
 	return process_node(scene->mRootNode, scene);
 }
 
-// TODO: caching of meshes
-mesh_t* resource_manager::parse_mesh(aiMesh* mesh, const aiScene* scene)
+const mesh_t* resource_manager::parse_mesh(aiMesh* mesh, const aiScene* scene)
 {
 	const auto it = meshes.find(mesh);
 	if (it != std::end(meshes))
@@ -281,8 +281,8 @@ mesh_t* resource_manager::parse_mesh(aiMesh* mesh, const aiScene* scene)
 	ret_val->
 		m_normals.resize(mesh->mNumVertices);
 
-	// TODO: ?????
-	if (mesh->mNumUVComponents[0])
+	// 
+	if (mesh->HasTextureCoords(0))
 	{
 		ret_val->
 			m_uvs.resize(mesh->mNumVertices);
@@ -311,7 +311,7 @@ mesh_t* resource_manager::parse_mesh(aiMesh* mesh, const aiScene* scene)
 			mesh->mNormals[i].z
 		};
 
-		if (mesh->mTextureCoords[0])
+		if (mesh->HasTextureCoords(0))
 		{
 			ret_val->
 				m_uvs[i] = vec2_t{
@@ -406,4 +406,83 @@ texture_cube_t& resource_manager::load_texture_cube(const std::string& name, con
 		folder + "front.jpg",
 		folder + "back.jpg"
 	);
+}
+
+
+const material_t* resource_manager::parse_material(const aiScene* scene, aiMaterial* a_material)
+{
+	const auto it = materials.find(a_material);
+	if (it != std::end(materials))
+	{
+		return &materials[a_material];
+	}
+
+	auto ret_val = &materials[a_material];
+
+	aiString file{};
+	a_material->GetTexture(aiTextureType_DIFFUSE, 0, &file);
+	auto path = std::string{ file.C_Str() };
+	auto alpha = false;
+	if (path.find("_alpha") != std::string::npos)
+	{
+		// TODO: use alpha discard material
+	}
+	else
+	{
+		// default deferred material
+		*ret_val = material_library::default_materials["default"];
+	}
+
+	if (a_material->GetTextureCount(aiTextureType_DIFFUSE) > 0)
+	{
+		aiString file{};
+		a_material->GetTexture(aiTextureType_DIFFUSE, 0, &file);
+		auto file_name = "textures/" + std::string{ file.C_Str() };
+
+		auto texture = load_texture(file_name, file_name, GL_TEXTURE_2D, alpha ? GL_RGBA : GL_RGB, true);
+		ret_val->set_texture("albedo_texture", &texture, 3);
+	}
+
+
+	if (a_material->GetTextureCount(aiTextureType_DISPLACEMENT) > 0)
+	{
+		aiString file{};
+		a_material->GetTexture(aiTextureType_DISPLACEMENT, 0, &file);
+		auto file_name = "textures/" + std::string{ file.C_Str() };
+
+		auto texture = load_texture(file_name, file_name, GL_TEXTURE_2D, GL_RGBA, false);
+		ret_val->set_texture("normal_texture", &texture, 4);
+	}
+
+	if (a_material->GetTextureCount(aiTextureType_SPECULAR) > 0)
+	{
+		aiString file{};
+		a_material->GetTexture(aiTextureType_SPECULAR, 0, &file);
+		auto file_name = "textures/" + std::string{ file.C_Str() };
+
+		auto texture = load_texture(file_name, file_name, GL_TEXTURE_2D, GL_RGBA, false);
+		ret_val->set_texture("metallic_texture", &texture, 5);
+	}
+
+	if (a_material->GetTextureCount(aiTextureType_SHININESS) > 0)
+	{
+		aiString file{};
+		a_material->GetTexture(aiTextureType_SHININESS, 0, &file);
+		auto file_name = "textures/" + std::string{ file.C_Str() };
+
+		auto texture = load_texture(file_name, file_name, GL_TEXTURE_2D, GL_RGBA, false);
+		ret_val->set_texture("roughness_texture", &texture, 6);
+	}
+
+	if (a_material->GetTextureCount(aiTextureType_AMBIENT) > 0)
+	{
+		aiString file{};
+		a_material->GetTexture(aiTextureType_AMBIENT, 0, &file);
+		auto file_name = "textures/" + std::string{ file.C_Str() };
+
+		auto texture = load_texture(file_name, file_name, GL_TEXTURE_2D, GL_RGBA, false);
+		ret_val->set_texture("ao_texture", &texture, 7);
+	}
+
+	return ret_val;
 }
