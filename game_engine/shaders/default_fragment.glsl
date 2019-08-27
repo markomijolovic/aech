@@ -6,8 +6,9 @@ in vec2 uvs;
 in vec3 normal;
 in vec3 fragment_world_position;
 
-uniform vec3 uColor;
+uniform vec4 colour;
 uniform sampler2D diffuse;
+
 
 vec3 lightColor = vec3(1.0f, 1.0f, 1.0f);
 

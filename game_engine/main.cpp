@@ -19,6 +19,7 @@
 #include "mesh_filter.hpp"
 #include "resource_manager.hpp"
 #include "mesh_library.hpp"
+#include "sphere.hpp"
 
 using namespace aech;
 
@@ -86,28 +87,25 @@ int main(int argc, char* argv[])
 		engine.set_system_signature<renderer_t>(signature);
 	}
 
-	std::vector<entity_t> entities(max_entities / 2000);
+	std::vector<entity_t> entities(100);
 
 	std::default_random_engine generator{};
-	std::uniform_real_distribution<float> rand_position(-100.0f, 100.0f);
+	std::uniform_real_distribution<float> rand_position(-150.0f, 150.0f);
 	std::uniform_real_distribution<float> rand_rotation(0.0f, 3.0f);
-	std::uniform_real_distribution<float> rand_scale(3.0f, 5.0f);
+	std::uniform_real_distribution<float> rand_scale(3.0f, 50.0f);
 	std::uniform_real_distribution<float> rand_colour(0.0f, 1.0f);
 	std::uniform_real_distribution<float> rand_gravity(-10.0f, -1.0f);
-	auto scale = rand_scale(generator);
+	std::uniform_real_distribution<float> rand_radius(0.5f, 2.5f);
 
 	for (auto &entity: entities)
 	{
 		entity = engine.create_entity();
 
+		auto scale = rand_scale(generator);
 
 		engine.add_component(
 			entity,
-			transform_t{
-				{rand_position(generator),rand_position(generator) + 100.0f,rand_position(generator)}
-				,{rand_rotation(generator),rand_rotation(generator),rand_rotation(generator)},
-			{scale, scale, scale}
-			}
+			transform_t{}
 		);
 		/*
 		engine.add_component(
@@ -130,15 +128,14 @@ int main(int argc, char* argv[])
 			}
 		);*/
 
-		engine.add_component(entity,
+		/*engine.add_component(entity,
 			rigid_body_t{});
-
+*/
 
 		auto& scene_node = engine.get_component<scene_node_t>(entity);
 		scene_node.set_position({ rand_position(generator), rand_position(generator) + 100.0f, rand_position(generator) });
 		scene_node.set_rotation({ rand_rotation(generator), rand_rotation(generator), rand_rotation(generator) });
-		scene_node.set_position({ rand_position(generator), rand_position(generator) + 100.0f, rand_position(generator) });
-		scene_node.set_scale(scale);
+		scene_node.set_scale(5);
 
 		mesh_filter_t mesh_filter{ mesh_library::default_meshes["sphere"].get(),  &material_library::default_materials["default"] };
 

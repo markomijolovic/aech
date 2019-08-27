@@ -1,17 +1,16 @@
 #include "sphere.hpp"
 
-aech::sphere_t::sphere_t(const uint32_t sectors, const uint32_t stacks, const float radius)
+aech::sphere_t::sphere_t(const uint32_t sectors, const uint32_t stacks)
 {
 	const auto sector_step = 2 * pi / sectors;
-	const auto stack_step  = pi / stacks;
-	const auto length_inv = 1 / radius;
+	const auto stack_step = pi / stacks;
 
 	for (uint32_t i = 0; i <= stacks; i++)
 	{
 		// from pi/2 to - pi/2
 		const auto stack_angle = pi / 2 - i * stack_step;
-		const auto xy          = radius * cosf(stack_angle);
-		const auto z           = radius * sinf(stack_angle);
+		const auto xy = cosf(stack_angle);
+		const auto z = sinf(stack_angle);
 
 		for (uint32_t j = 0; j <= sectors; j++)
 		{
@@ -23,9 +22,9 @@ aech::sphere_t::sphere_t(const uint32_t sectors, const uint32_t stacks, const fl
 
 			m_positions.emplace_back(x, y, z);
 
-			auto nx = x * length_inv;
-			auto ny = y * length_inv;
-			auto nz = z * length_inv;
+			auto nx = x;
+			auto ny = y;
+			auto nz = z;
 
 			m_normals.emplace_back(nx, ny, nz);
 
@@ -36,11 +35,10 @@ aech::sphere_t::sphere_t(const uint32_t sectors, const uint32_t stacks, const fl
 		}
 	}
 
-	/*for (uint32_t i = 0; i < stacks; i++)
+	for (uint32_t i = 0; i < stacks; i++)
 	{
 		auto k1 = i * (sectors + 1);
 		auto k2 = k1 + sectors + 1;
-
 		for (uint32_t j = 0; j < sectors; j++, k1++, k2++)
 		{
 			if (i != 0U)
@@ -49,7 +47,6 @@ aech::sphere_t::sphere_t(const uint32_t sectors, const uint32_t stacks, const fl
 				m_indices.emplace_back(k2);
 				m_indices.emplace_back(k1 + 1);
 			}
-
 			if (i != stacks - 1)
 			{
 				m_indices.emplace_back(k1 + 1);
@@ -57,9 +54,8 @@ aech::sphere_t::sphere_t(const uint32_t sectors, const uint32_t stacks, const fl
 				m_indices.emplace_back(k2 + 1);
 			}
 		}
-
 	}
-*/
+
 	commit(true);
 
 }

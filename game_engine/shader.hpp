@@ -29,6 +29,9 @@ namespace aech
 			else if constexpr(std::is_same_v<T, vec3_t>) {
 				glUniform3fv(glGetUniformLocation(m_id, name.c_str()), 1, (GLfloat*)(&value));
 			}
+			else if constexpr(std::is_same_v<T, vec4_t>) {
+				glUniform4fv(glGetUniformLocation(m_id, name.c_str()), 1, (GLfloat*)(&value));
+			}
 			else if constexpr(std::is_same_v<T, bool>) {
 				glUniform1i(glGetUniformLocation(m_id, name.c_str()), (GLint)(value));
 			}

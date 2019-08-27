@@ -35,7 +35,7 @@ namespace aech
 		float,
 		vec2_t,
 		vec3_t,
-		vec3_t,
+		vec4_t,
 		mat3_t,
 		mat4_t
 	>;

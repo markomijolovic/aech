@@ -82,7 +82,7 @@ namespace aech
 			float cosThetaZ = cosf(transform.rotation.z);
 			float sinThetaZ = sinf(transform.rotation.z);
 
-			
+
 
 			rotZ.data[0][0] = cosThetaZ;
 			rotZ.data[1][0] = sinThetaZ;
@@ -96,22 +96,24 @@ namespace aech
 			translate.data[2][3] = transform.position.z;
 
 
-			
+
 			mat4_t scaleMat;
 			scaleMat.data[0][0] = transform.scale.x;
 			scaleMat.data[1][1] = transform.scale.y;
 			scaleMat.data[2][2] = transform.scale.z;
 
-			mat4_t model = translate * scaleMat * rotY;
+			mat4_t model = translate * scaleMat * rotZ * rotY * rotX;
 
 			mat4_t projection = camera.projection;
 
 			shader->set_uniform("model", model);
 			shader->set_uniform("view", view);
 			shader->set_uniform("projection", projection);
+			// shader->set_uniform("colour", std::get<vec4_t>(mesh_filter.material->m_uniforms["colour"].value));
 			// shader->set_uniform("uColor", renderable.colour);
 
-			glDrawArrays(GL_TRIANGLES, 0, 36);
+			glDrawElements(GL_TRIANGLES, mesh_filter.mesh->m_indices.size(), GL_UNSIGNED_INT, 0);
+			//glDrawArrays(GL_TRIANGLES, 0, 36);
 		}
 
 		glBindVertexArray(0);
