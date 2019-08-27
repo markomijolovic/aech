@@ -228,6 +228,8 @@
     <None Include="packages.config" />
     <None Include="shaders\default_fragment.glsl" />
     <None Include="shaders\default_vertex.glsl" />
+    <None Include="shaders\deferred_fragment.glsl" />
+    <None Include="shaders\deferred_vertex.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -87,7 +87,7 @@ int main(int argc, char* argv[])
 		engine.set_system_signature<renderer_t>(signature);
 	}
 
-	std::vector<entity_t> entities(100);
+	/*std::vector<entity_t> entities(100);
 
 	std::default_random_engine generator{};
 	std::uniform_real_distribution<float> rand_position(-150.0f, 150.0f);
@@ -95,52 +95,53 @@ int main(int argc, char* argv[])
 	std::uniform_real_distribution<float> rand_scale(3.0f, 50.0f);
 	std::uniform_real_distribution<float> rand_colour(0.0f, 1.0f);
 	std::uniform_real_distribution<float> rand_gravity(-10.0f, -1.0f);
-	std::uniform_real_distribution<float> rand_radius(0.5f, 2.5f);
+	std::uniform_real_distribution<float> rand_radius(0.5f, 2.5f);*/
 
-	for (auto &entity: entities)
-	{
-		entity = engine.create_entity();
-
-		auto scale = rand_scale(generator);
-
-		engine.add_component(
-			entity,
-			transform_t{}
-		);
-		/*
-		engine.add_component(
-			entity,
-			renderable_t{
-				{rand_colour(generator), rand_colour(generator), rand_colour(generator)} 
-			}
-		);*/
-
-		engine.add_component(entity,
-			scene_node_t{
-				&engine.get_component<transform_t>(entity)
-			}
-			);
-
-	/*	engine.add_component(
-			entity,
-			renderable_t{
-				{rand_colour(generator), rand_colour(generator), rand_colour(generator)}
-			}
-		);*/
-
-		/*engine.add_component(entity,
-			rigid_body_t{});
-*/
-
-		auto& scene_node = engine.get_component<scene_node_t>(entity);
-		scene_node.set_position({ rand_position(generator), rand_position(generator) + 100.0f, rand_position(generator) });
-		scene_node.set_rotation({ rand_rotation(generator), rand_rotation(generator), rand_rotation(generator) });
-		scene_node.set_scale(5);
-
-		mesh_filter_t mesh_filter{ mesh_library::default_meshes["sphere"].get(),  &material_library::default_materials["default"] };
-
-		engine.add_component(entity, mesh_filter);
-	}
+//	for (auto &entity: entities)
+//	{
+//		entity = engine.create_entity();
+//
+//		auto scale = rand_scale(generator);
+//
+//		engine.add_component(
+//			entity,
+//			transform_t{}
+//		);
+//		/*
+//		engine.add_component(
+//			entity,
+//			renderable_t{
+//				{rand_colour(generator), rand_colour(generator), rand_colour(generator)} 
+//			}
+//		);*/
+//
+//		engine.add_component(entity,
+//			scene_node_t{
+//				&engine.get_component<transform_t>(entity)
+//			}
+//			);
+//
+//	/*	engine.add_component(
+//			entity,
+//			renderable_t{
+//				{rand_colour(generator), rand_colour(generator), rand_colour(generator)}
+//			}
+//		);*/
+//
+//		/*engine.add_component(entity,
+//			rigid_body_t{});
+//*/
+//
+//		auto& scene_node = engine.get_component<scene_node_t>(entity);
+//		scene_node.set_position({ rand_position(generator), rand_position(generator) + 100.0f, rand_position(generator) });
+//		scene_node.set_rotation({ rand_rotation(generator), rand_rotation(generator), rand_rotation(generator) });
+//		scene_node.set_scale(5);
+//
+//		mesh_filter_t mesh_filter{ mesh_library::default_meshes["sphere"].get(),  &material_library::default_materials["default"] };
+//
+//		engine.add_component(entity, mesh_filter);
+//	}
+	auto ent = resource_manager::load_mesh("textures_pbr/sponza.obj");
 
 	auto delta_time = 0.0f;
 

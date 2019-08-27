@@ -87,7 +87,7 @@ aech::texture_t& aech::resource_manager::load_texture(const std::string& name,
 
 	if (texture.m_internal_format == GL_RGBA || texture.m_internal_format == GL_SRGB_ALPHA)
 	{
-		texture.m_internal_format = srgb ? GL_SRGB_ALPHA : GL_SRGB;
+		texture.m_internal_format = srgb ? GL_SRGB_ALPHA : GL_RGBA;
 	}
 
 	// make open-gl happy
@@ -197,9 +197,13 @@ aech::entity_t resource_manager::process_node(const aiNode* node, const aiScene*
 	engine.add_component(entity,
 		scene_node_t{ transform }
 	);
-	engine.add_component(entity,
-		mesh_filter_t{}
-	);
+	if (node->mNumMeshes == 1)
+	{
+		engine.add_component(entity,
+			mesh_filter_t{}
+		);
+	}
+	
 
 	auto scene_node = &engine.get_component<scene_node_t>(entity);
 
@@ -254,8 +258,8 @@ entity_t resource_manager::load_mesh(const std::string& path)
 {
 	Assimp::Importer importer{};
 	const auto* scene = importer.ReadFile(path,
-		aiProcess_Triangulate |
-		aiProcess_CalcTangentSpace
+		aiProcess_Triangulate //|
+		//aiProcess_CalcTangentSpace
 	);
 
 	if (!scene || scene->mFlags == AI_SCENE_FLAGS_INCOMPLETE)
@@ -422,7 +426,7 @@ const material_t* resource_manager::parse_material(const aiScene* scene, aiMater
 	aiString file{};
 	a_material->GetTexture(aiTextureType_DIFFUSE, 0, &file);
 	auto path = std::string{ file.C_Str() };
-	auto alpha = false;
+	auto alpha = true;
 	if (path.find("_alpha") != std::string::npos)
 	{
 		// TODO: use alpha discard material
@@ -437,10 +441,10 @@ const material_t* resource_manager::parse_material(const aiScene* scene, aiMater
 	{
 		aiString file{};
 		a_material->GetTexture(aiTextureType_DIFFUSE, 0, &file);
-		auto file_name = "textures/" + std::string{ file.C_Str() };
+		auto file_name = std::string{ file.C_Str() };
 
 		auto texture = load_texture(file_name, file_name, GL_TEXTURE_2D, alpha ? GL_RGBA : GL_RGB, true);
-		ret_val->set_texture("albedo_texture", &texture, 3);
+		ret_val->set_texture("texture_albedo", &texture, 3);
 	}
 
 
@@ -448,40 +452,40 @@ const material_t* resource_manager::parse_material(const aiScene* scene, aiMater
 	{
 		aiString file{};
 		a_material->GetTexture(aiTextureType_DISPLACEMENT, 0, &file);
-		auto file_name = "textures/" + std::string{ file.C_Str() };
+		auto file_name = std::string{ file.C_Str() };
 
 		auto texture = load_texture(file_name, file_name, GL_TEXTURE_2D, GL_RGBA, false);
-		ret_val->set_texture("normal_texture", &texture, 4);
+		ret_val->set_texture("texture_normal", &texture, 4);
 	}
 
 	if (a_material->GetTextureCount(aiTextureType_SPECULAR) > 0)
 	{
 		aiString file{};
 		a_material->GetTexture(aiTextureType_SPECULAR, 0, &file);
-		auto file_name = "textures/" + std::string{ file.C_Str() };
+		auto file_name = std::string{ file.C_Str() };
 
 		auto texture = load_texture(file_name, file_name, GL_TEXTURE_2D, GL_RGBA, false);
-		ret_val->set_texture("metallic_texture", &texture, 5);
+		ret_val->set_texture("texture_metallic", &texture, 5);
 	}
 
 	if (a_material->GetTextureCount(aiTextureType_SHININESS) > 0)
 	{
 		aiString file{};
 		a_material->GetTexture(aiTextureType_SHININESS, 0, &file);
-		auto file_name = "textures/" + std::string{ file.C_Str() };
+		auto file_name = std::string{ file.C_Str() };
 
 		auto texture = load_texture(file_name, file_name, GL_TEXTURE_2D, GL_RGBA, false);
-		ret_val->set_texture("roughness_texture", &texture, 6);
+		ret_val->set_texture("texture_roughness", &texture, 6);
 	}
 
 	if (a_material->GetTextureCount(aiTextureType_AMBIENT) > 0)
 	{
 		aiString file{};
 		a_material->GetTexture(aiTextureType_AMBIENT, 0, &file);
-		auto file_name = "textures/" + std::string{ file.C_Str() };
+		auto file_name =  std::string{ file.C_Str() };
 
 		auto texture = load_texture(file_name, file_name, GL_TEXTURE_2D, GL_RGBA, false);
-		ret_val->set_texture("ao_texture", &texture, 7);
+		ret_val->set_texture("texture_ao", &texture, 7);
 	}
 
 	return ret_val;

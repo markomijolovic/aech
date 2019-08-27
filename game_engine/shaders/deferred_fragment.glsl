@@ -2,15 +2,21 @@
 
 out vec4 fragment_colour;
 
-in vec2 in_uvs;
-in vec3 in_normal;
-in vec3 in_fragment_world_position;
+in VERTEX_OUT 
+{
+	vec3 fragment_world_position;
+	vec2 uvs;
+	vec3 normal;
+	vec3 tangent;
+	vec3 bitangent;
+	mat3 tbn;
+} fragment_in;
 
-uniform sampler2D albedo_map;
-uniform sampler2D normal_map;
-uniform sampler2D metallic_map;
-uniform sampler2D roughness_map;
-uniform sampler2D ambient_occlusion_map;
+uniform sampler2D texture_albedo;
+uniform sampler2D texture_normal;
+uniform sampler2D texture_metallic;
+uniform sampler2D texture_roughness;
+uniform sampler2D texture_ao;
 
 uniform vec3 point_light_positions[10];
 uniform vec3 point_light_intensities[10];
@@ -21,7 +27,9 @@ const float pi = 3.14159265359;
 
 vec3 get_normal() 
 {
-	return vec3(1.0);
+	vec3 normal = texture(texture_normal, fragment_in.uvs).rgb;
+	normal = normalize(normal * 2.0 - 1.0);
+	return normalize(fragment_in.tbn * normal);
 }
 
 float ggx_distribution(vec3 normal, vec3 halfway, float roughness) 
@@ -54,23 +62,24 @@ vec3 schlicks_approximation(float cos_angle, vec3 f0)
 
 void main()
 {
-	vec3 albedo = pow(texture(albedo_map, in_uvs).rgb, vec3(2.2));
-	float metallic = texture(metallic_map, in_uvs).r;
-	float roughness = texture(roughness_map, in_uvs).r;
-	float ao = texture(ambient_occlusion_map, in_uvs).r;
+
+	vec3 albedo = pow(texture(texture_albedo, fragment_in.uvs).rgb, vec3(2.2));
+	float metallic = texture(texture_metallic, fragment_in.uvs).r;
+	float roughness = texture(texture_roughness, fragment_in.uvs).r;
+	float ao = texture(texture_ao, fragment_in.uvs).r;
 
 	vec3 normal = get_normal();
-	vec3 view = normalize(camera_position - in_fragment_world_position);
+	vec3 view = normalize(camera_position - fragment_in.fragment_world_position);
 
 	vec3 f0 = mix(vec3(0.04), albedo, metallic);
 
 	vec3 outgoing_radiance = vec3(0.0);
 	for (int i = 0; i < 10; i++) 
 	{
-		vec3 light = normalize(point_light_positions[i] - in_fragment_world_position);
+		vec3 light = normalize(point_light_positions[i] - fragment_in.fragment_world_position);
 		vec3 halfway = normalize(view + light);
 		
-		float distance = length(point_light_positions[i] - in_fragment_world_position);
+		float distance = length(point_light_positions[i] - fragment_in.fragment_world_position);
 		float attenuation = 1.0/pow(distance, 2.0);
 		vec3 radiance = point_light_intensities[i] * attenuation;
 
@@ -94,5 +103,5 @@ void main()
 
 	color = pow(color, vec3(1.0/2.2));
 
-	fragment_colour = vec4(color, 1.0);
+	fragment_colour = vec4(albedo, 1.0);
 }
