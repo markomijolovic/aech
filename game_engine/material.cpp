@@ -1,6 +1,7 @@
 #include "material.hpp"
 #include "texture_cube.hpp"
 
+// TODO: Look into using fewer glUseProgram calls
 namespace aech
 {
 	void material_t::set_texture(const std::string& name, const texture_t* texture, uint32_t unit)
@@ -24,11 +25,8 @@ namespace aech
 			break;
 		}
 
-		if (m_shader)
-		{
-			m_shader->use();
-			m_shader->set_uniform(name, unit);
-		}
+		m_shader->use();
+		m_shader->set_uniform(name, unit);
 	}
 
 
@@ -38,10 +36,19 @@ namespace aech
 		m_sampler_uniforms[name].type = shader_type_t::shader_type_sampler_cube;
 		m_sampler_uniforms[name].texture = texture;
 
-		if (m_shader)
+		m_shader->use();
+		m_shader->set_uniform(name, unit);
+	}
+
+
+	void material_t::bind_textures() const
+	{
+		m_shader->use();
+		for (const auto&el: m_sampler_uniforms)
 		{
-			m_shader->use();
-			m_shader->set_uniform(name, unit);
+			auto val = std::get<const texture_t *>(el.second.texture);
+			val->bind(el.second.unit);
+			m_shader->set_uniform(el.first, el.second.unit);
 		}
 	}
 }

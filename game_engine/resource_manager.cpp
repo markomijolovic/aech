@@ -66,7 +66,7 @@ aech::shader_t& aech::resource_manager::get_shader(const std::string& name)
 }
 
 
-aech::texture_t& aech::resource_manager::load_texture(const std::string& name,
+aech::texture_t* aech::resource_manager::load_texture(const std::string& name,
 	const std::string& path,
 	const GLenum target,
 	const GLenum format,
@@ -74,7 +74,7 @@ aech::texture_t& aech::resource_manager::load_texture(const std::string& name,
 {
 	if (textures.find(name) != std::end(textures))
 	{
-		return textures[name];
+		return &textures[name];
 	}
 
 	texture_t texture{};
@@ -130,7 +130,9 @@ aech::texture_t& aech::resource_manager::load_texture(const std::string& name,
 	}
 	stbi_image_free(data);
 
-	return textures[name] = texture;
+	textures[name] = texture;
+
+	return &textures[name];
 }
 
 aech::texture_t& aech::resource_manager::get_texture(const std::string& name)
@@ -444,7 +446,7 @@ const material_t* resource_manager::parse_material(const aiScene* scene, aiMater
 		auto file_name = std::string{ file.C_Str() };
 
 		auto texture = load_texture(file_name, file_name, GL_TEXTURE_2D, alpha ? GL_RGBA : GL_RGB, true);
-		ret_val->set_texture("texture_albedo", &texture, 3);
+		ret_val->set_texture("texture_albedo", texture, 0);
 	}
 
 
@@ -455,7 +457,7 @@ const material_t* resource_manager::parse_material(const aiScene* scene, aiMater
 		auto file_name = std::string{ file.C_Str() };
 
 		auto texture = load_texture(file_name, file_name, GL_TEXTURE_2D, GL_RGBA, false);
-		ret_val->set_texture("texture_normal", &texture, 4);
+		ret_val->set_texture("texture_normal", texture, 1);
 	}
 
 	if (a_material->GetTextureCount(aiTextureType_SPECULAR) > 0)
@@ -465,7 +467,7 @@ const material_t* resource_manager::parse_material(const aiScene* scene, aiMater
 		auto file_name = std::string{ file.C_Str() };
 
 		auto texture = load_texture(file_name, file_name, GL_TEXTURE_2D, GL_RGBA, false);
-		ret_val->set_texture("texture_metallic", &texture, 5);
+		ret_val->set_texture("texture_metallic",texture, 2);
 	}
 
 	if (a_material->GetTextureCount(aiTextureType_SHININESS) > 0)
@@ -475,7 +477,7 @@ const material_t* resource_manager::parse_material(const aiScene* scene, aiMater
 		auto file_name = std::string{ file.C_Str() };
 
 		auto texture = load_texture(file_name, file_name, GL_TEXTURE_2D, GL_RGBA, false);
-		ret_val->set_texture("texture_roughness", &texture, 6);
+		ret_val->set_texture("texture_roughness", texture, 3);
 	}
 
 	if (a_material->GetTextureCount(aiTextureType_AMBIENT) > 0)
@@ -485,7 +487,7 @@ const material_t* resource_manager::parse_material(const aiScene* scene, aiMater
 		auto file_name =  std::string{ file.C_Str() };
 
 		auto texture = load_texture(file_name, file_name, GL_TEXTURE_2D, GL_RGBA, false);
-		ret_val->set_texture("texture_ao", &texture, 7);
+		ret_val->set_texture("texture_ao", texture, 4);
 	}
 
 	return ret_val;

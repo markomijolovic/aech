@@ -29,8 +29,8 @@ namespace aech
 		void generate(uint32_t width, GLenum internal_format, GLenum format, GLenum type, void* data);
 		void generate(uint32_t width, uint32_t height, GLenum internal_format, GLenum format, GLenum type, void* data);
 		void generate(uint32_t width, uint32_t height, uint32_t depth, GLenum internal_format, GLenum format, GLenum type, void* data);
-		void bind(int32_t = -1);
-		void unbind();
+		void bind(int32_t = -1) const;
+		void unbind() const;
 		void resize(uint32_t width, uint32_t height = 0, uint32_t depth = 0);
 	};
 }

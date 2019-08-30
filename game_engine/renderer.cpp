@@ -46,8 +46,6 @@ namespace aech
 			auto& scene_node = engine.get_component<scene_node_t>(entity);
 			auto& mesh_filter = engine.get_component<mesh_filter_t>(entity);
 			auto shader = mesh_filter.material->m_shader;
-			shader->use();
-			glBindVertexArray(mesh_filter.mesh->m_vao);
 			// auto const& renderable = engine.get_component<renderable_t>(entity);
 
 			/*mat4_t view;
@@ -106,6 +104,9 @@ namespace aech
 
 			mat4_t projection = camera.projection;
 
+			shader->use();
+			glBindVertexArray(mesh_filter.mesh->m_vao);
+			mesh_filter.material->bind_textures();
 			shader->set_uniform("model", model);
 			shader->set_uniform("view", view);
 			shader->set_uniform("projection", projection);

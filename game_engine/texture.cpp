@@ -1,5 +1,7 @@
 #include "texture.hpp"
 
+// TODO: refactor generate function
+// TODO: default arguments for height and depth?
 namespace aech
 {
 	void texture_t::generate(uint32_t width, GLenum internal_format, GLenum format, GLenum type, void* data)
@@ -33,7 +35,6 @@ namespace aech
 		m_internal_format = internal_format;
 		m_format = format;
 		m_type = type;
-		//bind()
 		bind();
 		//m_target == GL_TEXTURE_2D
 		glTexImage2D(m_target, 0, m_internal_format, m_width,m_height, 0, m_format, m_type, data);
@@ -43,7 +44,7 @@ namespace aech
 		glTexParameteri(m_target, GL_TEXTURE_WRAP_T, m_wrap_t);
 		if (m_mipmap)
 			glGenerateMipmap(m_target);
-
+		unbind();
 	}
 
 	void texture_t::generate(uint32_t width,
@@ -74,7 +75,7 @@ namespace aech
 	}
 
 
-	void texture_t::bind(int32_t unit)
+	void texture_t::bind(int32_t unit) const
 	{
 		if (unit >= 0)
 		{
@@ -85,7 +86,7 @@ namespace aech
 	}
 
 
-	void texture_t::unbind()
+	void texture_t::unbind() const
 	{
 		glBindTexture(m_target, 0);
 	}
@@ -111,5 +112,6 @@ namespace aech
 			//do nothing
 			break;
 		}
+		unbind();
 	}
 }
