@@ -38,7 +38,7 @@ namespace aech::resource_manager
 		const std::string& name
 	);
 	shader_t& get_shader(const std::string& name);
-	texture_t* load_texture(const std::string& name, const std::string& path, GLenum target, GLenum format, bool srgb);
+	texture_t* load_texture(const std::string& name, const std::string& path);
 	texture_t& load_hdr_texture(const std::string& name, const std::string& path);
 	texture_t& get_texture(const std::string& name);
 	texture_cube_t& load_texture_cube(const std::string& name,

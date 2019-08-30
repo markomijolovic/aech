@@ -1,6 +1,6 @@
 #pragma once
 
-#include <GL/glew.h>
+#include <glad/glad.h>
 #include "types.hpp"
 #include "vec2.hpp"
 #include <vector>
@@ -42,7 +42,7 @@ namespace aech
 		
 		std::vector<directional_light_t> m_directional_lights{};
 		std::vector<point_light_t> m_point_lights{};
-		render_target_t m_render_target{ 0, 0 };
+		//render_target_t m_render_target{ 0, 0 };
 
 		renderer_t();
 		void update(float delta_time);

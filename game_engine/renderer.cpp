@@ -5,6 +5,7 @@
 #include "mesh_library.hpp"
 #include "transform.hpp"
 #include "mesh_filter.hpp"
+#include <iostream>
 
 namespace aech
 {
@@ -31,7 +32,6 @@ namespace aech
 
 	void renderer_t::update(float delta_time)
 	{
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
@@ -110,8 +110,8 @@ namespace aech
 			shader->set_uniform("model", model);
 			shader->set_uniform("view", view);
 			shader->set_uniform("projection", projection);
-			shader->set_uniform("point_light_positions[0]", vec3_t{ 50.f, 50.f, 50.f });
-			shader->set_uniform("point_light_intensities[0]", vec3_t{ 100, 100, 100 });
+			//shader->set_uniform("point_light_positions[0]", vec3_t{ 50.f, 50.f, 50.f });
+			//shader->set_uniform("point_light_intensities[0]", vec3_t{ 100, 100, 100 });
 			// shader->set_uniform("colour", std::get<vec4_t>(mesh_filter.material->m_uniforms["colour"].value));
 			// shader->set_uniform("uColor", renderable.colour);
 

@@ -144,9 +144,6 @@
     <ClInclude Include="texture.hpp">
       <Filter>Header Files\graphics\shading</Filter>
     </ClInclude>
-    <ClInclude Include="stb_image.hpp">
-      <Filter>Header Files\includes</Filter>
-    </ClInclude>
     <ClInclude Include="resource_manager.hpp">
       <Filter>Header Files\graphics\resource management</Filter>
     </ClInclude>
@@ -200,6 +197,15 @@
     </ClInclude>
     <ClInclude Include="sphere.hpp">
       <Filter>Header Files\graphics\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="include\glad\glad.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\KHR\khrplatform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\stb_image.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -295,6 +301,9 @@
     </ClCompile>
     <ClCompile Include="sphere.cpp">
       <Filter>Source Files\graphics\mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="glad.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

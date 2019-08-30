@@ -3,7 +3,7 @@
 #include "mesh.hpp"
 #include <fstream>
 #include <sstream>
-#include "stb_image.hpp"
+#include "stb_image.h"
 #include "assimp/Importer.hpp"
 #include "assimp/scene.h"
 #include <assimp/postprocess.h>
@@ -67,27 +67,11 @@ aech::shader_t& aech::resource_manager::get_shader(const std::string& name)
 
 
 aech::texture_t* aech::resource_manager::load_texture(const std::string& name,
-	const std::string& path,
-	const GLenum target,
-	const GLenum format,
-	const bool srgb)
+	const std::string& path)
 {
 	if (textures.find(name) != std::end(textures))
 	{
 		return &textures[name];
-	}
-
-	texture_t texture{};
-	texture.m_target = target;
-	texture.m_internal_format = format;
-	if (texture.m_internal_format == GL_RGB || texture.m_internal_format == GL_SRGB)
-	{
-		texture.m_internal_format = srgb ? GL_SRGB : GL_RGB;
-	}
-
-	if (texture.m_internal_format == GL_RGBA || texture.m_internal_format == GL_SRGB_ALPHA)
-	{
-		texture.m_internal_format = srgb ? GL_SRGB_ALPHA : GL_RGBA;
 	}
 
 	// make open-gl happy
@@ -98,39 +82,38 @@ aech::texture_t* aech::resource_manager::load_texture(const std::string& name,
 
 	if (data)
 	{
-		GLenum format_{};
+		GLenum sized_internal_format{};
+		GLenum format{};
 		switch(number_of_components)
 		{
 		case 1:
-			format_ = GL_RED;
+			sized_internal_format = GL_R8;
+			format = GL_RED;
+			break;
+		case 2:
+			sized_internal_format = GL_RG8;
+			format = GL_RG;
 			break;
 		case 3:
-			format_ = GL_RGB;
+			sized_internal_format = GL_RGB8;
+			format = GL_RGB;
 			break;
 		case 4:
-			format_ = GL_RGBA;
+			sized_internal_format = GL_RGBA8;
+			format = GL_RGBA;
 			break;
 		default: 
-			//do nothing;
 			break;
 		}
 
-		if (target == GL_TEXTURE_1D)
-		{
-			texture.generate(width, texture.m_internal_format, format_, GL_UNSIGNED_BYTE, data);
-		}
-		else if (target == GL_TEXTURE_2D)
-		{
-			texture.generate(width,height, texture.m_internal_format, format_, GL_UNSIGNED_BYTE, data);
-		}
+		textures[name] = texture_t{ static_cast<uint32_t>(width), static_cast<uint32_t>(height), sized_internal_format, format, data};
 	}
 	else
 	{
 		std::cerr << "Failed to load texture at: " << path << '\n';
+		textures[name] = texture_t{};
 	}
 	stbi_image_free(data);
-
-	textures[name] = texture;
 
 	return &textures[name];
 }
@@ -141,53 +124,53 @@ aech::texture_t& aech::resource_manager::get_texture(const std::string& name)
 }
 
 
-aech::texture_t& aech::resource_manager::load_hdr_texture(const std::string& name, const std::string& path)
-{
-	if (textures.find(name) != std::end(textures))
-	{
-		return textures[name];
-	}
-
-	texture_t texture{};
-	texture.m_target = GL_TEXTURE_2D;
-	texture.m_filter_min = GL_LINEAR;
-	texture.m_mipmap = false;
-
-	stbi_set_flip_vertically_on_load(true);
-
-	if (stbi_is_hdr(path.c_str()))
-	{
-		int32_t width, height, number_of_components;
-		const auto data = stbi_loadf(path.c_str(), &width, &height, &number_of_components, 0);
-
-		if (data)
-		{
-			GLenum internal_format, format;
-			if (number_of_components == 3)
-			{
-				internal_format = GL_RGB32F;
-				format = GL_RGB;
-			}
-			else if (number_of_components == 4)
-			{
-				internal_format = GL_RGBA32F;
-				format = GL_RGBA;
-			}
-
-			texture.generate(width, height, internal_format, format, GL_FLOAT, data);
-			stbi_image_free(data);
-		}
-
-		texture.m_width = width;
-		texture.m_height = height;
-	}
-	else
-	{
-		std::cerr << "Failed to load HDR texture at: " << path << '\n';
-	}
-
-	return textures[name] = texture;
-}
+//aech::texture_t& aech::resource_manager::load_hdr_texture(const std::string& name, const std::string& path)
+//{
+//	if (textures.find(name) != std::end(textures))
+//	{
+//		return textures[name];
+//	}
+//
+//	texture_t texture{};
+//	texture.m_target = GL_TEXTURE_2D;
+//	texture.m_filter_min = GL_LINEAR;
+//	texture.m_mipmap = false;
+//
+//	stbi_set_flip_vertically_on_load(true);
+//
+//	if (stbi_is_hdr(path.c_str()))
+//	{
+//		int32_t width, height, number_of_components;
+//		const auto data = stbi_loadf(path.c_str(), &width, &height, &number_of_components, 0);
+//
+//		if (data)
+//		{
+//			GLenum internal_format, format;
+//			if (number_of_components == 3)
+//			{
+//				internal_format = GL_RGB32F;
+//				format = GL_RGB;
+//			}
+//			else if (number_of_components == 4)
+//			{
+//				internal_format = GL_RGBA32F;
+//				format = GL_RGBA;
+//			}
+//
+//			texture.generate(width, height, internal_format, format, GL_FLOAT, data);
+//			stbi_image_free(data);
+//		}
+//
+//		texture.m_width = width;
+//		texture.m_height = height;
+//	}
+//	else
+//	{
+//		std::cerr << "Failed to load HDR texture at: " << path << '\n';
+//	}
+//
+//	return textures[name] = texture;
+//}
 
 aech::entity_t resource_manager::process_node(const aiNode* node, const aiScene* scene)
 {
@@ -445,18 +428,18 @@ const material_t* resource_manager::parse_material(const aiScene* scene, aiMater
 		a_material->GetTexture(aiTextureType_DIFFUSE, 0, &file);
 		auto file_name = std::string{ file.C_Str() };
 
-		auto texture = load_texture(file_name, file_name, GL_TEXTURE_2D, alpha ? GL_RGBA : GL_RGB, true);
+		auto texture = load_texture(file_name, file_name);
 		ret_val->set_texture("texture_albedo", texture, 0);
 	}
 
 
-	if (a_material->GetTextureCount(aiTextureType_DISPLACEMENT) > 0)
+	if (a_material->GetTextureCount(aiTextureType_HEIGHT) > 0)
 	{
 		aiString file{};
-		a_material->GetTexture(aiTextureType_DISPLACEMENT, 0, &file);
+		a_material->GetTexture(aiTextureType_HEIGHT, 0, &file);
 		auto file_name = std::string{ file.C_Str() };
 
-		auto texture = load_texture(file_name, file_name, GL_TEXTURE_2D, GL_RGBA, false);
+		auto texture = load_texture(file_name, file_name);
 		ret_val->set_texture("texture_normal", texture, 1);
 	}
 
@@ -466,7 +449,7 @@ const material_t* resource_manager::parse_material(const aiScene* scene, aiMater
 		a_material->GetTexture(aiTextureType_SPECULAR, 0, &file);
 		auto file_name = std::string{ file.C_Str() };
 
-		auto texture = load_texture(file_name, file_name, GL_TEXTURE_2D, GL_RGBA, false);
+		auto texture = load_texture(file_name, file_name);
 		ret_val->set_texture("texture_metallic",texture, 2);
 	}
 
@@ -476,7 +459,7 @@ const material_t* resource_manager::parse_material(const aiScene* scene, aiMater
 		a_material->GetTexture(aiTextureType_SHININESS, 0, &file);
 		auto file_name = std::string{ file.C_Str() };
 
-		auto texture = load_texture(file_name, file_name, GL_TEXTURE_2D, GL_RGBA, false);
+		auto texture = load_texture(file_name, file_name);
 		ret_val->set_texture("texture_roughness", texture, 3);
 	}
 
@@ -486,7 +469,7 @@ const material_t* resource_manager::parse_material(const aiScene* scene, aiMater
 		a_material->GetTexture(aiTextureType_AMBIENT, 0, &file);
 		auto file_name =  std::string{ file.C_Str() };
 
-		auto texture = load_texture(file_name, file_name, GL_TEXTURE_2D, GL_RGBA, false);
+		auto texture = load_texture(file_name, file_name);
 		ret_val->set_texture("texture_ao", texture, 4);
 	}
 

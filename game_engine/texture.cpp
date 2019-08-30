@@ -1,77 +1,26 @@
 #include "texture.hpp"
+#include <algorithm>
 
 // TODO: refactor generate function
 // TODO: default arguments for height and depth?
 namespace aech
 {
-	void texture_t::generate(uint32_t width, GLenum internal_format, GLenum format, GLenum type, void* data)
+	texture_t::texture_t(uint32_t width, uint32_t height, GLenum internal_format, GLenum format, void *data)
 	{
 		glGenTextures(1, &m_id);
-		m_width = width;
-		m_internal_format = internal_format;
-		m_format = format;
-		m_type = type;
 
-		//m_target == GL_TEXTURE_1D
-		glTexImage1D(m_target, 0, m_internal_format, m_width, 0, m_format, m_type, data);
-		glTexParameteri(m_target, GL_TEXTURE_MIN_FILTER, m_filter_min);
-		glTexParameteri(m_target, GL_TEXTURE_MAG_FILTER, m_filter_max);
-		glTexParameteri(m_target, GL_TEXTURE_WRAP_S, m_wrap_s);
-		if (m_mipmap)
-			glGenerateMipmap(m_target);
-
-	}
-
-	void texture_t::generate(uint32_t width,
-		uint32_t height,
-		GLenum internal_format,
-		GLenum format,
-		GLenum type,
-		void* data)
-	{
-		glGenTextures(1, &m_id);
-		m_width = width;
-		m_height = height;
-		m_internal_format = internal_format;
-		m_format = format;
-		m_type = type;
 		bind();
-		//m_target == GL_TEXTURE_2D
-		glTexImage2D(m_target, 0, m_internal_format, m_width,m_height, 0, m_format, m_type, data);
-		glTexParameteri(m_target, GL_TEXTURE_MIN_FILTER, m_filter_min);
-		glTexParameteri(m_target, GL_TEXTURE_MAG_FILTER, m_filter_max);
-		glTexParameteri(m_target, GL_TEXTURE_WRAP_S, m_wrap_s);
-		glTexParameteri(m_target, GL_TEXTURE_WRAP_T, m_wrap_t);
-		if (m_mipmap)
-			glGenerateMipmap(m_target);
+		// calculate max number of mips
+		const int levels = floor(log2(std::max(width, height))) + 1;
+		// only 2D textures for now
+		glTexStorage2D(GL_TEXTURE_2D, levels, internal_format, width, height);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, format, GL_UNSIGNED_BYTE, data);
+		glGenerateMipmap(GL_TEXTURE_2D);
 		unbind();
-	}
-
-	void texture_t::generate(uint32_t width,
-		uint32_t height,
-		uint32_t depth,
-		GLenum internal_format,
-		GLenum format,
-		GLenum type,
-		void* data)
-	{
-		glGenTextures(1, &m_id);
-		m_width = width;
-		m_height = height;
-		m_depth = depth;
-		m_internal_format = internal_format;
-		m_format = format;
-		m_type = type;
-
-		//m_target == GL_TEXTURE_3D
-		glTexImage3D(m_target, 0, m_internal_format, m_width, m_height,m_depth, 0, m_format, m_type, data);
-		glTexParameteri(m_target, GL_TEXTURE_MIN_FILTER, m_filter_min);
-		glTexParameteri(m_target, GL_TEXTURE_MAG_FILTER, m_filter_max);
-		glTexParameteri(m_target, GL_TEXTURE_WRAP_S, m_wrap_s);
-		glTexParameteri(m_target, GL_TEXTURE_WRAP_T, m_wrap_t);
-		glTexParameteri(m_target, GL_TEXTURE_WRAP_R, m_wrap_r);
-		if (m_mipmap)
-			glGenerateMipmap(m_target);
 	}
 
 
@@ -82,36 +31,12 @@ namespace aech
 			glActiveTexture(GL_TEXTURE0 + unit);
 		}
 
-		glBindTexture(m_target, m_id);
+		glBindTexture(GL_TEXTURE_2D, m_id);
 	}
 
 
 	void texture_t::unbind() const
 	{
-		glBindTexture(m_target, 0);
-	}
-
-
-	void texture_t::resize(uint32_t width, uint32_t height, uint32_t depth)
-	{
-		bind();
-		m_width = width;
-		m_height = height;
-		switch(m_type)
-		{
-		case GL_TEXTURE_1D:
-			glTexImage1D(m_target, 0, m_internal_format, m_width, 0, m_format, m_type, nullptr);
-			break;
-		case GL_TEXTURE_2D:
-			glTexImage2D(m_target, 0, m_internal_format, m_width, m_height, 0, m_format, m_type, nullptr);
-			break;
-		case GL_TEXTURE_3D:
-			glTexImage3D(m_target, 0, m_internal_format, m_width, m_height, m_depth, 0, m_format, m_type, nullptr);
-			break;
-		default:
-			//do nothing
-			break;
-		}
-		unbind();
+		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 }

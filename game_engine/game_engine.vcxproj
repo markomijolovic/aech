@@ -77,6 +77,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <AdditionalIncludeDirectories>include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -90,6 +91,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <AdditionalIncludeDirectories>include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -105,6 +107,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <AdditionalIncludeDirectories>include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -122,6 +125,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <AdditionalIncludeDirectories>include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -144,6 +148,9 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="include\glad\glad.h" />
+    <ClInclude Include="include\KHR\khrplatform.h" />
+    <ClInclude Include="include\stb_image.h" />
     <ClInclude Include="main.hpp" />
     <ClInclude Include="mat3.hpp" />
     <ClInclude Include="mat4.hpp" />
@@ -175,7 +182,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="stb_image.hpp" />
     <ClInclude Include="system.hpp" />
     <ClInclude Include="system_manager.hpp" />
     <ClInclude Include="texture.hpp" />
@@ -199,6 +205,7 @@
     <ClCompile Include="entity_manager.cpp" />
     <ClCompile Include="event.cpp" />
     <ClCompile Include="event_manager.cpp" />
+    <ClCompile Include="glad.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mat3.cpp" />
     <ClCompile Include="mat4.cpp" />

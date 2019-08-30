@@ -1,10 +1,9 @@
-#include "GL/glew.h"
+#include <glad/glad.h>
 #include "GLFW/glfw3.h"
 
 #include "types.hpp"
 
 #include <random>
-
 #include <chrono>
 #include "engine.hpp"
 #include "camera.hpp"
@@ -20,6 +19,7 @@
 #include "resource_manager.hpp"
 #include "mesh_library.hpp"
 #include "sphere.hpp"
+#include <iostream>
 
 using namespace aech;
 
@@ -43,16 +43,18 @@ int main(int argc, char* argv[])
 	auto window = glfwCreateWindow(screen_width, screen_height, "ecs test", nullptr, nullptr);
 	glfwMakeContextCurrent(window);
 
-	glewExperimental = true;
-	glewInit();
-	glGetError();
+	if (!gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress)))
+	{
+		std::cerr << "Failed to init OpenGL context" << std::endl;
+		return -1;
+	}
 
 	glfwSetKeyCallback(window, key_callback);
 	glfwSetCursorPosCallback(window, mouse_callback);
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-	glViewport(0, 0, screen_width, screen_height);
-
 	glEnable(GL_DEPTH_TEST);
+	glViewport(0, 0, screen_width, screen_height);
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 	//init
 
@@ -141,9 +143,11 @@ int main(int argc, char* argv[])
 //
 //		engine.add_component(entity, mesh_filter);
 //	}
+
 	auto ent = resource_manager::load_mesh("textures_pbr/sponza.obj");
 
 	auto delta_time = 0.0f;
+
 
 	while (!glfwWindowShouldClose(window))
 	{

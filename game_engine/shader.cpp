@@ -33,12 +33,13 @@ namespace aech
 		m_id = glCreateProgram();
 		glAttachShader(m_id, s_vertex);
 		glAttachShader(m_id, s_fragment);
+
 		if (!geometry_source.empty())
 		{
 			glAttachShader(m_id, s_vertex);
 		}
 
-		glLinkProgram(m_id);
+		glLinkProgram(m_id);		
 		check_compile_errors(m_id, "program");
 
 		glDeleteShader(s_vertex);
@@ -55,26 +56,26 @@ namespace aech
 	}
 
 
-	void shader_t::check_compile_errors(uint32_t shader, const std::string& type)
+	void shader_t::check_compile_errors(uint32_t id, const std::string& type)
 	{
 		GLint success;
 		if (type == "program")
 		{
-			glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+			glGetProgramiv(id, GL_LINK_STATUS, &success);
 			if (success == 0)
 			{
 				GLchar info_log[1 << 10];
-				glGetProgramInfoLog(shader, 1 << 10, nullptr, info_log);
+				glGetProgramInfoLog(id, 1 << 10, nullptr, info_log);
 				std::cerr << "ERROR::PROGRAM_LINKING_ERROR: " << info_log << '\n';
 			}
 		}
 		else
 		{
-			glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+			glGetShaderiv(id, GL_COMPILE_STATUS, &success);
 			if (success == 0)
 			{
 				GLchar info_log[1 << 10];
-				glGetShaderInfoLog(shader, 1 << 10, nullptr, info_log);
+				glGetShaderInfoLog(id, 1 << 10, nullptr, info_log);
 				std::cerr << "ERROR::SHADER_COMPILATION_ERROR(" << type << ")\n" << info_log << '\n';
 			}
 		}

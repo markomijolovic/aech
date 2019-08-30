@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GL/glew.h"
+#include <glad/glad.h>
 
 #include "vec3.hpp"
 #include "mat4.hpp"
@@ -39,7 +39,7 @@ namespace aech
 				glUniform1i(glGetUniformLocation(m_id, name.c_str()), value);
 			}
 			else if constexpr(std::is_same_v<T, uint32_t>) {
-				glUniform1ui(glGetUniformLocation(m_id, name.c_str()), value);
+				glUniform1i(glGetUniformLocation(m_id, name.c_str()), static_cast<int32_t>(value));
 			}
 			else if constexpr(std::is_same_v<T, float>) {
 				glUniform1f(glGetUniformLocation(m_id, name.c_str()), value);

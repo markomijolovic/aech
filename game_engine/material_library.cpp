@@ -1,9 +1,11 @@
 #include "material_library.hpp"
 #include "resource_manager.hpp"
+#include <iostream>
 
 void aech::material_library::generate_default_materials()
 {
 	auto default_shader = &resource_manager::load_shader("shaders/deferred_vertex.glsl", "shaders/deferred_fragment.glsl", "", "default");
+	
 	auto &default_material = default_materials["default"] = material_t{.m_shader = default_shader};
 	default_material.type = material_type_t::material_default;
 	//default_material.set_uniform("colour", vec4_t{  .0f, .5f, .75f, 1.0f } );
