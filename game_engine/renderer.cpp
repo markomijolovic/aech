@@ -46,61 +46,8 @@ namespace aech
 			auto& scene_node = engine.get_component<scene_node_t>(entity);
 			auto& mesh_filter = engine.get_component<mesh_filter_t>(entity);
 			auto shader = mesh_filter.material->m_shader;
-			// auto const& renderable = engine.get_component<renderable_t>(entity);
 
-			/*mat4_t view;
-			view.data[0][3] = -cameraTransform.position.x;
-			view.data[1][3] = -cameraTransform.position.y;
-			view.data[2][3] = -cameraTransform.position.z;*/
-
-			mat4_t rotY;
-
-			float cos_theta_y = cosf(transform.rotation.y);
-			float sin_theta_y = sinf(transform.rotation.y);
-
-			rotY.data[0][0] = cos_theta_y;
-			rotY.data[2][0] = -sin_theta_y;
-			rotY.data[0][2] = sin_theta_y;
-			rotY.data[2][2] = cos_theta_y;
-
-
-			mat4_t rotX;
-
-			float cosThetaX = cosf(transform.rotation.x);
-			float sinThetaX = sinf(transform.rotation.x);
-
-			rotX.data[1][1] = cosThetaX;
-			rotX.data[2][1] = sinThetaX;
-			rotX.data[1][2] = -sinThetaX;
-			rotX.data[2][2] = cosThetaX;
-
-
-			mat4_t rotZ;
-
-			float cosThetaZ = cosf(transform.rotation.z);
-			float sinThetaZ = sinf(transform.rotation.z);
-
-
-
-			rotZ.data[0][0] = cosThetaZ;
-			rotZ.data[1][0] = sinThetaZ;
-			rotZ.data[0][1] = -sinThetaZ;
-			rotZ.data[1][1] = cosThetaZ;
-
-
-			mat4_t translate;
-			translate.data[0][3] = transform.position.x;
-			translate.data[1][3] = transform.position.y;
-			translate.data[2][3] = transform.position.z;
-
-
-
-			mat4_t scaleMat;
-			scaleMat.data[0][0] = transform.scale.x;
-			scaleMat.data[1][1] = transform.scale.y;
-			scaleMat.data[2][2] = transform.scale.z;
-
-			mat4_t model = translate * scaleMat * rotZ * rotY * rotX;
+			auto model = scene_node.get_transform();
 
 			mat4_t projection = camera.projection;
 
@@ -110,8 +57,8 @@ namespace aech
 			shader->set_uniform("model", model);
 			shader->set_uniform("view", view);
 			shader->set_uniform("projection", projection);
-			//shader->set_uniform("point_light_positions[0]", vec3_t{ 50.f, 50.f, 50.f });
-			//shader->set_uniform("point_light_intensities[0]", vec3_t{ 100, 100, 100 });
+			shader->set_uniform("point_light_positions[0]", vec3_t{ 0, 50, 0 });
+			shader->set_uniform("point_light_intensities[0]", vec3_t{ 1, 1, 1 });
 			// shader->set_uniform("colour", std::get<vec4_t>(mesh_filter.material->m_uniforms["colour"].value));
 			// shader->set_uniform("uColor", renderable.colour);
 

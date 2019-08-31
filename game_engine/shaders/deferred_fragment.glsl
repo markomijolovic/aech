@@ -9,7 +9,6 @@ in VERTEX_OUT
 	vec3 normal;
 	vec3 tangent;
 	vec3 bitangent;
-	mat3 tbn;
 } fragment_in;
 
 uniform sampler2D texture_albedo;
@@ -27,14 +26,15 @@ const float pi = 3.14159265359;
 
 vec3 get_normal() 
 {
+	mat3 tbn = mat3(fragment_in.tangent, fragment_in.bitangent, fragment_in.normal);
 	vec3 normal = texture(texture_normal, fragment_in.uvs).rgb;
 	normal = normalize(normal * 2.0 - 1.0);
-	return normalize(fragment_in.tbn * normal);
+	return normalize(tbn * normal);
 }
 
 float ggx_distribution(vec3 normal, vec3 halfway, float roughness) 
 {
-	return pow(roughness, 2.0) / (pi*pow(pow(dot(normal, halfway), 2.0) * (pow(roughness, 2.0) - 1) + 1,2.0));
+	return pow(roughness, 4.0) / (pi*pow(pow(dot(normal, halfway), 2.0) * (pow(roughness, 4.0) - 1) + 1,2.0));
 }
 
 float schlick_ggx_helper(float ndotv, float k) 
@@ -68,7 +68,8 @@ void main()
 	float roughness = texture(texture_roughness, fragment_in.uvs).r;
 	float ao = texture(texture_ao, fragment_in.uvs).r;
 
-	vec3 normal = get_normal();
+	// vec3 normal = get_normal();
+	vec3 normal = fragment_in.normal;
 	vec3 view = normalize(camera_position - fragment_in.fragment_world_position);
 
 	vec3 f0 = mix(vec3(0.04), albedo, metallic);
@@ -81,7 +82,7 @@ void main()
 		
 		float distance = length(point_light_positions[i] - fragment_in.fragment_world_position);
 		float attenuation = 1.0/pow(distance, 2.0);
-		vec3 radiance = point_light_intensities[i] * attenuation;
+		vec3 radiance = point_light_intensities[i];// *attenuation;
 
 		// cook-torrance brdf
 		float ndf = ggx_distribution(normal, halfway, roughness);
@@ -98,10 +99,9 @@ void main()
 	vec3 ambient = vec3(0.03) * albedo * ao;
 
 	vec3 color = ambient + outgoing_radiance;
-
 	color = color/(color+ vec3(1.0));
 
 	color = pow(color, vec3(1.0/2.2));
 
-	fragment_colour = vec4(albedo, 1.0);
+	fragment_colour = vec4(color, 1.0);
 }

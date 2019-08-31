@@ -243,8 +243,8 @@ entity_t resource_manager::load_mesh(const std::string& path)
 {
 	Assimp::Importer importer{};
 	const auto* scene = importer.ReadFile(path,
-		aiProcess_Triangulate //|
-		//aiProcess_CalcTangentSpace
+		aiProcess_Triangulate |
+		aiProcess_CalcTangentSpace
 	);
 
 	if (!scene || scene->mFlags == AI_SCENE_FLAGS_INCOMPLETE)

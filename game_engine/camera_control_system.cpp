@@ -21,7 +21,7 @@ namespace aech
 		for (auto& entity : entities)
 		{
 			auto& transform = engine.get_component<transform_t>(entity);
-			auto speed = 200.0f;
+			auto speed = 2000.0f;
 
 			auto view_matrix = get_view_matrix(transform);
 			auto right = vec3_t{

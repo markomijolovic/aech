@@ -13,7 +13,6 @@ out VERTEX_OUT
 	vec3 normal;
 	vec3 tangent;
 	vec3 bitangent;
-	mat3 tbn;
 } vertex_out;
 
 uniform mat4 model;
@@ -28,10 +27,11 @@ void main()
 	vec3 n = normalize(normal_matrix * in_normal);
 	t = normalize(t - dot(t, n) * n);
 	vec3 b = cross(n, t);
-	vertex_out.tbn = transpose(mat3(t, b, n));
 
 	vertex_out.fragment_world_position = vec3(model * vec4(in_position, 1.0));
 	vertex_out.normal = n;
 	vertex_out.uvs = in_uvs;
+	vertex_out.tangent = t;
+	vertex_out.bitangent = b;
 	gl_Position = projection * view * model * vec4(in_position, 1.0);
 }
