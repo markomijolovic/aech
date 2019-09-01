@@ -15,22 +15,9 @@
 //
 //		for (size_t i =0; i < nr_colour_attachments; i++)
 //		{
-//			texture_t texture{};
-//			texture.m_filter_max = texture.m_filter_min = GL_LINEAR;
-//			texture.m_wrap_s = texture.m_wrap_t = GL_CLAMP_TO_EDGE;
-//			texture.m_mipmap = false;
+//			auto internal_format = type == GL_HALF_FLOAT ? GL_RGBA16F : type == GL_FLOAT ? GL_RGBA32F : GL_RGBA8;
+//			texture_t texture{ width, height, internal_format, GL_RGBA, type, 0 };
 //
-//			auto internal_format = GL_RGBA;
-//			if (type == GL_HALF_FLOAT)
-//			{
-//				internal_format = GL_RGBA16F;
-//			}
-//			else if (type == GL_FLOAT)
-//			{
-//				internal_format = GL_RGBA32F;
-//			}
-//
-//			texture.generate(width, height, internal_format, GL_RGBA, type, 0);
 //
 //			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, GL_TEXTURE_2D, texture.m_id, 0);
 //			m_colour_attachments.emplace_back(texture);

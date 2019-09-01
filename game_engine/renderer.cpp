@@ -22,7 +22,7 @@ namespace aech
 		engine.add_component(
 			m_camera,
 			camera_t{
-			camera_t::make_perspective_projection(45.0f, 0.1f, 1000.0f, 1280, 720)
+			camera_t::make_perspective_projection(60.0f, 0.1f, 1000.0f, 1280, 720)
 			}
 		);
 

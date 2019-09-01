@@ -32,9 +32,9 @@ vec3 get_normal()
 	return normalize(tbn * normal);
 }
 
-float ggx_distribution(vec3 normal, vec3 halfway, float roughness) 
+float ggx_distribution(vec3 normal, vec3 halfway, float alpha) 
 {
-	return pow(roughness, 4.0) / (pi*pow(pow(dot(normal, halfway), 2.0) * (pow(roughness, 4.0) - 1) + 1,2.0));
+	return pow(alpha, 2) / (pi*pow(pow(dot(normal, halfway), 2) * (pow(alpha, 2) - 1) + 1,2));
 }
 
 float schlick_ggx_helper(float ndotv, float k) 
@@ -68,8 +68,7 @@ void main()
 	float roughness = texture(texture_roughness, fragment_in.uvs).r;
 	float ao = texture(texture_ao, fragment_in.uvs).r;
 
-	// vec3 normal = get_normal();
-	vec3 normal = fragment_in.normal;
+	vec3 normal = get_normal();
 	vec3 view = normalize(camera_position - fragment_in.fragment_world_position);
 
 	vec3 f0 = mix(vec3(0.04), albedo, metallic);
@@ -85,20 +84,20 @@ void main()
 		vec3 radiance = point_light_intensities[i];// *attenuation;
 
 		// cook-torrance brdf
-		float ndf = ggx_distribution(normal, halfway, roughness);
-		float smith = smith_masking(normal, view, light, roughness);
+		float ndf = ggx_distribution(normal, halfway, pow(roughness, 2));
+		float smith = smith_masking(normal, view, light, pow((roughness+1)/2, 2));
 		vec3 f = schlicks_approximation(max(dot(halfway, view), 0.0), f0);
 		
 		vec3 specular = (ndf * smith * f)/(4.0 * max(dot(normal, view), 0.0) * max(dot(normal, light), 0.0) + 0.00001);
 	
-		vec3 diffuse = vec3(1.0 - f) * (1.0 - metallic);
+		vec3 diffuse = (vec3(1.0 - f) * (1.0 - metallic)) * (albedo/pi);
 
-		outgoing_radiance += (diffuse * albedo/pi + specular) * radiance * max(dot(normal, light), 0.0);
+		outgoing_radiance += (diffuse + specular) * radiance * max(dot(normal, light), 0.0);
 	}
 
 	vec3 ambient = vec3(0.03) * albedo * ao;
 
-	vec3 color = ambient + outgoing_radiance;
+	vec3 color =  outgoing_radiance;
 	color = color/(color+ vec3(1.0));
 
 	color = pow(color, vec3(1.0/2.2));

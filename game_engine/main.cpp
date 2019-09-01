@@ -3,22 +3,17 @@
 
 #include "types.hpp"
 
-#include <random>
 #include <chrono>
 #include "engine.hpp"
 #include "camera.hpp"
 #include "physics_system.hpp"
 #include "camera_control_system.hpp"
-#include "player_control_system.hpp"
 #include "main.hpp"
 #include "renderer.hpp"
-#include "cube.hpp"
 #include "scene_node.hpp"
 #include "rigid_body.hpp"
 #include "mesh_filter.hpp"
 #include "resource_manager.hpp"
-#include "mesh_library.hpp"
-#include "sphere.hpp"
 #include <iostream>
 
 using namespace aech;
@@ -40,7 +35,7 @@ int main(int argc, char* argv[])
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_RESIZABLE, false);
 
-	auto window = glfwCreateWindow(screen_width, screen_height, "ecs test", nullptr, nullptr);
+	auto window = glfwCreateWindow(screen_width, screen_height, "sponza", nullptr, nullptr);
 	glfwMakeContextCurrent(window);
 
 	if (!gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress)))
@@ -55,8 +50,6 @@ int main(int argc, char* argv[])
 	glEnable(GL_DEPTH_TEST);
 	glViewport(0, 0, screen_width, screen_height);
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-
-	//init
 
 	engine.register_component<camera_t>();
 	engine.register_component<mesh_filter_t>();
@@ -89,12 +82,8 @@ int main(int argc, char* argv[])
 		engine.set_system_signature<renderer_t>(signature);
 	}
 
-	auto ent = resource_manager::load_mesh("textures_pbr/sponza.obj");
-
-	auto& scene_node = engine.get_component<scene_node_t>(ent);
-
-	auto delta_time = 0.0f;
-
+	resource_manager::load_mesh("textures_pbr/sponza.obj");
+	auto delta_time = 1/60.0f;
 
 	while (!glfwWindowShouldClose(window))
 	{
