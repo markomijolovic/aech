@@ -21,7 +21,7 @@ namespace aech
 		vec3_t get_local_scale() const;
 		vec3_t get_local_rotation() const;
 		mat4_t get_transform() const;
-		vec3_t get_world_position();
+		vec3_t get_world_position() const;
 		vec3_t get_world_scale() const;
 		void set_position(const vec3_t& position) const;
 		void set_rotation(const vec3_t& rotation) const;

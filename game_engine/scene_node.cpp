@@ -1,4 +1,3 @@
-#include "transforms.hpp"
 #include "main.hpp"
 #include "transform.hpp"
 #include "scene_node.hpp"
@@ -45,21 +44,16 @@ namespace aech
 		return m_transform->rotation;
 	}
 
-	vec3_t scene_node_t::get_world_position()
+	vec3_t scene_node_t::get_world_position() const
 	{
 		const auto transform_matrix = get_transform();
-		auto pos = transform_matrix * vec4_t{ m_transform->position, 1.0f };
+		auto pos = transform_matrix * vec4_t{ m_transform->position, 1.0F};
 		return vec3_t{ pos };
 	}
 
 	mat4_t scene_node_t::get_transform() const
 	{
-		auto transform_matrix = rotate(m_transform->rotation.x, { 1.0f, 0.0f, 0.0f });
-		transform_matrix *= rotate(m_transform->rotation.y, { 0.0f, 1.0f, 0.0f });
-		transform_matrix *= rotate(m_transform->rotation.z, { 0.0f, 0.0f, 1.0f });
-
-		transform_matrix *= scale(m_transform->scale);
-		transform_matrix *= translate(m_transform->position);
+		auto transform_matrix = m_transform->get_transform_matrix();
 
 		if (m_parent)
 		{
@@ -87,8 +81,7 @@ namespace aech
 
 	void scene_node_t::remove_child(scene_node_t* node)
 	{
-		
-		auto it = std::find(std::begin(m_children), std::end(m_children), node);
+		const auto it = std::find(std::begin(m_children), std::end(m_children), node);
 		if (it != std::end(m_children))
 		{
 			m_children.erase(it);

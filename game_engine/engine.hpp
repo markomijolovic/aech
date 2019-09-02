@@ -6,7 +6,6 @@
 #include <memory>
 #include "event_manager.hpp"
 
-
 namespace aech
 {
 	class engine_t
@@ -78,7 +77,5 @@ namespace aech
 		std::unique_ptr<entity_manager_t>    m_entity_manager;
 		std::unique_ptr<system_manager_t>    m_system_manager;
 		std::unique_ptr<event_manager_t>	 m_event_manager;
-		//TODO: refactor root node
-		entity_t m_root_node;
 	};
 } // namespace aech

@@ -74,8 +74,8 @@ namespace aech
 			}
 		}
 
+		void set_uniforms() const;
 		void set_texture(const std::string& name, const texture_t* texture, uint32_t unit);
-		void bind_textures() const;
 		void set_texture_cube(const std::string& name, const texture_cube_t* texture, uint32_t unit);
 	};
 }

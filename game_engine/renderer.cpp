@@ -1,17 +1,47 @@
 #include "renderer.hpp"
-#include "transforms.hpp"
-#include "main.hpp"
-#include "scene_node.hpp"
 #include "mesh_library.hpp"
-#include "transform.hpp"
-#include "mesh_filter.hpp"
-#include <iostream>
+#include "material_library.hpp"
+#include "camera.hpp"
+#include "directional_light.hpp"
+#include "point_light.hpp"
 
 namespace aech
 {
 	renderer_t::renderer_t()
-		: m_camera{engine.create_entity()}
 	{
+
+		material_library::generate_default_materials();
+		mesh_library::generate_default_meshes();
+
+		g_buffer_renderer = engine.register_system<g_buffer_renderer_t>();
+		{
+			signature_t signature{};
+			// TODO: dont render point lights
+			signature.set(engine.get_component_type<transform_t>());
+			signature.set(engine.get_component_type<scene_node_t>());
+			signature.set(engine.get_component_type<mesh_filter_t>());
+			engine.set_system_signature<g_buffer_renderer_t>(signature);
+		}
+
+		directional_light_renderer = engine.register_system<directional_light_renderer_t>();
+		{
+			signature_t signature{};
+			signature.set(engine.get_component_type<directional_light_t>());
+			signature.set(engine.get_component_type<transform_t>());
+			engine.set_system_signature<directional_light_renderer_t>(signature);
+		}
+
+		point_light_renderer = engine.register_system<point_light_renderer_t>();
+		{
+			signature_t signature{};
+			signature.set(engine.get_component_type<point_light_t>());
+			signature.set(engine.get_component_type<transform_t>());
+			signature.set(engine.get_component_type<mesh_filter_t>());
+			signature.set(engine.get_component_type<scene_node_t>());
+			engine.set_system_signature<point_light_renderer_t>(signature);
+		}
+
+		m_camera = engine.create_entity();
 		engine.add_component(
 			m_camera,
 			transform_t{
@@ -26,47 +56,32 @@ namespace aech
 			}
 		);
 
-		material_library::generate_default_materials();
-		mesh_library::generate_default_meshes();
+
+		g_buffer_renderer->m_camera = m_camera;
+		point_light_renderer->m_camera = m_camera;
 	}
 
-	void renderer_t::update(float delta_time)
+	void renderer_t::update()
 	{
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		// 1. render to g buffer
+		g_buffer_renderer->update();
 
+		// 2. render shadow casters
+		
+		// 4. render lights
+		g_buffer_renderer->g_buffer.m_colour_attachments[0].bind(0);
+		g_buffer_renderer->g_buffer.m_colour_attachments[1].bind(1);
+		g_buffer_renderer->g_buffer.m_colour_attachments[2].bind(2);
+		g_buffer_renderer->g_buffer.m_colour_attachments[3].bind(3);
 
-		auto& cameraTransform = engine.get_component<transform_t>(m_camera);
-		auto& camera = engine.get_component<camera_t>(m_camera);
+		// render deferred ambient;
 
-		auto view = get_view_matrix(cameraTransform);
+		directional_light_renderer->update();
 
-		for (auto const& entity : entities)
-		{
-			auto& transform = engine.get_component<transform_t>(entity);
-			auto& scene_node = engine.get_component<scene_node_t>(entity);
-			auto& mesh_filter = engine.get_component<mesh_filter_t>(entity);
-			auto shader = mesh_filter.material->m_shader;
+		//glCullFace(GL_FRONT);
+		//point_light_renderer->update();
+		//glCullFace(GL_BACK);
 
-			auto model = scene_node.get_transform();
-
-			mat4_t projection = camera.projection;
-
-			shader->use();
-			glBindVertexArray(mesh_filter.mesh->m_vao);
-			mesh_filter.material->bind_textures();
-			shader->set_uniform("model", model);
-			shader->set_uniform("view", view);
-			shader->set_uniform("projection", projection);
-			shader->set_uniform("point_light_positions[0]", vec3_t{ 0, 50, 0 });
-			shader->set_uniform("point_light_intensities[0]", vec3_t{ 1, 1, 1 });
-			// shader->set_uniform("colour", std::get<vec4_t>(mesh_filter.material->m_uniforms["colour"].value));
-			// shader->set_uniform("uColor", renderable.colour);
-
-			glDrawElements(GL_TRIANGLES, mesh_filter.mesh->m_indices.size(), GL_UNSIGNED_INT, 0);
-			//glDrawArrays(GL_TRIANGLES, 0, 36);
-		}
-
-		glBindVertexArray(0);
-
+		// 5. forward rendering
 	}
 }

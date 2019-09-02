@@ -1,15 +1,18 @@
 #pragma once
 #include "vec3.hpp"
+#include "render_target.hpp"
 
 namespace aech
 {
 	struct point_light_t
 	{
-		vec3_t position{};
-		vec3_t colour { 1.0f, 1.0f, 1.0f };
-		float radius = 1.0f;
-		float intensity = 1.0f;
-		bool visible = true;
-		bool render_mesh = false;
+		vec3_t colour { 1.0F, 1.0F, 1.0F };
+		float range = 10.0F;
+		// controls the brightness of the light
+		// colour is multiplied by this value
+		float intensity = 1.0F;		
+		bool cast_shadows = true;
+
+		render_target_t* shadow_map_rt;
 	};
 }

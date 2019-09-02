@@ -4,17 +4,18 @@
 #include "types.hpp"
 
 #include <chrono>
-#include "engine.hpp"
 #include "camera.hpp"
 #include "physics_system.hpp"
 #include "camera_control_system.hpp"
 #include "main.hpp"
-#include "renderer.hpp"
 #include "scene_node.hpp"
 #include "rigid_body.hpp"
 #include "mesh_filter.hpp"
 #include "resource_manager.hpp"
 #include <iostream>
+#include "renderer.hpp"
+#include "directional_light.hpp"
+#include "point_light.hpp"
 
 using namespace aech;
 
@@ -51,11 +52,15 @@ int main(int argc, char* argv[])
 	glViewport(0, 0, screen_width, screen_height);
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
+
+	engine.register_component<transform_t>();
+	engine.register_component<scene_node_t>();
 	engine.register_component<camera_t>();
 	engine.register_component<mesh_filter_t>();
 	engine.register_component<rigid_body_t>();
-	engine.register_component<transform_t>();
-	engine.register_component<scene_node_t>();
+	engine.register_component<directional_light_t>();
+	engine.register_component<point_light_t>();
+
 
 	auto physics_system = engine.register_system<physics_system_t>();
 	{
@@ -73,14 +78,11 @@ int main(int argc, char* argv[])
 		engine.set_system_signature<camera_control_system_t>(signature);
 	}
 
-	auto renderer = engine.register_system<renderer_t>();
-	{
-		signature_t signature{};
-		signature.set(engine.get_component_type<scene_node_t>());
-		signature.set(engine.get_component_type<transform_t>());
-		signature.set(engine.get_component_type<mesh_filter_t>());
-		engine.set_system_signature<renderer_t>(signature);
-	}
+	renderer_t renderer{};
+
+	auto dirlight = engine.create_entity();
+	engine.add_component(dirlight, directional_light_t{ {1, 1,1}, 2, 1, nullptr });
+	engine.add_component(dirlight, transform_t{ {0, 0, 0}, {-65, 0, -25}, });
 
 	resource_manager::load_mesh("textures_pbr/sponza.obj");
 	auto delta_time = 1/60.0f;
@@ -93,7 +95,7 @@ int main(int argc, char* argv[])
 		//player_control_system->update(delta_time);
 		camera_control_system->update(delta_time);
 		physics_system->update(delta_time);
-		renderer->update(delta_time);
+		renderer.update();
 		
 		auto stop_time = std::chrono::high_resolution_clock::now();
 		delta_time = std::chrono::duration<float, std::chrono::seconds::period>(stop_time - start_time).count();

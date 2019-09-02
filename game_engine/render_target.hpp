@@ -4,6 +4,7 @@
 #include <glad/glad.h>
 #include "texture.hpp"
 #include <vector>
+#include <memory>
 
 namespace aech
 {
@@ -18,11 +19,11 @@ namespace aech
 		bool m_depth_and_stencil;
 
 		GLenum m_target = GL_TEXTURE_2D;
-		texture_t m_depth_and_stencil_texture{};
+		std::unique_ptr<texture_t> m_depth_and_stencil_texture{};
 		std::vector<texture_t> m_colour_attachments{};
 
-		render_target_t(uint32_t width, uint32_t height, GLenum type = GL_UNSIGNED_BYTE, uint32_t nr_colour_attachments = 1, bool depth_and_stencil = true);
-		void resize(uint32_t width, uint32_t height);
-	
+		render_target_t(uint32_t width, uint32_t height, GLenum type = GL_FLOAT, uint32_t nr_colour_attachments = 1, bool depth_and_stencil = true);
+		void bind() const;
+		void unbind() const;
 	};
 }

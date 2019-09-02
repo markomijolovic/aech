@@ -13,6 +13,7 @@
 #include "material_library.hpp"
 #include "mesh_filter.hpp"
 
+
 aech::shader_t& aech::resource_manager::load_shader(const std::string& vertex,
 	const std::string& fragment,
 	const std::string& geometry,
@@ -106,7 +107,7 @@ aech::texture_t* aech::resource_manager::load_texture(const std::string& name,
 			break;
 		}
 
-		textures[name] = texture_t{ static_cast<uint32_t>(width), static_cast<uint32_t>(height), sized_internal_format, format, data};
+		textures[name] = texture_t{ static_cast<uint32_t>(width), static_cast<uint32_t>(height), sized_internal_format, format, GL_UNSIGNED_BYTE, data};
 	}
 	else
 	{
@@ -419,7 +420,7 @@ const material_t* resource_manager::parse_material(const aiScene* scene, aiMater
 	else
 	{
 		// default deferred material
-		*ret_val = material_library::default_materials["default"];
+		*ret_val = material_library::create_material("default");
 	}
 
 	if (a_material->GetTextureCount(aiTextureType_DIFFUSE) > 0)

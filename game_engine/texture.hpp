@@ -10,7 +10,7 @@ namespace aech
 		uint32_t m_id{};
 
 		texture_t() = default;
-		texture_t(uint32_t width, uint32_t height, GLenum internal_format, GLenum format, void* data = nullptr, bool mipmap = true);
+		texture_t(uint32_t width, uint32_t height, GLenum internal_format, GLenum format, GLenum type, void* data = nullptr, bool mipmap = true);
 		~texture_t() = default;
 
 		void bind(int32_t = -1) const;

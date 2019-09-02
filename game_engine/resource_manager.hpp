@@ -50,4 +50,5 @@ namespace aech::resource_manager
 		const std::string& back);
 	texture_cube_t& load_texture_cube(const std::string& name, const std::string& folder);
 	const material_t* parse_material(const aiScene* scene, aiMaterial* material);
+	void generate_default_shaders();
 }

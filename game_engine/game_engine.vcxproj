@@ -140,6 +140,10 @@
     <ClInclude Include="component_manager.hpp" />
     <ClInclude Include="cube.hpp" />
     <ClInclude Include="directional_light.hpp" />
+    <ClInclude Include="directional_light_renderer.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="engine.hpp" />
     <ClInclude Include="entity_manager.hpp" />
     <ClInclude Include="event.hpp" />
@@ -152,6 +156,10 @@
     <ClInclude Include="include\KHR\khrplatform.h" />
     <ClInclude Include="include\stb_image.h" />
     <ClInclude Include="main.hpp" />
+    <ClInclude Include="renderer.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="mat3.hpp" />
     <ClInclude Include="mat4.hpp" />
     <ClInclude Include="material.hpp" />
@@ -168,7 +176,19 @@
     <ClInclude Include="physics_system.hpp" />
     <ClInclude Include="player_control_system.hpp" />
     <ClInclude Include="point_light.hpp" />
-    <ClInclude Include="renderer.hpp" />
+    <ClInclude Include="g_buffer_renderer.hpp" />
+    <ClInclude Include="point_light_renderer.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="quad.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="render_command.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="render_target.hpp" />
     <ClInclude Include="resource_manager.hpp" />
     <ClInclude Include="scene_node.hpp" />
@@ -201,6 +221,7 @@
     <ClCompile Include="camera_control_system.cpp" />
     <ClCompile Include="component_manager.cpp" />
     <ClCompile Include="cube.cpp" />
+    <ClCompile Include="directional_light_renderer.cpp" />
     <ClCompile Include="engine.cpp" />
     <ClCompile Include="entity_manager.cpp" />
     <ClCompile Include="event.cpp" />
@@ -215,6 +236,9 @@
     <ClCompile Include="mesh_library.cpp" />
     <ClCompile Include="physics_system.cpp" />
     <ClCompile Include="player_control_system.cpp" />
+    <ClCompile Include="g_buffer_renderer.cpp" />
+    <ClCompile Include="point_light_renderer.cpp" />
+    <ClCompile Include="quad.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="render_target.cpp" />
     <ClCompile Include="resource_manager.cpp" />
@@ -225,6 +249,7 @@
     <ClCompile Include="system_manager.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="texture_cube.cpp" />
+    <ClCompile Include="transform.cpp" />
     <ClCompile Include="transforms.cpp" />
     <ClCompile Include="vec2.cpp" />
     <ClCompile Include="vec3.cpp" />
@@ -233,10 +258,12 @@
   <ItemGroup>
     <None Include="component_array.hpp" />
     <None Include="packages.config" />
-    <None Include="shaders\default_fragment.glsl" />
-    <None Include="shaders\default_vertex.glsl" />
-    <None Include="shaders\deferred_fragment.glsl" />
-    <None Include="shaders\deferred_vertex.glsl" />
+    <None Include="shaders\directional_fragment.glsl" />
+    <None Include="shaders\directional_vertex.glsl" />
+    <None Include="shaders\g_buffer_fragment.glsl" />
+    <None Include="shaders\g_buffer_vertex.glsl" />
+    <None Include="shaders\point_fragment.glsl" />
+    <None Include="shaders\point_vertex.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

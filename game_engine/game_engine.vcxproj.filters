@@ -13,12 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\core">
-      <UniqueIdentifier>{5a9d9b3c-f770-4c25-8fd7-221bcd9fa1f0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\core">
-      <UniqueIdentifier>{c38fcd32-82d8-4674-baef-99a96ff77561}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\math">
       <UniqueIdentifier>{6056a5c5-8c3e-4dee-8fe3-921552dbd2ea}</UniqueIdentifier>
     </Filter>
@@ -79,31 +73,37 @@
     <Filter Include="Source Files\graphics\shading">
       <UniqueIdentifier>{e2faf528-daab-4851-9a9b-4748b68a62cf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\ECS core">
+      <UniqueIdentifier>{c38fcd32-82d8-4674-baef-99a96ff77561}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ECS core">
+      <UniqueIdentifier>{5a9d9b3c-f770-4c25-8fd7-221bcd9fa1f0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="types.hpp">
-      <Filter>Header Files\core</Filter>
+      <Filter>Header Files\ECS core</Filter>
     </ClInclude>
     <ClInclude Include="component_manager.hpp">
-      <Filter>Header Files\core</Filter>
+      <Filter>Header Files\ECS core</Filter>
     </ClInclude>
     <ClInclude Include="engine.hpp">
-      <Filter>Header Files\core</Filter>
+      <Filter>Header Files\ECS core</Filter>
     </ClInclude>
     <ClInclude Include="entity_manager.hpp">
-      <Filter>Header Files\core</Filter>
+      <Filter>Header Files\ECS core</Filter>
     </ClInclude>
     <ClInclude Include="event.hpp">
-      <Filter>Header Files\core</Filter>
+      <Filter>Header Files\ECS core</Filter>
     </ClInclude>
     <ClInclude Include="event_manager.hpp">
-      <Filter>Header Files\core</Filter>
+      <Filter>Header Files\ECS core</Filter>
     </ClInclude>
     <ClInclude Include="system.hpp">
-      <Filter>Header Files\core</Filter>
+      <Filter>Header Files\ECS core</Filter>
     </ClInclude>
     <ClInclude Include="system_manager.hpp">
-      <Filter>Header Files\core</Filter>
+      <Filter>Header Files\ECS core</Filter>
     </ClInclude>
     <ClInclude Include="vec2.hpp">
       <Filter>Header Files\math</Filter>
@@ -168,9 +168,6 @@
     <ClInclude Include="texture_cube.hpp">
       <Filter>Header Files\graphics\shading</Filter>
     </ClInclude>
-    <ClInclude Include="renderer.hpp">
-      <Filter>Header Files\graphics\rendering</Filter>
-    </ClInclude>
     <ClInclude Include="cube.hpp">
       <Filter>Header Files\graphics\mesh</Filter>
     </ClInclude>
@@ -207,25 +204,43 @@
     <ClInclude Include="include\stb_image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="render_command.hpp">
+      <Filter>Header Files\graphics\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="g_buffer_renderer.hpp">
+      <Filter>Header Files\graphics\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="point_light_renderer.hpp">
+      <Filter>Header Files\graphics\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="directional_light_renderer.hpp">
+      <Filter>Header Files\graphics\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="quad.hpp">
+      <Filter>Header Files\graphics\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer.hpp">
+      <Filter>Header Files\graphics\rendering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="component_manager.cpp">
-      <Filter>Source Files\core</Filter>
+      <Filter>Source Files\ECS core</Filter>
     </ClCompile>
     <ClCompile Include="engine.cpp">
-      <Filter>Source Files\core</Filter>
+      <Filter>Source Files\ECS core</Filter>
     </ClCompile>
     <ClCompile Include="entity_manager.cpp">
-      <Filter>Source Files\core</Filter>
+      <Filter>Source Files\ECS core</Filter>
     </ClCompile>
     <ClCompile Include="event.cpp">
-      <Filter>Source Files\core</Filter>
+      <Filter>Source Files\ECS core</Filter>
     </ClCompile>
     <ClCompile Include="event_manager.cpp">
-      <Filter>Source Files\core</Filter>
+      <Filter>Source Files\ECS core</Filter>
     </ClCompile>
     <ClCompile Include="system_manager.cpp">
-      <Filter>Source Files\core</Filter>
+      <Filter>Source Files\ECS core</Filter>
     </ClCompile>
     <ClCompile Include="vec2.cpp">
       <Filter>Source Files\math</Filter>
@@ -287,9 +302,6 @@
     <ClCompile Include="cube.cpp">
       <Filter>Source Files\graphics\mesh</Filter>
     </ClCompile>
-    <ClCompile Include="renderer.cpp">
-      <Filter>Source Files\graphics\rendering</Filter>
-    </ClCompile>
     <ClCompile Include="scene_node.cpp">
       <Filter>Source Files\graphics\scene</Filter>
     </ClCompile>
@@ -305,15 +317,35 @@
     <ClCompile Include="glad.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="transform.cpp">
+      <Filter>Source Files\components</Filter>
+    </ClCompile>
+    <ClCompile Include="g_buffer_renderer.cpp">
+      <Filter>Source Files\graphics\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="point_light_renderer.cpp">
+      <Filter>Source Files\graphics\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="directional_light_renderer.cpp">
+      <Filter>Source Files\graphics\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="quad.cpp">
+      <Filter>Source Files\graphics\mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="renderer.cpp">
+      <Filter>Source Files\graphics\rendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="component_array.hpp">
-      <Filter>Header Files\core</Filter>
+      <Filter>Header Files\ECS core</Filter>
     </None>
     <None Include="packages.config" />
-    <None Include="shaders\default_vertex.glsl" />
-    <None Include="shaders\default_fragment.glsl" />
-    <None Include="shaders\deferred_vertex.glsl" />
-    <None Include="shaders\deferred_fragment.glsl" />
+    <None Include="shaders\directional_fragment.glsl" />
+    <None Include="shaders\directional_vertex.glsl" />
+    <None Include="shaders\g_buffer_fragment.glsl" />
+    <None Include="shaders\g_buffer_vertex.glsl" />
+    <None Include="shaders\point_fragment.glsl" />
+    <None Include="shaders\point_vertex.glsl" />
   </ItemGroup>
 </Project>
