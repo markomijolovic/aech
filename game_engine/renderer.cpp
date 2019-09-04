@@ -4,6 +4,7 @@
 #include "camera.hpp"
 #include "directional_light.hpp"
 #include "point_light.hpp"
+#include "shadow_caster.hpp"
 
 namespace aech
 {
@@ -41,6 +42,14 @@ namespace aech
 			engine.set_system_signature<point_light_renderer_t>(signature);
 		}
 
+		shadow_renderer = engine.register_system<shadow_renderer_t>();
+		{
+			signature_t signature{};
+			signature.set(engine.get_component_type<shadow_caster_t>());
+			signature.set(engine.get_component_type<transform_t>());
+			engine.set_system_signature<shadow_renderer_t>(signature);
+		}
+
 		m_camera = engine.create_entity();
 		engine.add_component(
 			m_camera,
@@ -56,6 +65,11 @@ namespace aech
 			}
 		);
 
+		auto dirlight = engine.create_entity();
+		engine.add_component(dirlight, directional_light_t{ {1, 1,1}, 10 });
+		engine.add_component(dirlight, transform_t{ {0, 1750, 0}, {-80, -10, -10}, });
+
+		shadow_renderer->dirlight = dirlight;
 
 		g_buffer_renderer->m_camera = m_camera;
 		point_light_renderer->m_camera = m_camera;
@@ -66,21 +80,22 @@ namespace aech
 		// 1. render to g buffer
 		g_buffer_renderer->update();
 
-		// 2. render shadow casters
-		
+		// 2. render shadows
+		shadow_renderer->update();
 		// 4. render lights
 		g_buffer_renderer->g_buffer.m_colour_attachments[0].bind(0);
 		g_buffer_renderer->g_buffer.m_colour_attachments[1].bind(1);
 		g_buffer_renderer->g_buffer.m_colour_attachments[2].bind(2);
 		g_buffer_renderer->g_buffer.m_colour_attachments[3].bind(3);
+		shadow_renderer->shadow_map_rt.m_colour_attachments[0].bind(4);
 
 		// render deferred ambient;
 
 		directional_light_renderer->update();
 
-		//glCullFace(GL_FRONT);
-		//point_light_renderer->update();
-		//glCullFace(GL_BACK);
+		glCullFace(GL_FRONT);
+		point_light_renderer->update();
+		glCullFace(GL_BACK);
 
 		// 5. forward rendering
 	}

@@ -7,17 +7,18 @@ namespace aech
 		uint32_t height,
 		GLenum type,
 		uint32_t nr_colour_attachments,
-		bool depth_and_stencil)
+		bool depth_and_stencil, 
+		GLenum internal_format,
+		GLenum format)
 		:m_width{width}, m_height{height}, m_type{type}, m_depth_and_stencil{depth_and_stencil}
 	{
 		glGenFramebuffers(1, &m_id);
 		glBindFramebuffer(GL_FRAMEBUFFER, m_id);
 
-		auto internal_format = type == GL_HALF_FLOAT ? GL_RGBA16F : type == GL_FLOAT ? GL_RGBA32F : GL_RGBA8;
 
 		for (size_t i =0; i < nr_colour_attachments; i++)
 		{
-			m_colour_attachments.emplace_back(width, height, internal_format, GL_RGBA, type, nullptr, false);
+			m_colour_attachments.emplace_back(width, height, internal_format, format, type, nullptr, false);
 			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, GL_TEXTURE_2D, m_colour_attachments.back().m_id, 0);
 		}
 

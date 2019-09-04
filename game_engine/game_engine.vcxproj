@@ -198,6 +198,14 @@
     </ClInclude>
     <ClInclude Include="shader.hpp" />
     <ClInclude Include="shading_types.hpp" />
+    <ClInclude Include="shadow_caster.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="shadow_renderer.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="sphere.hpp">
       <SubType>
       </SubType>
@@ -244,6 +252,7 @@
     <ClCompile Include="resource_manager.cpp" />
     <ClCompile Include="scene_node.cpp" />
     <ClCompile Include="shader.cpp" />
+    <ClCompile Include="shadow_renderer.cpp" />
     <ClCompile Include="sphere.cpp" />
     <ClCompile Include="stb_image.cpp" />
     <ClCompile Include="system_manager.cpp" />
@@ -264,6 +273,14 @@
     <None Include="shaders\g_buffer_vertex.glsl" />
     <None Include="shaders\point_fragment.glsl" />
     <None Include="shaders\point_vertex.glsl" />
+    <None Include="shadow_fragment.glsl">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="shadow_vertex.glsl">
+      <SubType>
+      </SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
@@ -271,6 +288,7 @@
     <Import Project="..\packages\nupengl.core.0.1.0.1\build\native\nupengl.core.targets" Condition="Exists('..\packages\nupengl.core.0.1.0.1\build\native\nupengl.core.targets')" />
     <Import Project="..\packages\Assimp.redist.3.0.0\build\native\Assimp.redist.targets" Condition="Exists('..\packages\Assimp.redist.3.0.0\build\native\Assimp.redist.targets')" />
     <Import Project="..\packages\Assimp.3.0.0\build\native\Assimp.targets" Condition="Exists('..\packages\Assimp.3.0.0\build\native\Assimp.targets')" />
+    <Import Project="..\packages\glm.0.9.9.500\build\native\glm.targets" Condition="Exists('..\packages\glm.0.9.9.500\build\native\glm.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -280,5 +298,6 @@
     <Error Condition="!Exists('..\packages\nupengl.core.0.1.0.1\build\native\nupengl.core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\nupengl.core.0.1.0.1\build\native\nupengl.core.targets'))" />
     <Error Condition="!Exists('..\packages\Assimp.redist.3.0.0\build\native\Assimp.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Assimp.redist.3.0.0\build\native\Assimp.redist.targets'))" />
     <Error Condition="!Exists('..\packages\Assimp.3.0.0\build\native\Assimp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Assimp.3.0.0\build\native\Assimp.targets'))" />
+    <Error Condition="!Exists('..\packages\glm.0.9.9.500\build\native\glm.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\glm.0.9.9.500\build\native\glm.targets'))" />
   </Target>
 </Project>

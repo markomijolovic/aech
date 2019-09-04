@@ -8,13 +8,12 @@ uniform sampler2D texture_position;
 uniform sampler2D texture_normal;
 uniform sampler2D texture_albedo;
 uniform sampler2D texture_metallic_roughness_ao;
+uniform sampler2D light_shadow_map;
 
 uniform vec3 light_dir;
 uniform vec3 light_colour;
 uniform float light_intensity;
-
-uniform sampler2D light_shadow_map;
-uniform mat4 light_space_matrix;
+uniform mat4 depth_bias_vp;
 
 uniform vec3 camera_position;
 
@@ -46,6 +45,14 @@ vec3 schlicks_approximation(float cos_angle, vec3 f0)
 	return f0 + (1.0 - f0) * pow(1 - cos_angle, 5.0);
 }
 
+float shadow(vec3 position, float cosangle) {
+	vec4 shadow_coords = depth_bias_vp * vec4(position, 1.0);
+	float bias = max(0.05 * (1.0 - cosangle), 0.005);
+	if (texture(light_shadow_map, shadow_coords.xy).r < shadow_coords.z - bias) {
+		return 0;
+	}
+	return 1;
+}
 
 void main()
 {
@@ -72,7 +79,7 @@ void main()
 	vec3 diffuse = (vec3(1.0 - f) * (1.0 - metallic)) * (albedo / pi);
 
 	// TODO: add shadows
-	vec3 outgoing_radiance = (diffuse + specular) * radiance * max(dot(normal, light), 0.0);
+	vec3 outgoing_radiance = (diffuse + specular) * radiance * max(dot(normal, light), 0.0) * shadow(position, max(dot(normal, light), 0.0));
 
-	fragment_colour = vec4(outgoing_radiance, 1.0);
+	fragment_colour = vec4(albedo * 0.25 + outgoing_radiance, 1.0);
 }

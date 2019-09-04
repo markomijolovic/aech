@@ -222,6 +222,12 @@
     <ClInclude Include="renderer.hpp">
       <Filter>Header Files\graphics\rendering</Filter>
     </ClInclude>
+    <ClInclude Include="shadow_renderer.hpp">
+      <Filter>Header Files\graphics\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="shadow_caster.hpp">
+      <Filter>Header Files\graphics\lighting</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="component_manager.cpp">
@@ -335,6 +341,9 @@
     <ClCompile Include="renderer.cpp">
       <Filter>Source Files\graphics\rendering</Filter>
     </ClCompile>
+    <ClCompile Include="shadow_renderer.cpp">
+      <Filter>Source Files\graphics\rendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="component_array.hpp">
@@ -347,5 +356,7 @@
     <None Include="shaders\g_buffer_vertex.glsl" />
     <None Include="shaders\point_fragment.glsl" />
     <None Include="shaders\point_vertex.glsl" />
+    <None Include="shadow_vertex.glsl" />
+    <None Include="shadow_fragment.glsl" />
   </ItemGroup>
 </Project>

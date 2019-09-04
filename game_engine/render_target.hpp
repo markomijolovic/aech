@@ -22,7 +22,8 @@ namespace aech
 		std::unique_ptr<texture_t> m_depth_and_stencil_texture{};
 		std::vector<texture_t> m_colour_attachments{};
 
-		render_target_t(uint32_t width, uint32_t height, GLenum type = GL_FLOAT, uint32_t nr_colour_attachments = 1, bool depth_and_stencil = true);
+		// this needs refactoring
+		render_target_t(uint32_t width, uint32_t height, GLenum type = GL_FLOAT, uint32_t nr_colour_attachments = 1, bool depth_and_stencil = true, GLenum internal_format = GL_RGBA8, GLenum format = GL_RGBA);
 		void bind() const;
 		void unbind() const;
 	};

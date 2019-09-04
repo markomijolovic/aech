@@ -1,7 +1,6 @@
 #pragma once
 #include "vec3.hpp"
 
-
 namespace aech
 {
 	class render_target_t;
@@ -12,8 +11,5 @@ namespace aech
 		// controls the brightness of the light
 		// colour is multiplied by this value
 		float intensity = 1.0F;
-		bool cast_shadows = true;
-
-		render_target_t* shadow_map_rt;
 	};
 }

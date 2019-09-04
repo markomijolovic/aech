@@ -17,6 +17,7 @@ void aech::material_library::generate_default_materials()
 	directional_material.set_uniform("texture_normal", 1);
 	directional_material.set_uniform("texture_albedo", 2);
 	directional_material.set_uniform("texture_metallic_roughness_ao", 3);
+	directional_material.set_uniform("light_shadow_map", 4);
 
 	auto point = &resource_manager::load_shader("shaders/point_vertex.glsl", "shaders/point_fragment.glsl", "", "point");
 	auto& point_material = default_materials["point"];
@@ -25,6 +26,11 @@ void aech::material_library::generate_default_materials()
 	point_material.set_uniform("texture_normal", 1);
 	point_material.set_uniform("texture_albedo", 2);
 	point_material.set_uniform("texture_metallic_roughness_ao", 3);
+
+	auto shadow_shader = &resource_manager::load_shader("shaders/shadow_vertex.glsl", "shaders/shadow_fragment.glsl", "", "shadow");
+	auto& shadow_material = default_materials["shadow"];
+	shadow_material.m_shader = shadow_shader;
+
 }
 
 material_t material_library::create_material(const std::string& from)

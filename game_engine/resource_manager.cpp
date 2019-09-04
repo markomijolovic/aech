@@ -12,6 +12,7 @@
 #include "transform.hpp"
 #include "material_library.hpp"
 #include "mesh_filter.hpp"
+#include "shadow_caster.hpp"
 
 
 aech::shader_t& aech::resource_manager::load_shader(const std::string& vertex,
@@ -188,6 +189,9 @@ aech::entity_t resource_manager::process_node(const aiNode* node, const aiScene*
 		engine.add_component(entity,
 			mesh_filter_t{}
 		);
+		engine.add_component(entity,
+			shadow_caster_t{}
+		);
 	}
 	
 
@@ -221,6 +225,9 @@ aech::entity_t resource_manager::process_node(const aiNode* node, const aiScene*
 				mesh_filter_t{}
 			);
 
+			engine.add_component(child_entity,
+				shadow_caster_t{}
+			);
 
 			const auto child_scene_node = &engine.get_component<scene_node_t>(child_entity);
 			auto &child_mesh_filter = engine.get_component<mesh_filter_t>(child_entity);

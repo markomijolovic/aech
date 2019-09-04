@@ -16,6 +16,7 @@
 #include "renderer.hpp"
 #include "directional_light.hpp"
 #include "point_light.hpp"
+#include "shadow_caster.hpp"
 
 using namespace aech;
 
@@ -60,7 +61,7 @@ int main(int argc, char* argv[])
 	engine.register_component<rigid_body_t>();
 	engine.register_component<directional_light_t>();
 	engine.register_component<point_light_t>();
-
+	engine.register_component<shadow_caster_t>();
 
 	auto physics_system = engine.register_system<physics_system_t>();
 	{
@@ -78,11 +79,11 @@ int main(int argc, char* argv[])
 		engine.set_system_signature<camera_control_system_t>(signature);
 	}
 
+
+	// TODO: think of a better way to do this
 	renderer_t renderer{};
 
-	auto dirlight = engine.create_entity();
-	engine.add_component(dirlight, directional_light_t{ {1, 1,1}, 2, 1, nullptr });
-	engine.add_component(dirlight, transform_t{ {0, 0, 0}, {-65, 0, -25}, });
+
 
 	resource_manager::load_mesh("textures_pbr/sponza.obj");
 	auto delta_time = 1/60.0f;

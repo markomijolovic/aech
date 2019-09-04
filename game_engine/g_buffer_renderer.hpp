@@ -11,7 +11,7 @@ namespace aech
 	{
 	public:
 		entity_t m_camera{};
-		render_target_t g_buffer{ screen_width, screen_height, GL_HALF_FLOAT, 4, true };
+		render_target_t g_buffer{ screen_width, screen_height, GL_FLOAT, 4, true, GL_RGBA32F, GL_RGBA};
 
 		void update();
 		void draw_entity(entity_t entity) const;

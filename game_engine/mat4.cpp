@@ -1,4 +1,5 @@
 #include "mat4.hpp"
+#include <assert.h>
 
 namespace aech
 {
@@ -58,4 +59,35 @@ namespace aech
 	}
 
 
+	mat4_t::mat4_t(const std::initializer_list<float>& list)
+	{
+		assert(list.size() == 16);
+
+		size_t i{}, j{};
+		for (auto el: list)
+		{
+			data[i][j] = el;
+			if (j++ == 3)
+			{
+				i++;
+				j = 0;
+			}
+		}
+	}
+
+
+	mat4_t::mat4_t(const std::initializer_list<vec4_t>& list)
+	{
+		assert(list.size() == 4);
+
+		size_t i{};
+		for (const auto &vec4: list)
+		{
+			data[i][0] = vec4.x;
+			data[i][1] = vec4.y;
+			data[i][2] = vec4.z;
+			data[i][3] = vec4.w;
+			i++;
+		}
+	}
 }

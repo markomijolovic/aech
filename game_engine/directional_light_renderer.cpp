@@ -1,5 +1,6 @@
 #include "directional_light_renderer.hpp"
 #include "directional_light.hpp"
+#include "transforms.hpp"
 
 void aech::directional_light_renderer_t::update()
 {
@@ -11,10 +12,20 @@ void aech::directional_light_renderer_t::update()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_ONE, GL_ONE);
 
+	auto light_projection = orthographic(-2500, 2500, -2500, 2500, -10, 2500);
+	mat4_t bias_matrix
+	{
+		0.5f, 0, 0, 0.5f,
+		0, 0.5f, 0, 0.5f,
+		0, 0, 0.5f, 0.5f,
+		0, 0, 0, 1
+	};
 	for (auto light : entities)
 	{
 		auto& transform = engine.get_component<transform_t>(light);
 		auto& directional_light = engine.get_component<directional_light_t>(light);
+
+		auto light_view = get_view_matrix(transform);
 
 		{
 			// shadows : light space projection
@@ -23,6 +34,7 @@ void aech::directional_light_renderer_t::update()
 		mesh_filter.material->m_shader->set_uniform("light_dir", transform.get_forward_vector());
 		mesh_filter.material->m_shader->set_uniform("light_colour", directional_light.colour);
 		mesh_filter.material->m_shader->set_uniform("light_intensity", directional_light.intensity);
+		mesh_filter.material->m_shader->set_uniform("depth_bias_vp", bias_matrix * light_projection * light_view);
 		mesh_filter.material->set_uniforms();
 
 		glBindVertexArray(mesh_filter.mesh->m_vao);
