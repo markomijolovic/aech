@@ -1,7 +1,7 @@
 #include "vec3.hpp"
 #include "vec4.hpp"
 
-namespace aech
+namespace aech::math
 {
 	vec3_t::vec3_t(float x, float y, float z)
 		:x {x}, y{y}, z{z}

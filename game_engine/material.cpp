@@ -2,7 +2,7 @@
 #include "texture_cube.hpp"
 
 // TODO: Look into using fewer glUseProgram calls
-namespace aech
+namespace aech::graphics
 {
 	void material_t::set_texture(const std::string& name, const texture_t* texture, uint32_t unit)
 	{

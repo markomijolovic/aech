@@ -1,8 +1,9 @@
 #include "directional_light_renderer.hpp"
 #include "directional_light.hpp"
 #include "transforms.hpp"
+#include "main.hpp"
 
-void aech::directional_light_renderer_t::update()
+void aech::graphics::directional_light_renderer_t::update()
 {
 	mesh_filter.material->m_shader->use();
 
@@ -12,8 +13,8 @@ void aech::directional_light_renderer_t::update()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_ONE, GL_ONE);
 
-	auto light_projection = orthographic(-2500, 2500, -2500, 2500, -10, 2500);
-	mat4_t bias_matrix
+	auto light_projection = math::orthographic(-2250, 2250, -2250, 2000, 0, 2250);
+	aech::math::mat4_t bias_matrix
 	{
 		0.5f, 0, 0, 0.5f,
 		0, 0.5f, 0, 0.5f,
@@ -25,7 +26,7 @@ void aech::directional_light_renderer_t::update()
 		auto& transform = engine.get_component<transform_t>(light);
 		auto& directional_light = engine.get_component<directional_light_t>(light);
 
-		auto light_view = get_view_matrix(transform);
+		auto light_view = math::get_view_matrix(transform);
 
 		{
 			// shadows : light space projection

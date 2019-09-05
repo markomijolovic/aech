@@ -1,7 +1,7 @@
 #pragma once
 #include "vec4.hpp"
 
-namespace aech
+namespace aech::math
 {
 
 	class vec3_t

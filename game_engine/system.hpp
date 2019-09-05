@@ -1,8 +1,8 @@
 #pragma once
-#include "types.hpp"
 #include <set>
+#include "aech_types.hpp"
 
-namespace aech
+namespace aech::ecs
 {
 	struct system_t
 	{

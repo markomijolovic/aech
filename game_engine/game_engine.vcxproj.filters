@@ -19,18 +19,6 @@
     <Filter Include="Source Files\math">
       <UniqueIdentifier>{191fcfbb-aad5-43a5-b3fb-132d5d5fcca6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\components">
-      <UniqueIdentifier>{cee5354f-56b4-401b-a633-0fbf90caaccc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\components">
-      <UniqueIdentifier>{75e988c4-ed5c-4e13-97e1-79f59ca4338b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\systems">
-      <UniqueIdentifier>{0370e7c4-387e-4cd1-b256-75420e7b8a88}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\systems">
-      <UniqueIdentifier>{28efcd58-5601-409c-abda-4cb22d466ac1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\graphics">
       <UniqueIdentifier>{d3b833ab-fd0c-47f7-be7f-f7b85d37c3d5}</UniqueIdentifier>
     </Filter>
@@ -46,17 +34,11 @@
     <Filter Include="Header Files\includes">
       <UniqueIdentifier>{8ee4e678-79cf-402a-a22e-b14cb08328eb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\graphics\resource management">
-      <UniqueIdentifier>{9f1b597a-d7b1-4d4e-bf99-46d0c5c13870}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\graphics\scene">
       <UniqueIdentifier>{893156d2-e312-4c8a-a81d-e4b28ae2ece2}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\graphics\scene">
       <UniqueIdentifier>{1f201e33-2d10-4cd0-92c9-5bc6acb5b2e4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\graphics\lighting">
-      <UniqueIdentifier>{c19ab493-afae-4970-bb7a-0bf78e56497b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\graphics\rendering">
       <UniqueIdentifier>{3cce3837-8da6-4548-9fdb-d788d5fd072e}</UniqueIdentifier>
@@ -64,46 +46,37 @@
     <Filter Include="Source Files\graphics\rendering">
       <UniqueIdentifier>{2e175eaf-e1a2-49e2-9581-a5789ff422ee}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\physics">
-      <UniqueIdentifier>{3f0f3d5e-190f-4dec-b640-b70826a0dab4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\graphics\shading">
       <UniqueIdentifier>{a027a706-3dca-488b-aee3-ecf2d70f67bd}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\graphics\shading">
       <UniqueIdentifier>{e2faf528-daab-4851-9a9b-4748b68a62cf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\ECS core">
+    <Filter Include="Header Files\resource management">
+      <UniqueIdentifier>{9f1b597a-d7b1-4d4e-bf99-46d0c5c13870}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\graphics\lighting">
+      <UniqueIdentifier>{e931a80f-983a-4dff-b597-8d4f7b5becf6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ecs core">
+      <UniqueIdentifier>{5a9d9b3c-f770-4c25-8fd7-221bcd9fa1f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ecs core">
       <UniqueIdentifier>{c38fcd32-82d8-4674-baef-99a96ff77561}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\ECS core">
-      <UniqueIdentifier>{5a9d9b3c-f770-4c25-8fd7-221bcd9fa1f0}</UniqueIdentifier>
+    <Filter Include="Source Files\includes">
+      <UniqueIdentifier>{7274ebb9-6d5c-4ec5-b345-a5d2e5578613}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ecs core\event system">
+      <UniqueIdentifier>{61bbdbda-9665-4b3e-85af-99228d022a51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ecs core\event system">
+      <UniqueIdentifier>{bce679ae-c0e0-4a48-bf47-5ba450ada46e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="types.hpp">
-      <Filter>Header Files\ECS core</Filter>
-    </ClInclude>
-    <ClInclude Include="component_manager.hpp">
-      <Filter>Header Files\ECS core</Filter>
-    </ClInclude>
     <ClInclude Include="engine.hpp">
-      <Filter>Header Files\ECS core</Filter>
-    </ClInclude>
-    <ClInclude Include="entity_manager.hpp">
-      <Filter>Header Files\ECS core</Filter>
-    </ClInclude>
-    <ClInclude Include="event.hpp">
-      <Filter>Header Files\ECS core</Filter>
-    </ClInclude>
-    <ClInclude Include="event_manager.hpp">
-      <Filter>Header Files\ECS core</Filter>
-    </ClInclude>
-    <ClInclude Include="system.hpp">
-      <Filter>Header Files\ECS core</Filter>
-    </ClInclude>
-    <ClInclude Include="system_manager.hpp">
-      <Filter>Header Files\ECS core</Filter>
+      <Filter>Header Files\ecs core</Filter>
     </ClInclude>
     <ClInclude Include="vec2.hpp">
       <Filter>Header Files\math</Filter>
@@ -116,18 +89,6 @@
     </ClInclude>
     <ClInclude Include="mat4.hpp">
       <Filter>Header Files\math</Filter>
-    </ClInclude>
-    <ClInclude Include="camera.hpp">
-      <Filter>Header Files\components</Filter>
-    </ClInclude>
-    <ClInclude Include="camera_control_system.hpp">
-      <Filter>Header Files\systems</Filter>
-    </ClInclude>
-    <ClInclude Include="physics_system.hpp">
-      <Filter>Header Files\systems</Filter>
-    </ClInclude>
-    <ClInclude Include="player_control_system.hpp">
-      <Filter>Header Files\systems</Filter>
     </ClInclude>
     <ClInclude Include="transforms.hpp">
       <Filter>Header Files\math</Filter>
@@ -144,9 +105,6 @@
     <ClInclude Include="texture.hpp">
       <Filter>Header Files\graphics\shading</Filter>
     </ClInclude>
-    <ClInclude Include="resource_manager.hpp">
-      <Filter>Header Files\graphics\resource management</Filter>
-    </ClInclude>
     <ClInclude Include="material.hpp">
       <Filter>Header Files\graphics\shading</Filter>
     </ClInclude>
@@ -156,12 +114,6 @@
     <ClInclude Include="main.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="point_light.hpp">
-      <Filter>Header Files\graphics\lighting</Filter>
-    </ClInclude>
-    <ClInclude Include="directional_light.hpp">
-      <Filter>Header Files\graphics\lighting</Filter>
-    </ClInclude>
     <ClInclude Include="render_target.hpp">
       <Filter>Header Files\graphics\rendering</Filter>
     </ClInclude>
@@ -170,15 +122,6 @@
     </ClInclude>
     <ClInclude Include="cube.hpp">
       <Filter>Header Files\graphics\mesh</Filter>
-    </ClInclude>
-    <ClInclude Include="transform.hpp">
-      <Filter>Header Files\components</Filter>
-    </ClInclude>
-    <ClInclude Include="rigid_body.hpp">
-      <Filter>Header Files\components</Filter>
-    </ClInclude>
-    <ClInclude Include="gravity.hpp">
-      <Filter>Header Files\physics</Filter>
     </ClInclude>
     <ClInclude Include="mesh_filter.hpp">
       <Filter>Header Files\graphics\mesh</Filter>
@@ -194,18 +137,6 @@
     </ClInclude>
     <ClInclude Include="sphere.hpp">
       <Filter>Header Files\graphics\mesh</Filter>
-    </ClInclude>
-    <ClInclude Include="include\glad\glad.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\KHR\khrplatform.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\stb_image.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="render_command.hpp">
-      <Filter>Header Files\graphics\rendering</Filter>
     </ClInclude>
     <ClInclude Include="g_buffer_renderer.hpp">
       <Filter>Header Files\graphics\rendering</Filter>
@@ -225,28 +156,70 @@
     <ClInclude Include="shadow_renderer.hpp">
       <Filter>Header Files\graphics\rendering</Filter>
     </ClInclude>
+    <ClInclude Include="resource_manager.hpp">
+      <Filter>Header Files\resource management</Filter>
+    </ClInclude>
+    <ClInclude Include="event_manager.hpp">
+      <Filter>Header Files\ecs core\event system</Filter>
+    </ClInclude>
+    <ClInclude Include="event.hpp">
+      <Filter>Header Files\ecs core\event system</Filter>
+    </ClInclude>
+    <ClInclude Include="aech_types.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="directional_light.hpp">
+      <Filter>Header Files\graphics\lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="point_light.hpp">
+      <Filter>Header Files\graphics\lighting</Filter>
+    </ClInclude>
     <ClInclude Include="shadow_caster.hpp">
       <Filter>Header Files\graphics\lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="component_manager.hpp">
+      <Filter>Header Files\ecs core</Filter>
+    </ClInclude>
+    <ClInclude Include="entity_manager.hpp">
+      <Filter>Header Files\ecs core</Filter>
+    </ClInclude>
+    <ClInclude Include="system.hpp">
+      <Filter>Header Files\ecs core</Filter>
+    </ClInclude>
+    <ClInclude Include="system_manager.hpp">
+      <Filter>Header Files\ecs core</Filter>
+    </ClInclude>
+    <ClInclude Include="include\glad\glad.h">
+      <Filter>Header Files\includes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\KHR\khrplatform.h">
+      <Filter>Header Files\includes</Filter>
+    </ClInclude>
+    <ClInclude Include="include\stb_image.h">
+      <Filter>Header Files\includes</Filter>
+    </ClInclude>
+    <ClInclude Include="transform.hpp">
+      <Filter>Header Files\graphics\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="camera.hpp">
+      <Filter>Header Files\graphics\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="camera_control_system.hpp">
+      <Filter>Header Files\graphics\scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="component_manager.cpp">
-      <Filter>Source Files\ECS core</Filter>
+      <Filter>Source Files\ecs core</Filter>
     </ClCompile>
     <ClCompile Include="engine.cpp">
-      <Filter>Source Files\ECS core</Filter>
+      <Filter>Source Files\ecs core</Filter>
     </ClCompile>
     <ClCompile Include="entity_manager.cpp">
-      <Filter>Source Files\ECS core</Filter>
-    </ClCompile>
-    <ClCompile Include="event.cpp">
-      <Filter>Source Files\ECS core</Filter>
-    </ClCompile>
-    <ClCompile Include="event_manager.cpp">
-      <Filter>Source Files\ECS core</Filter>
+      <Filter>Source Files\ecs core</Filter>
     </ClCompile>
     <ClCompile Include="system_manager.cpp">
-      <Filter>Source Files\ECS core</Filter>
+      <Filter>Source Files\ecs core</Filter>
     </ClCompile>
     <ClCompile Include="vec2.cpp">
       <Filter>Source Files\math</Filter>
@@ -260,20 +233,8 @@
     <ClCompile Include="mat4.cpp">
       <Filter>Source Files\math</Filter>
     </ClCompile>
-    <ClCompile Include="camera.cpp">
-      <Filter>Source Files\components</Filter>
-    </ClCompile>
-    <ClCompile Include="camera_control_system.cpp">
-      <Filter>Source Files\systems</Filter>
-    </ClCompile>
-    <ClCompile Include="physics_system.cpp">
-      <Filter>Source Files\systems</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="player_control_system.cpp">
-      <Filter>Source Files\systems</Filter>
     </ClCompile>
     <ClCompile Include="resource_manager.cpp">
       <Filter>Source Files\graphics</Filter>
@@ -292,9 +253,6 @@
     </ClCompile>
     <ClCompile Include="texture.cpp">
       <Filter>Source Files\graphics\shading</Filter>
-    </ClCompile>
-    <ClCompile Include="stb_image.cpp">
-      <Filter>Header Files\includes</Filter>
     </ClCompile>
     <ClCompile Include="render_target.cpp">
       <Filter>Source Files\graphics</Filter>
@@ -320,12 +278,6 @@
     <ClCompile Include="sphere.cpp">
       <Filter>Source Files\graphics\mesh</Filter>
     </ClCompile>
-    <ClCompile Include="glad.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="transform.cpp">
-      <Filter>Source Files\components</Filter>
-    </ClCompile>
     <ClCompile Include="g_buffer_renderer.cpp">
       <Filter>Source Files\graphics\rendering</Filter>
     </ClCompile>
@@ -344,11 +296,29 @@
     <ClCompile Include="shadow_renderer.cpp">
       <Filter>Source Files\graphics\rendering</Filter>
     </ClCompile>
+    <ClCompile Include="stb_image.cpp">
+      <Filter>Source Files\includes</Filter>
+    </ClCompile>
+    <ClCompile Include="glad.cpp">
+      <Filter>Source Files\includes</Filter>
+    </ClCompile>
+    <ClCompile Include="camera_control_system.cpp">
+      <Filter>Source Files\graphics\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="event.cpp">
+      <Filter>Source Files\ecs core\event system</Filter>
+    </ClCompile>
+    <ClCompile Include="event_manager.cpp">
+      <Filter>Source Files\ecs core\event system</Filter>
+    </ClCompile>
+    <ClCompile Include="camera.cpp">
+      <Filter>Source Files\graphics\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="transform.cpp">
+      <Filter>Source Files\graphics\scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="component_array.hpp">
-      <Filter>Header Files\ECS core</Filter>
-    </None>
     <None Include="packages.config" />
     <None Include="shaders\directional_fragment.glsl" />
     <None Include="shaders\directional_vertex.glsl" />
@@ -358,5 +328,8 @@
     <None Include="shaders\point_vertex.glsl" />
     <None Include="shadow_vertex.glsl" />
     <None Include="shadow_fragment.glsl" />
+    <None Include="component_array.hpp">
+      <Filter>Header Files\ecs core</Filter>
+    </None>
   </ItemGroup>
 </Project>

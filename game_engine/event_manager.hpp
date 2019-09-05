@@ -4,8 +4,9 @@
 #include <unordered_map>
 #include <list>
 #include <functional>
+#include "aech_types.hpp"
 
-namespace aech
+namespace aech::events
 {
 	class event_manager_t
 	{

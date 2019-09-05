@@ -23,20 +23,20 @@ namespace aech
 			auto& transform = engine.get_component<transform_t>(entity);
 			auto speed = 2000.0f;
 
-			auto view_matrix = get_view_matrix(transform);
-			auto right = vec3_t{
+			auto view_matrix = math::get_view_matrix(transform);
+			auto right = math::vec3_t{
 				view_matrix.data[0][0],
 				view_matrix.data[0][1],
 				view_matrix.data[0][2]
 			};
 
-			auto up = vec3_t{
+			auto up = math::vec3_t{
 				view_matrix.data[1][0],
 				view_matrix.data[1][1],
 				view_matrix.data[1][2]
 			};
 
-			auto forward = vec3_t{ 
+			auto forward = math::vec3_t{ 
 				-view_matrix.data[2][0],
 				-view_matrix.data[2][1],
 				-view_matrix.data[2][2] 
@@ -89,12 +89,12 @@ namespace aech
 		}
 	}
 
-	void camera_control_system_t::keyboard_listener(event_t& event)
+	void camera_control_system_t::keyboard_listener(events::event_t& event)
 	{
 		m_buttons = event.get_param<std::bitset<8>>(events::window::params::input);
 	}
 
-	void camera_control_system_t::mouse_listener(event_t& event)
+	void camera_control_system_t::mouse_listener(events::event_t& event)
 	{
 		auto param = event.get_param<std::pair<float, float>>(events::window::params::mouse);
 		x_offset = param.first;

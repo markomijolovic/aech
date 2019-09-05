@@ -1,7 +1,7 @@
 #include "mat4.hpp"
 #include <assert.h>
 
-namespace aech
+namespace aech::math
 {
 	mat4_t mat4_t::operator*(const mat4_t& rhs) const
 	{

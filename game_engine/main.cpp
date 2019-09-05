@@ -1,15 +1,13 @@
 #include <glad/glad.h>
 #include "GLFW/glfw3.h"
 
-#include "types.hpp"
+#include "aech_types.hpp"
 
 #include <chrono>
 #include "camera.hpp"
-#include "physics_system.hpp"
 #include "camera_control_system.hpp"
 #include "main.hpp"
 #include "scene_node.hpp"
-#include "rigid_body.hpp"
 #include "mesh_filter.hpp"
 #include "resource_manager.hpp"
 #include <iostream>
@@ -19,6 +17,8 @@
 #include "shadow_caster.hpp"
 
 using namespace aech;
+using namespace graphics;
+using namespace events;
 
 std::bitset<8> m_buttons{};
 
@@ -58,18 +58,9 @@ int main(int argc, char* argv[])
 	engine.register_component<scene_node_t>();
 	engine.register_component<camera_t>();
 	engine.register_component<mesh_filter_t>();
-	engine.register_component<rigid_body_t>();
 	engine.register_component<directional_light_t>();
 	engine.register_component<point_light_t>();
 	engine.register_component<shadow_caster_t>();
-
-	auto physics_system = engine.register_system<physics_system_t>();
-	{
-		signature_t signature{};
-		signature.set(engine.get_component_type<rigid_body_t>());
-		signature.set(engine.get_component_type<scene_node_t>());
-		engine.set_system_signature<physics_system_t>(signature);
-	}
 
 	auto camera_control_system = engine.register_system<camera_control_system_t>();
 	{
@@ -95,7 +86,6 @@ int main(int argc, char* argv[])
 
 		//player_control_system->update(delta_time);
 		camera_control_system->update(delta_time);
-		physics_system->update(delta_time);
 		renderer.update();
 		
 		auto stop_time = std::chrono::high_resolution_clock::now();

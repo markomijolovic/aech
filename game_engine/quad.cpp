@@ -1,6 +1,6 @@
 #include "quad.hpp"
 
-aech::quad_t::quad_t()
+aech::graphics::quad_t::quad_t()
 {
 	m_positions =
 	{

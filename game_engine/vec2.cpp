@@ -1,6 +1,6 @@
 #include "vec2.hpp"
 
-namespace aech
+namespace aech::math
 {
 	vec2_t::vec2_t(float x, float y)
 		: x{ x }, y{ y }

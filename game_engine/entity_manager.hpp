@@ -1,11 +1,11 @@
 #pragma once
-#include "types.hpp"
 #include <array>
 
 #include <queue>
+#include "aech_types.hpp"
 
 
-namespace aech
+namespace aech::ecs
 {
 	/**
 	 * manages individual entity IDs

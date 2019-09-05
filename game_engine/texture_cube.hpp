@@ -1,9 +1,9 @@
 #pragma once
 
-#include "types.hpp"
+#include "aech_types.hpp"
 #include <glad/glad.h>
 
-namespace aech
+namespace aech::graphics
 {
 	class texture_cube_t
 	{

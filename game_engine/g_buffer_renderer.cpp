@@ -8,7 +8,7 @@
 #include "camera.hpp"
 #include "material_library.hpp"
 
-namespace aech
+namespace aech::graphics
 {
 	//default deferred renderer
 	void g_buffer_renderer_t::update()
@@ -42,7 +42,7 @@ namespace aech
 	{
 		auto& cameraTransform = engine.get_component<transform_t>(m_camera);
 		auto& camera = engine.get_component<camera_t>(m_camera);
-		auto view = get_view_matrix(cameraTransform);
+		auto view = math::get_view_matrix(cameraTransform);
 		auto& transform = engine.get_component<transform_t>(entity);
 		auto& scene_node = engine.get_component<scene_node_t>(entity);
 		auto& mesh_filter = engine.get_component<mesh_filter_t>(entity);

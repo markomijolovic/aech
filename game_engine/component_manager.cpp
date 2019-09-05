@@ -1,6 +1,6 @@
 #include "component_manager.hpp"
 
-namespace aech
+namespace aech::ecs
 {
 	void component_manager_t::entity_destroyed(entity_t entity)
 	{

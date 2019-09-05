@@ -3,7 +3,7 @@
 #include <unordered_map>
 #include "shading_types.hpp"
 
-namespace aech
+namespace aech::graphics
 {
 	class texture_cube_t;
 
@@ -52,23 +52,23 @@ namespace aech
 				m_uniforms[name].type = shader_type_t::shader_type_int;
 				m_uniforms[name].value = value;
 			}
-			else if constexpr (std::is_same_v<T, vec2_t>) {
+			else if constexpr (std::is_same_v<T, math::vec2_t>) {
 				m_uniforms[name].type = shader_type_t::shader_type_vec2;
 				m_uniforms[name].value = value;
 			}
-			else if constexpr (std::is_same_v<T, vec3_t>) {
+			else if constexpr (std::is_same_v<T, math::vec3_t>) {
 				m_uniforms[name].type = shader_type_t::shader_type_vec3;
 				m_uniforms[name].value = value;
 			}
-			else if constexpr (std::is_same_v<T, vec4_t>) {
+			else if constexpr (std::is_same_v<T, math::vec4_t>) {
 				m_uniforms[name].type = shader_type_t::shader_type_vec4;
 				m_uniforms[name].value = value;
 			}
-			else if constexpr (std::is_same_v<T, mat4_t>) {
+			else if constexpr (std::is_same_v<T, math::mat4_t>) {
 				m_uniforms[name].type = shader_type_t::shader_type_mat4;
 				m_uniforms[name].value = value;
 			}
-			else if constexpr (std::is_same_v<T, mat3_t>) {
+			else if constexpr (std::is_same_v<T, math::mat3_t>) {
 				m_uniforms[name].type = shader_type_t::shader_type_mat3;
 				m_uniforms[name].value = value;
 			}

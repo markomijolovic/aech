@@ -2,7 +2,7 @@
 #include "resource_manager.hpp"
 #include <iostream>
 
-void aech::material_library::generate_default_materials()
+void aech::graphics::material_library::generate_default_materials()
 {
 	auto default_shader = &resource_manager::load_shader("shaders/g_buffer_vertex.glsl", "shaders/g_buffer_fragment.glsl", "", "default");
 	auto& default_material = default_materials["default"];
@@ -33,7 +33,7 @@ void aech::material_library::generate_default_materials()
 
 }
 
-material_t material_library::create_material(const std::string& from)
+aech::graphics::material_t aech::graphics::material_library::create_material(const std::string& from)
 {
 	auto it = default_materials.find(from);
 	if (it != std::end(default_materials))

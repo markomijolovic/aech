@@ -1,6 +1,6 @@
 #include "system_manager.hpp"
 
-namespace aech
+namespace aech::ecs
 {
 	void system_manager_t::entity_destroyed(entity_t entity)
 	{

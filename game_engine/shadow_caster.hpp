@@ -1,6 +1,6 @@
 #pragma once
 
-namespace aech
+namespace aech::graphics
 {
 	// TODO: THIS NEEDS REFACTORING
 	// TODO: HUGE!!!

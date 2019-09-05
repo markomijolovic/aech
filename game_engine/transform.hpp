@@ -6,11 +6,11 @@ namespace aech
 {
 	struct transform_t
 	{
-		vec3_t position{};
-		vec3_t rotation{};
-		vec3_t scale{1.0f, 1.0f, 1.0f};
+		math::vec3_t position{};
+		math::vec3_t rotation{};
+		math::vec3_t scale{1.0f, 1.0f, 1.0f};
 
-		[[nodiscard]] mat4_t get_transform_matrix() const;
-		[[nodiscard]] vec3_t get_forward_vector() const;
+		[[nodiscard]] math::mat4_t get_transform_matrix() const;
+		[[nodiscard]] math::vec3_t get_forward_vector() const;
 	};
 }

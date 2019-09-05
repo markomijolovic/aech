@@ -1,6 +1,6 @@
 #include "mat3.hpp"
 
-namespace aech
+namespace aech::math
 {
 	mat3_t mat3_t::operator*(const mat3_t& rhs) const
 	{

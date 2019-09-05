@@ -1,6 +1,7 @@
 #include "sphere.hpp"
+#include "aech_types.hpp"
 
-aech::sphere_t::sphere_t(const uint32_t sectors, const uint32_t stacks)
+aech::graphics::sphere_t::sphere_t(const uint32_t sectors, const uint32_t stacks)
 {
 	const auto sector_step = 2 * pi / sectors;
 	const auto stack_step = pi / stacks;

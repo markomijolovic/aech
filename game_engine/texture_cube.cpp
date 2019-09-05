@@ -1,6 +1,6 @@
 #include "texture_cube.hpp"
 
-namespace aech
+namespace aech::graphics
 {
 	void texture_cube_t::init(uint32_t width, uint32_t height, GLenum format, GLenum type, bool mipmap)
 	{

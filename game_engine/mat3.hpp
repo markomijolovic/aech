@@ -1,8 +1,6 @@
 #pragma once
 
-#include "vec4.hpp"
-
-namespace aech
+namespace aech::math
 {
 	class mat3_t
 	{

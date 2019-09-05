@@ -3,7 +3,7 @@
 #include "vec4.hpp"
 #include <initializer_list>
 
-namespace aech
+namespace aech::math
 {
 	class mat4_t
 	{

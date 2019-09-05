@@ -1,25 +1,26 @@
 #include "main.hpp"
 #include "transform.hpp"
 #include "scene_node.hpp"
+#include "mat4.hpp"
 
-namespace aech
+namespace aech::graphics
 {
 	scene_node_t::scene_node_t(transform_t* transform, scene_node_t* parent)
 		: m_parent{parent}, m_transform{transform}
 	{
 	}
 
-	void scene_node_t::set_position(const vec3_t& position) const
+	void scene_node_t::set_position(const math::vec3_t& position) const
 	{
 		m_transform->position = position;
 	}
 
-	void scene_node_t::set_rotation(const vec3_t& rotation) const
+	void scene_node_t::set_rotation(const math::vec3_t& rotation) const
 	{
 		m_transform->rotation = rotation;
 	}
 
-	void scene_node_t::set_scale(const vec3_t& scale) const
+	void scene_node_t::set_scale(const math::vec3_t& scale) const
 	{
 		m_transform->scale = scale;
 	}
@@ -29,29 +30,29 @@ namespace aech
 		m_transform->scale = { scale, scale, scale };
 	}
 
-	vec3_t scene_node_t::get_local_position() const
+	math::vec3_t scene_node_t::get_local_position() const
 	{
 		return m_transform->position;
 	}
 
-	vec3_t scene_node_t::get_local_scale() const
+	math::vec3_t scene_node_t::get_local_scale() const
 	{
 		return m_transform->scale;
 	}
 
-	vec3_t scene_node_t::get_local_rotation() const
+	math::vec3_t scene_node_t::get_local_rotation() const
 	{
 		return m_transform->rotation;
 	}
 
-	vec3_t scene_node_t::get_world_position() const
+	math::vec3_t scene_node_t::get_world_position() const
 	{
 		const auto transform_matrix = get_transform();
-		auto pos = transform_matrix * vec4_t{ m_transform->position, 1.0F};
-		return vec3_t{ pos };
+		auto pos = transform_matrix * math::vec4_t{ m_transform->position, 1.0F};
+		return math::vec3_t{ pos };
 	}
 
-	mat4_t scene_node_t::get_transform() const
+	math::mat4_t scene_node_t::get_transform() const
 	{
 		auto transform_matrix = m_transform->get_transform_matrix();
 
@@ -63,7 +64,7 @@ namespace aech
 		return transform_matrix;
 	}
 
-	vec3_t scene_node_t::get_world_scale() const
+	math::vec3_t scene_node_t::get_world_scale() const
 	{
 		auto transform = get_transform();
 		return { transform.data[0][0], transform.data[1][1], transform.data[2][2] };

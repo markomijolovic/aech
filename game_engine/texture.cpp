@@ -1,35 +1,36 @@
 #include "texture.hpp"
 #include <algorithm>
+#include <iostream>
 
 // TODO: refactor generate function
 // TODO: default arguments for height and depth?
-namespace aech
+namespace aech::graphics
 {
-	texture_t::texture_t(uint32_t width, uint32_t height, GLenum internal_format, GLenum format, GLenum type, void *data, bool mipmap)
+	void texture_t::generate()
 	{
-		glGenTextures(1, &m_id);
-
+		glGenTextures(1, &id);
 		bind();
-		// calculate max number of mips
-		const int levels =  mipmap?floor(log2(std::max(width, height))) + 1: 1;
-		// only 2D textures for now
-		glTexStorage2D(GL_TEXTURE_2D, levels, internal_format, width, height);
-		//TODO: test
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, mipmap? GL_LINEAR_MIPMAP_LINEAR: GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, mipmap ? GL_LINEAR : GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+		const int levels = mipmap ? floor(log2(std::max(width, height))) + 1 : 1;
+		glTexStorage2D(static_cast<GLenum>(target), levels, static_cast<GLenum>(sized_internal_format), width, height);
+		glTexParameteri(static_cast<GLenum>(target), GL_TEXTURE_MIN_FILTER, static_cast<GLenum>(filtering_min));
+		glTexParameteri(static_cast<GLenum>(target), GL_TEXTURE_MAG_FILTER, static_cast<GLenum>(filtering_mag));
+		if (glGetError())
+		{
+			std::cerr << "ERROR" << std::endl;
+		}
+		glTexParameteri(static_cast<GLenum>(target), GL_TEXTURE_WRAP_S, static_cast<GLenum>(wrap_s));
+		glTexParameteri(static_cast<GLenum>(target), GL_TEXTURE_WRAP_T, static_cast<GLenum>(wrap_t));
 		if (data)
 		{
-			glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, format, type, data);
+			glTexSubImage2D(static_cast<GLenum>(target), 0, 0, 0, width, height, static_cast<GLenum>(format), static_cast<GLenum>(type), data);
 		}
 		if (mipmap)
 		{
-			glGenerateMipmap(GL_TEXTURE_2D);
+			glGenerateMipmap(static_cast<GLenum>(target));
 		}
 		unbind();
 	}
-
 
 	void texture_t::bind(int32_t unit) const
 	{
@@ -38,12 +39,12 @@ namespace aech
 			glActiveTexture(GL_TEXTURE0 + unit);
 		}
 
-		glBindTexture(GL_TEXTURE_2D, m_id);
+		glBindTexture(static_cast<GLenum>(target), id);
 	}
 
 
 	void texture_t::unbind() const
 	{
-		glBindTexture(GL_TEXTURE_2D, 0);
+		glBindTexture(static_cast<GLenum>(target), 0);
 	}
 }

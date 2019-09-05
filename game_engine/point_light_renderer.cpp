@@ -3,9 +3,9 @@
 #include "mesh_filter.hpp"
 #include "transforms.hpp"
 #include "camera.hpp"
+#include "main.hpp"
 
-
-void point_light_renderer_t::update()
+void aech::graphics::point_light_renderer_t::update()
 {
 	auto& camera_transform = engine.get_component<transform_t>(m_camera);
 	auto& camera = engine.get_component<camera_t>(m_camera);
@@ -25,7 +25,7 @@ void point_light_renderer_t::update()
 		mesh_filter.material->m_shader->set_uniform("light_colour", point_light.colour);
 		mesh_filter.material->m_shader->set_uniform("light_intensity", point_light.intensity);
 		mesh_filter.material->m_shader->set_uniform("model", transform.get_transform_matrix());
-		mesh_filter.material->m_shader->set_uniform("view", get_view_matrix(camera_transform));
+		mesh_filter.material->m_shader->set_uniform("view", math::get_view_matrix(camera_transform));
 		mesh_filter.material->m_shader->set_uniform("projection", camera.projection);
 	}
 }

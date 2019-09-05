@@ -5,9 +5,9 @@
 #include "point_light_renderer.hpp"
 #include "shadow_renderer.hpp"
 
-namespace aech
+namespace aech::graphics
 {
-	class renderer_t : public system_t
+	class renderer_t : public ecs::system_t
 	{
 	public:
 		entity_t m_camera{};

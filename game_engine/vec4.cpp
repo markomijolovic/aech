@@ -1,7 +1,7 @@
 #include "vec4.hpp"
 #include "vec3.hpp"
 
-namespace aech
+namespace aech::math
 {
 	vec4_t::vec4_t(const vec3_t& vec3, float w)
 		: x{vec3.x}, y{vec3.y}, z{vec3.z}, w{w}

@@ -1,9 +1,9 @@
 #pragma once
-#include "types.hpp"
 #include <unordered_map>
 #include <any>
+#include "aech_types.hpp"
 
-namespace aech
+namespace aech::events
 {
 	class event_t
 	{

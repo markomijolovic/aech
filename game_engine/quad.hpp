@@ -2,7 +2,7 @@
 #include "mesh.hpp"
 
 
-namespace aech
+namespace aech::graphics
 {
 	class quad_t : public mesh_t
 	{

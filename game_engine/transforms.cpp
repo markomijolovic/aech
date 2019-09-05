@@ -1,9 +1,8 @@
 #include "transforms.hpp"
-#include "types.hpp"
-#include "mat3.hpp"
+#include "aech_types.hpp"
 #include "transform.hpp"
 
-namespace aech
+namespace aech::math
 {
 	mat4_t translate(float x, float y, float z)
 	{
@@ -48,7 +47,7 @@ namespace aech
 		};
 	}
 
-	mat4_t get_view_matrix(const transform_t& transform)
+	mat4_t get_view_matrix(const aech::transform_t& transform)
 	{
 		mat4_t mat_pitch{};
 		mat4_t mat_yaw{};

@@ -1,11 +1,11 @@
 #pragma once
 #include "mat4.hpp"
 #include "vec3.hpp"
-#include "types.hpp"
+#include "aech_types.hpp"
+#include "transform.hpp"
 
-namespace aech
+namespace aech::math
 {
-	struct transform_t;
 
 	inline auto radians(float angle)
 	{

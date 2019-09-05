@@ -6,7 +6,7 @@
 #include "point_light.hpp"
 #include "shadow_caster.hpp"
 
-namespace aech
+namespace aech::graphics
 {
 	renderer_t::renderer_t()
 	{

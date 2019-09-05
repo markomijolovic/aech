@@ -1,6 +1,6 @@
 #pragma once
 
-namespace aech
+namespace aech::graphics
 {
 	class mesh_t;
 	struct material_t;

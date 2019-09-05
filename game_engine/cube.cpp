@@ -1,6 +1,7 @@
 #include "cube.hpp"
+using namespace aech::math;
 
-namespace aech
+namespace aech::graphics
 {
 	cube_t::cube_t()
 	{

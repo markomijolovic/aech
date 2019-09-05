@@ -2,7 +2,7 @@
 #include "material.hpp"
 #include <unordered_map>
 
-namespace aech
+namespace aech::graphics
 {
 	namespace material_library
 	{

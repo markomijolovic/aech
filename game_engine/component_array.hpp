@@ -2,7 +2,7 @@
 #include "entity_manager.hpp"
 #include <unordered_map>
 
-namespace aech
+namespace aech::ecs
 {
 	class component_array_i
 	{

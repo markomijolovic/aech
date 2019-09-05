@@ -8,7 +8,7 @@
 #include "texture.hpp"
 #include "texture_cube.hpp"
 
-namespace aech
+namespace aech::graphics
 {
 
 	enum class shader_type_t
@@ -33,11 +33,11 @@ namespace aech
 		bool,
 		int,
 		float,
-		vec2_t,
-		vec3_t,
-		vec4_t,
-		mat3_t,
-		mat4_t
+		math::vec2_t,
+		math::vec3_t,
+		math::vec4_t,
+		math::mat3_t,
+		math::mat4_t
 	>;
 
 	struct uniform_value_t

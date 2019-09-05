@@ -1,7 +1,7 @@
 #include "mesh.hpp"
 #include <glad/glad.h>
 
-namespace aech
+namespace aech::graphics
 {
 	void mesh_t::commit(bool interleave)
 	{

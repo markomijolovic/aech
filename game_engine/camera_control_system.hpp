@@ -1,12 +1,13 @@
 #pragma once
 
+#include "aech_types.hpp"
 #include "system.hpp"
 #include "event.hpp"
 
 namespace aech
 {
 	//forward declaration
-	class camera_control_system_t : public system_t
+	class camera_control_system_t : public ecs::system_t
 	{
 	public:
 		void update(float dt);
@@ -16,7 +17,7 @@ namespace aech
 		std::bitset<8> m_buttons{};
 		float x_offset{};
 		float y_offset{};
-		void mouse_listener(event_t& event);
-		void keyboard_listener(event_t& event);
+		void mouse_listener(events::event_t& event);
+		void keyboard_listener(events::event_t& event);
 	};
 }

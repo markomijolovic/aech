@@ -1,13 +1,11 @@
 #pragma once
 #include "system.hpp"
-
-#include "types.hpp"
-
 #include <memory>
 #include <unordered_map>
+#include "aech_types.hpp"
 
 
-namespace aech
+namespace aech::ecs
 {
 	class system_manager_t
 	{

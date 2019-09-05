@@ -148,10 +148,6 @@
     <ClInclude Include="entity_manager.hpp" />
     <ClInclude Include="event.hpp" />
     <ClInclude Include="event_manager.hpp" />
-    <ClInclude Include="gravity.hpp">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="include\glad\glad.h" />
     <ClInclude Include="include\KHR\khrplatform.h" />
     <ClInclude Include="include\stb_image.h" />
@@ -173,8 +169,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="physics_system.hpp" />
-    <ClInclude Include="player_control_system.hpp" />
     <ClInclude Include="point_light.hpp" />
     <ClInclude Include="g_buffer_renderer.hpp" />
     <ClInclude Include="point_light_renderer.hpp">
@@ -185,17 +179,9 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="render_command.hpp">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="render_target.hpp" />
     <ClInclude Include="resource_manager.hpp" />
     <ClInclude Include="scene_node.hpp" />
-    <ClInclude Include="rigid_body.hpp">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="shader.hpp" />
     <ClInclude Include="shading_types.hpp" />
     <ClInclude Include="shadow_caster.hpp">
@@ -219,7 +205,7 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="transforms.hpp" />
-    <ClInclude Include="types.hpp" />
+    <ClInclude Include="aech_types.hpp" />
     <ClInclude Include="vec2.hpp" />
     <ClInclude Include="vec3.hpp" />
     <ClInclude Include="vec4.hpp" />
@@ -242,8 +228,6 @@
     <ClCompile Include="material_library.cpp" />
     <ClCompile Include="mesh.cpp" />
     <ClCompile Include="mesh_library.cpp" />
-    <ClCompile Include="physics_system.cpp" />
-    <ClCompile Include="player_control_system.cpp" />
     <ClCompile Include="g_buffer_renderer.cpp" />
     <ClCompile Include="point_light_renderer.cpp" />
     <ClCompile Include="quad.cpp" />

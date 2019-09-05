@@ -1,12 +1,10 @@
 #pragma once
+#include <unordered_map>
+#include <memory>
 #include "component_array.hpp"
 
-#include "types.hpp"
 
-#include <unordered_map>
-
-
-namespace aech
+namespace aech::ecs
 {
 	class component_manager_t
 	{

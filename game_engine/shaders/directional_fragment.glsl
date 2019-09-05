@@ -45,10 +45,11 @@ vec3 schlicks_approximation(float cos_angle, vec3 f0)
 	return f0 + (1.0 - f0) * pow(1 - cos_angle, 5.0);
 }
 
+// TODO: sampling
 float shadow(vec3 position, float cosangle) {
 	vec4 shadow_coords = depth_bias_vp * vec4(position, 1.0);
-	float bias = max(0.05 * (1.0 - cosangle), 0.005);
-	if (texture(light_shadow_map, shadow_coords.xy).r < shadow_coords.z - bias) {
+	float bias = max(0.05 * cosangle, 0.005);
+	if (texture(light_shadow_map, shadow_coords.xy).r < shadow_coords.z - bias ) {
 		return 0;
 	}
 	return 1;

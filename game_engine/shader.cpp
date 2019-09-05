@@ -1,7 +1,7 @@
 #include "shader.hpp"
 #include <iostream>
 
-namespace aech
+namespace aech::graphics
 {
 	void shader_t::compile(
 		const std::string& vertex_source,
@@ -30,17 +30,17 @@ namespace aech
 			check_compile_errors(s_geometry, "geometry");
 		}
 
-		m_id = glCreateProgram();
-		glAttachShader(m_id, s_vertex);
-		glAttachShader(m_id, s_fragment);
+		id = glCreateProgram();
+		glAttachShader(id, s_vertex);
+		glAttachShader(id, s_fragment);
 
 		if (!geometry_source.empty())
 		{
-			glAttachShader(m_id, s_vertex);
+			glAttachShader(id, s_vertex);
 		}
 
-		glLinkProgram(m_id);		
-		check_compile_errors(m_id, "program");
+		glLinkProgram(id);
+		check_compile_errors(id, "program");
 
 		glDeleteShader(s_vertex);
 		glDeleteShader(s_fragment);
@@ -52,7 +52,7 @@ namespace aech
 
 	void shader_t::use() const
 	{
-		glUseProgram(m_id);
+		glUseProgram(id);
 	}
 
 

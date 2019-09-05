@@ -1,7 +1,7 @@
 #pragma once
 #include "mesh.hpp"
 
-namespace aech
+namespace aech::graphics
 {
 	class cube_t : public mesh_t
 	{

@@ -5,25 +5,24 @@
 #include "mesh.hpp"
 #include "mesh_filter.hpp"
 
-namespace aech
+namespace aech::graphics
 {
 	void shadow_renderer_t::update()
 	{
 		auto& light_transform = engine.get_component<transform_t>(dirlight);
-		auto light_projection = orthographic(-2500, 2500, -2500, 2500, -10, 2500);
+		auto light_projection = math::orthographic(-2250, 2250, -2250, 2000, 0, 2250);
 
-		glBindFramebuffer(GL_FRAMEBUFFER, shadow_map_rt.m_id);
-		glViewport(0, 0, shadow_map_rt.m_width, shadow_map_rt.m_height);
+		glBindFramebuffer(GL_FRAMEBUFFER, shadow_map_rt.id);
+		glViewport(0, 0, shadow_map_rt.width, shadow_map_rt.height);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glCullFace(GL_FRONT);
-
 		shader->use();
+		glDisable(GL_CULL_FACE);
 		for (auto entity : entities)
 		{
 			auto& transform = engine.get_component<transform_t>(entity);
 			auto& mesh_filter = engine.get_component<mesh_filter_t>(entity);
 
-			auto light_view_matrix = get_view_matrix(light_transform);
+			auto light_view_matrix = math::get_view_matrix(light_transform);
 
 			shader->set_uniform("projection", light_projection);
 			shader->set_uniform("view", light_view_matrix);
@@ -33,8 +32,7 @@ namespace aech
 			glDrawElements(GL_TRIANGLES, mesh_filter.mesh->m_indices.size(), GL_UNSIGNED_INT, 0);
 			glBindVertexArray(0);
 		}
-
-		glCullFace(GL_BACK);
+		glEnable(GL_CULL_FACE);
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 }
