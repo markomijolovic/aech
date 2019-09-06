@@ -1,32 +1,35 @@
 #pragma once
 
 #include "aech_types.hpp"
-#include <glad/glad.h>
+#include "texture_types.hpp"
 
 namespace aech::graphics
 {
 	class texture_cube_t
 	{
 	public:
-		uint32_t m_id;
+		uint32_t id{};
+		texture_types::sized_internal_format sized_internal_format = texture_types::sized_internal_format::rgba8;
+		texture_types::format format = texture_types::format::rgba;
+		texture_types::type type = texture_types::type::ubyte;
+		texture_types::filtering filtering_mag = texture_types::filtering::linear;
+		texture_types::filtering filtering_min = texture_types::filtering::linear;
+		texture_types::sampling wrap_s = texture_types::sampling::repeat;
+		texture_types::sampling wrap_t = texture_types::sampling::repeat;
+		texture_types::target target = texture_types::target::cube_map;
+		bool mipmap = true;
+		void* data = nullptr;
 
-		GLenum m_internal_format = GL_RGBA;
-		GLenum m_format = GL_RGBA;
-		GLenum m_type = GL_UNSIGNED_BYTE;
-		GLenum m_filter_min = GL_LINEAR;
-		GLenum m_filter_max = GL_LINEAR;
-		GLenum m_wrap_s = GL_CLAMP_TO_EDGE;
-		GLenum m_wrap_t = GL_CLAMP_TO_EDGE;
-		GLenum m_wrap_r = GL_CLAMP_TO_EDGE;
-		bool m_mipmap = false;
-
-		uint32_t m_face_width{};
-		uint32_t m_face_height{};
-
-		void bind(int32_t unit = -1);
-		void unbind();
 		//default init faces
-		void init(uint32_t width, uint32_t height, GLenum format, GLenum type, bool mipmap);
-		void generate_face(GLenum face, uint32_t width, uint32_t height, GLenum format, GLenum type, void* data);
+		void init();
+		void generate_face(uint32_t index, uint32_t width, uint32_t height, 
+			texture_types::sized_internal_format sized_internal_format,
+			texture_types::format format,
+			texture_types::type type,
+			void* data);
+		void generate_mips();
+
+		void bind(int32_t unit = -1) const;
+		void unbind() const;
 	};
 }

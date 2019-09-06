@@ -7,6 +7,7 @@
 #include "scene_node.hpp"
 #include "texture_cube.hpp"
 #include <assimp/material.h>
+#include "aech_types.hpp"
 
 struct aiMesh;
 struct aiNode;
@@ -31,15 +32,13 @@ namespace aech::resource_manager
 	const graphics::mesh_t* parse_mesh(aiMesh* mesh, const aiScene* scene);
 
 	graphics::shader_t& load_shader(
+		const std::string& name,
 		const std::string& vertex,
 		const std::string& fragment,
-		const std::string& geometry,
-		const std::string& name
+		const std::string& geometry = {}
 	);
-	graphics::shader_t& get_shader(const std::string& name);
 	graphics::texture_t* load_texture(const std::string& name, const std::string& path);
 	graphics::texture_t& load_hdr_texture(const std::string& name, const std::string& path);
-	graphics::texture_t& get_texture(const std::string& name);
 	graphics::texture_cube_t& load_texture_cube(const std::string& name,
 		const std::string& top,
 		const std::string& bottom,
@@ -49,5 +48,4 @@ namespace aech::resource_manager
 		const std::string& back);
 	graphics::texture_cube_t& load_texture_cube(const std::string& name, const std::string& folder);
 	const graphics::material_t* parse_material(const aiScene* scene, aiMaterial* material);
-	void generate_default_shaders();
 }

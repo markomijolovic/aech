@@ -1,4 +1,5 @@
 #include "resource_manager.hpp"
+
 #include "assimp/Importer.hpp"
 
 #include "assimp/scene.h"
@@ -33,10 +34,10 @@ namespace aech::resource_manager
 {
 	using namespace graphics;
 
-	shader_t& load_shader(const std::string& vertex,
+	shader_t& load_shader(const std::string& name,
+	                      const std::string& vertex,
 	                      const std::string& fragment,
-	                      const std::string& geometry,
-	                      const std::string& name)
+	                      const std::string& geometry)
 	{
 		if (shaders.find(name) != std::end(shaders))
 		{
@@ -80,13 +81,82 @@ namespace aech::resource_manager
 		return shaders[name];
 	}
 
-	shader_t& get_shader(const std::string& name)
+	texture_cube_t& load_texture_cube(const std::string& name,
+		const std::string& top,
+		const std::string& bottom,
+		const std::string& left,
+		const std::string& right,
+		const std::string& front,
+		const std::string& back)
 	{
-		return shaders[name];
+		if (texture_cubes.find(name) != std::end(texture_cubes))
+		{
+			return texture_cubes[name];
+		}
+
+		texture_cube_t texture{};
+		texture.init();
+
+		stbi_set_flip_vertically_on_load(0);
+
+		std::vector<std::string> faces{ top, bottom, left, right, front, back };
+
+
+		for (size_t i = 0; i < faces.size(); i++)
+		{
+			int32_t    width;
+			int32_t    height;
+			int32_t    number_of_components;
+			const auto data = stbi_load(faces[i].c_str(), &width, &height, &number_of_components, 0);
+			if (data != nullptr)
+			{
+				texture_types::sized_internal_format sized_internal_format{};
+				texture_types::format format{};
+
+				switch (number_of_components)
+				{
+				case 1:
+					sized_internal_format = texture_types::sized_internal_format::r8;
+					format = texture_types::format::r;
+					break;
+				case 2:
+					sized_internal_format = texture_types::sized_internal_format::rg8;
+					format = texture_types::format::rg;
+					break;
+				case 3:
+					sized_internal_format = texture_types::sized_internal_format::rgb8;
+					format = texture_types::format::rgb;
+					break;
+				case 4:
+					sized_internal_format = texture_types::sized_internal_format::rgba8;
+					format = texture_types::format::rgba;
+					break;
+				default:
+					break;
+				}
+
+				texture.generate_face(i,
+					width,
+					height,
+					sized_internal_format,
+					format,
+					texture_types::type::ubyte,
+					data);
+				stbi_image_free(data);
+			}
+			else
+			{
+				std::cerr << "Cube texture at path: " << faces[i] << " failed to load\n";
+				stbi_image_free(data);
+			}
+		}
+
+		texture.generate_mips();
+
+		return texture_cubes[name] = texture;
 	}
 
-
-	texture_t* resource_manager::load_texture(const std::string& name,
+	texture_t* load_texture(const std::string& name,
 	                                          const std::string& path)
 	{
 		if (textures.find(name) != std::end(textures))
@@ -149,12 +219,6 @@ namespace aech::resource_manager
 
 		return &textures[name];
 	}
-
-	texture_t& resource_manager::get_texture(const std::string& name)
-	{
-		return textures[name];
-	}
-
 
 	//aech::texture_t& aech::resource_manager::load_hdr_texture(const std::string& name, const std::string& path)
 	//{
@@ -277,7 +341,7 @@ namespace aech::resource_manager
 		return entity;
 	}
 
-	entity_t resource_manager::load_mesh(const std::string& path)
+	entity_t load_mesh(const std::string& path)
 	{
 		Assimp::Importer importer{};
 		const auto*      scene = importer.ReadFile(path,
@@ -294,7 +358,7 @@ namespace aech::resource_manager
 		return process_node(scene->mRootNode, scene);
 	}
 
-	const mesh_t* resource_manager::parse_mesh(aiMesh* mesh, const aiScene* /*scene*/)
+	const mesh_t* parse_mesh(aiMesh* mesh, const aiScene* /*scene*/)
 	{
 		const auto it = meshes.find(mesh);
 		if (it != std::end(meshes))
@@ -379,55 +443,7 @@ namespace aech::resource_manager
 		return ret_val;
 	}
 
-	texture_cube_t& load_texture_cube(const std::string& name,
-	                                  const std::string& top,
-	                                  const std::string& bottom,
-	                                  const std::string& left,
-	                                  const std::string& right,
-	                                  const std::string& front,
-	                                  const std::string& back)
-	{
-		if (texture_cubes.find(name) != std::end(texture_cubes))
-		{
-			return texture_cubes[name];
-		}
-
-		texture_cube_t texture{};
-
-		stbi_set_flip_vertically_on_load(0);
-
-		std::vector<std::string> faces{top, bottom, left, right, front, back};
-
-		for (size_t i = 0; i < faces.size(); i++)
-		{
-			int32_t    width;
-			int32_t    height;
-			int32_t    number_of_components;
-			const auto data = stbi_load(faces[i].c_str(), &width, &height, &number_of_components, 0);
-			if (data != nullptr)
-			{
-				const auto format = number_of_components == 3 ? GL_RGB : GL_RGBA;
-				texture.generate_face(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
-				                      width,
-				                      height,
-				                      format,
-				                      GL_UNSIGNED_BYTE,
-				                      data);
-				stbi_image_free(data);
-			}
-			else
-			{
-				std::cerr << "Cube texture at path: " << faces[i] << " failed to load\n";
-				stbi_image_free(data);
-			}
-			if (texture.m_mipmap)
-			{
-				glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
-			}
-		}
-
-		return texture_cubes[name] = texture;
-	}
+	
 
 	texture_cube_t& load_texture_cube(const std::string& name, const std::string& folder)
 	{

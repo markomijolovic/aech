@@ -148,6 +148,10 @@
     <ClInclude Include="entity_manager.hpp" />
     <ClInclude Include="event.hpp" />
     <ClInclude Include="event_manager.hpp" />
+    <ClInclude Include="texture_types.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="transparent_renderer.hpp">
       <SubType>
       </SubType>

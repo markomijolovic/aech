@@ -7,10 +7,10 @@
 #include "mat3.hpp"
 #include "texture.hpp"
 #include "texture_cube.hpp"
+#include <string>
 
 namespace aech::graphics
 {
-
 	enum class shader_type_t
 	{
 		shader_type_bool,
