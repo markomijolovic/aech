@@ -2,6 +2,7 @@
 
 #include "render_target.hpp"
 #include "main.hpp"
+#include "framebuffer_library.hpp"
 
 namespace aech::graphics
 {
@@ -9,7 +10,7 @@ namespace aech::graphics
 	{
 	public:
 		entity_t m_camera{};
-		render_target_t g_buffer{ screen_width, screen_height, 4, true, texture_types::sized_internal_format::rgba32f, texture_types::format::rgba, texture_types::type::floating_point};
+		render_target_t* g_buffer = &framebuffers["g_buffer"];
 
 		void update();
 		void draw_entity(entity_t entity) const;

@@ -12,8 +12,8 @@ namespace aech::graphics
 		auto& light_transform = engine.get_component<transform_t>(dirlight);
 		auto light_projection = math::orthographic(-2250, 2250, -2250, 2000, 0, 2250);
 
-		glBindFramebuffer(GL_FRAMEBUFFER, shadow_map_rt.id);
-		glViewport(0, 0, shadow_map_rt.width, shadow_map_rt.height);
+		shadow_map->bind();
+		glViewport(0, 0, shadow_map->width, shadow_map->height);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		shader->use();
 		glDisable(GL_CULL_FACE);
@@ -33,6 +33,5 @@ namespace aech::graphics
 			glBindVertexArray(0);
 		}
 		glEnable(GL_CULL_FACE);
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 }

@@ -2,8 +2,6 @@
 #include <algorithm>
 #include <iostream>
 
-// TODO: refactor generate function
-// TODO: default arguments for height and depth?
 namespace aech::graphics
 {
 	void texture_t::generate()
@@ -15,15 +13,19 @@ namespace aech::graphics
 		glTexStorage2D(static_cast<GLenum>(target), levels, static_cast<GLenum>(sized_internal_format), width, height);
 		glTexParameteri(static_cast<GLenum>(target), GL_TEXTURE_MIN_FILTER, static_cast<GLenum>(filtering_min));
 		glTexParameteri(static_cast<GLenum>(target), GL_TEXTURE_MAG_FILTER, static_cast<GLenum>(filtering_mag));
-		if (glGetError())
-		{
-			std::cerr << "ERROR" << std::endl;
-		}
 		glTexParameteri(static_cast<GLenum>(target), GL_TEXTURE_WRAP_S, static_cast<GLenum>(wrap_s));
 		glTexParameteri(static_cast<GLenum>(target), GL_TEXTURE_WRAP_T, static_cast<GLenum>(wrap_t));
-		if (data)
+		if (data != nullptr)
 		{
-			glTexSubImage2D(static_cast<GLenum>(target), 0, 0, 0, width, height, static_cast<GLenum>(format), static_cast<GLenum>(type), data);
+			glTexSubImage2D(static_cast<GLenum>(target),
+			                0,
+			                0,
+			                0,
+			                width,
+			                height,
+			                static_cast<GLenum>(format),
+			                static_cast<GLenum>(type),
+			                data);
 		}
 		if (mipmap)
 		{
@@ -47,4 +49,4 @@ namespace aech::graphics
 	{
 		glBindTexture(static_cast<GLenum>(target), 0);
 	}
-}
+} // namespace aech::graphics

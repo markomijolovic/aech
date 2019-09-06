@@ -1,28 +1,42 @@
 #include "resource_manager.hpp"
-#include <iostream>
-#include "mesh.hpp"
-#include <fstream>
-#include <sstream>
-#include "stb_image.h"
 #include "assimp/Importer.hpp"
+
 #include "assimp/scene.h"
-#include <assimp/postprocess.h>
-#include "texture_cube.hpp"
-#include "scene_node.hpp"
-#include "transform.hpp"
-#include "material_library.hpp"
-#include "mesh_filter.hpp"
-#include "shadow_caster.hpp"
+
 #include "main.hpp"
+
+#include "material_library.hpp"
+
+#include "mesh.hpp"
+
+#include "mesh_filter.hpp"
+
+#include "scene_node.hpp"
+
+#include "shadow_caster.hpp"
+
+#include "stb_image.h"
+
+#include "texture_cube.hpp"
+
+#include "transform.hpp"
+#include <assimp/postprocess.h>
+
+#include <fstream>
+
+#include <iostream>
+
+#include <sstream>
+
 
 namespace aech::resource_manager
 {
-	using namespace aech::graphics;
+	using namespace graphics;
 
 	shader_t& load_shader(const std::string& vertex,
-		const std::string& fragment,
-		const std::string& geometry,
-		const std::string& name)
+	                      const std::string& fragment,
+	                      const std::string& geometry,
+	                      const std::string& name)
 	{
 		if (shaders.find(name) != std::end(shaders))
 		{
@@ -35,8 +49,8 @@ namespace aech::resource_manager
 
 		try
 		{
-			std::ifstream vertex_file{ vertex };
-			std::ifstream fragment_file{ fragment };
+			std::ifstream vertex_file{vertex};
+			std::ifstream fragment_file{fragment};
 
 			std::stringstream vertex_stream{};
 			std::stringstream fragment_stream{};
@@ -44,12 +58,12 @@ namespace aech::resource_manager
 			vertex_stream << vertex_file.rdbuf();
 			fragment_stream << fragment_file.rdbuf();
 
-			vertex_code = vertex_stream.str();
+			vertex_code   = vertex_stream.str();
 			fragment_code = fragment_stream.str();
 
 			if (!geometry.empty())
 			{
-				std::ifstream     geometry_file{ geometry };
+				std::ifstream     geometry_file{geometry};
 				std::stringstream geometry_stream{};
 
 				geometry_stream << geometry_file.rdbuf();
@@ -61,7 +75,7 @@ namespace aech::resource_manager
 			std::cerr << exc.what() << '\n';
 		}
 
-		shaders[name] = graphics::shader_t{};
+		shaders[name] = shader_t{};
 		shaders[name].compile(vertex_code, fragment_code, geometry_code);
 		return shaders[name];
 	}
@@ -72,8 +86,8 @@ namespace aech::resource_manager
 	}
 
 
-	aech::graphics::texture_t* aech::resource_manager::load_texture(const std::string& name,
-		const std::string& path)
+	texture_t* resource_manager::load_texture(const std::string& name,
+	                                          const std::string& path)
 	{
 		if (textures.find(name) != std::end(textures))
 		{
@@ -81,39 +95,41 @@ namespace aech::resource_manager
 		}
 
 		// make open-gl happy
-		stbi_set_flip_vertically_on_load(true);
+		stbi_set_flip_vertically_on_load(1);
 
-		int32_t width, height, number_of_components;
+		int32_t    width;
+		int32_t    height;
+		int32_t    number_of_components;
 		const auto data = stbi_load(path.c_str(), &width, &height, &number_of_components, 0);
 
-		if (data)
+		if (data != nullptr)
 		{
-			texture_types::format format{};
+			texture_types::format                format{};
 			texture_types::sized_internal_format sized_internal_format{};
 
 			switch (number_of_components)
 			{
-			case 1:
-				sized_internal_format = texture_types::sized_internal_format::r8;
-				format = texture_types::format::r;
-				break;
-			case 2:
-				sized_internal_format = texture_types::sized_internal_format::rg8;
-				format = texture_types::format::rg;
-				break;
-			case 3:
-				sized_internal_format = texture_types::sized_internal_format::rgb8;
-				format = texture_types::format::rgb;
-				break;
-			case 4:
-				sized_internal_format = texture_types::sized_internal_format::rgba8;
-				format = texture_types::format::rgba;
-				break;
-			default:
-				break;
+				case 1:
+					sized_internal_format = texture_types::sized_internal_format::r8;
+					format = texture_types::format::r;
+					break;
+				case 2:
+					sized_internal_format = texture_types::sized_internal_format::rg8;
+					format = texture_types::format::rg;
+					break;
+				case 3:
+					sized_internal_format = texture_types::sized_internal_format::rgb8;
+					format = texture_types::format::rgb;
+					break;
+				case 4:
+					sized_internal_format = texture_types::sized_internal_format::rgba8;
+					format = texture_types::format::rgba;
+					break;
+				default:
+					break;
 			}
 
-			auto& texture = textures[name] = graphics::texture_t{
+			auto& texture = textures[name] = texture_t{
 				.width = static_cast<uint32_t>(width),
 				.height = static_cast<uint32_t>(height),
 				.sized_internal_format = sized_internal_format,
@@ -127,14 +143,14 @@ namespace aech::resource_manager
 		else
 		{
 			std::cerr << "Failed to load texture at: " << path << '\n';
-			textures[name] = graphics::texture_t{};
+			textures[name] = texture_t{};
 		}
 		stbi_image_free(data);
 
 		return &textures[name];
 	}
 
-	aech::graphics::texture_t& aech::resource_manager::get_texture(const std::string& name)
+	texture_t& resource_manager::get_texture(const std::string& name)
 	{
 		return textures[name];
 	}
@@ -192,20 +208,20 @@ namespace aech::resource_manager
 	{
 		const auto entity = engine.create_entity();
 		engine.add_component(entity,
-			transform_t{}
-		);
+		                     transform_t{}
+		                    );
 		const auto transform = &engine.get_component<transform_t>(entity);
 		engine.add_component(entity,
-			scene_node_t{ transform }
-		);
+		                     scene_node_t{transform}
+		                    );
 		if (node->mNumMeshes == 1)
 		{
 			engine.add_component(entity,
-				mesh_filter_t{}
-			);
+			                     mesh_filter_t{}
+			                    );
 			engine.add_component(entity,
-				shadow_caster_t{}
-			);
+			                     shadow_caster_t{}
+			                    );
 		}
 
 
@@ -213,47 +229,47 @@ namespace aech::resource_manager
 
 		for (size_t i = 0; i < node->mNumMeshes; i++)
 		{
-			const auto a_mesh = scene->mMeshes[node->mMeshes[i]];
-			const auto mesh = parse_mesh(a_mesh, scene);
-			const auto a_material = scene->mMaterials[a_mesh->mMaterialIndex];
-			const auto material = parse_material(scene, a_material);
-			auto& mesh_filter = engine.get_component<mesh_filter_t>(entity);
+			const auto a_mesh      = scene->mMeshes[node->mMeshes[i]];
+			const auto mesh        = parse_mesh(a_mesh, scene);
+			const auto a_material  = scene->mMaterials[a_mesh->mMaterialIndex];
+			const auto material    = parse_material(scene, a_material);
+			auto&      mesh_filter = engine.get_component<mesh_filter_t>(entity);
 			if (node->mNumMeshes == 1)
 			{
 				mesh_filter.material = material;
-				mesh_filter.mesh = mesh;
+				mesh_filter.mesh     = mesh;
 			}
 			else
 			{
 				const auto child_entity = engine.create_entity();
 				engine.add_component(child_entity,
-					transform_t{}
-				);
+				                     transform_t{}
+				                    );
 				const auto child_transform = &engine.get_component<transform_t>(child_entity);
 				engine.add_component(
-					child_entity,
-					scene_node_t{ child_transform }
-				);
+				                     child_entity,
+				                     scene_node_t{child_transform}
+				                    );
 
 				engine.add_component(child_entity,
-					mesh_filter_t{}
-				);
+				                     mesh_filter_t{}
+				                    );
 
 				engine.add_component(child_entity,
-					shadow_caster_t{}
-				);
+				                     shadow_caster_t{}
+				                    );
 
-				const auto child_scene_node = &engine.get_component<scene_node_t>(child_entity);
-				auto& child_mesh_filter = engine.get_component<mesh_filter_t>(child_entity);
-				child_mesh_filter.mesh = mesh;
-				child_mesh_filter.material = material;
+				const auto child_scene_node  = &engine.get_component<scene_node_t>(child_entity);
+				auto&      child_mesh_filter = engine.get_component<mesh_filter_t>(child_entity);
+				child_mesh_filter.mesh       = mesh;
+				child_mesh_filter.material   = material;
 				scene_node->add_child(child_scene_node);
 			}
 		}
 
 		for (size_t i = 0; i < node->mNumChildren; i++)
 		{
-			const auto child_id = process_node(node->mChildren[i], scene);
+			const auto child_id         = process_node(node->mChildren[i], scene);
 			const auto child_scene_node = &engine.get_component<scene_node_t>(child_id);
 			scene_node->add_child(child_scene_node);
 		}
@@ -264,12 +280,12 @@ namespace aech::resource_manager
 	entity_t resource_manager::load_mesh(const std::string& path)
 	{
 		Assimp::Importer importer{};
-		const auto* scene = importer.ReadFile(path,
-			aiProcess_Triangulate |
-			aiProcess_CalcTangentSpace
-		);
+		const auto*      scene = importer.ReadFile(path,
+		                                           aiProcess_Triangulate |
+		                                           aiProcess_CalcTangentSpace
+		                                          );
 
-		if (!scene || scene->mFlags == AI_SCENE_FLAGS_INCOMPLETE)
+		if ((scene == nullptr) || scene->mFlags == AI_SCENE_FLAGS_INCOMPLETE)
 		{
 			std::cerr << "Assimp failed to load scene at path: " << path << '\n';
 			return invalid_entity_id;
@@ -278,7 +294,7 @@ namespace aech::resource_manager
 		return process_node(scene->mRootNode, scene);
 	}
 
-	const mesh_t* resource_manager::parse_mesh(aiMesh* mesh, const aiScene* scene)
+	const mesh_t* resource_manager::parse_mesh(aiMesh* mesh, const aiScene* /*scene*/)
 	{
 		const auto it = meshes.find(mesh);
 		if (it != std::end(meshes))
@@ -310,41 +326,41 @@ namespace aech::resource_manager
 		{
 			ret_val->
 				m_positions[i] = math::vec3_t{
-				mesh->mVertices[i].x,
-				mesh->mVertices[i].y,
-				mesh->mVertices[i].z
-			};
+					mesh->mVertices[i].x,
+					mesh->mVertices[i].y,
+					mesh->mVertices[i].z
+				};
 
 			ret_val->
 				m_normals[i] = math::vec3_t{
-				mesh->mNormals[i].x,
-				mesh->mNormals[i].y,
-				mesh->mNormals[i].z
-			};
+					mesh->mNormals[i].x,
+					mesh->mNormals[i].y,
+					mesh->mNormals[i].z
+				};
 
 			if (mesh->HasTextureCoords(0))
 			{
 				ret_val->
 					m_uvs[i] = math::vec2_t{
-					mesh->mTextureCoords[0][i].x,
-					mesh->mTextureCoords[0][i].y
-				};
+						mesh->mTextureCoords[0][i].x,
+						mesh->mTextureCoords[0][i].y
+					};
 			}
 
-			if (mesh->mTangents)
+			if (mesh->mTangents != nullptr)
 			{
 				ret_val->
 					m_tangents[i] = math::vec3_t{
-					mesh->mTangents[i].x,
-					mesh->mTangents[i].y,
-					mesh->mTangents[i].z
-				};
+						mesh->mTangents[i].x,
+						mesh->mTangents[i].y,
+						mesh->mTangents[i].z
+					};
 				ret_val->
 					m_bitangents[i] = math::vec3_t{
-					mesh->mBitangents[i].x,
-					mesh->mBitangents[i].y,
-					mesh->mBitangents[i].z
-				};
+						mesh->mBitangents[i].x,
+						mesh->mBitangents[i].y,
+						mesh->mBitangents[i].z
+					};
 			}
 		}
 
@@ -364,12 +380,12 @@ namespace aech::resource_manager
 	}
 
 	texture_cube_t& load_texture_cube(const std::string& name,
-		const std::string& top,
-		const std::string& bottom,
-		const std::string& left,
-		const std::string& right,
-		const std::string& front,
-		const std::string& back)
+	                                  const std::string& top,
+	                                  const std::string& bottom,
+	                                  const std::string& left,
+	                                  const std::string& right,
+	                                  const std::string& front,
+	                                  const std::string& back)
 	{
 		if (texture_cubes.find(name) != std::end(texture_cubes))
 		{
@@ -378,18 +394,25 @@ namespace aech::resource_manager
 
 		texture_cube_t texture{};
 
-		stbi_set_flip_vertically_on_load(false);
+		stbi_set_flip_vertically_on_load(0);
 
-		std::vector<std::string> faces{ top, bottom, left, right, front, back };
+		std::vector<std::string> faces{top, bottom, left, right, front, back};
 
 		for (size_t i = 0; i < faces.size(); i++)
 		{
-			int32_t width, height, number_of_components;
+			int32_t    width;
+			int32_t    height;
+			int32_t    number_of_components;
 			const auto data = stbi_load(faces[i].c_str(), &width, &height, &number_of_components, 0);
-			if (data)
+			if (data != nullptr)
 			{
 				const auto format = number_of_components == 3 ? GL_RGB : GL_RGBA;
-				texture.generate_face(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, width, height, format, GL_UNSIGNED_BYTE, data);
+				texture.generate_face(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
+				                      width,
+				                      height,
+				                      format,
+				                      GL_UNSIGNED_BYTE,
+				                      data);
 				stbi_image_free(data);
 			}
 			else
@@ -409,18 +432,18 @@ namespace aech::resource_manager
 	texture_cube_t& load_texture_cube(const std::string& name, const std::string& folder)
 	{
 		return load_texture_cube(
-			name,
-			folder + "right.jpg",
-			folder + "left.jpg",
-			folder + "top.jpg",
-			folder + "bottom.jpg",
-			folder + "front.jpg",
-			folder + "back.jpg"
-		);
+		                         name,
+		                         folder + "right.jpg",
+		                         folder + "left.jpg",
+		                         folder + "top.jpg",
+		                         folder + "bottom.jpg",
+		                         folder + "front.jpg",
+		                         folder + "back.jpg"
+		                        );
 	}
 
 
-	const material_t* parse_material(const aiScene* scene, aiMaterial* a_material)
+	const material_t* parse_material(const aiScene* /*scene*/, aiMaterial* a_material)
 	{
 		const auto it = materials.find(a_material);
 		if (it != std::end(materials))
@@ -432,11 +455,11 @@ namespace aech::resource_manager
 
 		aiString file{};
 		a_material->GetTexture(aiTextureType_DIFFUSE, 0, &file);
-		auto path = std::string{ file.C_Str() };
+		auto path  = std::string{file.C_Str()};
 		auto alpha = true;
 		if (path.find("_alpha") != std::string::npos)
 		{
-			// TODO: use alpha discard material
+			// TODO(Marko): use alpha discard material
 		}
 		else
 		{
@@ -448,7 +471,7 @@ namespace aech::resource_manager
 		{
 			aiString file{};
 			a_material->GetTexture(aiTextureType_DIFFUSE, 0, &file);
-			auto file_name = std::string{ file.C_Str() };
+			auto file_name = std::string{file.C_Str()};
 
 			auto texture = load_texture(file_name, file_name);
 			ret_val->set_texture("texture_albedo", texture, 0);
@@ -459,7 +482,7 @@ namespace aech::resource_manager
 		{
 			aiString file{};
 			a_material->GetTexture(aiTextureType_HEIGHT, 0, &file);
-			auto file_name = std::string{ file.C_Str() };
+			auto file_name = std::string{file.C_Str()};
 
 			auto texture = load_texture(file_name, file_name);
 			ret_val->set_texture("texture_normal", texture, 1);
@@ -469,7 +492,7 @@ namespace aech::resource_manager
 		{
 			aiString file{};
 			a_material->GetTexture(aiTextureType_SPECULAR, 0, &file);
-			auto file_name = std::string{ file.C_Str() };
+			auto file_name = std::string{file.C_Str()};
 
 			auto texture = load_texture(file_name, file_name);
 			ret_val->set_texture("texture_metallic", texture, 2);
@@ -479,7 +502,7 @@ namespace aech::resource_manager
 		{
 			aiString file{};
 			a_material->GetTexture(aiTextureType_SHININESS, 0, &file);
-			auto file_name = std::string{ file.C_Str() };
+			auto file_name = std::string{file.C_Str()};
 
 			auto texture = load_texture(file_name, file_name);
 			ret_val->set_texture("texture_roughness", texture, 3);
@@ -489,7 +512,7 @@ namespace aech::resource_manager
 		{
 			aiString file{};
 			a_material->GetTexture(aiTextureType_AMBIENT, 0, &file);
-			auto file_name = std::string{ file.C_Str() };
+			auto file_name = std::string{file.C_Str()};
 
 			auto texture = load_texture(file_name, file_name);
 			ret_val->set_texture("texture_ao", texture, 4);
@@ -497,6 +520,4 @@ namespace aech::resource_manager
 
 		return ret_val;
 	}
-
-}
-
+} // namespace aech::resource_manager

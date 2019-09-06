@@ -148,9 +148,14 @@
     <ClInclude Include="entity_manager.hpp" />
     <ClInclude Include="event.hpp" />
     <ClInclude Include="event_manager.hpp" />
-    <ClInclude Include="include\glad\glad.h" />
-    <ClInclude Include="include\KHR\khrplatform.h" />
-    <ClInclude Include="include\stb_image.h" />
+    <ClInclude Include="opaque_renderer.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="framebuffer_library.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="main.hpp" />
     <ClInclude Include="renderer.hpp">
       <SubType>
@@ -220,6 +225,7 @@
     <ClCompile Include="entity_manager.cpp" />
     <ClCompile Include="event.cpp" />
     <ClCompile Include="event_manager.cpp" />
+    <ClCompile Include="framebuffer_library.cpp" />
     <ClCompile Include="glad.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mat3.cpp" />
@@ -250,21 +256,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="component_array.hpp" />
-    <None Include="packages.config" />
+    <None Include="forward_fragment.glsl">
+      <SubType>
+      </SubType>
+    </None>
+    <None Include="forward_vertex.glsl">
+      <SubType>
+      </SubType>
+    </None>
     <None Include="shaders\directional_fragment.glsl" />
     <None Include="shaders\directional_vertex.glsl" />
     <None Include="shaders\g_buffer_fragment.glsl" />
     <None Include="shaders\g_buffer_vertex.glsl" />
+    <None Include="shaders\opaque_fragment.glsl" />
+    <None Include="shaders\opaque_vertex.glsl" />
     <None Include="shaders\point_fragment.glsl" />
     <None Include="shaders\point_vertex.glsl" />
-    <None Include="shadow_fragment.glsl">
-      <SubType>
-      </SubType>
-    </None>
-    <None Include="shadow_vertex.glsl">
-      <SubType>
-      </SubType>
-    </None>
+    <None Include="shaders\shadow_fragment.glsl" />
+    <None Include="shaders\shadow_vertex.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

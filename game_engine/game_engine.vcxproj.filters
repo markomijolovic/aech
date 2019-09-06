@@ -73,6 +73,18 @@
     <Filter Include="Header Files\ecs core\event system">
       <UniqueIdentifier>{bce679ae-c0e0-4a48-bf47-5ba450ada46e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\shaders">
+      <UniqueIdentifier>{bd499bcf-0e89-4f75-8184-c1ccc00f7587}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\driver">
+      <UniqueIdentifier>{cd1636ac-6076-4bcd-8567-791ab9042db2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\driver">
+      <UniqueIdentifier>{ac95f99f-c759-4d76-8a3a-9d27d69635cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\resource management">
+      <UniqueIdentifier>{b2b19feb-2cb1-472f-b8e8-31e23bb5e2dc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine.hpp">
@@ -111,9 +123,6 @@
     <ClInclude Include="shading_types.hpp">
       <Filter>Header Files\graphics\shading</Filter>
     </ClInclude>
-    <ClInclude Include="main.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="render_target.hpp">
       <Filter>Header Files\graphics\rendering</Filter>
     </ClInclude>
@@ -137,9 +146,6 @@
     </ClInclude>
     <ClInclude Include="sphere.hpp">
       <Filter>Header Files\graphics\mesh</Filter>
-    </ClInclude>
-    <ClInclude Include="g_buffer_renderer.hpp">
-      <Filter>Header Files\graphics\rendering</Filter>
     </ClInclude>
     <ClInclude Include="point_light_renderer.hpp">
       <Filter>Header Files\graphics\rendering</Filter>
@@ -165,9 +171,6 @@
     <ClInclude Include="event.hpp">
       <Filter>Header Files\ecs core\event system</Filter>
     </ClInclude>
-    <ClInclude Include="aech_types.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="directional_light.hpp">
       <Filter>Header Files\graphics\lighting</Filter>
     </ClInclude>
@@ -189,15 +192,6 @@
     <ClInclude Include="system_manager.hpp">
       <Filter>Header Files\ecs core</Filter>
     </ClInclude>
-    <ClInclude Include="include\glad\glad.h">
-      <Filter>Header Files\includes</Filter>
-    </ClInclude>
-    <ClInclude Include="include\KHR\khrplatform.h">
-      <Filter>Header Files\includes</Filter>
-    </ClInclude>
-    <ClInclude Include="include\stb_image.h">
-      <Filter>Header Files\includes</Filter>
-    </ClInclude>
     <ClInclude Include="transform.hpp">
       <Filter>Header Files\graphics\scene</Filter>
     </ClInclude>
@@ -206,6 +200,21 @@
     </ClInclude>
     <ClInclude Include="camera_control_system.hpp">
       <Filter>Header Files\graphics\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="main.hpp">
+      <Filter>Header Files\driver</Filter>
+    </ClInclude>
+    <ClInclude Include="aech_types.hpp">
+      <Filter>Header Files\driver</Filter>
+    </ClInclude>
+    <ClInclude Include="framebuffer_library.hpp">
+      <Filter>Header Files\graphics\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="g_buffer_renderer.hpp">
+      <Filter>Header Files\graphics\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="opaque_renderer.hpp">
+      <Filter>Header Files\graphics\rendering</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -232,12 +241,6 @@
     </ClCompile>
     <ClCompile Include="mat4.cpp">
       <Filter>Source Files\math</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="resource_manager.cpp">
-      <Filter>Source Files\graphics</Filter>
     </ClCompile>
     <ClCompile Include="transforms.cpp">
       <Filter>Source Files\math</Filter>
@@ -317,19 +320,55 @@
     <ClCompile Include="transform.cpp">
       <Filter>Source Files\graphics\scene</Filter>
     </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files\driver</Filter>
+    </ClCompile>
+    <ClCompile Include="resource_manager.cpp">
+      <Filter>Source Files\resource management</Filter>
+    </ClCompile>
+    <ClCompile Include="framebuffer_library.cpp">
+      <Filter>Source Files\graphics\rendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-    <None Include="shaders\directional_fragment.glsl" />
-    <None Include="shaders\directional_vertex.glsl" />
-    <None Include="shaders\g_buffer_fragment.glsl" />
-    <None Include="shaders\g_buffer_vertex.glsl" />
-    <None Include="shaders\point_fragment.glsl" />
-    <None Include="shaders\point_vertex.glsl" />
-    <None Include="shadow_vertex.glsl" />
-    <None Include="shadow_fragment.glsl" />
     <None Include="component_array.hpp">
       <Filter>Header Files\ecs core</Filter>
+    </None>
+    <None Include="shaders\directional_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\directional_vertex.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\g_buffer_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\g_buffer_vertex.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\point_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\point_vertex.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="forward_vertex.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="forward_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\opaque_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\opaque_vertex.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\shadow_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\shadow_vertex.glsl">
+      <Filter>Source Files\shaders</Filter>
     </None>
   </ItemGroup>
 </Project>

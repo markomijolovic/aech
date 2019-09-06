@@ -5,19 +5,21 @@
 #include "directional_light.hpp"
 #include "point_light.hpp"
 #include "shadow_caster.hpp"
+#include <iostream>
 
 namespace aech::graphics
 {
 	renderer_t::renderer_t()
 	{
-
 		material_library::generate_default_materials();
 		mesh_library::generate_default_meshes();
+		generate_default_framebuffers();
+
+
 
 		g_buffer_renderer = engine.register_system<g_buffer_renderer_t>();
 		{
 			signature_t signature{};
-			// TODO: dont render point lights
 			signature.set(engine.get_component_type<transform_t>());
 			signature.set(engine.get_component_type<scene_node_t>());
 			signature.set(engine.get_component_type<mesh_filter_t>());
@@ -70,9 +72,10 @@ namespace aech::graphics
 		engine.add_component(dirlight, transform_t{ {0, 1750, 0}, {-80, -10, -10}, });
 
 		shadow_renderer->dirlight = dirlight;
-
 		g_buffer_renderer->m_camera = m_camera;
 		point_light_renderer->m_camera = m_camera;
+
+
 	}
 
 	void renderer_t::update()
@@ -83,19 +86,23 @@ namespace aech::graphics
 		// 2. render shadows
 		shadow_renderer->update();
 		// 4. render lights
-		g_buffer_renderer->g_buffer.m_colour_attachments[0].bind(0);
-		g_buffer_renderer->g_buffer.m_colour_attachments[1].bind(1);
-		g_buffer_renderer->g_buffer.m_colour_attachments[2].bind(2);
-		g_buffer_renderer->g_buffer.m_colour_attachments[3].bind(3);
-		shadow_renderer->shadow_map_rt.m_colour_attachments[0].bind(4);
+		g_buffer_renderer->g_buffer->m_colour_attachments[0].bind(0);
+		g_buffer_renderer->g_buffer->m_colour_attachments[1].bind(1);
+		g_buffer_renderer->g_buffer->m_colour_attachments[2].bind(2);
+		g_buffer_renderer->g_buffer->m_colour_attachments[3].bind(3);
+		shadow_renderer->shadow_map->m_colour_attachments[0].bind(4);
 
 		// render deferred ambient;
 
 		directional_light_renderer->update();
 
-		glCullFace(GL_FRONT);
-		point_light_renderer->update();
-		glCullFace(GL_BACK);
+		//glCullFace(GL_FRONT);
+		//point_light_renderer->update();
+		//glCullFace(GL_BACK);
+
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+		glBindFramebuffer(GL_READ_FRAMEBUFFER, directional_light_renderer->render_target->id);
+		glBlitFramebuffer(0, 0, screen_width, screen_height, 0, 0, screen_width, screen_height, GL_COLOR_BUFFER_BIT, GL_LINEAR);
 
 		// 5. forward rendering
 	}

@@ -4,28 +4,24 @@
 #include "transform.hpp"
 #include "mesh_filter.hpp"
 #include "resource_manager.hpp"
-#include "g_buffer_renderer.hpp"
 #include "camera.hpp"
 #include "material_library.hpp"
+#include "g_buffer_renderer.hpp"
 
 namespace aech::graphics
 {
-	//default deferred renderer
 	void g_buffer_renderer_t::update()
 	{
 		setup_g_buffer();
-		// draw to g_buffer
 		for (auto entity : entities)
 		{
 			draw_entity(entity);
 		}
-		g_buffer.unbind();
 	}
-
 
 	void g_buffer_renderer_t::setup_g_buffer() const
 	{
-		g_buffer.bind();
+		g_buffer->bind();
 		glViewport(0, 0, screen_width, screen_height);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glEnable(GL_CULL_FACE);

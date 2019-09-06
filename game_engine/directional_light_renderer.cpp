@@ -7,6 +7,7 @@ void aech::graphics::directional_light_renderer_t::update()
 {
 	mesh_filter.material->m_shader->use();
 
+	render_target->bind();
 	glViewport(0, 0, screen_width, screen_height);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glDisable(GL_DEPTH_TEST);

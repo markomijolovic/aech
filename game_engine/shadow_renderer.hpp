@@ -3,6 +3,7 @@
 #include "material_library.hpp"
 #include "render_target.hpp"
 #include "resource_manager.hpp"
+#include "framebuffer_library.hpp"
 
 namespace aech::graphics
 {
@@ -10,7 +11,8 @@ namespace aech::graphics
 	{
 	public:
 		entity_t dirlight{};
-		render_target_t shadow_map_rt{ 4096, 4096, 1, true, texture_types::sized_internal_format::rgba32f, texture_types::format::rgba, texture_types::type::floating_point};
+
+		render_target_t* shadow_map = &framebuffers["shadow_map"];
 		shader_t* shader = &resource_manager::shaders["shadow"];
 
 		void update();

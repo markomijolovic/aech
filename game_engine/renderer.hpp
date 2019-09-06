@@ -1,9 +1,9 @@
 #pragma once
 #include "system.hpp"
-#include "g_buffer_renderer.hpp"
 #include "directional_light_renderer.hpp"
 #include "point_light_renderer.hpp"
 #include "shadow_renderer.hpp"
+#include "g_buffer_renderer.hpp"
 
 namespace aech::graphics
 {

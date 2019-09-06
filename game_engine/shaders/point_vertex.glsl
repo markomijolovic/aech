@@ -13,4 +13,5 @@ void main()
 {
 	fragment_world_position = vec3(model * vec4(in_position, 1.0));
 	screen_position = projection * view * model * vec4(in_position, 1.0);
+	gl_Position = projection * view * model * vec4(in_position, 1.0);
 }
