@@ -120,9 +120,6 @@
     <ClInclude Include="material.hpp">
       <Filter>Header Files\graphics\shading</Filter>
     </ClInclude>
-    <ClInclude Include="shading_types.hpp">
-      <Filter>Header Files\graphics\shading</Filter>
-    </ClInclude>
     <ClInclude Include="render_target.hpp">
       <Filter>Header Files\graphics\rendering</Filter>
     </ClInclude>

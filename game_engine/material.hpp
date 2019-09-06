@@ -1,79 +1,29 @@
 #pragma once
-#include "shader.hpp"
 #include <unordered_map>
-#include "shading_types.hpp"
+#include <any>
+#include "texture.hpp"
+#include "shader.hpp"
 
 namespace aech::graphics
 {
 	class texture_cube_t;
 
-	enum class material_type_t
-	{
-		material_default ,
-		material_custom,
-		material_post_process
-	};
-
 	struct material_t
 	{
-		//shader
 		shader_t* m_shader;
-		std::unordered_map<std::string, uniform_value_t> m_uniforms{};
-		std::unordered_map<std::string, uniform_value_sampler_t> m_sampler_uniforms{};
-		material_type_t type{ material_type_t::material_custom };
+		std::unordered_map<std::string, std::any> m_uniforms{};
+		std::unordered_map<std::string, std::pair<const texture_t *, uint32_t>> m_textures{};
+		std::unordered_map<std::string, std::pair<const texture_cube_t*, uint32_t>> m_texture_cubes{};
 
-		//depth
-		bool depth_test = true;
-		bool depth_write = true;
-		GLenum depth_compare = GL_LESS;
-
-		//culling
-		bool cull = true;
-		GLenum cull_face = GL_BACK;
-		GLenum cull_winding_order = GL_CCW;
-
-		//blending
-		bool blend = false;
-		GLenum blend_src = GL_ONE;
-		GLenum blend_dest = GL_ONE_MINUS_SRC_ALPHA;
-		GLenum blend_equation = GL_FUNC_ADD;
-
-		//shadow
-		bool cast_shadows = true;
-		bool receive_shadows = true;
-
+		// stores the uniform value in the material
+		// note that this does not actually set it in the shader
 		template<typename T>
 		void set_uniform(const std::string &name, const T& value)
 		{
-			if constexpr (std::is_same_v<T, bool>) {
-				m_uniforms[name].type = shader_type_t::shader_type_bool;
-				m_uniforms[name].value = value;
-			} else if constexpr (std::is_same_v<T, int>) {
-				m_uniforms[name].type = shader_type_t::shader_type_int;
-				m_uniforms[name].value = value;
-			}
-			else if constexpr (std::is_same_v<T, math::vec2_t>) {
-				m_uniforms[name].type = shader_type_t::shader_type_vec2;
-				m_uniforms[name].value = value;
-			}
-			else if constexpr (std::is_same_v<T, math::vec3_t>) {
-				m_uniforms[name].type = shader_type_t::shader_type_vec3;
-				m_uniforms[name].value = value;
-			}
-			else if constexpr (std::is_same_v<T, math::vec4_t>) {
-				m_uniforms[name].type = shader_type_t::shader_type_vec4;
-				m_uniforms[name].value = value;
-			}
-			else if constexpr (std::is_same_v<T, math::mat4_t>) {
-				m_uniforms[name].type = shader_type_t::shader_type_mat4;
-				m_uniforms[name].value = value;
-			}
-			else if constexpr (std::is_same_v<T, math::mat3_t>) {
-				m_uniforms[name].type = shader_type_t::shader_type_mat3;
-				m_uniforms[name].value = value;
-			}
+			m_uniforms[name] = value;
 		}
 
+		// actually set the uniforms in the shader
 		void set_uniforms() const;
 		void set_texture(const std::string& name, const texture_t* texture, uint32_t unit);
 		void set_texture_cube(const std::string& name, const texture_cube_t* texture, uint32_t unit);

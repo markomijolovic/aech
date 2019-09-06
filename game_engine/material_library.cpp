@@ -31,8 +31,8 @@ void aech::graphics::material_library::generate_default_materials()
 	auto& shadow_material = default_materials["shadow"];
 	shadow_material.m_shader = shadow_shader;
 
-	auto opaque_shader = &resource_manager::load_shader("opaque", "shaders/opaque_vertex.glsl", "shaders/opaque_fragment.glsl");
-	auto& opaque_material = default_materials["opaque"];
+	auto opaque_shader = &resource_manager::load_shader("transparent", "shaders/transparent_vertex.glsl", "shaders/transparent_fragment.glsl");
+	auto& opaque_material = default_materials["transparent"];
 	opaque_material.set_uniform("texture_albedo", 0);
 	opaque_material.set_uniform("texture_normal", 1);
 	opaque_material.set_uniform("texture_metallic", 2);

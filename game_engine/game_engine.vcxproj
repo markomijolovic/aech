@@ -192,7 +192,6 @@
     <ClInclude Include="resource_manager.hpp" />
     <ClInclude Include="scene_node.hpp" />
     <ClInclude Include="shader.hpp" />
-    <ClInclude Include="shading_types.hpp" />
     <ClInclude Include="shadow_caster.hpp">
       <SubType>
       </SubType>
