@@ -1,9 +1,9 @@
-#include "render_target.hpp"
 #include <iostream>
+#include "framebuffer.hpp"
 
 namespace aech::graphics
 {
-	render_target_t::render_target_t(uint32_t width,
+	framebuffer_t::framebuffer_t(uint32_t width,
 		uint32_t height,
 		uint32_t num_colour_attachments,
 		bool depth,
@@ -54,12 +54,12 @@ namespace aech::graphics
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 
-	void render_target_t::bind() const
+	void framebuffer_t::bind() const
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, id);
 	}
 
-	void render_target_t::unbind() const
+	void framebuffer_t::unbind() const
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}

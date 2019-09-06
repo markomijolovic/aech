@@ -8,9 +8,16 @@ namespace aech::graphics
 {
 	class texture_cube_t;
 
+	enum class material_type
+	{
+		opaque,
+		transparent
+	};
+
 	struct material_t
 	{
 		shader_t* m_shader;
+		material_type type = material_type::opaque;
 		std::unordered_map<std::string, std::any> m_uniforms{};
 		std::unordered_map<std::string, std::pair<const texture_t *, uint32_t>> m_textures{};
 		std::unordered_map<std::string, std::pair<const texture_cube_t*, uint32_t>> m_texture_cubes{};

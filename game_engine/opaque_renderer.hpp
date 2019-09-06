@@ -1,8 +1,8 @@
 #pragma once
 
-#include "render_target.hpp"
 #include "main.hpp"
 #include "framebuffer_library.hpp"
+#include "framebuffer.hpp"
 
 namespace aech::graphics
 {
@@ -10,7 +10,7 @@ namespace aech::graphics
 	{
 	public:
 		entity_t m_camera{};
-		render_target_t* g_buffer = &framebuffers["g_buffer"];
+		framebuffer_t* g_buffer = &framebuffers["g_buffer"];
 
 		void update();
 		void draw_entity(entity_t entity) const;

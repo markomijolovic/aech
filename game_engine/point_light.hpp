@@ -1,6 +1,5 @@
 #pragma once
 #include "vec3.hpp"
-#include "render_target.hpp"
 
 namespace aech::graphics
 {
@@ -13,6 +12,6 @@ namespace aech::graphics
 		float intensity = 1.0F;		
 		bool cast_shadows = true;
 
-		render_target_t* shadow_map_rt;
+		//framebuffer_t* shadow_map_rt;
 	};
 }

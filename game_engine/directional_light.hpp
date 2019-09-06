@@ -3,7 +3,7 @@
 
 namespace aech::graphics
 {
-	class render_target_t;
+	class framebuffer_t;
 
 	struct directional_light_t
 	{

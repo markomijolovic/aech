@@ -46,13 +46,12 @@ namespace aech::graphics
 		auto model = scene_node.get_transform();
 		auto& projection = camera.projection;
 
-		shader->use();
-		glBindVertexArray(mesh_filter.mesh->m_vao);
 		mesh_filter.material->set_uniforms();
 		shader->set_uniform("model", model);
 		shader->set_uniform("view", view);
 		shader->set_uniform("projection", projection);
 
+		glBindVertexArray(mesh_filter.mesh->m_vao);
 		glDrawElements(GL_TRIANGLES, mesh_filter.mesh->m_indices.size(), GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 	}

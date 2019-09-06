@@ -28,6 +28,7 @@
 #include <iostream>
 
 #include <sstream>
+#include "shading_tags.hpp"
 
 
 namespace aech::resource_manager
@@ -288,7 +289,6 @@ namespace aech::resource_manager
 			                    );
 		}
 
-
 		auto scene_node = &engine.get_component<scene_node_t>(entity);
 
 		for (size_t i = 0; i < node->mNumMeshes; i++)
@@ -301,7 +301,15 @@ namespace aech::resource_manager
 			if (node->mNumMeshes == 1)
 			{
 				mesh_filter.material = material;
-				mesh_filter.mesh     = mesh;
+				mesh_filter.mesh = mesh;
+				if (mesh_filter.material->type == material_type::opaque)
+				{
+					engine.add_component(entity, opaque_t{});
+				}
+				else
+				{
+					engine.add_component(entity, transparent_t{});
+				}
 			}
 			else
 			{
@@ -322,6 +330,15 @@ namespace aech::resource_manager
 				engine.add_component(child_entity,
 				                     shadow_caster_t{}
 				                    );
+
+				if (material->type == material_type::opaque)
+				{
+					engine.add_component(child_entity, opaque_t{});
+				}
+				else
+				{
+					engine.add_component(child_entity, transparent_t{});
+				}
 
 				const auto child_scene_node  = &engine.get_component<scene_node_t>(child_entity);
 				auto&      child_mesh_filter = engine.get_component<mesh_filter_t>(child_entity);
@@ -358,7 +375,7 @@ namespace aech::resource_manager
 		return process_node(scene->mRootNode, scene);
 	}
 
-	const mesh_t* parse_mesh(aiMesh* mesh, const aiScene* /*scene*/)
+	mesh_t* parse_mesh(aiMesh* mesh, const aiScene* /*scene*/)
 	{
 		const auto it = meshes.find(mesh);
 		if (it != std::end(meshes))
@@ -459,7 +476,7 @@ namespace aech::resource_manager
 	}
 
 
-	const material_t* parse_material(const aiScene* /*scene*/, aiMaterial* a_material)
+	material_t* parse_material(const aiScene* /*scene*/, aiMaterial* a_material)
 	{
 		const auto it = materials.find(a_material);
 		if (it != std::end(materials))
@@ -472,14 +489,13 @@ namespace aech::resource_manager
 		aiString file{};
 		a_material->GetTexture(aiTextureType_DIFFUSE, 0, &file);
 		auto path  = std::string{file.C_Str()};
-		auto alpha = true;
 		if (path.find("_alpha") != std::string::npos)
 		{
-			// TODO(Marko): use alpha discard material
+			*ret_val = material_library::create_material("transparent");
+			ret_val->type = material_type::transparent;
 		}
 		else
 		{
-			// default deferred material
 			*ret_val = material_library::create_material("default");
 		}
 

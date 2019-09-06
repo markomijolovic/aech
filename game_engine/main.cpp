@@ -15,6 +15,7 @@
 #include "directional_light.hpp"
 #include "point_light.hpp"
 #include "shadow_caster.hpp"
+#include "shading_tags.hpp"
 
 using namespace aech;
 using namespace graphics;
@@ -61,6 +62,8 @@ int main(int argc, char* argv[])
 	engine.register_component<directional_light_t>();
 	engine.register_component<point_light_t>();
 	engine.register_component<shadow_caster_t>();
+	engine.register_component<opaque_t>();
+	engine.register_component<transparent_t>();
 
 	auto camera_control_system = engine.register_system<camera_control_system_t>();
 	{

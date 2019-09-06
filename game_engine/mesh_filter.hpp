@@ -11,7 +11,7 @@ namespace aech::graphics
 	 */
 	struct mesh_filter_t
 	{
-		const mesh_t* mesh{};
-		const material_t* material{};
+		mesh_t* mesh{};
+		material_t* material{};
 	};
 }

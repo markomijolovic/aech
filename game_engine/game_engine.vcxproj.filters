@@ -120,9 +120,6 @@
     <ClInclude Include="material.hpp">
       <Filter>Header Files\graphics\shading</Filter>
     </ClInclude>
-    <ClInclude Include="render_target.hpp">
-      <Filter>Header Files\graphics\rendering</Filter>
-    </ClInclude>
     <ClInclude Include="texture_cube.hpp">
       <Filter>Header Files\graphics\shading</Filter>
     </ClInclude>
@@ -214,6 +211,12 @@
       <Filter>Header Files\graphics\rendering</Filter>
     </ClInclude>
     <ClInclude Include="texture_types.hpp">
+      <Filter>Header Files\graphics\shading</Filter>
+    </ClInclude>
+    <ClInclude Include="framebuffer.hpp">
+      <Filter>Header Files\graphics\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="shading_tags.hpp">
       <Filter>Header Files\graphics\shading</Filter>
     </ClInclude>
   </ItemGroup>
@@ -327,6 +330,9 @@
       <Filter>Source Files\graphics\rendering</Filter>
     </ClCompile>
     <ClCompile Include="opaque_renderer.cpp">
+      <Filter>Source Files\graphics\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="transparent_renderer.cpp">
       <Filter>Source Files\graphics\rendering</Filter>
     </ClCompile>
   </ItemGroup>

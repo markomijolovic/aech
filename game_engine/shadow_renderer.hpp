@@ -1,9 +1,9 @@
 #pragma once
 #include "system.hpp"
 #include "material_library.hpp"
-#include "render_target.hpp"
 #include "resource_manager.hpp"
 #include "framebuffer_library.hpp"
+#include "framebuffer.hpp"
 
 namespace aech::graphics
 {
@@ -12,7 +12,7 @@ namespace aech::graphics
 	public:
 		entity_t dirlight{};
 
-		render_target_t* shadow_map = &framebuffers["shadow_map"];
+		framebuffer_t* shadow_map = &framebuffers["shadow_map"];
 		shader_t* shader = &resource_manager::shaders["shadow"];
 
 		void update();

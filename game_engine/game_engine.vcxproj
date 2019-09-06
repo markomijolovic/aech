@@ -148,6 +148,10 @@
     <ClInclude Include="entity_manager.hpp" />
     <ClInclude Include="event.hpp" />
     <ClInclude Include="event_manager.hpp" />
+    <ClInclude Include="shading_tags.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="texture_types.hpp">
       <SubType>
       </SubType>
@@ -188,7 +192,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="render_target.hpp" />
+    <ClInclude Include="framebuffer.hpp" />
     <ClInclude Include="resource_manager.hpp" />
     <ClInclude Include="scene_node.hpp" />
     <ClInclude Include="shader.hpp" />
@@ -253,6 +257,7 @@
     <ClCompile Include="texture_cube.cpp" />
     <ClCompile Include="transform.cpp" />
     <ClCompile Include="transforms.cpp" />
+    <ClCompile Include="transparent_renderer.cpp" />
     <ClCompile Include="vec2.cpp" />
     <ClCompile Include="vec3.cpp" />
     <ClCompile Include="vec4.cpp" />

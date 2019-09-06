@@ -29,7 +29,7 @@ namespace aech::resource_manager
 
 	entity_t load_mesh(const std::string& path);
 	entity_t process_node(const aiNode* node, const aiScene* scene);
-	const graphics::mesh_t* parse_mesh(aiMesh* mesh, const aiScene* scene);
+	graphics::mesh_t* parse_mesh(aiMesh* mesh, const aiScene* scene);
 
 	graphics::shader_t& load_shader(
 		const std::string& name,
@@ -47,5 +47,5 @@ namespace aech::resource_manager
 		const std::string& front,
 		const std::string& back);
 	graphics::texture_cube_t& load_texture_cube(const std::string& name, const std::string& folder);
-	const graphics::material_t* parse_material(const aiScene* scene, aiMaterial* material);
+	graphics::material_t* parse_material(const aiScene* scene, aiMaterial* material);
 }

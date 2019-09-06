@@ -40,7 +40,6 @@ void aech::graphics::directional_light_renderer_t::update()
 		mesh_filter.material->set_uniforms();
 
 		glBindVertexArray(mesh_filter.mesh->m_vao);
-		// TODO: use glDrawElements
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, mesh_filter.mesh->m_positions.size());
 		glBindVertexArray(0);
 	}
