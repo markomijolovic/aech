@@ -5,7 +5,6 @@
 #include "directional_light.hpp"
 #include "point_light.hpp"
 #include "shadow_caster.hpp"
-#include <iostream>
 
 namespace aech::graphics
 {
@@ -15,15 +14,13 @@ namespace aech::graphics
 		mesh_library::generate_default_meshes();
 		generate_default_framebuffers();
 
-
-
-		g_buffer_renderer = engine.register_system<g_buffer_renderer_t>();
+		g_buffer_renderer = engine.register_system<opaque_renderer_t>();
 		{
 			signature_t signature{};
 			signature.set(engine.get_component_type<transform_t>());
 			signature.set(engine.get_component_type<scene_node_t>());
 			signature.set(engine.get_component_type<mesh_filter_t>());
-			engine.set_system_signature<g_buffer_renderer_t>(signature);
+			engine.set_system_signature<opaque_renderer_t>(signature);
 		}
 
 		directional_light_renderer = engine.register_system<directional_light_renderer_t>();

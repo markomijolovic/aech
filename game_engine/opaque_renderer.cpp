@@ -6,11 +6,11 @@
 #include "resource_manager.hpp"
 #include "camera.hpp"
 #include "material_library.hpp"
-#include "g_buffer_renderer.hpp"
+#include "opaque_renderer.hpp"
 
 namespace aech::graphics
 {
-	void g_buffer_renderer_t::update()
+	void opaque_renderer_t::update()
 	{
 		setup_g_buffer();
 		for (auto entity : entities)
@@ -19,7 +19,7 @@ namespace aech::graphics
 		}
 	}
 
-	void g_buffer_renderer_t::setup_g_buffer() const
+	void opaque_renderer_t::setup_g_buffer() const
 	{
 		g_buffer->bind();
 		glViewport(0, 0, screen_width, screen_height);
@@ -34,7 +34,7 @@ namespace aech::graphics
 		glDrawBuffers(4, attachments);
 	}
 
-	void g_buffer_renderer_t::draw_entity(entity_t entity) const
+	void opaque_renderer_t::draw_entity(entity_t entity) const
 	{
 		auto& cameraTransform = engine.get_component<transform_t>(m_camera);
 		auto& camera = engine.get_component<camera_t>(m_camera);

@@ -210,7 +210,7 @@
     <ClInclude Include="framebuffer_library.hpp">
       <Filter>Header Files\graphics\rendering</Filter>
     </ClInclude>
-    <ClInclude Include="g_buffer_renderer.hpp">
+    <ClInclude Include="transparent_renderer.hpp">
       <Filter>Header Files\graphics\rendering</Filter>
     </ClInclude>
     <ClInclude Include="opaque_renderer.hpp">
@@ -281,9 +281,6 @@
     <ClCompile Include="sphere.cpp">
       <Filter>Source Files\graphics\mesh</Filter>
     </ClCompile>
-    <ClCompile Include="g_buffer_renderer.cpp">
-      <Filter>Source Files\graphics\rendering</Filter>
-    </ClCompile>
     <ClCompile Include="point_light_renderer.cpp">
       <Filter>Source Files\graphics\rendering</Filter>
     </ClCompile>
@@ -329,6 +326,9 @@
     <ClCompile Include="framebuffer_library.cpp">
       <Filter>Source Files\graphics\rendering</Filter>
     </ClCompile>
+    <ClCompile Include="opaque_renderer.cpp">
+      <Filter>Source Files\graphics\rendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="component_array.hpp">
@@ -358,16 +358,16 @@
     <None Include="forward_fragment.glsl">
       <Filter>Source Files\shaders</Filter>
     </None>
-    <None Include="shaders\opaque_fragment.glsl">
-      <Filter>Source Files\shaders</Filter>
-    </None>
-    <None Include="shaders\opaque_vertex.glsl">
-      <Filter>Source Files\shaders</Filter>
-    </None>
     <None Include="shaders\shadow_fragment.glsl">
       <Filter>Source Files\shaders</Filter>
     </None>
     <None Include="shaders\shadow_vertex.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\transparent_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\transparent_vertex.glsl">
       <Filter>Source Files\shaders</Filter>
     </None>
   </ItemGroup>

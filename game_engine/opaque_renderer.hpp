@@ -1,16 +1,19 @@
 #pragma once
-#include "system.hpp"
-#include "material_library.hpp"
-#include "mesh_library.hpp"
-#include "mesh_filter.hpp"
 
+#include "render_target.hpp"
+#include "main.hpp"
+#include "framebuffer_library.hpp"
 
 namespace aech::graphics
 {
 	class opaque_renderer_t : public ecs::system_t
 	{
-		mesh_filter_t mesh_filter{ mesh_library::default_meshes["quad"].get(), &material_library::default_materials["opaque"] };
+	public:
+		entity_t m_camera{};
+		render_target_t* g_buffer = &framebuffers["g_buffer"];
 
 		void update();
+		void draw_entity(entity_t entity) const;
+		void setup_g_buffer() const;
 	};
 }

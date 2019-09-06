@@ -148,7 +148,7 @@
     <ClInclude Include="entity_manager.hpp" />
     <ClInclude Include="event.hpp" />
     <ClInclude Include="event_manager.hpp" />
-    <ClInclude Include="opaque_renderer.hpp">
+    <ClInclude Include="transparent_renderer.hpp">
       <SubType>
       </SubType>
     </ClInclude>
@@ -175,7 +175,7 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="point_light.hpp" />
-    <ClInclude Include="g_buffer_renderer.hpp" />
+    <ClInclude Include="opaque_renderer.hpp" />
     <ClInclude Include="point_light_renderer.hpp">
       <SubType>
       </SubType>
@@ -234,7 +234,7 @@
     <ClCompile Include="material_library.cpp" />
     <ClCompile Include="mesh.cpp" />
     <ClCompile Include="mesh_library.cpp" />
-    <ClCompile Include="g_buffer_renderer.cpp" />
+    <ClCompile Include="opaque_renderer.cpp" />
     <ClCompile Include="point_light_renderer.cpp" />
     <ClCompile Include="quad.cpp" />
     <ClCompile Include="renderer.cpp" />
@@ -268,8 +268,8 @@
     <None Include="shaders\directional_vertex.glsl" />
     <None Include="shaders\g_buffer_fragment.glsl" />
     <None Include="shaders\g_buffer_vertex.glsl" />
-    <None Include="shaders\opaque_fragment.glsl" />
-    <None Include="shaders\opaque_vertex.glsl" />
+    <None Include="shaders\transparent_fragment.glsl" />
+    <None Include="shaders\transparent_vertex.glsl" />
     <None Include="shaders\point_fragment.glsl" />
     <None Include="shaders\point_vertex.glsl" />
     <None Include="shaders\shadow_fragment.glsl" />
