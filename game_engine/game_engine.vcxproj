@@ -148,6 +148,10 @@
     <ClInclude Include="entity_manager.hpp" />
     <ClInclude Include="event.hpp" />
     <ClInclude Include="event_manager.hpp" />
+    <ClInclude Include="indirect_lighting_renderer.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="shading_tags.hpp">
       <SubType>
       </SubType>
@@ -200,7 +204,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="shadow_renderer.hpp">
+    <ClInclude Include="opaque_shadow_renderer.hpp">
       <SubType>
       </SubType>
     </ClInclude>
@@ -218,6 +222,10 @@
     </ClInclude>
     <ClInclude Include="transforms.hpp" />
     <ClInclude Include="aech_types.hpp" />
+    <ClInclude Include="transparent_shadow_renderer.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="vec2.hpp" />
     <ClInclude Include="vec3.hpp" />
     <ClInclude Include="vec4.hpp" />
@@ -249,7 +257,7 @@
     <ClCompile Include="resource_manager.cpp" />
     <ClCompile Include="scene_node.cpp" />
     <ClCompile Include="shader.cpp" />
-    <ClCompile Include="shadow_renderer.cpp" />
+    <ClCompile Include="opaque_shadow_renderer.cpp" />
     <ClCompile Include="sphere.cpp" />
     <ClCompile Include="stb_image.cpp" />
     <ClCompile Include="system_manager.cpp" />
@@ -258,17 +266,14 @@
     <ClCompile Include="transform.cpp" />
     <ClCompile Include="transforms.cpp" />
     <ClCompile Include="transparent_renderer.cpp" />
+    <ClCompile Include="transparent_shadow_renderer.cpp" />
     <ClCompile Include="vec2.cpp" />
     <ClCompile Include="vec3.cpp" />
     <ClCompile Include="vec4.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="component_array.hpp" />
-    <None Include="forward_fragment.glsl">
-      <SubType>
-      </SubType>
-    </None>
-    <None Include="forward_vertex.glsl">
+    <None Include="cube_sample_vertex.glsl">
       <SubType>
       </SubType>
     </None>
@@ -277,11 +282,13 @@
     <None Include="shaders\g_buffer_fragment.glsl" />
     <None Include="shaders\g_buffer_vertex.glsl" />
     <None Include="shaders\transparent_fragment.glsl" />
+    <None Include="shaders\transparent_shadow_fragment.glsl" />
+    <None Include="shaders\transparent_shadow_vertex.glsl" />
     <None Include="shaders\transparent_vertex.glsl" />
     <None Include="shaders\point_fragment.glsl" />
     <None Include="shaders\point_vertex.glsl" />
-    <None Include="shaders\shadow_fragment.glsl" />
-    <None Include="shaders\shadow_vertex.glsl" />
+    <None Include="shaders\opaque_shadow_fragment.glsl" />
+    <None Include="shaders\opaque_shadow_vertex.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

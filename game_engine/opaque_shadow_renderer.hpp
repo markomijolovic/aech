@@ -7,13 +7,13 @@
 
 namespace aech::graphics
 {
-	class shadow_renderer_t : public ecs::system_t
+	class opaque_shadow_renderer_t : public ecs::system_t
 	{
 	public:
 		entity_t dirlight{};
 
 		framebuffer_t* shadow_map = &framebuffers["shadow_map"];
-		shader_t* shader = &resource_manager::shaders["shadow"];
+		material_t* material = &material_library::default_materials["opaque_shadow"];
 
 		void update();
 	};

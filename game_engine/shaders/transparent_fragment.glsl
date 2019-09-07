@@ -60,8 +60,9 @@ vec3 schlicks_approximation(float cos_angle, vec3 f0)
 // TODO: sampling
 float shadow(vec3 position, float cosangle) {
 	vec4 shadow_coords = depth_bias_vp * vec4(position, 1.0);
+	// no bias, seems to work well	
 	float bias = max(0.05 * cosangle, 0.005);
-	if (texture(light_shadow_map, shadow_coords.xy).r < shadow_coords.z - bias) {
+		if (texture(light_shadow_map, shadow_coords.xy).r < shadow_coords.z - bias) {
 		return 0;
 	}
 	return 1;
@@ -91,5 +92,9 @@ void main()
 	// TODO: add shadows
 	vec4 outgoing_radiance = (diffuse + specular) * radiance * max(dot(normal, light), 0.0) * shadow(fragment_world_position, max(dot(normal, light), 0.0));
 
-	fragment_colour = outgoing_radiance + albedo * 0.25;
+	// TODO: fix this shit
+	if (albedo.a < 0.1) {
+		discard;
+	}
+	fragment_colour = vec4(vec3(outgoing_radiance + albedo * 0.1), 1.0);
 }

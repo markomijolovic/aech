@@ -8,6 +8,9 @@
 
 void aech::graphics::transparent_renderer_t::update()
 {
+	render_target->bind();
+	mesh_filter.material->m_shader->use();
+
 	auto& camera_transform = engine.get_component<transform_t>(m_camera);
 	auto& camera = engine.get_component<camera_t>(m_camera);
 	auto view = math::get_view_matrix(camera_transform);
@@ -16,6 +19,11 @@ void aech::graphics::transparent_renderer_t::update()
 	auto& light_transform = engine.get_component<transform_t>(dirlight);
 	auto& light = engine.get_component<directional_light_t>(dirlight);
 
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	// TODO: sync this across renderers
 	auto light_projection = math::orthographic(-2250, 2250, -2250, 2000, 0, 2250);
 	aech::math::mat4_t bias_matrix
 	{
@@ -27,8 +35,7 @@ void aech::graphics::transparent_renderer_t::update()
 
 	auto light_view = math::get_view_matrix(light_transform);
 
-	render_target->bind();
-	mesh_filter.material->m_shader->use();
+
 	for (auto entity: entities)
 	{
 		auto& mesh_filter = engine.get_component<mesh_filter_t>(entity);
@@ -43,6 +50,7 @@ void aech::graphics::transparent_renderer_t::update()
 		mesh_filter.material->m_shader->set_uniform("light_colour", light.colour);
 		mesh_filter.material->m_shader->set_uniform("light_intensity", light.intensity);
 		mesh_filter.material->m_shader->set_uniform("depth_bias_vp", bias_matrix * light_projection * light_view);
+		mesh_filter.material->m_shader->set_uniform("camera_position", camera_transform.position);
 
 		glBindVertexArray(mesh_filter.mesh->m_vao);
 		glDrawElements(GL_TRIANGLES, mesh_filter.mesh->m_positions.size(), GL_UNSIGNED_INT, 0);

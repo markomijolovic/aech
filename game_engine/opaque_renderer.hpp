@@ -10,7 +10,7 @@ namespace aech::graphics
 	{
 	public:
 		entity_t m_camera{};
-		framebuffer_t* g_buffer = &framebuffers["g_buffer"];
+		framebuffer_t* render_target = &framebuffers["g_buffer"];
 
 		void update();
 		void draw_entity(entity_t entity) const;

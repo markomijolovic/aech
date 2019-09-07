@@ -21,7 +21,7 @@ namespace aech::graphics
 
 	void opaque_renderer_t::setup_g_buffer() const
 	{
-		g_buffer->bind();
+		render_target->bind();
 		glViewport(0, 0, screen_width, screen_height);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glEnable(GL_CULL_FACE);

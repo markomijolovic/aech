@@ -153,9 +153,6 @@
     <ClInclude Include="renderer.hpp">
       <Filter>Header Files\graphics\rendering</Filter>
     </ClInclude>
-    <ClInclude Include="shadow_renderer.hpp">
-      <Filter>Header Files\graphics\rendering</Filter>
-    </ClInclude>
     <ClInclude Include="resource_manager.hpp">
       <Filter>Header Files\resource management</Filter>
     </ClInclude>
@@ -218,6 +215,15 @@
     </ClInclude>
     <ClInclude Include="shading_tags.hpp">
       <Filter>Header Files\graphics\shading</Filter>
+    </ClInclude>
+    <ClInclude Include="transparent_shadow_renderer.hpp">
+      <Filter>Header Files\graphics\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="opaque_shadow_renderer.hpp">
+      <Filter>Header Files\graphics\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="indirect_lighting_renderer.hpp">
+      <Filter>Source Files\graphics\rendering</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -296,9 +302,6 @@
     <ClCompile Include="renderer.cpp">
       <Filter>Source Files\graphics\rendering</Filter>
     </ClCompile>
-    <ClCompile Include="shadow_renderer.cpp">
-      <Filter>Source Files\graphics\rendering</Filter>
-    </ClCompile>
     <ClCompile Include="stb_image.cpp">
       <Filter>Source Files\includes</Filter>
     </ClCompile>
@@ -335,6 +338,12 @@
     <ClCompile Include="transparent_renderer.cpp">
       <Filter>Source Files\graphics\rendering</Filter>
     </ClCompile>
+    <ClCompile Include="transparent_shadow_renderer.cpp">
+      <Filter>Source Files\graphics\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="opaque_shadow_renderer.cpp">
+      <Filter>Source Files\graphics\rendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="component_array.hpp">
@@ -358,22 +367,25 @@
     <None Include="shaders\point_vertex.glsl">
       <Filter>Source Files\shaders</Filter>
     </None>
-    <None Include="forward_vertex.glsl">
-      <Filter>Source Files\shaders</Filter>
-    </None>
-    <None Include="forward_fragment.glsl">
-      <Filter>Source Files\shaders</Filter>
-    </None>
-    <None Include="shaders\shadow_fragment.glsl">
-      <Filter>Source Files\shaders</Filter>
-    </None>
-    <None Include="shaders\shadow_vertex.glsl">
-      <Filter>Source Files\shaders</Filter>
-    </None>
     <None Include="shaders\transparent_fragment.glsl">
       <Filter>Source Files\shaders</Filter>
     </None>
     <None Include="shaders\transparent_vertex.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\opaque_shadow_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\opaque_shadow_vertex.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\transparent_shadow_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\transparent_shadow_vertex.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="cube_sample_vertex.glsl">
       <Filter>Source Files\shaders</Filter>
     </None>
   </ItemGroup>

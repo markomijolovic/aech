@@ -6,6 +6,7 @@
 #include "point_light.hpp"
 #include "shadow_caster.hpp"
 #include "shading_tags.hpp"
+#include "transparent_shadow_renderer.hpp"
 
 namespace aech::graphics
 {
@@ -15,7 +16,7 @@ namespace aech::graphics
 		mesh_library::generate_default_meshes();
 		generate_default_framebuffers();
 
-		g_buffer_renderer = engine.register_system<opaque_renderer_t>();
+		opaque_renderer = engine.register_system<opaque_renderer_t>();
 		{
 			signature_t signature{};
 			signature.set(engine.get_component_type<transform_t>());
@@ -25,12 +26,22 @@ namespace aech::graphics
 			engine.set_system_signature<opaque_renderer_t>(signature);
 		}
 
-		shadow_renderer = engine.register_system<shadow_renderer_t>();
+		opaque_shadow_renderer = engine.register_system<opaque_shadow_renderer_t>();
 		{
 			signature_t signature{};
 			signature.set(engine.get_component_type<shadow_caster_t>());
 			signature.set(engine.get_component_type<transform_t>());
-			engine.set_system_signature<shadow_renderer_t>(signature);
+			signature.set(engine.get_component_type<opaque_t>());
+			engine.set_system_signature<opaque_shadow_renderer_t>(signature);
+		}
+
+		transparent_shadow_renderer = engine.register_system<transparent_shadow_renderer_t>();
+		{
+			signature_t signature{};
+			signature.set(engine.get_component_type<shadow_caster_t>());
+			signature.set(engine.get_component_type<transform_t>());
+			signature.set(engine.get_component_type<transparent_t>());
+			engine.set_system_signature<transparent_shadow_renderer_t>(signature);
 		}
 
 		directional_light_renderer = engine.register_system<directional_light_renderer_t>();
@@ -77,29 +88,35 @@ namespace aech::graphics
 		);
 
 		auto dirlight = engine.create_entity();
-		engine.add_component(dirlight, directional_light_t{ {1, 1,1}, 10 });
+		engine.add_component(dirlight, directional_light_t{ {1, 1,1}, 5 });
 		engine.add_component(dirlight, transform_t{ {0, 1750, 0}, {-80, -10, -10}, });
 
-		shadow_renderer->dirlight = dirlight;
-		g_buffer_renderer->m_camera = m_camera;
+		opaque_shadow_renderer->dirlight = dirlight;
+		transparent_shadow_renderer->dirlight = dirlight;
+
+		opaque_renderer->m_camera = m_camera;
 		point_light_renderer->m_camera = m_camera;
 		transparent_renderer->m_camera = m_camera;
 		transparent_renderer->dirlight = dirlight;
 
-		directional_light_renderer->mesh_filter.material->set_texture("texture_position", &g_buffer_renderer->g_buffer->m_colour_attachments[0], 0);
-		directional_light_renderer->mesh_filter.material->set_texture("texture_normal", &g_buffer_renderer->g_buffer->m_colour_attachments[1], 1);
-		directional_light_renderer->mesh_filter.material->set_texture("texture_albedo", &g_buffer_renderer->g_buffer->m_colour_attachments[2], 2);
-		directional_light_renderer->mesh_filter.material->set_texture("texture_metallic_roughness_ao", &g_buffer_renderer->g_buffer->m_colour_attachments[3], 3);
-		directional_light_renderer->mesh_filter.material->set_texture("light_shadow_map", &shadow_renderer->shadow_map->m_colour_attachments[0], 4);
+		directional_light_renderer->mesh_filter.material->set_texture("texture_position", &opaque_renderer->render_target->m_colour_attachments[0], 0);
+		directional_light_renderer->mesh_filter.material->set_texture("texture_normal", &opaque_renderer->render_target->m_colour_attachments[1], 1);
+		directional_light_renderer->mesh_filter.material->set_texture("texture_albedo", &opaque_renderer->render_target->m_colour_attachments[2], 2);
+		directional_light_renderer->mesh_filter.material->set_texture("texture_metallic_roughness_ao", &opaque_renderer->render_target->m_colour_attachments[3], 3);
+		directional_light_renderer->mesh_filter.material->set_texture("light_shadow_map", &opaque_shadow_renderer->shadow_map->m_colour_attachments[0], 4);
+	
+		transparent_renderer->mesh_filter.material->set_texture("light_shadow_map", &opaque_shadow_renderer->shadow_map->m_colour_attachments[0], 4);
 	}
 
 	void renderer_t::update()
 	{
 		// 1. render to g buffer
-		g_buffer_renderer->update();
+		opaque_renderer->update();
 
 		// 2. render shadows
-		shadow_renderer->update();
+		// TODO: fix shadows
+		opaque_shadow_renderer->update();
+		transparent_shadow_renderer->update();
 		// 4. render lights
 
 		directional_light_renderer->update();
@@ -107,6 +124,11 @@ namespace aech::graphics
 		//glCullFace(GL_FRONT);
 		//point_light_renderer->update();
 		//glCullFace(GL_BACK);
+
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, transparent_renderer->render_target->id);
+		glBindFramebuffer(GL_READ_FRAMEBUFFER, opaque_renderer->render_target->id);
+		glBlitFramebuffer(0, 0, screen_width, screen_height, 0, 0, screen_width, screen_height, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+
 
 		transparent_renderer->update();
 
