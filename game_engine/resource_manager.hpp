@@ -38,14 +38,14 @@ namespace aech::resource_manager
 		const std::string& geometry = {}
 	);
 	graphics::texture_t* load_texture(const std::string& name, const std::string& path);
-	graphics::texture_t& load_hdr_texture(const std::string& name, const std::string& path);
-	graphics::texture_cube_t& load_texture_cube(const std::string& name,
-		const std::string& top,
-		const std::string& bottom,
-		const std::string& left,
-		const std::string& right,
-		const std::string& front,
-		const std::string& back);
-	graphics::texture_cube_t& load_texture_cube(const std::string& name, const std::string& folder);
+	graphics::texture_t* load_hdr_texture(const std::string& name, const std::string& path);
+	graphics::texture_cube_t* load_texture_cube(const std::string& name,
+	                                            const std::string& top,
+	                                            const std::string& bottom,
+	                                            const std::string& left,
+	                                            const std::string& right,
+	                                            const std::string& front,
+	                                            const std::string& back);
+	graphics::texture_cube_t* load_texture_cube(const std::string& name, const std::string& folder);
 	graphics::material_t* parse_material(const aiScene* scene, aiMaterial* material);
 }

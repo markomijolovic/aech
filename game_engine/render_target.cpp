@@ -9,7 +9,8 @@ namespace aech::graphics
 		bool depth,
 		texture_types::sized_internal_format sized_internal_format,
 		texture_types::format format,
-		texture_types::type type)
+		texture_types::type type
+		)
 		: width{width}, height{height}
 	{
 		glGenFramebuffers(1, &id);

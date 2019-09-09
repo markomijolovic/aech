@@ -1,6 +1,8 @@
 #include "texture_cube.hpp"
 #include <algorithm>
 #include <glad/glad.h>
+#include <ostream>
+#include <iostream>
 
 namespace aech::graphics
 {
@@ -13,6 +15,9 @@ namespace aech::graphics
 		glTexParameteri(static_cast<GLenum>(target), GL_TEXTURE_MAG_FILTER, static_cast<GLenum>(filtering_mag));
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, static_cast<GLenum>(wrap_s));
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, static_cast<GLenum>(wrap_t));
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, static_cast<GLenum>(wrap_r));
+		const int levels = mipmap ? floor(log2(std::max(width, height))) + 1 : 1;
+		glTexStorage2D(GL_TEXTURE_CUBE_MAP, levels, static_cast<GLenum>(sized_internal_format), width, height);
 		unbind();
 	}
 
@@ -40,20 +45,13 @@ namespace aech::graphics
 
 
 	void texture_cube_t::generate_face(uint32_t index,
-		uint32_t width,
-		uint32_t height,
-		texture_types::sized_internal_format sized_internal_format,
-		texture_types::format format,
-		texture_types::type type,
 		void* data)
 	{
 		bind();
-		const int levels = mipmap ? floor(log2(std::max(width, height))) + 1 : 1;
-		glTexStorage2D(static_cast<GLenum>(target) + index, levels, static_cast<GLenum>(sized_internal_format), width, height);
-
+		
 		if (data != nullptr)
 		{
-			glTexSubImage2D(static_cast<GLenum>(target) + index, 0, 0, 0, width, height, static_cast<GLenum>(format), static_cast<GLenum>(type), data);
+			glTexSubImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + index, 0, 0, 0, width, height, static_cast<GLenum>(format), static_cast<GLenum>(type), data);
 		}
 		unbind();
 	}

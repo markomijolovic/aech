@@ -28,11 +28,13 @@ void aech::graphics::material_library::generate_default_materials()
 	auto& transparent_material = default_materials["transparent"];
 	transparent_material.m_shader = transparent_shader;
 
-	auto hdr_to_cubemap_shader = &resource_manager::load_shader("hdr_to_cubemap" , "shaders/pbr/cube_sample_vertex.glsl", "shaders/pbr/spherical_to_cube_fragment.glsl", "");
+	auto hdr_to_cubemap_shader = &resource_manager::load_shader("hdr_to_cubemap" , "shaders/pbr/cube_sample_vertex.glsl", "shaders/pbr/equirectangular_to_cube_fragment.glsl", "");
 	auto& hdr_to_cubemap_material = default_materials["hdr_to_cubemap"];
 	hdr_to_cubemap_material.m_shader = hdr_to_cubemap_shader;
 
-	auto irradiance_shader = &resource_manager::load_shader("irradiance", "shaders/pbr/cube_sample_vertex.glsl", "shaders/pbr/irradiance_fragment.glsl", "");
+	auto background_shader = &resource_manager::load_shader("background", "shaders/background_vertex.glsl", "shaders/background_fragment.glsl");
+
+	/*auto irradiance_shader = &resource_manager::load_shader("irradiance", "shaders/pbr/cube_sample_vertex.glsl", "shaders/pbr/irradiance_fragment.glsl", "");
 	auto& irradiance_material = default_materials["irradiance"];
 	irradiance_material.m_shader = irradiance_shader;
 
@@ -48,7 +50,7 @@ void aech::graphics::material_library::generate_default_materials()
 	auto probe_capture_shader = &resource_manager::load_shader("probe_capture", "shaders/pbr/probe_capture_vertex.glsl", "shaders/pbr/probe_capture_fragment.glsl", "");
 	auto& probe_capture_material = default_materials["probe_capture"];
 	probe_capture_material.m_shader = probe_capture_shader;
-
+*/
 	// probe_render_shader
 }
 

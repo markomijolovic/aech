@@ -82,80 +82,82 @@ namespace aech::resource_manager
 		return shaders[name];
 	}
 
-	texture_cube_t& load_texture_cube(const std::string& name,
-		const std::string& top,
-		const std::string& bottom,
-		const std::string& left,
-		const std::string& right,
-		const std::string& front,
-		const std::string& back)
-	{
-		if (texture_cubes.find(name) != std::end(texture_cubes))
-		{
-			return texture_cubes[name];
-		}
+	//texture_cube_t* load_texture_cube(const std::string& name,
+	//                                  const std::string& top,
+	//                                  const std::string& bottom,
+	//                                  const std::string& left,
+	//                                  const std::string& right,
+	//                                  const std::string& front,
+	//                                  const std::string& back)
+	//{
+	//	if (texture_cubes.find(name) != std::end(texture_cubes))
+	//	{
+	//		return &texture_cubes[name];
+	//	}
 
-		texture_cube_t texture{};
-		texture.init();
+	//	texture_cube_t texture{};
+	//	texture.init();
 
-		stbi_set_flip_vertically_on_load(0);
+	//	stbi_set_flip_vertically_on_load(0);
 
-		std::vector<std::string> faces{ top, bottom, left, right, front, back };
+	//	std::vector<std::string> faces{ top, bottom, left, right, front, back };
 
 
-		for (size_t i = 0; i < faces.size(); i++)
-		{
-			int32_t    width;
-			int32_t    height;
-			int32_t    number_of_components;
-			const auto data = stbi_load(faces[i].c_str(), &width, &height, &number_of_components, 0);
-			if (data != nullptr)
-			{
-				texture_types::sized_internal_format sized_internal_format{};
-				texture_types::format format{};
+	//	for (size_t i = 0; i < faces.size(); i++)
+	//	{
+	//		int32_t    width;
+	//		int32_t    height;
+	//		int32_t    number_of_components;
+	//		const auto data = stbi_load(faces[i].c_str(), &width, &height, &number_of_components, 0);
+	//		if (data != nullptr)
+	//		{
+	//			texture_types::sized_internal_format sized_internal_format{};
+	//			texture_types::format format{};
 
-				switch (number_of_components)
-				{
-				case 1:
-					sized_internal_format = texture_types::sized_internal_format::r8;
-					format = texture_types::format::r;
-					break;
-				case 2:
-					sized_internal_format = texture_types::sized_internal_format::rg8;
-					format = texture_types::format::rg;
-					break;
-				case 3:
-					sized_internal_format = texture_types::sized_internal_format::rgb8;
-					format = texture_types::format::rgb;
-					break;
-				case 4:
-					sized_internal_format = texture_types::sized_internal_format::rgba8;
-					format = texture_types::format::rgba;
-					break;
-				default:
-					break;
-				}
+	//			switch (number_of_components)
+	//			{
+	//			case 1:
+	//				sized_internal_format = texture_types::sized_internal_format::r8;
+	//				format = texture_types::format::r;
+	//				break;
+	//			case 2:
+	//				sized_internal_format = texture_types::sized_internal_format::rg8;
+	//				format = texture_types::format::rg;
+	//				break;
+	//			case 3:
+	//				sized_internal_format = texture_types::sized_internal_format::rgb8;
+	//				format = texture_types::format::rgb;
+	//				break;
+	//			case 4:
+	//				sized_internal_format = texture_types::sized_internal_format::rgba8;
+	//				format = texture_types::format::rgba;
+	//				break;
+	//			default:
+	//				break;
+	//			}
 
-				texture.generate_face(i,
-					width,
-					height,
-					sized_internal_format,
-					format,
-					texture_types::type::ubyte,
-					data);
-				stbi_image_free(data);
-			}
-			else
-			{
-				std::cerr << "Cube texture at path: " << faces[i] << " failed to load\n";
-				stbi_image_free(data);
-			}
-		}
+	//			texture.generate_face(i,
+	//				width,
+	//				height,
+	//				sized_internal_format,
+	//				format,
+	//				texture_types::type::ubyte,
+	//				data);
+	//			stbi_image_free(data);
+	//		}
+	//		else
+	//		{
+	//			std::cerr << "Cube texture at path: " << faces[i] << " failed to load\n";
+	//			stbi_image_free(data);
+	//		}
+	//	}
 
-		texture.generate_mips();
+	//	texture.generate_mips();
 
-		return texture_cubes[name] = texture;
-	}
+	//	texture_cubes[name] = texture;
+
+	//	return &texture_cubes[name];
+	//}
 
 	texture_t* load_texture(const std::string& name,
 	                                          const std::string& path)
@@ -221,53 +223,65 @@ namespace aech::resource_manager
 		return &textures[name];
 	}
 
-	//aech::texture_t& aech::resource_manager::load_hdr_texture(const std::string& name, const std::string& path)
-	//{
-	//	if (textures.find(name) != std::end(textures))
-	//	{
-	//		return textures[name];
-	//	}
-	//
-	//	texture_t texture{};
-	//	texture.m_target = GL_TEXTURE_2D;
-	//	texture.m_filter_min = GL_LINEAR;
-	//	texture.m_mipmap = false;
-	//
-	//	stbi_set_flip_vertically_on_load(true);
-	//
-	//	if (stbi_is_hdr(path.c_str()))
-	//	{
-	//		int32_t width, height, number_of_components;
-	//		const auto data = stbi_loadf(path.c_str(), &width, &height, &number_of_components, 0);
-	//
-	//		if (data)
-	//		{
-	//			GLenum internal_format, format;
-	//			if (number_of_components == 3)
-	//			{
-	//				internal_format = GL_RGB32F;
-	//				format = GL_RGB;
-	//			}
-	//			else if (number_of_components == 4)
-	//			{
-	//				internal_format = GL_RGBA32F;
-	//				format = GL_RGBA;
-	//			}
-	//
-	//			texture.generate(width, height, internal_format, format, GL_FLOAT, data);
-	//			stbi_image_free(data);
-	//		}
-	//
-	//		texture.m_width = width;
-	//		texture.m_height = height;
-	//	}
-	//	else
-	//	{
-	//		std::cerr << "Failed to load HDR texture at: " << path << '\n';
-	//	}
-	//
-	//	return textures[name] = texture;
-	//}
+	texture_t* load_hdr_texture(const std::string& name, const std::string& path)
+	{
+		if (textures.find(name) != std::end(textures))
+		{
+			return &textures[name];
+		}
+
+		stbi_set_flip_vertically_on_load(true);
+
+		int32_t width, height, number_of_components;
+		const auto data = stbi_loadf(path.c_str(), &width, &height, &number_of_components, 0);
+
+		if (data != nullptr)
+		{
+			texture_types::format                format{};
+			texture_types::sized_internal_format sized_internal_format{};
+
+			switch (number_of_components)
+			{
+			case 1:
+				sized_internal_format = texture_types::sized_internal_format::r32f;
+				format = texture_types::format::r;
+				break;
+			case 2:
+				sized_internal_format = texture_types::sized_internal_format::rg32f;
+				format = texture_types::format::rg;
+				break;
+			case 3:
+				sized_internal_format = texture_types::sized_internal_format::rgb32f;
+				format = texture_types::format::rgb;
+				break;
+			case 4:
+				sized_internal_format = texture_types::sized_internal_format::rgba32f;
+				format = texture_types::format::rgba;
+				break;
+			default:
+				break;
+			}
+
+			auto& texture = textures[name] = texture_t{
+				.width = static_cast<uint32_t>(width),
+				.height = static_cast<uint32_t>(height),
+				.sized_internal_format = sized_internal_format,
+				.format = format,
+				.type = texture_types::type::floating_point,	
+				.filtering_min = texture_types::filtering::linear_mipmap_linear,
+				.data = data,
+			};
+			texture.generate();
+		}
+		else
+		{
+			std::cerr << "Failed to load texture at: " << path << '\n';
+			textures[name] = texture_t{};
+		}
+		stbi_image_free(data);
+
+		return &textures[name];
+	}
 
 	entity_t process_node(const aiNode* node, const aiScene* scene)
 	{
@@ -460,20 +474,19 @@ namespace aech::resource_manager
 		return ret_val;
 	}
 
-	
 
-	texture_cube_t& load_texture_cube(const std::string& name, const std::string& folder)
-	{
-		return load_texture_cube(
-		                         name,
-		                         folder + "right.jpg",
-		                         folder + "left.jpg",
-		                         folder + "top.jpg",
-		                         folder + "bottom.jpg",
-		                         folder + "front.jpg",
-		                         folder + "back.jpg"
-		                        );
-	}
+	//texture_cube_t* load_texture_cube(const std::string& name, const std::string& folder)
+	//{
+	//	return load_texture_cube(
+	//	                         name,
+	//	                         folder + "right.jpg",
+	//	                         folder + "left.jpg",
+	//	                         folder + "top.jpg",
+	//	                         folder + "bottom.jpg",
+	//	                         folder + "front.jpg",
+	//	                         folder + "back.jpg"
+	//	                        );
+	//}
 
 
 	material_t* parse_material(const aiScene* /*scene*/, aiMaterial* a_material)

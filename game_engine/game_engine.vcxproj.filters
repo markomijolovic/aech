@@ -222,8 +222,11 @@
     <ClInclude Include="opaque_shadow_renderer.hpp">
       <Filter>Header Files\graphics\rendering</Filter>
     </ClInclude>
+    <ClInclude Include="framebuffer_cube.hpp">
+      <Filter>Header Files\graphics\rendering</Filter>
+    </ClInclude>
     <ClInclude Include="indirect_lighting_renderer.hpp">
-      <Filter>Source Files\graphics\rendering</Filter>
+      <Filter>Header Files\graphics\rendering</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -344,6 +347,9 @@
     <ClCompile Include="opaque_shadow_renderer.cpp">
       <Filter>Source Files\graphics\rendering</Filter>
     </ClCompile>
+    <ClCompile Include="framebuffer_cube.cpp">
+      <Filter>Source Files\graphics\rendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="component_array.hpp">
@@ -386,6 +392,12 @@
       <Filter>Source Files\shaders</Filter>
     </None>
     <None Include="cube_sample_vertex.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\background_vertex.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\background_fragment.glsl">
       <Filter>Source Files\shaders</Filter>
     </None>
   </ItemGroup>

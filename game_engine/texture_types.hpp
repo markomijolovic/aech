@@ -41,7 +41,8 @@ namespace aech::graphics::texture_types {
 
 	enum class sampling
 	{
-		repeat = GL_REPEAT
+		repeat = GL_REPEAT,
+		clamp_to_edge = GL_CLAMP_TO_EDGE
 	};
 
 	enum class target

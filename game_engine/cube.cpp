@@ -83,6 +83,9 @@ namespace aech::graphics
 			vec3_t(-0.5F, 0.5F, -0.5)
 		};
 
+		// TODO: LOL FIX THIS
+		for (auto& el : m_positions) el *= 2;
+
 		m_normals = {
 			vec3_t(0.0F, 0.0F, -1.0F),
 			vec3_t(0.0F, 0.0F, -1.0F),
