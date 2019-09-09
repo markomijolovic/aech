@@ -45,6 +45,8 @@ namespace aech::resource_manager
 			return shaders[name];
 		}
 
+		std::clog << "Loading shader " << name << std::endl;
+
 		std::string vertex_code{};
 		std::string fragment_code{};
 		std::string geometry_code{};
@@ -74,7 +76,7 @@ namespace aech::resource_manager
 		}
 		catch (const std::exception& exc)
 		{
-			std::cerr << exc.what() << '\n';
+			std::clog << exc.what() << std::endl;
 		}
 
 		shaders[name] = shader_t{};
@@ -82,82 +84,87 @@ namespace aech::resource_manager
 		return shaders[name];
 	}
 
-	//texture_cube_t* load_texture_cube(const std::string& name,
-	//                                  const std::string& top,
-	//                                  const std::string& bottom,
-	//                                  const std::string& left,
-	//                                  const std::string& right,
-	//                                  const std::string& front,
-	//                                  const std::string& back)
-	//{
-	//	if (texture_cubes.find(name) != std::end(texture_cubes))
-	//	{
-	//		return &texture_cubes[name];
-	//	}
+	texture_cube_t* load_texture_cube(const std::string& name,
+	                                  const std::string& top,
+	                                  const std::string& bottom,
+	                                  const std::string& left,
+	                                  const std::string& right,
+	                                  const std::string& front,
+	                                  const std::string& back)
+	{
+		if (texture_cubes.find(name) != std::end(texture_cubes))
+		{
+			return &texture_cubes[name];
+		}
 
-	//	texture_cube_t texture{};
-	//	texture.init();
+		std::clog << "Loading cubemap texture " << name << " from " << top << ", " << bottom << ", " << left << ", " << right << ", " << front << ", " << back << std::endl;
 
-	//	stbi_set_flip_vertically_on_load(0);
+		texture_cube_t texture{};
 
-	//	std::vector<std::string> faces{ top, bottom, left, right, front, back };
+		stbi_set_flip_vertically_on_load(0);
+
+		std::vector<std::string> faces{ top, bottom, left, right, front, back };
 
 
-	//	for (size_t i = 0; i < faces.size(); i++)
-	//	{
-	//		int32_t    width;
-	//		int32_t    height;
-	//		int32_t    number_of_components;
-	//		const auto data = stbi_load(faces[i].c_str(), &width, &height, &number_of_components, 0);
-	//		if (data != nullptr)
-	//		{
-	//			texture_types::sized_internal_format sized_internal_format{};
-	//			texture_types::format format{};
+		for (size_t i = 0; i < faces.size(); i++)
+		{
+			int32_t    width;
+			int32_t    height;
+			int32_t    number_of_components;
+			const auto data = stbi_load(faces[i].c_str(), &width, &height, &number_of_components, 0);
+			if (data != nullptr)
+			{
+				texture_types::sized_internal_format sized_internal_format{};
+				texture_types::format format{};
 
-	//			switch (number_of_components)
-	//			{
-	//			case 1:
-	//				sized_internal_format = texture_types::sized_internal_format::r8;
-	//				format = texture_types::format::r;
-	//				break;
-	//			case 2:
-	//				sized_internal_format = texture_types::sized_internal_format::rg8;
-	//				format = texture_types::format::rg;
-	//				break;
-	//			case 3:
-	//				sized_internal_format = texture_types::sized_internal_format::rgb8;
-	//				format = texture_types::format::rgb;
-	//				break;
-	//			case 4:
-	//				sized_internal_format = texture_types::sized_internal_format::rgba8;
-	//				format = texture_types::format::rgba;
-	//				break;
-	//			default:
-	//				break;
-	//			}
+				switch (number_of_components)
+				{
+				case 1:
+					sized_internal_format = texture_types::sized_internal_format::r8;
+					format = texture_types::format::r;
+					break;
+				case 2:
+					sized_internal_format = texture_types::sized_internal_format::rg8;
+					format = texture_types::format::rg;
+					break;
+				case 3:
+					sized_internal_format = texture_types::sized_internal_format::rgb8;
+					format = texture_types::format::rgb;
+					break;
+				case 4:
+					sized_internal_format = texture_types::sized_internal_format::rgba8;
+					format = texture_types::format::rgba;
+					break;
+				default:
+					break;
+				}
 
-	//			texture.generate_face(i,
-	//				width,
-	//				height,
-	//				sized_internal_format,
-	//				format,
-	//				texture_types::type::ubyte,
-	//				data);
-	//			stbi_image_free(data);
-	//		}
-	//		else
-	//		{
-	//			std::cerr << "Cube texture at path: " << faces[i] << " failed to load\n";
-	//			stbi_image_free(data);
-	//		}
-	//	}
+				if (i == 0)
+				{
+					texture.width = width;
+					texture.height = height;
+					texture.sized_internal_format = sized_internal_format;
+					texture.format = format;
+					texture.init();
+				}
 
-	//	texture.generate_mips();
+				texture.generate_face(i,
+					data);
+				stbi_image_free(data);
+			}
+			else
+			{
+				std::clog << "Cubemap texture " << name << " failed to load" << std::endl;
+				stbi_image_free(data);
+			}
+		}
 
-	//	texture_cubes[name] = texture;
+		texture.generate_mips();
 
-	//	return &texture_cubes[name];
-	//}
+		texture_cubes[name] = texture;
+
+		return &texture_cubes[name];
+	}
 
 	texture_t* load_texture(const std::string& name,
 	                                          const std::string& path)
@@ -167,7 +174,8 @@ namespace aech::resource_manager
 			return &textures[name];
 		}
 
-		// make open-gl happy
+		std::clog << "Loading texture " << name << " from " << path << std::endl;
+
 		stbi_set_flip_vertically_on_load(1);
 
 		int32_t    width;
@@ -215,7 +223,7 @@ namespace aech::resource_manager
 		}
 		else
 		{
-			std::cerr << "Failed to load texture at: " << path << '\n';
+			std::clog << "Failed to load texture " << name << " from " << path << std::endl;
 			textures[name] = texture_t{};
 		}
 		stbi_image_free(data);
@@ -229,6 +237,8 @@ namespace aech::resource_manager
 		{
 			return &textures[name];
 		}
+
+		std::clog << "Loading hdr texture " << name << " from " << path << std::endl;
 
 		stbi_set_flip_vertically_on_load(true);
 
@@ -275,7 +285,7 @@ namespace aech::resource_manager
 		}
 		else
 		{
-			std::cerr << "Failed to load texture at: " << path << '\n';
+			std::clog << "Failed to load hdr texture " << name << " from " << path << std::endl;
 			textures[name] = texture_t{};
 		}
 		stbi_image_free(data);
@@ -374,6 +384,7 @@ namespace aech::resource_manager
 
 	entity_t load_mesh(const std::string& path)
 	{
+		std::clog << "Loading mesh " << path << std::endl;
 		Assimp::Importer importer{};
 		const auto*      scene = importer.ReadFile(path,
 		                                           aiProcess_Triangulate |
@@ -382,7 +393,7 @@ namespace aech::resource_manager
 
 		if ((scene == nullptr) || scene->mFlags == AI_SCENE_FLAGS_INCOMPLETE)
 		{
-			std::cerr << "Assimp failed to load scene at path: " << path << '\n';
+			std::clog << "Failed to load mesh from " << path << std::endl;
 			return invalid_entity_id;
 		}
 
@@ -475,18 +486,18 @@ namespace aech::resource_manager
 	}
 
 
-	//texture_cube_t* load_texture_cube(const std::string& name, const std::string& folder)
-	//{
-	//	return load_texture_cube(
-	//	                         name,
-	//	                         folder + "right.jpg",
-	//	                         folder + "left.jpg",
-	//	                         folder + "top.jpg",
-	//	                         folder + "bottom.jpg",
-	//	                         folder + "front.jpg",
-	//	                         folder + "back.jpg"
-	//	                        );
-	//}
+	texture_cube_t* load_texture_cube(const std::string& name, const std::string& folder)
+	{
+		return load_texture_cube(
+		                         name,
+		                         folder + "right.jpg",
+		                         folder + "left.jpg",
+		                         folder + "top.jpg",
+		                         folder + "bottom.jpg",
+		                         folder + "front.jpg",
+		                         folder + "back.jpg"
+		                        );
+	}
 
 
 	material_t* parse_material(const aiScene* /*scene*/, aiMaterial* a_material)

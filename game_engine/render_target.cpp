@@ -47,11 +47,6 @@ namespace aech::graphics
 			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, m_depth_and_stencil_texture->id, 0);
 		}
 
-		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-		{
-			std::cerr << "Framebuffer not complete\n";
-		}
-
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 

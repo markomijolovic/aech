@@ -66,7 +66,7 @@ namespace aech::graphics
 			{
 				GLchar info_log[1 << 10];
 				glGetProgramInfoLog(id, 1 << 10, nullptr, info_log);
-				std::cerr << "ERROR::PROGRAM_LINKING_ERROR: " << info_log << '\n';
+				std::clog << "ERROR::PROGRAM_LINKING_ERROR: " << info_log << std::endl;
 			}
 		}
 		else
@@ -76,7 +76,7 @@ namespace aech::graphics
 			{
 				GLchar info_log[1 << 10];
 				glGetShaderInfoLog(id, 1 << 10, nullptr, info_log);
-				std::cerr << "ERROR::SHADER_COMPILATION_ERROR(" << type << ")\n" << info_log << '\n';
+				std::clog << "ERROR::SHADER_COMPILATION_ERROR(" << type << ")\n" << info_log << std::endl;
 			}
 		}
 	}

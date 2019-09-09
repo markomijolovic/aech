@@ -62,6 +62,6 @@ aech::graphics::material_t aech::graphics::material_library::create_material(con
 		return (*it).second;
 	}
 
-	std::cerr << "There is no " << from << " default material" << std::endl;
+	std::clog << "There is no " << from << " default material" << std::endl;
 	return material_t{};
 }

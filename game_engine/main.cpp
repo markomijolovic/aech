@@ -43,7 +43,7 @@ int main(int argc, char* argv[])
 
 	if (!gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress)))
 	{
-		std::cerr << "Failed to init OpenGL context" << std::endl;
+		std::clog << "Failed to init OpenGL context" << std::endl;
 		return -1;
 	}
 
