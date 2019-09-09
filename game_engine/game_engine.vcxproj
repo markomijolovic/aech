@@ -282,6 +282,10 @@
       <SubType>
       </SubType>
     </None>
+    <None Include="precompute_irradiance_fragment.glsl">
+      <SubType>
+      </SubType>
+    </None>
     <None Include="shaders\background_fragment.glsl">
       <SubType>
       </SubType>

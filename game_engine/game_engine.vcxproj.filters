@@ -400,5 +400,8 @@
     <None Include="shaders\background_fragment.glsl">
       <Filter>Source Files\shaders</Filter>
     </None>
+    <None Include="precompute_irradiance_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

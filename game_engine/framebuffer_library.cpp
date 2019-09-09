@@ -1,7 +1,6 @@
 #include "framebuffer_library.hpp"
 #include "main.hpp"
 #include "resource_manager.hpp"
-#include <iostream>
 
 void aech::graphics::generate_default_framebuffers()
 {
@@ -15,8 +14,14 @@ void aech::graphics::generate_default_framebuffers()
 	environment_texture.sized_internal_format = texture_types::sized_internal_format::rgb32f;
 	environment_texture.format = texture_types::format::rgb;
 	environment_texture.type = texture_types::type::floating_point;
-	environment_texture.height = 1024;
 	environment_texture.init();
 	framebuffer_cubes["hdr_capture"] = {&resource_manager::texture_cubes["environment"], 1024, 1024};
-
+	auto& irradiance_texture = resource_manager::texture_cubes["irradiance"];
+	irradiance_texture.width = 32;
+	irradiance_texture.height = 32;
+	irradiance_texture.sized_internal_format = texture_types::sized_internal_format::rgb32f;
+	irradiance_texture.format = texture_types::format::rgb;
+	irradiance_texture.type = texture_types::type::floating_point;
+	irradiance_texture.init();
+	framebuffer_cubes["precomputed_irradiance"] = { &resource_manager::texture_cubes["irradiance"], 32, 32 };
 }

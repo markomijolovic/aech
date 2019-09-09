@@ -77,8 +77,6 @@ int main(int argc, char* argv[])
 	// TODO: think of a better way to do this
 	renderer_t renderer{};
 
-
-
 	resource_manager::load_mesh("textures_pbr/sponza.obj");
 	auto delta_time = 1/60.0f;
 

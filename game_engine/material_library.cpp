@@ -34,24 +34,22 @@ void aech::graphics::material_library::generate_default_materials()
 
 	auto background_shader = &resource_manager::load_shader("background", "shaders/background_vertex.glsl", "shaders/background_fragment.glsl");
 
-	/*auto irradiance_shader = &resource_manager::load_shader("irradiance", "shaders/pbr/cube_sample_vertex.glsl", "shaders/pbr/irradiance_fragment.glsl", "");
-	auto& irradiance_material = default_materials["irradiance"];
-	irradiance_material.m_shader = irradiance_shader;
+	auto irradiance_shader = &resource_manager::load_shader("precompute_irradiance", "shaders/pbr/cube_sample_vertex.glsl", "shaders/pbr/precompute_irradiance_fragment.glsl", "");
 
-
-	auto prefilter_shader = &resource_manager::load_shader("prefilter", "shaders/pbr/cube_sample_vertex.glsl", "shaders/pbr/prefilter_fragment.glsl", "");
-	auto& prefilter_material = default_materials["prefilter"];
-	prefilter_material.m_shader = prefilter_shader;
-
-	auto brdf_integral_shader = &resource_manager::load_shader("brdf_integral", "shaders/pbr/screen_quad_vertex.glsl", "shaders/pbr/brdf_integral_fragment.glsl", "");
-	auto& brdf_integral_material = default_materials["brdf_integral"];
-	brdf_integral_material.m_shader = brdf_integral_shader;
-
-	auto probe_capture_shader = &resource_manager::load_shader("probe_capture", "shaders/pbr/probe_capture_vertex.glsl", "shaders/pbr/probe_capture_fragment.glsl", "");
-	auto& probe_capture_material = default_materials["probe_capture"];
-	probe_capture_material.m_shader = probe_capture_shader;
-*/
-	// probe_render_shader
+//
+//	auto prefilter_shader = &resource_manager::load_shader("prefilter", "shaders/pbr/cube_sample_vertex.glsl", "shaders/pbr/prefilter_fragment.glsl", "");
+//	auto& prefilter_material = default_materials["prefilter"];
+//	prefilter_material.m_shader = prefilter_shader;
+//
+//	auto brdf_integral_shader = &resource_manager::load_shader("brdf_integral", "shaders/pbr/screen_quad_vertex.glsl", "shaders/pbr/brdf_integral_fragment.glsl", "");
+//	auto& brdf_integral_material = default_materials["brdf_integral"];
+//	brdf_integral_material.m_shader = brdf_integral_shader;
+//
+//	auto probe_capture_shader = &resource_manager::load_shader("probe_capture", "shaders/pbr/probe_capture_vertex.glsl", "shaders/pbr/probe_capture_fragment.glsl", "");
+//	auto& probe_capture_material = default_materials["probe_capture"];
+//	probe_capture_material.m_shader = probe_capture_shader;
+//*/
+//	// probe_render_shader
 }
 
 aech::graphics::material_t aech::graphics::material_library::create_material(const std::string& from)

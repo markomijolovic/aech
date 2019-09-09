@@ -20,9 +20,8 @@ namespace aech::graphics
 		std::shared_ptr<transparent_shadow_renderer_t> transparent_shadow_renderer{};
 		std::shared_ptr<transparent_renderer_t> transparent_renderer{};
 
-		void generate_environment_cubemap();
+		void precompute_ibl();
 		renderer_t();
-		void render_environment_cube();
 		void update();
 	};
 }

@@ -11,46 +11,6 @@
 
 namespace aech::graphics
 {
-	void renderer_t::generate_environment_cubemap()
-	{
-		auto equirectangular_map = resource_manager::load_hdr_texture("equirectangular_map", "textures_pbr/hdr/newport_loft.hdr");
-
-		auto       capture_projection = math::perspective(90, 1, 0.1f, 100.0f);
-		std::array capture_views
-		{
-			math::look_at({0, 0, 0}, {1, 0, 0}, {0, 1, 0}),
-			math::look_at({0, 0, 0}, {-1, 0, 0}, {0, 1, 0}),
-			math::look_at({0, 0, 0}, {0, 1, 0}, {0, 0, -1}),
-			math::look_at({0, 0, 0}, {0, -1, 0}, {0, 0, 1}),
-			math::look_at({0, 0, 0}, {0, 0, 1}, {0, 1, 0}),
-			math::look_at({0, 0, 0}, {0, 0, -1}, {0, 1, 0})
-
-		};
-
-		auto& shader = resource_manager::shaders["hdr_to_cubemap"];
-		shader.use();
-		shader.set_uniform("equirectangular_map", 0);
-		shader.set_uniform("projection", capture_projection);
-		equirectangular_map->bind(0);
-
-		auto& fbo = framebuffer_cubes["hdr_capture"];
-		fbo.bind();
-		resource_manager::texture_cubes["environment"].bind(0);
-		glViewport(0, 0, fbo.width, fbo.height);
-
-		auto& ndc_cube = *mesh_library::default_meshes["cube"];
-		glBindVertexArray(ndc_cube.m_vao);
-		for (size_t i = 0; i < 6; i++)
-		{
-			shader.set_uniform("view", capture_views[i]);
-			fbo.attach(i);
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			glDrawElements(GL_TRIANGLES, ndc_cube.m_indices.size(), GL_UNSIGNED_INT, 0);
-		}
-
-		glBindVertexArray(0);
-		fbo.unbind();
-	}
 
 	renderer_t::renderer_t()
 	{
@@ -150,26 +110,25 @@ namespace aech::graphics
 
 		transparent_renderer->mesh_filter.material->set_texture("light_shadow_map", &opaque_shadow_renderer->shadow_map->m_colour_attachments[0], 4);
 
-		//generate_environment_cubemap();
+		precompute_ibl();
 	}
 
-	void renderer_t::render_environment_cube()
+	void renderer_t::precompute_ibl()
 	{
 		auto equirectangular_map = resource_manager::load_hdr_texture("equirectangular_map", "textures_pbr/hdr/newport_loft.hdr");
 
 		auto       capture_projection = math::perspective(90, 1, 0.1f, 100.0f);
 		std::array capture_views
 		{
-			math::look_at({0, 0, 0}, {1, 0, 0}, {0, -1, 0}),
-			math::look_at({0, 0, 0}, {-1, 0, 0}, {0,-1, 0}),
-			math::look_at({0, 0, 0}, {0, 1, 0}, {0, 0, 1}),
-			math::look_at({0, 0, 0}, {0, -1, 0}, {0, 0, -1}),
-			math::look_at({0, 0, 0}, {0, 0, 1}, {0, -1, 0}),
-			math::look_at({0, 0, 0}, {0, 0, -1}, {0, -1, 0})
+			math::look_at({0, 0, 0}, {1, 0, 0}, {0, 1, 0}),
+			math::look_at({0, 0, 0}, {-1, 0, 0}, {0, 1, 0}),
+			math::look_at({0, 0, 0}, {0, 1, 0}, {0, 0, -1}),
+			math::look_at({0, 0, 0}, {0, -1, 0}, {0, 0, 1}),
+			math::look_at({0, 0, 0}, {0, 0, 1}, {0, 1, 0}),
+			math::look_at({0, 0, 0}, {0, 0, -1}, {0, 1, 0})
 
 		};
 		glDepthFunc(GL_LEQUAL);
-
 
 		auto& shader = resource_manager::shaders["hdr_to_cubemap"];
 		shader.use();
@@ -179,7 +138,6 @@ namespace aech::graphics
 
 		auto& fbo = framebuffer_cubes["hdr_capture"];
 		fbo.bind();
-		resource_manager::texture_cubes["environment"].bind(0);
 		glViewport(0, 0, fbo.width, fbo.height);
 
 		auto& ndc_cube = *mesh_library::default_meshes["cube"];
@@ -194,59 +152,57 @@ namespace aech::graphics
 
 		resource_manager::texture_cubes["environment"].generate_mips();
 
-		glBindVertexArray(0);
-		fbo.unbind();
+		auto& irradiance_fbo = framebuffer_cubes["precomputed_irradiance"];
+		irradiance_fbo.bind();
 
-
-
-
-
-
-		auto& cube    = *mesh_library::default_meshes["cube"];
-		auto& shadder = resource_manager::shaders["background"];
-
-		shadder.use();
-		shadder.set_uniform("projection", engine.get_component<camera_t>(m_camera).projection);
-		shadder.set_uniform("view", math::get_view_matrix(engine.get_component<transform_t>(m_camera)));
-
+		auto& irradiance_shader = resource_manager::shaders["precompute_irradiance"];
+		irradiance_shader.use();
+		irradiance_shader.set_uniform("environment_map", 0);
 		resource_manager::texture_cubes["environment"].bind(0);
-		shadder.set_uniform("environment_map", 0);
+		irradiance_shader.set_uniform("projection", capture_projection);
+		glViewport(0, 0, irradiance_fbo.width, irradiance_fbo.height);
+		glBindVertexArray(ndc_cube.m_vao);
+		for (size_t i = 0; i < 6; i++)
+		{
+			irradiance_shader.set_uniform("view", capture_views[i]);
+			irradiance_fbo.attach(i);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			glDrawArrays(GL_TRIANGLES, 0, ndc_cube.m_positions.size());
 
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-		glViewport(0, 0, screen_width, screen_height);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glBindVertexArray(cube.m_vao);
-		glDrawArrays(GL_TRIANGLES, 0, ndc_cube.m_positions.size());
+		}
+
+		glBindVertexArray(0);
 	}
 
 	void renderer_t::update()
 	{
-		// 1. render to g buffer
-		opaque_renderer->update();
+		//render_environment_cube();
+		//// 1. render to g buffer
+		//opaque_renderer->update();
 
-		// 2. render shadows
-		// TODO: fix shadows
-		opaque_shadow_renderer->update();
-		transparent_shadow_renderer->update();
-		// 4. render lights
+		//// 2. render shadows
+		//// TODO: fix shadows
+		//opaque_shadow_renderer->update();
+		//transparent_shadow_renderer->update();
+		//// 4. render lights
 
-		directional_light_renderer->update();
+		//directional_light_renderer->update();
 
-		//glCullFace(GL_FRONT);
-		point_light_renderer->update();
-		//glCullFace(GL_BACK);
+		////glCullFace(GL_FRONT);
+		//point_light_renderer->update();
+		////glCullFace(GL_BACK);
 
-		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, transparent_renderer->render_target->id);
-		glBindFramebuffer(GL_READ_FRAMEBUFFER, opaque_renderer->render_target->id);
-		glBlitFramebuffer(0, 0, screen_width, screen_height, 0, 0, screen_width, screen_height, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+		//glBindFramebuffer(GL_DRAW_FRAMEBUFFER, transparent_renderer->render_target->id);
+		//glBindFramebuffer(GL_READ_FRAMEBUFFER, opaque_renderer->render_target->id);
+		//glBlitFramebuffer(0, 0, screen_width, screen_height, 0, 0, screen_width, screen_height, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
 
 
-		transparent_renderer->update();
+		//transparent_renderer->update();
 
-		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-		glBindFramebuffer(GL_READ_FRAMEBUFFER, transparent_renderer->render_target->id);
-		glBlitFramebuffer(0, 0, screen_width, screen_height, 0, 0, screen_width, screen_height, GL_COLOR_BUFFER_BIT, GL_LINEAR);
+		//glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+		//glBindFramebuffer(GL_READ_FRAMEBUFFER, transparent_renderer->render_target->id);
+		//glBlitFramebuffer(0, 0, screen_width, screen_height, 0, 0, screen_width, screen_height, GL_COLOR_BUFFER_BIT, GL_LINEAR);
 
-		// 5. forward rendering
+		//// 5. forward rendering
 	}
 }

@@ -7,7 +7,7 @@ aech::graphics::framebuffer_cube_t::framebuffer_cube_t(texture_cube_t* texture, 
 	glGenRenderbuffers(1, &rbo_id);
 	glBindFramebuffer(GL_FRAMEBUFFER, id);
 	glBindRenderbuffer(GL_RENDERBUFFER, rbo_id);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, 1024, 1024);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, width, height);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rbo_id);
 }
 
