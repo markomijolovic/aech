@@ -228,6 +228,15 @@
     <ClInclude Include="indirect_lighting_renderer.hpp">
       <Filter>Header Files\graphics\rendering</Filter>
     </ClInclude>
+    <ClInclude Include="ibl_precompute.hpp">
+      <Filter>Header Files\graphics\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="light_probe.hpp">
+      <Filter>Header Files\graphics\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="light_probe_renderer.hpp">
+      <Filter>Header Files\graphics\rendering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="component_manager.cpp">
@@ -348,6 +357,12 @@
       <Filter>Source Files\graphics\rendering</Filter>
     </ClCompile>
     <ClCompile Include="framebuffer_cube.cpp">
+      <Filter>Source Files\graphics\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="ibl_precompute.cpp">
+      <Filter>Source Files\graphics\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="light_probe_renderer.cpp">
       <Filter>Source Files\graphics\rendering</Filter>
     </ClCompile>
   </ItemGroup>

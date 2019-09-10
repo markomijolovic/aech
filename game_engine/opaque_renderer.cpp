@@ -36,15 +36,12 @@ namespace aech::graphics
 
 	void opaque_renderer_t::draw_entity(entity_t entity) const
 	{
-		auto& cameraTransform = engine.get_component<transform_t>(m_camera);
-		auto& camera = engine.get_component<camera_t>(m_camera);
-		auto view = math::get_view_matrix(cameraTransform);
-		auto& transform = engine.get_component<transform_t>(entity);
+		auto view = math::get_view_matrix(engine.get_component<transform_t>(m_camera));
 		auto& scene_node = engine.get_component<scene_node_t>(entity);
 		auto& mesh_filter = engine.get_component<mesh_filter_t>(entity);
 		auto shader = mesh_filter.material->m_shader;
 		auto model = scene_node.get_transform();
-		auto& projection = camera.projection;
+		auto& projection = engine.get_component<camera_t>(m_camera).projection;
 
 		mesh_filter.material->set_uniforms();
 		shader->set_uniform("model", model);

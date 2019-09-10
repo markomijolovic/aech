@@ -16,8 +16,23 @@ namespace aech::graphics
 	{
 		material_library::generate_default_materials();
 		mesh_library::generate_default_meshes();
-
 		generate_default_framebuffers();
+
+		hdr_to_cubemap_shader = &resource_manager::shaders["hdr_to_cubemap"];
+		irradiance_shader = &resource_manager::shaders["irradiance"];
+
+		hdr_capture_fbo = &framebuffer_cubes["hdr_capture"];
+		irradiance_fbo = &framebuffer_cubes["precomputed_irradiance"];
+
+		light_probe_renderer = engine.register_system<light_probe_renderer_t>();
+		{
+			// for now, testing
+			signature_t signature{};
+			signature.set(engine.get_component_type<transform_t>());
+			signature.set(engine.get_component_type<scene_node_t>());
+			signature.set(engine.get_component_type<mesh_filter_t>());
+			engine.set_system_signature<light_probe_renderer_t>(signature);
+		}
 
 		opaque_renderer = engine.register_system<opaque_renderer_t>();
 		{
@@ -110,7 +125,37 @@ namespace aech::graphics
 
 		transparent_renderer->mesh_filter.material->set_texture("light_shadow_map", &opaque_shadow_renderer->shadow_map->m_colour_attachments[0], 4);
 
-		precompute_ibl();
+		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {}, 100 });
+
+		light_probe_renderer->bake_probes();
+	}
+
+	void renderer_t::render_to_cubemap(texture_cube_t *target, math::vec3_t eye)
+	{
+		const static auto capture_projection = math::perspective(90, 1, 0.1f, 1000.0f);
+		const static std::array capture_views
+		{
+			math::look_at(eye, {1, 0, 0}, {0, -1, 0}),
+			math::look_at(eye, {-1, 0, 0}, {0, -1, 0}),
+			math::look_at(eye, {0, 1, 0}, {0, 0, 1}),
+			math::look_at(eye, {0, -1, 0}, {0, 0, -1}),
+			math::look_at(eye, {0, 0, 1}, {0, -1, 0}),
+			math::look_at(eye, {0, 0, -1}, {0, -1, 0})
+		};
+
+		if (hdr_capture_fbo->width != target->width || hdr_capture_fbo->height != target->height)
+		{
+			*hdr_capture_fbo = framebuffer_cube_t{ target, target->width, target->height };
+		}
+
+		hdr_capture_fbo->bind();
+		glViewport(0, 0, hdr_capture_fbo->width, hdr_capture_fbo->height);
+
+		target->bind();
+		for (size_t i = 0; i < 6; i++)
+		{
+		}
+
 	}
 
 	void renderer_t::precompute_ibl()
@@ -120,12 +165,12 @@ namespace aech::graphics
 		auto       capture_projection = math::perspective(90, 1, 0.1f, 100.0f);
 		std::array capture_views
 		{
-			math::look_at({0, 0, 0}, {1, 0, 0}, {0, 1, 0}),
-			math::look_at({0, 0, 0}, {-1, 0, 0}, {0, 1, 0}),
-			math::look_at({0, 0, 0}, {0, 1, 0}, {0, 0, -1}),
-			math::look_at({0, 0, 0}, {0, -1, 0}, {0, 0, 1}),
-			math::look_at({0, 0, 0}, {0, 0, 1}, {0, 1, 0}),
-			math::look_at({0, 0, 0}, {0, 0, -1}, {0, 1, 0})
+			math::look_at({0, 0, 0}, {1, 0, 0}, {0, -1, 0}),
+			math::look_at({0, 0, 0}, {-1, 0, 0}, {0, -1, 0}),
+			math::look_at({0, 0, 0}, {0, 1, 0}, {0, 0, 1}),
+			math::look_at({0, 0, 0}, {0, -1, 0}, {0, 0, -1}),
+			math::look_at({0, 0, 0}, {0, 0, 1}, {0, -1, 0}),
+			math::look_at({0, 0, 0}, {0, 0, -1}, {0, -1, 0})
 
 		};
 		glDepthFunc(GL_LEQUAL);
@@ -176,32 +221,33 @@ namespace aech::graphics
 
 	void renderer_t::update()
 	{
+		//light_probe_renderer->bake_probes();
 		//render_environment_cube();
 		//// 1. render to g buffer
-		//opaque_renderer->update();
+		opaque_renderer->update();
 
 		//// 2. render shadows
 		//// TODO: fix shadows
-		//opaque_shadow_renderer->update();
-		//transparent_shadow_renderer->update();
+		opaque_shadow_renderer->update();
+		transparent_shadow_renderer->update();
 		//// 4. render lights
 
-		//directional_light_renderer->update();
+		directional_light_renderer->update();
 
 		////glCullFace(GL_FRONT);
 		//point_light_renderer->update();
 		////glCullFace(GL_BACK);
 
-		//glBindFramebuffer(GL_DRAW_FRAMEBUFFER, transparent_renderer->render_target->id);
-		//glBindFramebuffer(GL_READ_FRAMEBUFFER, opaque_renderer->render_target->id);
-		//glBlitFramebuffer(0, 0, screen_width, screen_height, 0, 0, screen_width, screen_height, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, transparent_renderer->render_target->id);
+		glBindFramebuffer(GL_READ_FRAMEBUFFER, opaque_renderer->render_target->id);
+		glBlitFramebuffer(0, 0, screen_width, screen_height, 0, 0, screen_width, screen_height, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
 
 
-		//transparent_renderer->update();
+		transparent_renderer->update();
 
-		//glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-		//glBindFramebuffer(GL_READ_FRAMEBUFFER, transparent_renderer->render_target->id);
-		//glBlitFramebuffer(0, 0, screen_width, screen_height, 0, 0, screen_width, screen_height, GL_COLOR_BUFFER_BIT, GL_LINEAR);
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+		glBindFramebuffer(GL_READ_FRAMEBUFFER, transparent_renderer->render_target->id);
+		glBlitFramebuffer(0, 0, screen_width, screen_height, 0, 0, screen_width, screen_height, GL_COLOR_BUFFER_BIT, GL_LINEAR);
 
 		//// 5. forward rendering
 	}
