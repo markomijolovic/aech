@@ -40,10 +40,9 @@ void aech::graphics::material_library::generate_default_materials()
 	auto& irradiance_material = default_materials["irradiance"];
 	irradiance_material.m_shader = irradiance_shader;
 
-	////TODO:
-	//auto prefilter_shader = &resource_manager::load_shader("prefilter", "shaders/pbr/cube_sample_vertex.glsl", "shaders/pbr/prefilter_fragment.glsl");
-	//auto& prefilter_material = default_materials["prefilter"];
-	//prefilter_material.m_shader = prefilter_shader;
+	auto prefilter_shader = &resource_manager::load_shader("prefilter", "shaders/pbr/cube_sample_vertex.glsl", "shaders/pbr/prefilter_fragment.glsl");
+	auto& prefilter_material = default_materials["prefilter"];
+	prefilter_material.m_shader = prefilter_shader;
 
 	////TODO:
 	//auto brdf_integral_shader = &resource_manager::load_shader("brdf", "shaders/pbr/screen_quad_vertex.glsl", "shaders/pbr/brdf_fragment.glsl");

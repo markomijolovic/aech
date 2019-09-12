@@ -14,13 +14,14 @@ namespace aech::graphics
 	public:
 		std::vector<light_probe_t> light_probes{};
 
+		material_t* prefilter_material{ &material_library::default_materials["prefilter"] };
 		material_t* cubemap_capture_material {&material_library::default_materials["capture"]};
 		material_t* irradiance_capture_material{ &material_library::default_materials["irradiance"] };
 		mesh_t* ndc_cube = mesh_library::default_meshes["cube"].get();
 
 		void bake_probes();
-		void create_radiance_cubemap(math::vec3_t& eye);
+		void create_radiance_cubemap(size_t probe_index);
 
-		void process_radiance_map(const math::vec3_t& eye);
+		void process_radiance_map(size_t probe_index);
 	};
 }

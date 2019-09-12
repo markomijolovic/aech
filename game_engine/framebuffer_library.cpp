@@ -8,6 +8,7 @@ void aech::graphics::generate_default_framebuffers()
 	framebuffers["default"] = { screen_width, screen_height, 1, true, texture_types::sized_internal_format::rgba32f, texture_types::format::rgba, texture_types::type::floating_point };
 	framebuffers["shadow_map"] = { 4096, 4096, 1, true, texture_types::sized_internal_format::rgba32f, texture_types::format::rgba, texture_types::type::floating_point };
 	framebuffers["brdf_lut"] = { 128, 128, 1, true, texture_types::sized_internal_format::rgba32f, texture_types::format::rgba, texture_types::type::floating_point };
+
 	auto& environment_texture = resource_manager::texture_cubes["environment"];
 	environment_texture.width = 1024;
 	environment_texture.height = 1024;
@@ -16,12 +17,4 @@ void aech::graphics::generate_default_framebuffers()
 	environment_texture.type = texture_types::type::floating_point;
 	environment_texture.init();
 	framebuffer_cubes["hdr_capture"] = {&resource_manager::texture_cubes["environment"], 1024, 1024};
-	auto& irradiance_texture = resource_manager::texture_cubes["irradiance"];
-	irradiance_texture.width = 32;
-	irradiance_texture.height = 32;
-	irradiance_texture.sized_internal_format = texture_types::sized_internal_format::rgb32f;
-	irradiance_texture.format = texture_types::format::rgb;
-	irradiance_texture.type = texture_types::type::floating_point;
-	irradiance_texture.init();
-	framebuffer_cubes["precomputed_irradiance"] = { &resource_manager::texture_cubes["irradiance"], 32, 32 };
 }

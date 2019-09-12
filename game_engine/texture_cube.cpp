@@ -2,7 +2,6 @@
 #include <algorithm>
 #include <glad/glad.h>
 #include <ostream>
-#include <iostream>
 
 namespace aech::graphics
 {

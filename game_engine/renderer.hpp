@@ -26,8 +26,10 @@ namespace aech::graphics
 		mesh_t* ndc_cube = mesh_library::default_meshes["cube"].get();
 		framebuffer_cube_t* hdr_capture_fbo{};
 		framebuffer_cube_t* irradiance_fbo{};
+		framebuffer_cube_t* specular_prefilter_fbo{};
 		shader_t* hdr_to_cubemap_shader{};
 		shader_t* irradiance_shader{};
+		shader_t* specular_prefilter_shader{};
 
 		void precompute_ibl();
 		void render_to_cubemap(texture_cube_t* target, math::vec3_t eye);

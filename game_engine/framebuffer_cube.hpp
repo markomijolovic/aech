@@ -19,7 +19,7 @@ namespace aech::graphics
 			uint32_t width,
 			uint32_t height
 			);
-		void attach(int i) const;
+		void attach(int i, uint32_t miplevel = 0) const;
 		void bind() const;
 		void unbind() const;
 	};

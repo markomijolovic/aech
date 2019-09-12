@@ -24,6 +24,8 @@ namespace aech::graphics
 		hdr_capture_fbo = &framebuffer_cubes["hdr_capture"];
 		irradiance_fbo = &framebuffer_cubes["precomputed_irradiance"];
 
+		specular_prefilter_shader = &resource_manager::shaders["prefilter"];
+
 		light_probe_renderer = engine.register_system<light_probe_renderer_t>();
 		{
 			// for now, testing
@@ -127,7 +129,7 @@ namespace aech::graphics
 
 		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {}, 100 });
 
-		light_probe_renderer->bake_probes();
+		//light_probe_renderer->bake_probes();
 	}
 
 	void renderer_t::render_to_cubemap(texture_cube_t *target, math::vec3_t eye)
@@ -213,7 +215,6 @@ namespace aech::graphics
 			irradiance_fbo.attach(i);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			glDrawArrays(GL_TRIANGLES, 0, ndc_cube.m_positions.size());
-
 		}
 
 		glBindVertexArray(0);
@@ -221,22 +222,24 @@ namespace aech::graphics
 
 	void renderer_t::update()
 	{
+		light_probe_renderer->bake_probes();
 		//light_probe_renderer->bake_probes();
 		//render_environment_cube();
 		//// 1. render to g buffer
-		opaque_renderer->update();
+		
+		/*opaque_renderer->update();
 
-		//// 2. render shadows
-		//// TODO: fix shadows
+		 2. render shadows
+		 TODO: fix shadows
 		opaque_shadow_renderer->update();
 		transparent_shadow_renderer->update();
-		//// 4. render lights
+		 4. render lights
 
 		directional_light_renderer->update();
 
-		////glCullFace(GL_FRONT);
-		//point_light_renderer->update();
-		////glCullFace(GL_BACK);
+		glCullFace(GL_FRONT);
+		point_light_renderer->update();
+		glCullFace(GL_BACK);
 
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, transparent_renderer->render_target->id);
 		glBindFramebuffer(GL_READ_FRAMEBUFFER, opaque_renderer->render_target->id);
@@ -248,7 +251,7 @@ namespace aech::graphics
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 		glBindFramebuffer(GL_READ_FRAMEBUFFER, transparent_renderer->render_target->id);
 		glBlitFramebuffer(0, 0, screen_width, screen_height, 0, 0, screen_width, screen_height, GL_COLOR_BUFFER_BIT, GL_LINEAR);
-
+*/
 		//// 5. forward rendering
 	}
 }
