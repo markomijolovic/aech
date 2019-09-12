@@ -300,26 +300,30 @@
       <SubType>
       </SubType>
     </None>
-    <None Include="shaders\background_fragment.glsl">
-      <SubType>
-      </SubType>
-    </None>
-    <None Include="shaders\background_vertex.glsl">
-      <SubType>
-      </SubType>
-    </None>
+    <None Include="shaders\ambient_irradiance_fragment.glsl" />
+    <None Include="shaders\ambient_irradiance_vertex.glsl" />
+    <None Include="shaders\background_fragment.glsl" />
+    <None Include="shaders\background_vertex.glsl" />
     <None Include="shaders\directional_fragment.glsl" />
     <None Include="shaders\directional_vertex.glsl" />
     <None Include="shaders\g_buffer_fragment.glsl" />
     <None Include="shaders\g_buffer_vertex.glsl" />
+    <None Include="shaders\opaque_shadow_fragment.glsl" />
+    <None Include="shaders\opaque_shadow_vertex.glsl" />
+    <None Include="shaders\pbr\brdf_fragment.glsl" />
+    <None Include="shaders\pbr\cube_sample_vertex.glsl" />
+    <None Include="shaders\pbr\equirectangular_to_cube_fragment.glsl" />
+    <None Include="shaders\pbr\precompute_irradiance_fragment.glsl" />
+    <None Include="shaders\pbr\prefilter_fragment.glsl" />
+    <None Include="shaders\point_fragment.glsl" />
+    <None Include="shaders\point_vertex.glsl" />
+    <None Include="shaders\probe_capture_fragment.glsl" />
+    <None Include="shaders\probe_capture_vertex.glsl" />
+    <None Include="shaders\screen_quad_vertex.glsl" />
     <None Include="shaders\transparent_fragment.glsl" />
     <None Include="shaders\transparent_shadow_fragment.glsl" />
     <None Include="shaders\transparent_shadow_vertex.glsl" />
     <None Include="shaders\transparent_vertex.glsl" />
-    <None Include="shaders\point_fragment.glsl" />
-    <None Include="shaders\point_vertex.glsl" />
-    <None Include="shaders\opaque_shadow_fragment.glsl" />
-    <None Include="shaders\opaque_shadow_vertex.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

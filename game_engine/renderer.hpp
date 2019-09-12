@@ -31,8 +31,6 @@ namespace aech::graphics
 		shader_t* irradiance_shader{};
 		shader_t* specular_prefilter_shader{};
 
-		void precompute_ibl();
-		void render_to_cubemap(texture_cube_t* target, math::vec3_t eye);
 		renderer_t();
 		void update();
 	};

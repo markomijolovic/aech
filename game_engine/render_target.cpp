@@ -24,10 +24,7 @@ namespace aech::graphics
 			m_colour_attachments.back().sized_internal_format = sized_internal_format;
 			m_colour_attachments.back().format = format;
 			m_colour_attachments.back().type = type;
-			m_colour_attachments.back().mipmap = false;
-			m_colour_attachments.back().filtering_mag = texture_types::filtering::nearest;
-			m_colour_attachments.back().filtering_min = texture_types::filtering::nearest;
-			m_colour_attachments.back().mipmap = false;
+			m_colour_attachments.back().mipmap = mipmap;
 			m_colour_attachments.back().generate();
 			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, GL_TEXTURE_2D, m_colour_attachments.back().id, 0);
 		}
@@ -40,8 +37,6 @@ namespace aech::graphics
 			m_depth_and_stencil_texture->sized_internal_format = texture_types::sized_internal_format::depth24;
 			m_depth_and_stencil_texture->format = texture_types::format::depth;
 			m_depth_and_stencil_texture->type = texture_types::type::floating_point;
-			m_colour_attachments.back().filtering_mag = texture_types::filtering::nearest;
-			m_colour_attachments.back().filtering_min = texture_types::filtering::nearest;
 			m_depth_and_stencil_texture->mipmap = false;
 			m_depth_and_stencil_texture->generate();
 			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, m_depth_and_stencil_texture->id, 0);

@@ -44,10 +44,9 @@ void aech::graphics::material_library::generate_default_materials()
 	auto& prefilter_material = default_materials["prefilter"];
 	prefilter_material.m_shader = prefilter_shader;
 
-	////TODO:
-	//auto brdf_integral_shader = &resource_manager::load_shader("brdf", "shaders/pbr/screen_quad_vertex.glsl", "shaders/pbr/brdf_fragment.glsl");
-	//auto& brdf_integral_material = default_materials["brdf"];
-	//brdf_integral_material.m_shader = brdf_integral_shader;
+	auto brdf_integral_shader = &resource_manager::load_shader("brdf", "shaders/pbr/screen_quad_vertex.glsl", "shaders/pbr/brdf_fragment.glsl");
+	auto& brdf_integral_material = default_materials["brdf"];
+	brdf_integral_material.m_shader = brdf_integral_shader;
 
 	auto probe_capture_shader = &resource_manager::load_shader("capture", "shaders/probe_capture_vertex.glsl", "shaders/probe_capture_fragment.glsl");
 	auto& probe_capture_material = default_materials["capture"];

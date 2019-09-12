@@ -370,10 +370,37 @@
     <None Include="component_array.hpp">
       <Filter>Header Files\ecs core</Filter>
     </None>
+    <None Include="cube_sample_vertex.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="precompute_irradiance_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\ambient_irradiance_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\ambient_irradiance_vertex.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\background_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\background_vertex.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\pbr\brdf_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\pbr\cube_sample_vertex.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
     <None Include="shaders\directional_fragment.glsl">
       <Filter>Source Files\shaders</Filter>
     </None>
     <None Include="shaders\directional_vertex.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\pbr\equirectangular_to_cube_fragment.glsl">
       <Filter>Source Files\shaders</Filter>
     </None>
     <None Include="shaders\g_buffer_fragment.glsl">
@@ -382,22 +409,34 @@
     <None Include="shaders\g_buffer_vertex.glsl">
       <Filter>Source Files\shaders</Filter>
     </None>
+    <None Include="shaders\opaque_shadow_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\opaque_shadow_vertex.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
     <None Include="shaders\point_fragment.glsl">
       <Filter>Source Files\shaders</Filter>
     </None>
     <None Include="shaders\point_vertex.glsl">
       <Filter>Source Files\shaders</Filter>
     </None>
+    <None Include="shaders\pbr\precompute_irradiance_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\pbr\prefilter_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\probe_capture_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\probe_capture_vertex.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\screen_quad_vertex.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
     <None Include="shaders\transparent_fragment.glsl">
-      <Filter>Source Files\shaders</Filter>
-    </None>
-    <None Include="shaders\transparent_vertex.glsl">
-      <Filter>Source Files\shaders</Filter>
-    </None>
-    <None Include="shaders\opaque_shadow_fragment.glsl">
-      <Filter>Source Files\shaders</Filter>
-    </None>
-    <None Include="shaders\opaque_shadow_vertex.glsl">
       <Filter>Source Files\shaders</Filter>
     </None>
     <None Include="shaders\transparent_shadow_fragment.glsl">
@@ -406,16 +445,7 @@
     <None Include="shaders\transparent_shadow_vertex.glsl">
       <Filter>Source Files\shaders</Filter>
     </None>
-    <None Include="cube_sample_vertex.glsl">
-      <Filter>Source Files\shaders</Filter>
-    </None>
-    <None Include="shaders\background_vertex.glsl">
-      <Filter>Source Files\shaders</Filter>
-    </None>
-    <None Include="shaders\background_fragment.glsl">
-      <Filter>Source Files\shaders</Filter>
-    </None>
-    <None Include="precompute_irradiance_fragment.glsl">
+    <None Include="shaders\transparent_vertex.glsl">
       <Filter>Source Files\shaders</Filter>
     </None>
   </ItemGroup>

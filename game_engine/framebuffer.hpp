@@ -9,12 +9,13 @@ namespace aech::graphics
 	class framebuffer_t
 	{
 	public:
-		uint32_t id;
-		uint32_t width;
-		uint32_t height;
-
+		uint32_t id{};
+		uint32_t width{};
+		uint32_t height{};
+		bool mipmap{};
 		std::unique_ptr<texture_t> m_depth_and_stencil_texture{};
 		std::vector<texture_t> m_colour_attachments{};
+	
 
 		framebuffer_t() = default;
 		framebuffer_t(
