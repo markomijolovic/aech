@@ -237,6 +237,9 @@
     <ClInclude Include="light_probe_renderer.hpp">
       <Filter>Header Files\graphics\rendering</Filter>
     </ClInclude>
+    <ClInclude Include="ambient_renderer.hpp">
+      <Filter>Header Files\graphics\rendering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="component_manager.cpp">

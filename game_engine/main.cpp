@@ -51,6 +51,7 @@ int main(int argc, char* argv[])
 	glfwSetCursorPosCallback(window, mouse_callback);
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 	glViewport(0, 0, screen_width, screen_height);
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
@@ -76,8 +77,8 @@ int main(int argc, char* argv[])
 
 	// TODO: think of a better way to do this
 	renderer_t renderer{};
-
 	resource_manager::load_mesh("textures_pbr/sponza.obj");
+	renderer.light_probe_renderer->bake_probes();
 	auto delta_time = 1/60.0f;
 
 	while (!glfwWindowShouldClose(window))
@@ -88,7 +89,6 @@ int main(int argc, char* argv[])
 		//player_control_system->update(delta_time);
 		camera_control_system->update(delta_time);
 		renderer.update();
-		
 		auto stop_time = std::chrono::high_resolution_clock::now();
 		delta_time = std::chrono::duration<float, std::chrono::seconds::period>(stop_time - start_time).count();
 		glfwSwapBuffers(window);

@@ -135,6 +135,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ambient_renderer.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="camera.hpp" />
     <ClInclude Include="camera_control_system.hpp" />
     <ClInclude Include="component_manager.hpp" />

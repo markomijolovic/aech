@@ -18,6 +18,7 @@ namespace aech::graphics
 		mesh_library::generate_default_meshes();
 		generate_default_framebuffers();
 
+
 		hdr_to_cubemap_shader = &resource_manager::shaders["hdr_to_cubemap"];
 		irradiance_shader = &resource_manager::shaders["irradiance"];
 
@@ -124,46 +125,51 @@ namespace aech::graphics
 		directional_light_renderer->mesh_filter.material->set_texture("texture_albedo", &opaque_renderer->render_target->m_colour_attachments[2], 2);
 		directional_light_renderer->mesh_filter.material->set_texture("texture_metallic_roughness_ao", &opaque_renderer->render_target->m_colour_attachments[3], 3);
 		directional_light_renderer->mesh_filter.material->set_texture("light_shadow_map", &opaque_shadow_renderer->shadow_map->m_colour_attachments[0], 4);
+		
+		light_probe_renderer->ambient_material->set_texture("texture_position", &opaque_renderer->render_target->m_colour_attachments[0], 0);
+		light_probe_renderer->ambient_material->set_texture("texture_normal", &opaque_renderer->render_target->m_colour_attachments[1], 1);
+		light_probe_renderer->ambient_material->set_texture("texture_albedo", &opaque_renderer->render_target->m_colour_attachments[2], 2);
+		light_probe_renderer->ambient_material->set_texture("texture_metallic_roughness_ao", &opaque_renderer->render_target->m_colour_attachments[3], 3);
+		light_probe_renderer->ambient_material->set_texture("light_shadow_map", &opaque_shadow_renderer->shadow_map->m_colour_attachments[0], 4);
 
 		transparent_renderer->mesh_filter.material->set_texture("light_shadow_map", &opaque_shadow_renderer->shadow_map->m_colour_attachments[0], 4);
 
-		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {}, 100 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {0, 500, 0}, 100 });
 
-		//light_probe_renderer->bake_probes();
+		light_probe_renderer->camera_transform = &engine.get_component<transform_t>(m_camera);
+		light_probe_renderer->camera = &engine.get_component<camera_t>(m_camera);
 	}
 
 	void renderer_t::update()
 	{
-		light_probe_renderer->bake_probes();
-		//light_probe_renderer->bake_probes();
-		//render_environment_cube();
-		//// 1. render to g buffer
-		
-		//opaque_renderer->update();
+		// 1. render to g buffer
+		opaque_renderer->update();
 
-		//// 2. render shadows
-		//// TODO: fix shadows
-		//opaque_shadow_renderer->update();
-		//transparent_shadow_renderer->update();
-		//// 4. render lights
+		// 2. render shadows
+		// TODO: fix shadows
+		opaque_shadow_renderer->update();
+		transparent_shadow_renderer->update();
+		 //4. render lights
 
-		//directional_light_renderer->update();
+		light_probe_renderer->render_ambient_pass();
 
-		//glCullFace(GL_FRONT);
-		//point_light_renderer->update();
-		//glCullFace(GL_BACK);
+		directional_light_renderer->update();
 
-		//glBindFramebuffer(GL_DRAW_FRAMEBUFFER, transparent_renderer->render_target->id);
-		//glBindFramebuffer(GL_READ_FRAMEBUFFER, opaque_renderer->render_target->id);
-		//glBlitFramebuffer(0, 0, screen_width, screen_height, 0, 0, screen_width, screen_height, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
+		glCullFace(GL_FRONT);
+		point_light_renderer->update();
+		glCullFace(GL_BACK);
+
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, transparent_renderer->render_target->id);
+		glBindFramebuffer(GL_READ_FRAMEBUFFER, opaque_renderer->render_target->id);
+		glBlitFramebuffer(0, 0, screen_width, screen_height, 0, 0, screen_width, screen_height, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
 
 
-		//transparent_renderer->update();
+		transparent_renderer->update();
 
-		//glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-		//glBindFramebuffer(GL_READ_FRAMEBUFFER, transparent_renderer->render_target->id);
-		//glBlitFramebuffer(0, 0, screen_width, screen_height, 0, 0, screen_width, screen_height, GL_COLOR_BUFFER_BIT, GL_LINEAR);
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+		glBindFramebuffer(GL_READ_FRAMEBUFFER, transparent_renderer->render_target->id);
+		glBlitFramebuffer(0, 0, screen_width, screen_height, 0, 0, screen_width, screen_height, GL_COLOR_BUFFER_BIT, GL_LINEAR);
 
-		//// 5. forward rendering
+		 //5. forward rendering
 	}
 }

@@ -4,6 +4,7 @@
 
 namespace aech::graphics
 {
+	// TODO: should you be able to allocate an fbo on the stack?
 	class framebuffer_cube_t
 	{
 	public:

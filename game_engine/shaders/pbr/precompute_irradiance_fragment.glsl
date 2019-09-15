@@ -12,12 +12,12 @@ void main()
 {
 	vec3 n = normalize(world_position);
 
-	vec3 irradiance = vec3(0.0);
-
-	vec3 up = vec3(0.0, 1.0, 0.0);
+	vec3 up = vec3(0.0, -1.0, 0.0);
 	vec3 right = cross(up, n);
 	up = cross(n, right);
 
+
+	vec3 irradiance = vec3(0.0);
 	float sample_delta = 0.015;
 	int num_samples = 0;
 	for (float phi = 0.0; phi < 2 * pi; phi += sample_delta) {

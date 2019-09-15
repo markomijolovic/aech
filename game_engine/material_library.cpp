@@ -52,6 +52,9 @@ void aech::graphics::material_library::generate_default_materials()
 	auto& probe_capture_material = default_materials["capture"];
 	probe_capture_material.m_shader = probe_capture_shader;
 
+	auto ambient_shader = &resource_manager::load_shader("ambient", "shaders/ambient_vertex.glsl", "shaders/ambient_fragment.glsl");
+	auto& ambient_material = default_materials["ambient"];
+	ambient_material.m_shader = ambient_shader;
 	// probe_render_shader
 }
 

@@ -11,14 +11,11 @@
 void aech::graphics::light_probe_renderer_t::bake_probes()
 {
 	std::clog << "Baking light probes" << std::endl;
-	static int j{};
+	// remov this LUL
+	glEnable(GL_DEPTH_TEST);
 	for (size_t i{}; i < light_probes.size(); i++)
 	{
-		if (!j)
-		{
-			j = 1;
-			create_radiance_cubemap(i);
-		}
+		create_radiance_cubemap(i);
 		process_radiance_map(i);
 	}
 }
@@ -28,15 +25,16 @@ void aech::graphics::light_probe_renderer_t::create_radiance_cubemap(size_t prob
 	const static auto capture_projection = math::perspective(90, 1, 0.1f, 1500.0f);
 
 	auto& probe = light_probes[probe_index];
+
 	const std::array capture_views
 	{
-		math::look_at(probe.position, probe.position+ math::vec3_t{1, 0, 0}, {0, 1, 0}),
-		math::look_at(probe.position, probe.position+ math::vec3_t{-1, 0, 0}, {0, 1, 0}),		
-		math::look_at(probe.position, probe.position + math::vec3_t{0, -1, 0}, {0, 0, -1}),
+		math::look_at(probe.position, probe.position + math::vec3_t{1, 0, 0}, {0, -1, 0}),
+		math::look_at(probe.position, probe.position + math::vec3_t{-1, 0, 0}, {0, -1, 0}),
 		math::look_at(probe.position, probe.position + math::vec3_t{0, 1, 0}, {0, 0, 1}),
+		math::look_at(probe.position, probe.position + math::vec3_t{0, -1, 0}, {0, 0, -1}),
 
-		math::look_at(probe.position, probe.position + math::vec3_t{0, 0, -1}, {0, 1, 0}),
-		math::look_at(probe.position, probe.position + math::vec3_t{0, 0, 1}, {0, 1, 0})
+		math::look_at(probe.position, probe.position + math::vec3_t{0, 0, 1}, {0, -1, 0}),
+		math::look_at(probe.position, probe.position + math::vec3_t{0, 0, -1}, {0, -1, 0})
 	};
 
 	auto tex = &resource_manager::texture_cubes["radiance" + std::to_string(probe_index)];
@@ -74,100 +72,96 @@ void aech::graphics::light_probe_renderer_t::create_radiance_cubemap(size_t prob
 			glDrawElements(GL_TRIANGLES, mesh_filter.mesh->m_indices.size(), GL_UNSIGNED_INT, 0);
 		}
 	}
-
+	fbo.texture->generate_mips();
 	fbo.unbind();
 }
 
 void graphics::light_probe_renderer_t::process_radiance_map(size_t probe_index)
 {
-	// diffuse precomputation
 
 	const static auto capture_projection = math::perspective(90, 1, 0.1f, 1500.0f);
 	
 	auto& probe = light_probes[probe_index];
 	const std::array capture_views
 	{
-		math::look_at(probe.position, probe.position + math::vec3_t{1, 0, 0}, {0, 1, 0}),
-		math::look_at(probe.position, probe.position + math::vec3_t{-1, 0, 0}, {0, 1, 0}),
-		math::look_at(probe.position, probe.position + math::vec3_t{0, -1, 0}, {0, 0, -1}),
-		math::look_at(probe.position, probe.position + math::vec3_t{0, 1, 0}, {0, 0, 1}),
+		math::look_at({}, math::vec3_t{1, 0, 0}, {0, -1, 0}),
+		math::look_at({}, math::vec3_t{-1, 0, 0}, {0, -1, 0}),
+		math::look_at({},  math::vec3_t{0, 1, 0}, {0, 0, 1}),
+		math::look_at({}, math::vec3_t{0, -1, 0}, {0, 0, -1}),
 
-		math::look_at(probe.position, probe.position + math::vec3_t{0, 0, -1}, {0, 1, 0}),
-		math::look_at(probe.position, probe.position + math::vec3_t{0, 0, 1}, {0, 1, 0})
+		math::look_at({},  math::vec3_t{0, 0, 1}, {0, -1, 0}),
+		math::look_at({}, math::vec3_t{0, 0, -1}, {0, -1, 0})
 	};
+	// diffuse precomputation
 
-	static int j{};
-	if (!j)
+	probe.irradiance = &resource_manager::texture_cubes["irradiance" + std::to_string(probe_index)];
+	probe.irradiance->width = 32;
+	probe.irradiance->height = 32;
+	probe.irradiance->sized_internal_format = texture_types::sized_internal_format::rgb32f;
+	probe.irradiance->format = texture_types::format::rgb;
+	probe.irradiance->type = texture_types::type::floating_point;
+	probe.irradiance->init();
+
+	irradiance_capture_material->m_shader->use();
+	irradiance_capture_material->set_texture_cube("environment", &resource_manager::texture_cubes["radiance" + std::to_string(probe_index)], 0);
+
+	framebuffer_cube_t fbo{ probe.irradiance, 32, 32 };
+
+	fbo.bind();
+	glViewport(0, 0, fbo.width, fbo.height);
+
+	for (size_t i = 0; i < 6; i++)
 	{
-		j = 1;
-		probe.irradiance = &resource_manager::texture_cubes["irradiance" + std::to_string(probe_index)];
-		probe.irradiance->width = 32;
-		probe.irradiance->height = 32;
-		probe.irradiance->sized_internal_format = texture_types::sized_internal_format::rgb32f;
-		probe.irradiance->format = texture_types::format::rgb;
-		probe.irradiance->type = texture_types::type::floating_point;
-		probe.irradiance->init();
+		fbo.attach(i);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		irradiance_capture_material->m_shader->set_uniform("projection", capture_projection);
+		irradiance_capture_material->m_shader->set_uniform("view", capture_views[i]);			
+		irradiance_capture_material->set_uniforms();
+		glBindVertexArray(ndc_cube->m_vao);
+		glDrawArrays(GL_TRIANGLES, 0, ndc_cube->m_positions.size());
+	}
+	fbo.texture->generate_mips();
+	fbo.unbind();
 
-		irradiance_capture_material->m_shader->use();
-		irradiance_capture_material->set_texture_cube("environment", &resource_manager::texture_cubes["radiance" + std::to_string(probe_index)], 0);
+	// specular precomputation
 
-		framebuffer_cube_t fbo{ &resource_manager::texture_cubes["irradiance" + std::to_string(probe_index)], 32, 32 };
+	// precompute prefiltered env map
+	probe.prefiltered = &resource_manager::texture_cubes["prefiltered" + std::to_string(probe_index)];
+	probe.prefiltered->width = 128;
+	probe.prefiltered->height = 128;
+	probe.prefiltered->sized_internal_format = texture_types::sized_internal_format::rgb32f;
+	probe.prefiltered->format = texture_types::format::rgb;
+	probe.prefiltered->type = texture_types::type::floating_point;
+	probe.prefiltered->init();
 
-		fbo.bind();
-		glViewport(0, 0, fbo.width, fbo.height);
+	framebuffer_cube_t prefilter_fbo{ probe.prefiltered, 128, 128 };
+	prefilter_fbo.bind();
 
-		for (size_t i = 0; i < 6; i++)
+	prefilter_material->m_shader->use();
+	prefilter_material->set_texture_cube("environment_map", &resource_manager::texture_cubes["radiance" + std::to_string(probe_index)], 0);
+	prefilter_material->set_uniform("projection", capture_projection);
+
+	const int levels = floor(log2(128)) + 1;
+	for (uint32_t mip = 0; mip < levels; mip++)
+	{
+		uint32_t width = 128 * std::pow(0.5, mip);
+		auto height = width;
+		glViewport(0, 0, width, height);
+		auto roughness = static_cast<float>(mip) / (levels - 1);
+		prefilter_material->set_uniform("roughness", roughness);
+		for (uint32_t i = 0; i < 6; i++)
 		{
-			fbo.attach(i);
+			prefilter_material->set_uniform("view", capture_views[i]);
+			prefilter_material->set_uniforms();
+			prefilter_fbo.attach(i, mip);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			irradiance_capture_material->m_shader->set_uniform("projection", capture_projection);
-			irradiance_capture_material->m_shader->set_uniform("view", capture_views[i]);			irradiance_capture_material->set_uniforms();
+
 			glBindVertexArray(ndc_cube->m_vao);
 			glDrawArrays(GL_TRIANGLES, 0, ndc_cube->m_positions.size());
 		}
-
-		fbo.unbind();
-
-		// specular precomputation
-
-		// precompute prefiltered env map
-		probe.prefiltered = &resource_manager::texture_cubes["prefiltered" + std::to_string(probe_index)];
-		probe.prefiltered->width = 128;
-		probe.prefiltered->height = 128;
-		probe.prefiltered->sized_internal_format = texture_types::sized_internal_format::rgb32f;
-		probe.prefiltered->format = texture_types::format::rgb;
-		probe.prefiltered->type = texture_types::type::floating_point;
-		probe.prefiltered->init();
-
-		framebuffer_cube_t prefilter_fbo{ &resource_manager::texture_cubes["prefiltered" + std::to_string(probe_index)], 128, 128 };
-		prefilter_fbo.bind();
-
-		prefilter_material->m_shader->use();
-		prefilter_material->set_texture_cube("environment_map", &resource_manager::texture_cubes["radiance" + std::to_string(probe_index)], 0);
-		prefilter_material->set_uniform("projection", capture_projection);
-
-		const int levels = floor(log2(128)) + 1;
-		for (uint32_t mip = 0; mip < levels; mip++)
-		{
-			uint32_t width = 128 * std::pow(0.5, mip);
-			auto height = width;
-			glViewport(0, 0, width, height);
-			auto roughness = static_cast<float>(mip) / (levels - 1);
-			prefilter_material->set_uniform("roughness", roughness);
-			for (uint32_t i = 0; i < 6; i++)
-			{
-				prefilter_material->set_uniform("view", capture_views[i]);
-				prefilter_material->set_uniforms();
-				prefilter_fbo.attach(i, mip);
-				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-				glBindVertexArray(ndc_cube->m_vao);
-				glDrawArrays(GL_TRIANGLES, 0, ndc_cube->m_positions.size());
-			}
-		}
-
-		prefilter_fbo.unbind();
 	}
+
+	prefilter_fbo.unbind();
 	glDisable(GL_CULL_FACE);
 	glDisable(GL_DEPTH_TEST);
 
@@ -179,4 +173,31 @@ void graphics::light_probe_renderer_t::process_radiance_map(size_t probe_index)
 	glBindVertexArray(ndc_quad->m_vao);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, ndc_quad->m_positions.size());
 	brdf_fbo.unbind();
+}
+
+
+void graphics::light_probe_renderer_t::render_ambient_pass()
+{
+	render_target->bind();
+	glViewport(0, 0, render_target->width, render_target->height);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glDisable(GL_DEPTH_TEST);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_ONE, GL_ONE);
+	ambient_material->m_shader->use();
+	ambient_material->set_texture("brdf_lut", &framebuffers["brdf"].m_colour_attachments.front(), 6);
+	ambient_material->set_uniform("camera_position", camera_transform->position);
+	ambient_material->set_uniform("projection", camera->projection);
+	ambient_material->set_uniform("view", math::get_view_matrix(*camera_transform));
+	ambient_material->set_uniform("camera_position", camera_transform->position);
+	for (auto &probe: light_probes)
+	{
+		ambient_material->set_uniform("probe_position", probe.position);
+		ambient_material->set_texture_cube("environment_irradiance", probe.irradiance, 7);
+		ambient_material->set_texture_cube("environment_prefiltered", probe.prefiltered, 8);
+		ambient_material->set_uniform("model", math::translate(probe.position) * math::scale(100, 100, 100));
+		ambient_material->set_uniforms();
+		glBindVertexArray(ndc_sphere->m_vao);
+		glDrawElements(GL_TRIANGLES, ndc_sphere->m_indices.size(), GL_UNSIGNED_INT, 0);
+	}
 }
