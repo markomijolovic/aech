@@ -409,36 +409,27 @@ namespace aech::resource_manager
 		}
 
 		auto ret_val = &meshes[mesh];
-		ret_val->
-			m_positions.resize(mesh->mNumVertices);
-		ret_val->
-			m_normals.resize(mesh->mNumVertices);
 
-		// 
+		std::vector<math::vec3_t> positions(mesh->mNumVertices), normals(mesh->mNumVertices), tangents{}, bitangents{};
+		std::vector<math::vec2_t> uvs{};
+		std::vector<uint32_t> indices(3 * mesh->mNumFaces);
+
 		if (mesh->HasTextureCoords(0))
 		{
-			ret_val->
-				m_uvs.resize(mesh->mNumVertices);
-			ret_val->
-				m_tangents.resize(mesh->mNumVertices);
-			ret_val->
-				m_bitangents.resize(mesh->mNumVertices);
+			uvs.resize(mesh->mNumVertices);
+			tangents.resize(mesh->mNumVertices);
+			bitangents.resize(mesh->mNumVertices);
 		}
-
-		ret_val->
-			m_indices.resize(mesh->mNumFaces * 3);
 
 		for (size_t i = 0; i < mesh->mNumVertices; i++)
 		{
-			ret_val->
-				m_positions[i] = math::vec3_t{
+			positions[i] = math::vec3_t{
 					mesh->mVertices[i].x,
 					mesh->mVertices[i].y,
 					mesh->mVertices[i].z
 				};
 
-			ret_val->
-				m_normals[i] = math::vec3_t{
+			normals[i] = math::vec3_t{
 					mesh->mNormals[i].x,
 					mesh->mNormals[i].y,
 					mesh->mNormals[i].z
@@ -446,8 +437,7 @@ namespace aech::resource_manager
 
 			if (mesh->HasTextureCoords(0))
 			{
-				ret_val->
-					m_uvs[i] = math::vec2_t{
+				uvs[i] = math::vec2_t{
 						mesh->mTextureCoords[0][i].x,
 						mesh->mTextureCoords[0][i].y
 					};
@@ -455,14 +445,12 @@ namespace aech::resource_manager
 
 			if (mesh->mTangents != nullptr)
 			{
-				ret_val->
-					m_tangents[i] = math::vec3_t{
+					tangents[i] = math::vec3_t{
 						mesh->mTangents[i].x,
 						mesh->mTangents[i].y,
 						mesh->mTangents[i].z
 					};
-				ret_val->
-					m_bitangents[i] = math::vec3_t{
+					bitangents[i] = math::vec3_t{
 						mesh->mBitangents[i].x,
 						mesh->mBitangents[i].y,
 						mesh->mBitangents[i].z
@@ -474,13 +462,14 @@ namespace aech::resource_manager
 		{
 			for (size_t j = 0; j < 3; j++)
 			{
-				ret_val->
-					m_indices[i * 3 + j] = mesh->mFaces[i].mIndices[j];
+					indices[i * 3 + j] = mesh->mFaces[i].mIndices[j];
 			}
 		}
 
-		ret_val->
-			commit(true);
+		*ret_val = mesh_t
+		{
+			positions, normals, uvs, mesh_t::topology::triangles, indices, tangents, bitangents
+		};
 
 		return ret_val;
 	}

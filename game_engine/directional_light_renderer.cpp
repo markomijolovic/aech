@@ -9,6 +9,7 @@ void aech::graphics::directional_light_renderer_t::update()
 
 	render_target->bind();
 	glViewport(0, 0, screen_width, screen_height);
+	glDisable(GL_CULL_FACE);
 	glDisable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_ONE, GL_ONE);
@@ -28,18 +29,15 @@ void aech::graphics::directional_light_renderer_t::update()
 
 		auto light_view = math::get_view_matrix(transform);
 
-		{
-			// shadows : light space projection
-		}
-
 		mesh_filter.material->m_shader->set_uniform("light_dir", transform.get_forward_vector());
 		mesh_filter.material->m_shader->set_uniform("light_colour", directional_light.colour);
 		mesh_filter.material->m_shader->set_uniform("light_intensity", directional_light.intensity);
 		mesh_filter.material->m_shader->set_uniform("depth_bias_vp", bias_matrix * light_projection * light_view);
 		mesh_filter.material->set_uniforms();
 
-		glBindVertexArray(mesh_filter.mesh->m_vao);
-		glDrawArrays(GL_TRIANGLE_STRIP, 0, mesh_filter.mesh->m_positions.size());
-		glBindVertexArray(0);
+		mesh_filter.mesh->draw();
+		//glBindVertexArray(mesh_filter.mesh->m_vao);
+		//glDrawArrays(GL_TRIANGLE_STRIP, 0, mesh_filter.mesh->m_positions.size());
+		//glBindVertexArray(0);
 	}
 }

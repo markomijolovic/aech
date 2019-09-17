@@ -49,18 +49,18 @@ namespace aech::graphics
 		shader->set_uniform("view", view);
 		shader->set_uniform("projection", projection);
 
-		glBindVertexArray(mesh_filter.mesh->m_vao);
 		if (mesh_filter.material->m_texture_cubes.find("skybox") != mesh_filter.material->m_texture_cubes.end())
 		{
 			glDisable(GL_CULL_FACE);
-			glDrawArrays(GL_TRIANGLES, 0, mesh_filter.mesh->m_positions.size());
 			glEnable(GL_CULL_FACE);
 		}
 		else
 		{
 
-			glDrawElements(GL_TRIANGLES, mesh_filter.mesh->m_indices.size(), GL_UNSIGNED_INT, 0);
 		}
+
+		mesh_filter.mesh->draw();
+
 		glBindVertexArray(0);
 	}
 }

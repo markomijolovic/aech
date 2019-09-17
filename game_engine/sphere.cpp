@@ -57,6 +57,6 @@ aech::graphics::sphere_t::sphere_t(const uint32_t sectors, const uint32_t stacks
 		}
 	}
 
-	commit(true);
+	commit();
 
 }

@@ -26,9 +26,8 @@ void aech::graphics::transparent_shadow_renderer_t::update()
 		material->set_texture("texture_albedo", mesh_filter.material->m_textures["texture_albedo"].first, 0);
 		material->set_uniforms();
 
-		glBindVertexArray(mesh_filter.mesh->m_vao);
-		glDrawElements(GL_TRIANGLES, mesh_filter.mesh->m_indices.size(), GL_UNSIGNED_INT, 0);
-		glBindVertexArray(0);
+		mesh_filter.mesh->draw();
+
 	}
 	glEnable(GL_CULL_FACE);
 }

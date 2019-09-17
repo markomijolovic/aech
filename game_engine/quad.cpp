@@ -18,5 +18,6 @@ aech::graphics::quad_t::quad_t()
 		{ 1.0f, 0.0f, },
 	};
 
+	top = topology::triangle_strip;
 	commit();
 }

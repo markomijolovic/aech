@@ -30,10 +30,7 @@ namespace aech::graphics
 			material->m_shader->set_uniform("projection", light_projection);
 			material->m_shader->set_uniform("view", light_view_matrix);
 			material->m_shader->set_uniform("model", transform.get_transform_matrix());
-
-			glBindVertexArray(mesh_filter.mesh->m_vao);
-			glDrawElements(GL_TRIANGLES, mesh_filter.mesh->m_indices.size(), GL_UNSIGNED_INT, 0);
-			glBindVertexArray(0);
+			mesh_filter.mesh->draw();
 		}
 		glEnable(GL_CULL_FACE);
 	}

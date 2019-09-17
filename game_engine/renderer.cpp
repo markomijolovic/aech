@@ -135,15 +135,39 @@ namespace aech::graphics
 
 		transparent_renderer->mesh_filter.material->set_texture("light_shadow_map", &opaque_shadow_renderer->shadow_map->m_colour_attachments[0], 4);
 
-		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {0, 150, -50}, 425 });
-		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {300, 150, -50}, 425 });
-		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {600, 150, -50}, 425 });
-		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {850, 150, -50}, 425 });
-		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {1140, 150, -50}, 425 });
-		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {-300, 150, -50}, 425 });
-		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {-620, 150, -50}, 425 });
-		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {-950, 150, -50}, 425 });
-		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {-1210, 150, -50}, 425 });
+		// bottom centre
+		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {0, 150, -50}, 400 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {300, 150, -50}, 400 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {600, 150, -50}, 400 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {850, 150, -50}, 400 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {1140, 150, -50}, 400 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {-300, 150, -50}, 400 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {-620, 150, -50}, 400 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {-950, 150, -50}, 400 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {-1210, 150, -50}, 400 });
+
+		// bottom left 
+		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {0, 150, 400}, 400 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {300, 150, 400}, 400 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {600, 150, 400}, 400 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {850, 150, 400}, 400 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {1140, 150, 400}, 400 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {-300, 150, 400}, 400 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {-620, 150, 400}, 400 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {-950, 150, 400}, 400 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {-1210, 150, 400}, 400 });
+
+		//bottom right
+		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {0, 150, -450}, 400 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {300, 150, -450}, 400 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {600, 150,-450}, 400 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {850, 150,-450}, 400 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {1140, 150, -450}, 400 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {-300, 150, -450}, 400 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {-620, 150, -450}, 400 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {-950, 150, -450}, 400 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {-1210, 150, -450}, 400 });
+
 
 		light_probe_renderer->camera_transform = &engine.get_component<transform_t>(m_camera);
 		light_probe_renderer->camera = &engine.get_component<camera_t>(m_camera);
@@ -190,8 +214,7 @@ namespace aech::graphics
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			hdr_to_cubemap_shader->set_uniform("projection", capture_projection);
 			hdr_to_cubemap_shader->set_uniform("view", capture_views[i]);
-			glBindVertexArray(ndc_cube->m_vao);
-			glDrawArrays(GL_TRIANGLES, 0, ndc_cube->m_positions.size());
+			ndc_cube->draw();
 		}
 		fbo.unbind();
 
@@ -203,14 +226,14 @@ namespace aech::graphics
 
 	void renderer_t::update()
 	{
-		 //1. render to g buffer
+		// 1. render to g buffer
 		opaque_renderer->update();
 
 		// 2. render shadows
 		// TODO: fix shadows
 		opaque_shadow_renderer->update();
 		transparent_shadow_renderer->update();
-		 //4. render lights
+		// 4. render lights
 
 		light_probe_renderer->render_ambient_pass();
 
@@ -224,13 +247,12 @@ namespace aech::graphics
 		glBindFramebuffer(GL_READ_FRAMEBUFFER, opaque_renderer->render_target->id);
 		glBlitFramebuffer(0, 0, screen_width, screen_height, 0, 0, screen_width, screen_height, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
 
-
 		transparent_renderer->update();
 
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 		glBindFramebuffer(GL_READ_FRAMEBUFFER, transparent_renderer->render_target->id);
 		glBlitFramebuffer(0, 0, screen_width, screen_height, 0, 0, screen_width, screen_height, GL_COLOR_BUFFER_BIT, GL_LINEAR);
 
-		 //5. forward rendering
+		// 5. forward rendering
 	}
 }

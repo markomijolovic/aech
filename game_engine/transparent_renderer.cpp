@@ -51,9 +51,6 @@ void aech::graphics::transparent_renderer_t::update()
 		mesh_filter.material->m_shader->set_uniform("light_intensity", light.intensity);
 		mesh_filter.material->m_shader->set_uniform("depth_bias_vp", bias_matrix * light_projection * light_view);
 		mesh_filter.material->m_shader->set_uniform("camera_position", camera_transform.position);
-
-		glBindVertexArray(mesh_filter.mesh->m_vao);
-		glDrawElements(GL_TRIANGLES, mesh_filter.mesh->m_positions.size(), GL_UNSIGNED_INT, 0);
-		glBindVertexArray(0);
+		mesh_filter.mesh->draw();
 	}
 }

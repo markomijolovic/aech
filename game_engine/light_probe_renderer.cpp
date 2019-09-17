@@ -7,16 +7,18 @@
 #include "framebuffer_cube.hpp"
 #include <iostream>
 #include "framebuffer_library.hpp"
+#include <iomanip>
 
 void aech::graphics::light_probe_renderer_t::bake_probes()
 {
 	std::clog << "Baking light probes" << std::endl;
-	// remov this LUL
 	for (size_t i{}; i < light_probes.size(); i++)
 	{
+		std::clog << std::setw(6)  << std::fixed << std::setprecision(2) << ((static_cast<float>(i) / light_probes.size() ) * 100) << "%" << std::endl;
 		create_radiance_cubemap(i);
 		process_radiance_map(i);
 	}
+	std::clog << "100.00%" << std::endl;
 }
 
 void aech::graphics::light_probe_renderer_t::create_radiance_cubemap(size_t probe_index)
@@ -67,14 +69,15 @@ void aech::graphics::light_probe_renderer_t::create_radiance_cubemap(size_t prob
 				cubemap_capture_material->m_shader->use();
 				cubemap_capture_material->set_texture(texture.first, texture.second.first, texture.second.second);
 			}
-			glBindVertexArray(mesh_filter.mesh->m_vao);
+
+			// TODO: refactor this
 			if (mesh_filter.material->m_texture_cubes.find("skybox") != mesh_filter.material->m_texture_cubes.end())
 			{
 				glDisable(GL_CULL_FACE);
 				cubemap_capture_skybox_material->m_shader->use();
 				cubemap_capture_skybox_material->set_texture_cube("skybox", &resource_manager::texture_cubes["skybox"], 0);
 				cubemap_capture_skybox_material->set_uniforms();
-				glDrawArrays(GL_TRIANGLES, 0, mesh_filter.mesh->m_positions.size());
+				mesh_filter.mesh->draw();
 				glEnable(GL_CULL_FACE);
 			}
 			else
@@ -82,7 +85,7 @@ void aech::graphics::light_probe_renderer_t::create_radiance_cubemap(size_t prob
 				cubemap_capture_material->m_shader->use();
 				cubemap_capture_material->m_shader->set_uniform("model", transf.get_transform_matrix());
 				cubemap_capture_material->set_uniforms();
-				glDrawElements(GL_TRIANGLES, mesh_filter.mesh->m_indices.size(), GL_UNSIGNED_INT, 0);
+				mesh_filter.mesh->draw();
 			}
 		}
 	}
@@ -131,8 +134,7 @@ void graphics::light_probe_renderer_t::process_radiance_map(size_t probe_index)
 		irradiance_capture_material->m_shader->set_uniform("projection", capture_projection);
 		irradiance_capture_material->m_shader->set_uniform("view", capture_views[i]);			
 		irradiance_capture_material->set_uniforms();
-		glBindVertexArray(ndc_cube->m_vao);
-		glDrawArrays(GL_TRIANGLES, 0, ndc_cube->m_positions.size());
+		ndc_cube->draw();
 	}
 	fbo.texture->generate_mips();
 	fbo.unbind();
@@ -169,9 +171,8 @@ void graphics::light_probe_renderer_t::process_radiance_map(size_t probe_index)
 			prefilter_material->set_uniforms();
 			prefilter_fbo.attach(i, mip);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-			glBindVertexArray(ndc_cube->m_vao);
-			glDrawArrays(GL_TRIANGLES, 0, ndc_cube->m_positions.size());
+			ndc_cube->draw();
+		
 		}
 	}
 
@@ -183,8 +184,7 @@ void graphics::light_probe_renderer_t::process_radiance_map(size_t probe_index)
 	glViewport(0, 0, brdf_fbo.width, brdf_fbo.height);
 	brdf_material->m_shader->use();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glBindVertexArray(ndc_quad->m_vao);
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, ndc_quad->m_positions.size());
+	ndc_quad->draw();
 	brdf_fbo.unbind();
 	glEnable(GL_CULL_FACE);
 }
@@ -194,7 +194,8 @@ void graphics::light_probe_renderer_t::render_ambient_pass()
 {
 	render_target->bind();
 	glViewport(0, 0, render_target->width, render_target->height);
-	glDisable(GL_CULL_FACE);
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_FRONT);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glDisable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);
@@ -213,8 +214,6 @@ void graphics::light_probe_renderer_t::render_ambient_pass()
 		ambient_material->set_uniform("model", translate(probe.position) * math::scale(probe.radius));
 		ambient_material->set_uniform("probe_radius", probe.radius);
 		ambient_material->set_uniforms();
-		glBindVertexArray(ndc_sphere->m_vao);
-		glDrawElements(GL_TRIANGLES, ndc_sphere->m_indices.size(), GL_UNSIGNED_INT, 0);
+		ndc_sphere->draw();
 	}
-	glEnable(GL_CULL_FACE);
 }
