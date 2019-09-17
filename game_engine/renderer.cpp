@@ -121,11 +121,11 @@ namespace aech::graphics
 		transparent_renderer->m_camera = m_camera;
 		transparent_renderer->dirlight = dirlight;
 
-		directional_light_renderer->mesh_filter.material->set_texture("texture_position", &opaque_renderer->render_target->m_colour_attachments[0], 0);
-		directional_light_renderer->mesh_filter.material->set_texture("texture_normal", &opaque_renderer->render_target->m_colour_attachments[1], 1);
-		directional_light_renderer->mesh_filter.material->set_texture("texture_albedo", &opaque_renderer->render_target->m_colour_attachments[2], 2);
-		directional_light_renderer->mesh_filter.material->set_texture("texture_metallic_roughness_ao", &opaque_renderer->render_target->m_colour_attachments[3], 3);
-		directional_light_renderer->mesh_filter.material->set_texture("light_shadow_map", &opaque_shadow_renderer->shadow_map->m_colour_attachments[0], 4);
+		directional_light_renderer->mesh_filter.material()->set_texture("texture_position", &opaque_renderer->render_target->m_colour_attachments[0], 0);
+		directional_light_renderer->mesh_filter.material()->set_texture("texture_normal", &opaque_renderer->render_target->m_colour_attachments[1], 1);
+		directional_light_renderer->mesh_filter.material()->set_texture("texture_albedo", &opaque_renderer->render_target->m_colour_attachments[2], 2);
+		directional_light_renderer->mesh_filter.material()->set_texture("texture_metallic_roughness_ao", &opaque_renderer->render_target->m_colour_attachments[3], 3);
+		directional_light_renderer->mesh_filter.material()->set_texture("light_shadow_map", &opaque_shadow_renderer->shadow_map->m_colour_attachments[0], 4);
 		
 		light_probe_renderer->ambient_material->set_texture("texture_position", &opaque_renderer->render_target->m_colour_attachments[0], 0);
 		light_probe_renderer->ambient_material->set_texture("texture_normal", &opaque_renderer->render_target->m_colour_attachments[1], 1);
@@ -133,7 +133,7 @@ namespace aech::graphics
 		light_probe_renderer->ambient_material->set_texture("texture_metallic_roughness_ao", &opaque_renderer->render_target->m_colour_attachments[3], 3);
 		light_probe_renderer->ambient_material->set_texture("light_shadow_map", &opaque_shadow_renderer->shadow_map->m_colour_attachments[0], 4);
 
-		transparent_renderer->mesh_filter.material->set_texture("light_shadow_map", &opaque_shadow_renderer->shadow_map->m_colour_attachments[0], 4);
+		transparent_renderer->mesh_filter.material()->set_texture("light_shadow_map", &opaque_shadow_renderer->shadow_map->m_colour_attachments[0], 4);
 
 		// bottom centre
 		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {0, 150, -50}, 400 });

@@ -18,7 +18,7 @@ namespace aech::graphics
 		auto& light_transform = engine.get_component<transform_t>(dirlight);
 		auto light_projection = math::orthographic(-2250, 2250, -2250, 2000, 0, 2250);
 
-		material->m_shader->use();
+		material->shader()->use();
 		material->set_uniforms();
 		for (auto entity : entities)
 		{
@@ -27,10 +27,10 @@ namespace aech::graphics
 
 			auto light_view_matrix = math::get_view_matrix(light_transform);
 
-			material->m_shader->set_uniform("projection", light_projection);
-			material->m_shader->set_uniform("view", light_view_matrix);
-			material->m_shader->set_uniform("model", transform.get_transform_matrix());
-			mesh_filter.mesh->draw();
+			material->shader()->set_uniform("projection", light_projection);
+			material->shader()->set_uniform("view", light_view_matrix);
+			material->shader()->set_uniform("model", transform.get_transform_matrix());
+			mesh_filter.mesh()->draw();
 		}
 		glEnable(GL_CULL_FACE);
 	}

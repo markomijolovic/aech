@@ -306,9 +306,6 @@ namespace aech::resource_manager
 		if (node->mNumMeshes == 1)
 		{
 			engine.add_component(entity,
-			                     mesh_filter_t{}
-			                    );
-			engine.add_component(entity,
 			                     shadow_caster_t{}
 			                    );
 		}
@@ -324,9 +321,11 @@ namespace aech::resource_manager
 			auto&      mesh_filter = engine.get_component<mesh_filter_t>(entity);
 			if (node->mNumMeshes == 1)
 			{
-				mesh_filter.material = material;
-				mesh_filter.mesh = mesh;
-				if (mesh_filter.material->type == material_type::opaque)
+				mesh_filter_t mesh_filter{ mesh, material };
+				engine.add_component(entity,
+					mesh_filter
+				);
+				if (mesh_filter.material()->type() == material_t::material_type::opaque)
 				{
 					engine.add_component(entity, opaque_t{});
 				}
@@ -347,15 +346,16 @@ namespace aech::resource_manager
 				                     scene_node_t{child_transform}
 				                    );
 
-				engine.add_component(child_entity,
-				                     mesh_filter_t{}
-				                    );
+	
 
 				engine.add_component(child_entity,
 				                     shadow_caster_t{}
 				                    );
-
-				if (material->type == material_type::opaque)
+				mesh_filter_t mesh_filter{ mesh, material };
+				engine.add_component(child_entity,
+					mesh_filter
+				);
+				if (mesh_filter.material()->type() == material_t::material_type::opaque)
 				{
 					engine.add_component(child_entity, opaque_t{});
 				}
@@ -366,8 +366,6 @@ namespace aech::resource_manager
 
 				const auto child_scene_node  = &engine.get_component<scene_node_t>(child_entity);
 				auto&      child_mesh_filter = engine.get_component<mesh_filter_t>(child_entity);
-				child_mesh_filter.mesh       = mesh;
-				child_mesh_filter.material   = material;
 				scene_node->add_child(child_scene_node);
 			}
 		}
@@ -505,7 +503,6 @@ namespace aech::resource_manager
 		if (path.find("_alpha") != std::string::npos)
 		{
 			*ret_val = material_library::create_material("transparent");
-			ret_val->type = material_type::transparent;
 		}
 		else
 		{

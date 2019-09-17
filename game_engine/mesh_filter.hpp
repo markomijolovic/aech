@@ -3,15 +3,23 @@
 namespace aech::graphics
 {
 	class mesh_t;
-	struct material_t;
+	class material_t;
 
 	/**
 	 * mesh filter class links up a mesh with a material
 	 * for rendering purposes
 	 */
-	struct mesh_filter_t
+	class mesh_filter_t
 	{
-		mesh_t* mesh{};
-		material_t* material{};
+	public:
+		// make array happy
+		mesh_filter_t() = default;
+		mesh_filter_t(mesh_t* m_mesh, material_t* m_material);
+		mesh_t* mesh();
+		material_t* material();
+
+	private:
+		mesh_t* m_mesh{};
+		material_t* m_material{};
 	};
 }

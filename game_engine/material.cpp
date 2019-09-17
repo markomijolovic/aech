@@ -1,16 +1,57 @@
 #include "material.hpp"
 #include "texture_cube.hpp"
+#include "texture.hpp"
+#include "shader.hpp"
+#include "mat4.hpp"
 
 // TODO: Look into using fewer glUseProgram calls
 namespace aech::graphics
 {
-	void material_t::set_texture(const std::string& name, const texture_t* texture, uint32_t unit)
+	const std::unordered_map<std::string, std::pair<texture_t*, uint32_t>>& material_t::get_textures()
+	{
+		return m_textures;
+	}
+
+	texture_t* material_t::get_texture(const std::string& name)
+	{
+		if (m_textures.find(name) != std::end(m_textures))
+		{
+			return m_textures[name].first;
+		}
+		return nullptr;
+	}
+
+	texture_cube_t* material_t::get_texture_cube(const std::string& name)
+	{
+		if (m_texture_cubes.find(name) != std::end(m_texture_cubes))
+		{
+			return m_texture_cubes[name].first;
+		}
+		return nullptr;
+	}
+
+	material_t::material_t(shader_t* m_shader, material_type m_type)
+		: m_shader{m_shader}, m_type{m_type}
+	{
+	}
+
+	shader_t* material_t::shader()
+	{
+		return m_shader;
+	}
+
+	material_t::material_type material_t::type()
+	{
+		return m_type;
+	}
+
+	void material_t::set_texture(const std::string& name, texture_t* texture, uint32_t unit)
 	{
 		m_textures[name] = { texture, unit };
 	}
 
 
-	void material_t::set_texture_cube(const std::string& name, const texture_cube_t* texture, uint32_t unit)
+	void material_t::set_texture_cube(const std::string& name, texture_cube_t* texture, uint32_t unit)
 	{
 		m_texture_cubes[name] = { texture, unit };
 	}

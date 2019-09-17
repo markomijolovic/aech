@@ -40,27 +40,24 @@ namespace aech::graphics
 		auto view = math::get_view_matrix(engine.get_component<transform_t>(m_camera));
 		auto& scene_node = engine.get_component<scene_node_t>(entity);
 		auto& mesh_filter = engine.get_component<mesh_filter_t>(entity);
-		auto shader = mesh_filter.material->m_shader;
+		auto shader = mesh_filter.material()->shader();
 		auto model = scene_node.get_transform();
 		auto& projection = engine.get_component<camera_t>(m_camera).projection;
 
-		mesh_filter.material->set_uniforms();
+		mesh_filter.material()->set_uniforms();
 		shader->set_uniform("model", model);
 		shader->set_uniform("view", view);
 		shader->set_uniform("projection", projection);
 
-		if (mesh_filter.material->m_texture_cubes.find("skybox") != mesh_filter.material->m_texture_cubes.end())
+		if (mesh_filter.material()->get_texture_cube("skybox"))
 		{
 			glDisable(GL_CULL_FACE);
+			mesh_filter.mesh()->draw();
 			glEnable(GL_CULL_FACE);
 		}
 		else
 		{
-
+			mesh_filter.mesh()->draw();
 		}
-
-		mesh_filter.mesh->draw();
-
-		glBindVertexArray(0);
 	}
 }

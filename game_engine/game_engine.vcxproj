@@ -156,10 +156,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="ibl_precompute.hpp">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="indirect_lighting_renderer.hpp">
       <SubType>
       </SubType>
@@ -251,7 +247,6 @@
     <ClInclude Include="vec4.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="camera.cpp" />
     <ClCompile Include="camera_control_system.cpp" />
     <ClCompile Include="component_manager.cpp" />
     <ClCompile Include="cube.cpp" />
@@ -263,7 +258,6 @@
     <ClCompile Include="framebuffer_cube.cpp" />
     <ClCompile Include="framebuffer_library.cpp" />
     <ClCompile Include="glad.cpp" />
-    <ClCompile Include="ibl_precompute.cpp" />
     <ClCompile Include="light_probe_renderer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mat3.cpp" />
@@ -271,6 +265,7 @@
     <ClCompile Include="material.cpp" />
     <ClCompile Include="material_library.cpp" />
     <ClCompile Include="mesh.cpp" />
+    <ClCompile Include="mesh_filter.cpp" />
     <ClCompile Include="mesh_library.cpp" />
     <ClCompile Include="opaque_renderer.cpp" />
     <ClCompile Include="point_light_renderer.cpp" />
@@ -296,16 +291,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="component_array.hpp" />
-    <None Include="cube_sample_vertex.glsl">
-      <SubType>
-      </SubType>
-    </None>
-    <None Include="precompute_irradiance_fragment.glsl">
-      <SubType>
-      </SubType>
-    </None>
+    <None Include="shaders\ambient_fragment.glsl" />
     <None Include="shaders\ambient_irradiance_fragment.glsl" />
     <None Include="shaders\ambient_irradiance_vertex.glsl" />
+    <None Include="shaders\ambient_vertex.glsl" />
     <None Include="shaders\background_fragment.glsl" />
     <None Include="shaders\background_vertex.glsl" />
     <None Include="shaders\directional_fragment.glsl" />
@@ -319,11 +308,16 @@
     <None Include="shaders\pbr\equirectangular_to_cube_fragment.glsl" />
     <None Include="shaders\pbr\precompute_irradiance_fragment.glsl" />
     <None Include="shaders\pbr\prefilter_fragment.glsl" />
+    <None Include="shaders\pbr\screen_quad_vertex.glsl" />
     <None Include="shaders\point_fragment.glsl" />
     <None Include="shaders\point_vertex.glsl" />
     <None Include="shaders\probe_capture_fragment.glsl" />
+    <None Include="shaders\probe_capture_skybox_fragment.glsl" />
+    <None Include="shaders\probe_capture_skybox_vertex.glsl" />
     <None Include="shaders\probe_capture_vertex.glsl" />
     <None Include="shaders\screen_quad_vertex.glsl" />
+    <None Include="shaders\skybox_fragment.glsl" />
+    <None Include="shaders\skybox_vertex.glsl" />
     <None Include="shaders\transparent_fragment.glsl" />
     <None Include="shaders\transparent_shadow_fragment.glsl" />
     <None Include="shaders\transparent_shadow_vertex.glsl" />

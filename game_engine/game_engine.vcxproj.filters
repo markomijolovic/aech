@@ -228,9 +228,6 @@
     <ClInclude Include="indirect_lighting_renderer.hpp">
       <Filter>Header Files\graphics\rendering</Filter>
     </ClInclude>
-    <ClInclude Include="ibl_precompute.hpp">
-      <Filter>Header Files\graphics\rendering</Filter>
-    </ClInclude>
     <ClInclude Include="light_probe.hpp">
       <Filter>Header Files\graphics\rendering</Filter>
     </ClInclude>
@@ -332,9 +329,6 @@
     <ClCompile Include="event_manager.cpp">
       <Filter>Source Files\ecs core\event system</Filter>
     </ClCompile>
-    <ClCompile Include="camera.cpp">
-      <Filter>Source Files\graphics\scene</Filter>
-    </ClCompile>
     <ClCompile Include="transform.cpp">
       <Filter>Source Files\graphics\scene</Filter>
     </ClCompile>
@@ -362,22 +356,16 @@
     <ClCompile Include="framebuffer_cube.cpp">
       <Filter>Source Files\graphics\rendering</Filter>
     </ClCompile>
-    <ClCompile Include="ibl_precompute.cpp">
-      <Filter>Source Files\graphics\rendering</Filter>
-    </ClCompile>
     <ClCompile Include="light_probe_renderer.cpp">
       <Filter>Source Files\graphics\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="mesh_filter.cpp">
+      <Filter>Source Files\graphics\mesh</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="component_array.hpp">
       <Filter>Header Files\ecs core</Filter>
-    </None>
-    <None Include="cube_sample_vertex.glsl">
-      <Filter>Source Files\shaders</Filter>
-    </None>
-    <None Include="precompute_irradiance_fragment.glsl">
-      <Filter>Source Files\shaders</Filter>
     </None>
     <None Include="shaders\ambient_irradiance_fragment.glsl">
       <Filter>Source Files\shaders</Filter>
@@ -451,5 +439,12 @@
     <None Include="shaders\transparent_vertex.glsl">
       <Filter>Source Files\shaders</Filter>
     </None>
+    <None Include="shaders\pbr\screen_quad_vertex.glsl" />
+    <None Include="shaders\ambient_fragment.glsl" />
+    <None Include="shaders\ambient_vertex.glsl" />
+    <None Include="shaders\probe_capture_skybox_fragment.glsl" />
+    <None Include="shaders\probe_capture_skybox_vertex.glsl" />
+    <None Include="shaders\skybox_fragment.glsl" />
+    <None Include="shaders\skybox_vertex.glsl" />
   </ItemGroup>
 </Project>

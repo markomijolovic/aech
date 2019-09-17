@@ -57,35 +57,35 @@ void aech::graphics::light_probe_renderer_t::create_radiance_cubemap(size_t prob
 		auto& view = capture_views[i];
 		cubemap_capture_material->set_uniform("view", view);
 		cubemap_capture_material->set_uniform("projection", capture_projection);
-		cubemap_capture_skybox_material->m_shader->use();
+		cubemap_capture_skybox_material->shader()->use();
 		cubemap_capture_skybox_material->set_uniform("view", view);
 		cubemap_capture_skybox_material->set_uniform("projection", capture_projection);
 		for (auto entity : entities)
 		{
 			auto& transf = engine.get_component<transform_t>(entity);
 			auto& mesh_filter = engine.get_component<mesh_filter_t>(entity);
-			for (auto texture : mesh_filter.material->m_textures)
+			for (auto texture : mesh_filter.material()->get_textures())
 			{
-				cubemap_capture_material->m_shader->use();
+				cubemap_capture_material->shader()->use();
 				cubemap_capture_material->set_texture(texture.first, texture.second.first, texture.second.second);
 			}
 
 			// TODO: refactor this
-			if (mesh_filter.material->m_texture_cubes.find("skybox") != mesh_filter.material->m_texture_cubes.end())
+			if (mesh_filter.material()->get_texture_cube("skybox"))
 			{
 				glDisable(GL_CULL_FACE);
-				cubemap_capture_skybox_material->m_shader->use();
-				cubemap_capture_skybox_material->set_texture_cube("skybox", &resource_manager::texture_cubes["skybox"], 0);
+				cubemap_capture_skybox_material->shader()->use();
+				cubemap_capture_skybox_material->set_texture_cube("skybox", (mesh_filter.material()->get_texture_cube("skybox")), 0);
 				cubemap_capture_skybox_material->set_uniforms();
-				mesh_filter.mesh->draw();
+				mesh_filter.mesh()->draw();
 				glEnable(GL_CULL_FACE);
 			}
 			else
 			{
-				cubemap_capture_material->m_shader->use();
-				cubemap_capture_material->m_shader->set_uniform("model", transf.get_transform_matrix());
+				cubemap_capture_material->shader()->use();
+				cubemap_capture_material->shader()->set_uniform("model", transf.get_transform_matrix());
 				cubemap_capture_material->set_uniforms();
-				mesh_filter.mesh->draw();
+				mesh_filter.mesh()->draw();
 			}
 		}
 	}
@@ -119,7 +119,7 @@ void graphics::light_probe_renderer_t::process_radiance_map(size_t probe_index)
 	probe.irradiance->type = texture_types::type::floating_point;
 	probe.irradiance->init();
 
-	irradiance_capture_material->m_shader->use();
+	irradiance_capture_material->shader()->use();
 	irradiance_capture_material->set_texture_cube("environment", &resource_manager::texture_cubes["radiance" + std::to_string(probe_index)], 0);
 
 	framebuffer_cube_t fbo{ probe.irradiance, 32, 32 };
@@ -131,8 +131,8 @@ void graphics::light_probe_renderer_t::process_radiance_map(size_t probe_index)
 	{
 		fbo.attach(i);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		irradiance_capture_material->m_shader->set_uniform("projection", capture_projection);
-		irradiance_capture_material->m_shader->set_uniform("view", capture_views[i]);			
+		irradiance_capture_material->shader()->set_uniform("projection", capture_projection);
+		irradiance_capture_material->shader()->set_uniform("view", capture_views[i]);			
 		irradiance_capture_material->set_uniforms();
 		ndc_cube->draw();
 	}
@@ -153,7 +153,7 @@ void graphics::light_probe_renderer_t::process_radiance_map(size_t probe_index)
 	framebuffer_cube_t prefilter_fbo{ probe.prefiltered, 128, 128 };
 	prefilter_fbo.bind();
 
-	prefilter_material->m_shader->use();
+	prefilter_material->shader()->use();
 	prefilter_material->set_texture_cube("environment_map", &resource_manager::texture_cubes["radiance" + std::to_string(probe_index)], 0);
 	prefilter_material->set_uniform("projection", capture_projection);
 
@@ -182,7 +182,7 @@ void graphics::light_probe_renderer_t::process_radiance_map(size_t probe_index)
 	auto& brdf_fbo = framebuffers["brdf"];
 	brdf_fbo.bind();
 	glViewport(0, 0, brdf_fbo.width, brdf_fbo.height);
-	brdf_material->m_shader->use();
+	brdf_material->shader()->use();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	ndc_quad->draw();
 	brdf_fbo.unbind();
@@ -200,7 +200,7 @@ void graphics::light_probe_renderer_t::render_ambient_pass()
 	glDisable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_ONE, GL_ONE);
-	ambient_material->m_shader->use();
+	ambient_material->shader()->use();
 	ambient_material->set_texture("brdf_lut", &framebuffers["brdf"].m_colour_attachments.front(), 6);
 	ambient_material->set_uniform("camera_position", camera_transform->position);
 	ambient_material->set_uniform("projection", camera->projection);

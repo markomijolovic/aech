@@ -12,7 +12,7 @@ void aech::graphics::transparent_shadow_renderer_t::update()
 	auto& light_transform = engine.get_component<transform_t>(dirlight);
 	auto light_projection = math::orthographic(-2250, 2250, -2250, 2000, 0, 2250);
 
-	material->m_shader->use();
+	material->shader()->use();
 	for (auto entity : entities)
 	{
 		auto& transform = engine.get_component<transform_t>(entity);
@@ -20,13 +20,13 @@ void aech::graphics::transparent_shadow_renderer_t::update()
 
 		auto light_view_matrix = math::get_view_matrix(light_transform);
 
-		material->m_shader->set_uniform("projection", light_projection);
-		material->m_shader->set_uniform("view", light_view_matrix);
-		material->m_shader->set_uniform("model", transform.get_transform_matrix());
-		material->set_texture("texture_albedo", mesh_filter.material->m_textures["texture_albedo"].first, 0);
+		material->shader()->set_uniform("projection", light_projection);
+		material->shader()->set_uniform("view", light_view_matrix);
+		material->shader()->set_uniform("model", transform.get_transform_matrix());
+		material->set_texture("texture_albedo", mesh_filter.material()->get_texture("texture_albedo"), 0);
 		material->set_uniforms();
 
-		mesh_filter.mesh->draw();
+		mesh_filter.mesh()->draw();
 
 	}
 	glEnable(GL_CULL_FACE);

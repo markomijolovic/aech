@@ -5,11 +5,13 @@
 #include "transforms.hpp"
 #include "camera.hpp"
 #include "directional_light.hpp"
+#include "shader.hpp"
 
 void aech::graphics::transparent_renderer_t::update()
 {
 	render_target->bind();
-	mesh_filter.material->m_shader->use();
+
+	mesh_filter.material()->shader()->use();
 
 	auto& camera_transform = engine.get_component<transform_t>(m_camera);
 	auto& camera = engine.get_component<camera_t>(m_camera);
@@ -42,15 +44,15 @@ void aech::graphics::transparent_renderer_t::update()
 		auto& transform = engine.get_component<transform_t>(entity);
 		auto& scene_node = engine.get_component<scene_node_t>(entity);
 
-		mesh_filter.material->set_uniforms();
-		mesh_filter.material->m_shader->set_uniform("model", transform.get_transform_matrix());
-		mesh_filter.material->m_shader->set_uniform("view", view);
-		mesh_filter.material->m_shader->set_uniform("projection", projection);
-		mesh_filter.material->m_shader->set_uniform("light_dir", light_transform.get_forward_vector());
-		mesh_filter.material->m_shader->set_uniform("light_colour", light.colour);
-		mesh_filter.material->m_shader->set_uniform("light_intensity", light.intensity);
-		mesh_filter.material->m_shader->set_uniform("depth_bias_vp", bias_matrix * light_projection * light_view);
-		mesh_filter.material->m_shader->set_uniform("camera_position", camera_transform.position);
-		mesh_filter.mesh->draw();
+		mesh_filter.material()->set_uniforms();
+		mesh_filter.material()->shader()->set_uniform("model", transform.get_transform_matrix());
+		mesh_filter.material()->shader()->set_uniform("view", view);
+		mesh_filter.material()->shader()->set_uniform("projection", projection);
+		mesh_filter.material()->shader()->set_uniform("light_dir", light_transform.get_forward_vector());
+		mesh_filter.material()->shader()->set_uniform("light_colour", light.colour);
+		mesh_filter.material()->shader()->set_uniform("light_intensity", light.intensity);
+		mesh_filter.material()->shader()->set_uniform("depth_bias_vp", bias_matrix * light_projection * light_view);
+		mesh_filter.material()->shader()->set_uniform("camera_position", camera_transform.position);
+		mesh_filter.mesh()->draw();
 	}
 }
