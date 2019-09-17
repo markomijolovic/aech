@@ -70,6 +70,12 @@ namespace aech::math
 	}
 
 
+	mat4_t scale(float x)
+	{
+		return scale(x, x, x);
+	}
+
+
 	mat4_t look_at(const vec3_t& eye, const vec3_t& centre, const vec3_t& up)
 	{
 		auto w = normalize(eye - centre);

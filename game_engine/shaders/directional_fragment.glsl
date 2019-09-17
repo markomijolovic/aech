@@ -82,5 +82,5 @@ void main()
 	// TODO: add shadows
 	vec3 outgoing_radiance = (diffuse + specular) * radiance * max(dot(normal, light), 0.0) * shadow(position, max(dot(normal, light), 0.0));
 
-	fragment_colour = vec4(albedo * 0.1 + outgoing_radiance, 1.0);
+	fragment_colour = vec4(outgoing_radiance, 1.0);
 }

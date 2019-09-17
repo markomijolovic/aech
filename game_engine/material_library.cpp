@@ -50,11 +50,19 @@ void aech::graphics::material_library::generate_default_materials()
 
 	auto probe_capture_shader = &resource_manager::load_shader("capture", "shaders/probe_capture_vertex.glsl", "shaders/probe_capture_fragment.glsl");
 	auto& probe_capture_material = default_materials["capture"];
-	probe_capture_material.m_shader = probe_capture_shader;
+	probe_capture_material.m_shader = probe_capture_shader;	
+	
+	auto probe_capture_skybox_shader = &resource_manager::load_shader("capture_skybox", "shaders/probe_capture_skybox_vertex.glsl", "shaders/probe_capture_skybox_fragment.glsl");
+	auto& probe_capture_skybox_material = default_materials["capture_skybox"];
+	probe_capture_skybox_material.m_shader = probe_capture_skybox_shader;
 
-	auto ambient_shader = &resource_manager::load_shader("ambient", "shaders/ambient_vertex.glsl", "shaders/ambient_fragment.glsl");
+	auto ambient_shader = &resource_manager::load_shader("ambient", "shaders/ambient_irradiance_vertex.glsl", "shaders/ambient_irradiance_fragment.glsl");
 	auto& ambient_material = default_materials["ambient"];
 	ambient_material.m_shader = ambient_shader;
+
+	auto skybox_shader = &resource_manager::load_shader("skybox", "shaders/skybox_vertex.glsl", "shaders/skybox_fragment.glsl");
+	auto& skybox_material = default_materials["skybox"];
+	skybox_material.m_shader = skybox_shader;
 	// probe_render_shader
 }
 

@@ -78,8 +78,8 @@ int main(int argc, char* argv[])
 	// TODO: think of a better way to do this
 	renderer_t renderer{};
 	resource_manager::load_mesh("textures_pbr/sponza.obj");
-	renderer.light_probe_renderer->bake_probes();
 	auto delta_time = 1/60.0f;
+	renderer.light_probe_renderer->bake_probes();
 
 	while (!glfwWindowShouldClose(window))
 	{

@@ -4,6 +4,7 @@ out vec4 fragment_colour;
 
 in vec3 fragment_position;
 in vec4 screen_position;
+in vec3 pos;
 
 uniform sampler2D texture_position;
 uniform sampler2D texture_normal;

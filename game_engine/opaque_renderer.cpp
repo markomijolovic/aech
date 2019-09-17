@@ -7,6 +7,7 @@
 #include "camera.hpp"
 #include "material_library.hpp"
 #include "opaque_renderer.hpp"
+#include <iostream>
 
 namespace aech::graphics
 {
@@ -28,7 +29,7 @@ namespace aech::graphics
 		glEnable(GL_DEPTH_TEST);
 		glDisable(GL_BLEND);
 		glCullFace(GL_BACK);
-		glDepthFunc(GL_LESS);
+		glDepthFunc(GL_LEQUAL);
 
 		GLenum attachments[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3 };
 		glDrawBuffers(4, attachments);
@@ -49,7 +50,17 @@ namespace aech::graphics
 		shader->set_uniform("projection", projection);
 
 		glBindVertexArray(mesh_filter.mesh->m_vao);
-		glDrawElements(GL_TRIANGLES, mesh_filter.mesh->m_indices.size(), GL_UNSIGNED_INT, 0);
+		if (mesh_filter.material->m_texture_cubes.find("skybox") != mesh_filter.material->m_texture_cubes.end())
+		{
+			glDisable(GL_CULL_FACE);
+			glDrawArrays(GL_TRIANGLES, 0, mesh_filter.mesh->m_positions.size());
+			glEnable(GL_CULL_FACE);
+		}
+		else
+		{
+
+			glDrawElements(GL_TRIANGLES, mesh_filter.mesh->m_indices.size(), GL_UNSIGNED_INT, 0);
+		}
 		glBindVertexArray(0);
 	}
 }

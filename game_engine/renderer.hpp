@@ -1,5 +1,4 @@
 #pragma once
-#include "system.hpp"
 #include "directional_light_renderer.hpp"
 #include "point_light_renderer.hpp"
 #include "opaque_renderer.hpp"
@@ -11,7 +10,7 @@
 
 namespace aech::graphics
 {
-	class renderer_t : public ecs::system_t
+	class renderer_t
 	{
 	public:
 		entity_t m_camera{};
@@ -23,7 +22,7 @@ namespace aech::graphics
 		std::shared_ptr<transparent_renderer_t> transparent_renderer{};
 		std::shared_ptr<light_probe_renderer_t> light_probe_renderer{};
 		std::vector<light_probe_t> probes{};
-		mesh_t* ndc_cube = mesh_library::default_meshes["cube"].get();
+		mesh_t* ndc_cube{};
 		framebuffer_cube_t* hdr_capture_fbo{};
 		framebuffer_cube_t* irradiance_fbo{};
 		framebuffer_cube_t* specular_prefilter_fbo{};
