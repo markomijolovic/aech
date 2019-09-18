@@ -1,4 +1,3 @@
-#include <iostream>
 #include "framebuffer.hpp"
 
 namespace aech::graphics

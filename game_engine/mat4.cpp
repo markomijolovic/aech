@@ -1,5 +1,5 @@
 #include "mat4.hpp"
-#include <assert.h>
+#include <cassert>
 
 namespace aech::math
 {
@@ -89,5 +89,16 @@ namespace aech::math
 			data[i][3] = vec4.w;
 			i++;
 		}
+	}
+
+	float* mat4_t::operator[](size_t i)
+	{
+		return data[i];
+	}
+
+
+	const float* mat4_t::operator[](size_t i) const
+	{
+		return data[i];
 	}
 }

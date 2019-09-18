@@ -7,18 +7,18 @@ namespace aech::math
 	mat4_t translate(float x, float y, float z)
 	{
 		mat4_t retval{};
-		retval.data[0][3] = x;
-		retval.data[1][3] = y;
-		retval.data[2][3] = z;
+		retval[0][3] = x;
+		retval[1][3] = y;
+		retval[2][3] = z;
 		return retval;
 	}
 
 	mat4_t scale(float x, float y, float z)
 	{
 		mat4_t retval{};
-		retval.data[0][0] *= x;
-		retval.data[1][1] *= y;
-		retval.data[2][2] *= z;
+		retval[0][0] *= x;
+		retval[1][1] *= y;
+		retval[2][2] *= z;
 		return retval;
 	}
 

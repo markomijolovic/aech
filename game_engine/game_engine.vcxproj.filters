@@ -263,9 +263,6 @@
     <ClCompile Include="transforms.cpp">
       <Filter>Source Files\math</Filter>
     </ClCompile>
-    <ClCompile Include="mat3.cpp">
-      <Filter>Source Files\math</Filter>
-    </ClCompile>
     <ClCompile Include="mesh.cpp">
       <Filter>Source Files\graphics\mesh</Filter>
     </ClCompile>

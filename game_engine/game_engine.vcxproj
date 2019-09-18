@@ -257,7 +257,6 @@
     <ClCompile Include="light_probe.cpp" />
     <ClCompile Include="light_probe_renderer.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="mat3.cpp" />
     <ClCompile Include="mat4.cpp" />
     <ClCompile Include="material.cpp" />
     <ClCompile Include="material_library.cpp" />

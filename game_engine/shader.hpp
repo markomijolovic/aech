@@ -24,7 +24,7 @@ namespace aech::graphics
 		void set_uniform(const std::string &name, const T&value)
 		{
 			if constexpr(std::is_same_v<T, math::mat4_t>) {
-				glUniformMatrix4fv(glGetUniformLocation(id, name.c_str()), 1, true, (GLfloat *)(value.data));
+				glUniformMatrix4fv(glGetUniformLocation(id, name.c_str()), 1, true, (GLfloat *)(value[0]));
 			}
 			else if constexpr(std::is_same_v<T, math::vec3_t>) {
 				glUniform3fv(glGetUniformLocation(id, name.c_str()), 1, (GLfloat*)(&value));

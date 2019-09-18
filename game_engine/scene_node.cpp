@@ -67,7 +67,7 @@ namespace aech::graphics
 	math::vec3_t scene_node_t::get_world_scale() const
 	{
 		auto transform = get_transform();
-		return { transform.data[0][0], transform.data[1][1], transform.data[2][2] };
+		return { transform[0][0], transform[1][1], transform[2][2] };
 	}
 
 	void scene_node_t::add_child(scene_node_t* node)

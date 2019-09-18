@@ -25,21 +25,21 @@ namespace aech
 
 			auto view_matrix = math::get_view_matrix(transform);
 			auto right = math::vec3_t{
-				view_matrix.data[0][0],
-				view_matrix.data[0][1],
-				view_matrix.data[0][2]
+				view_matrix[0][0],
+				view_matrix[0][1],
+				view_matrix[0][2]
 			};
 
 			auto up = math::vec3_t{
-				view_matrix.data[1][0],
-				view_matrix.data[1][1],
-				view_matrix.data[1][2]
+				view_matrix[1][0],
+				view_matrix[1][1],
+				view_matrix[1][2]
 			};
 
 			auto forward = math::vec3_t{ 
-				-view_matrix.data[2][0],
-				-view_matrix.data[2][1],
-				-view_matrix.data[2][2] 
+				-view_matrix[2][0],
+				-view_matrix[2][1],
+				-view_matrix[2][2] 
 			};
 
 			
