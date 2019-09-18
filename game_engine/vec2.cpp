@@ -2,8 +2,9 @@
 
 namespace aech::math
 {
-	vec2_t::vec2_t(float x, float y)
-		: x{ x }, y{ y }
+	vec2_t::vec2_t(float x, float y) :
+		x{x},
+		y{y}
 	{
 	}
 
@@ -30,4 +31,4 @@ namespace aech::math
 	{
 		return lhs -= rhs;
 	}
-}
+} // namespace aech::math

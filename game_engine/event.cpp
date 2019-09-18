@@ -3,8 +3,8 @@
 
 namespace aech::events
 {
-	event_t::event_t(event_id_t type)
-		: m_type{ type }
+	event_t::event_t(event_id_t type) :
+		m_type{type}
 	{
 	}
 
@@ -12,4 +12,4 @@ namespace aech::events
 	{
 		return m_type;
 	}
-}
+} // namespace aech::events

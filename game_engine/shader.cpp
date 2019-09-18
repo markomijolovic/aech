@@ -9,13 +9,13 @@ namespace aech::graphics
 		const std::string& geometry_source
 	)
 	{
-		auto s_vertex = glCreateShader(GL_VERTEX_SHADER);
+		auto s_vertex    = glCreateShader(GL_VERTEX_SHADER);
 		auto vertex_data = vertex_source.c_str();
 		glShaderSource(s_vertex, 1, &vertex_data, nullptr);
 		glCompileShader(s_vertex);
 		check_compile_errors(s_vertex, "vertex");
 
-		auto s_fragment = glCreateShader(GL_FRAGMENT_SHADER);
+		auto s_fragment    = glCreateShader(GL_FRAGMENT_SHADER);
 		auto fragment_data = fragment_source.c_str();
 		glShaderSource(s_fragment, 1, &fragment_data, nullptr);
 		glCompileShader(s_fragment);
@@ -24,7 +24,7 @@ namespace aech::graphics
 		uint32_t s_geometry;
 		if (!geometry_source.empty())
 		{
-			s_geometry = glCreateShader(GL_GEOMETRY_SHADER);
+			s_geometry         = glCreateShader(GL_GEOMETRY_SHADER);
 			auto geometry_data = geometry_source.c_str();
 			glShaderSource(s_geometry, 1, &geometry_data, nullptr);
 			glCompileShader(s_geometry);
@@ -81,4 +81,4 @@ namespace aech::graphics
 			}
 		}
 	}
-}
+} // namespace aech::graphics

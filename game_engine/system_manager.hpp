@@ -1,8 +1,11 @@
 #pragma once
-#include "system.hpp"
-#include <memory>
-#include <unordered_map>
 #include "aech_types.hpp"
+
+#include "system.hpp"
+
+#include <memory>
+
+#include <unordered_map>
 
 
 namespace aech::ecs

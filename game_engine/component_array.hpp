@@ -17,28 +17,28 @@ namespace aech::ecs
 	public:
 		void insert_data(entity_t entity, T&& component)
 		{
-			auto index = m_size;
+			auto index                = m_size;
 			m_entity_to_index[entity] = index;
-			m_index_to_entity[index] = entity;
-			m_component_array[index] = std::forward<T>(component);
+			m_index_to_entity[index]  = entity;
+			m_component_array[index]  = std::forward<T>(component);
 			m_size++;
 		}
-		
+
 		void remove_data(entity_t entity)
 		{
-			auto index = m_entity_to_index[entity];
-			auto index_of_last = m_size - 1;
+			auto index               = m_entity_to_index[entity];
+			auto index_of_last       = m_size - 1;
 			m_component_array[index] = std::move(m_component_array[index_of_last]);
 
-			auto entity_of_last = m_index_to_entity[index_of_last];
+			auto entity_of_last               = m_index_to_entity[index_of_last];
 			m_entity_to_index[entity_of_last] = index;
-			m_index_to_entity[index] = entity_of_last;
+			m_index_to_entity[index]          = entity_of_last;
 
 			m_entity_to_index.erase(entity);
 			m_index_to_entity.erase(index_of_last);
 			m_size--;
 		}
-		
+
 		T& get_data(entity_t entity)
 		{
 			auto index = m_entity_to_index[entity];

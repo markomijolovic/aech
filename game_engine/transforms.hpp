@@ -1,15 +1,18 @@
 #pragma once
-#include "mat4.hpp"
-#include "vec3.hpp"
 #include "aech_types.hpp"
+
+#include "mat4.hpp"
+
 #include "transform.hpp"
+
+#include "vec3.hpp"
+
 
 namespace aech::math
 {
-
 	inline auto radians(float angle)
 	{
-		return (angle * pi) / 180.0f;
+		return angle * (pi / 180.0F);
 	}
 
 	mat4_t translate(float x, float y, float z);
@@ -26,3 +29,5 @@ namespace aech::math
 	mat4_t perspective(float fov_y, float aspect, float z_near, float z_far);
 	mat4_t orthographic(float left, float right, float bottom, float top, float near, float far);
 }
+
+// namespace aech::math

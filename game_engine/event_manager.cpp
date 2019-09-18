@@ -12,6 +12,8 @@ namespace aech::events
 	{
 		auto type = event.type();
 		for (const auto& listener : listeners[type])
+		{
 			listener(event);
+		}
 	}
-}
+} // namespace aech::events

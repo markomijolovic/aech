@@ -3,14 +3,18 @@
 
 namespace aech::math
 {
-	vec3_t::vec3_t(float x, float y, float z)
-		:x {x}, y{y}, z{z}
+	vec3_t::vec3_t(float x, float y, float z) :
+		x{x},
+		y{y},
+		z{z}
 	{
 	}
 
 
-	vec3_t::vec3_t(const vec4_t& vec4)
-		: x{ vec4.x }, y{ vec4.y }, z{ vec4.z }
+	vec3_t::vec3_t(const vec4_t& vec4) :
+		x{vec4.x},
+		y{vec4.y},
+		z{vec4.z}
 	{
 	}
 
@@ -66,4 +70,4 @@ namespace aech::math
 	{
 		return lhs *= rhs;
 	}
-}
+} // namespace aech::math

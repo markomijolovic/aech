@@ -1,18 +1,28 @@
 #include "point_light_renderer.hpp"
-#include "point_light.hpp"
-#include "mesh_filter.hpp"
-#include "transforms.hpp"
+
+#include "material.hpp"
+
+#include "shader.hpp"
+
 #include "camera.hpp"
+
 #include "main.hpp"
 
-void aech::graphics::point_light_renderer_t::update()
+#include "mesh_filter.hpp"
+
+#include "point_light.hpp"
+
+#include "transforms.hpp"
+
+
+void graphics::point_light_renderer_t::update()
 {
 	auto& camera_transform = engine.get_component<transform_t>(m_camera);
-	auto& camera = engine.get_component<camera_t>(m_camera);
+	auto& camera           = engine.get_component<camera_t>(m_camera);
 
-	for (auto light: entities)
+	for (auto light : entities)
 	{
-		auto& transform = engine.get_component<transform_t>(light);
+		auto& transform   = engine.get_component<transform_t>(light);
 		auto& mesh_filter = engine.get_component<mesh_filter_t>(light);
 		auto& point_light = engine.get_component<point_light_t>(light);
 

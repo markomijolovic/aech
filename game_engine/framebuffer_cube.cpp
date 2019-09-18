@@ -1,7 +1,9 @@
 #include "framebuffer_cube.hpp"
 
-aech::graphics::framebuffer_cube_t::framebuffer_cube_t(texture_cube_t* texture, uint32_t width, uint32_t height)
-	: texture{texture}, width {width}, height{height}
+aech::graphics::framebuffer_cube_t::framebuffer_cube_t(texture_cube_t* texture, uint32_t width, uint32_t height) :
+	texture{texture},
+	width{width},
+	height{height}
 {
 	glGenFramebuffers(1, &id);
 	glGenRenderbuffers(1, &rbo_id);
@@ -13,7 +15,11 @@ aech::graphics::framebuffer_cube_t::framebuffer_cube_t(texture_cube_t* texture, 
 
 void aech::graphics::framebuffer_cube_t::attach(int i, uint32_t miplevel) const
 {
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, texture->id, miplevel);
+	glFramebufferTexture2D(GL_FRAMEBUFFER,
+	                       GL_COLOR_ATTACHMENT0,
+	                       GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
+	                       texture->id,
+	                       miplevel);
 }
 
 void aech::graphics::framebuffer_cube_t::bind() const
@@ -21,7 +27,7 @@ void aech::graphics::framebuffer_cube_t::bind() const
 	glBindFramebuffer(GL_FRAMEBUFFER, id);
 }
 
-void aech::graphics::framebuffer_cube_t::unbind() const
+void aech::graphics::framebuffer_cube_t::unbind()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }

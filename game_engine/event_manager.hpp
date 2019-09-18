@@ -1,10 +1,14 @@
 #pragma once
 #include "event.hpp"
 
-#include <unordered_map>
-#include <list>
-#include <functional>
 #include "aech_types.hpp"
+
+#include <functional>
+
+#include <list>
+
+#include <unordered_map>
+
 
 namespace aech::events
 {
@@ -16,4 +20,4 @@ namespace aech::events
 	private:
 		std::unordered_map<event_id_t, std::list<std::function<void(event_t&)>>> listeners{};
 	};
-}
+} // namespace aech::events

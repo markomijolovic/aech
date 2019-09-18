@@ -4,14 +4,14 @@
 aech::graphics::sphere_t::sphere_t(const uint32_t sectors, const uint32_t stacks)
 {
 	const auto sector_step = 2 * pi / sectors;
-	const auto stack_step = pi / stacks;
+	const auto stack_step  = pi / stacks;
 
 	for (uint32_t i = 0; i <= stacks; i++)
 	{
 		// from pi/2 to - pi/2
 		const auto stack_angle = pi / 2 - i * stack_step;
-		const auto xy = cosf(stack_angle);
-		const auto z = sinf(stack_angle);
+		const auto xy          = cosf(stack_angle);
+		const auto z           = sinf(stack_angle);
 
 		for (uint32_t j = 0; j <= sectors; j++)
 		{
@@ -58,5 +58,4 @@ aech::graphics::sphere_t::sphere_t(const uint32_t sectors, const uint32_t stacks
 	}
 
 	commit();
-
 }

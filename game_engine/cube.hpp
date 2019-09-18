@@ -8,4 +8,4 @@ namespace aech::graphics
 	public:
 		cube_t();
 	};
-}
+} // namespace aech::graphics

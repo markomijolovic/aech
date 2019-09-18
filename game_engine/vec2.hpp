@@ -16,4 +16,4 @@ namespace aech::math
 
 	vec2_t operator+(vec2_t lhs, const vec2_t& rhs);
 	vec2_t operator-(vec2_t lhs, const vec2_t& rhs);
-}
+} // namespace aech::math

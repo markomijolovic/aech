@@ -1,9 +1,14 @@
 #pragma once
-#include "system.hpp"
-#include "material_library.hpp"
-#include "resource_manager.hpp"
-#include "framebuffer_library.hpp"
 #include "framebuffer.hpp"
+
+#include "framebuffer_library.hpp"
+
+#include "material_library.hpp"
+
+#include "resource_manager.hpp"
+
+#include "system.hpp"
+
 
 namespace aech::graphics
 {
@@ -13,8 +18,8 @@ namespace aech::graphics
 		entity_t dirlight{};
 
 		framebuffer_t* shadow_map = &framebuffers["shadow_map"];
-		material_t* material = &material_library::default_materials["opaque_shadow"];
+		material_t*    material   = &material_library::default_materials["opaque_shadow"];
 
 		void update();
 	};
-}
+} // namespace aech::graphics

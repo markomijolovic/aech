@@ -22,4 +22,4 @@ namespace aech::math
 
 	vec4_t operator+(vec4_t lhs, const vec4_t& rhs);
 	vec4_t operator-(vec4_t lhs, const vec4_t& rhs);
-}
+} // namespace aech::math

@@ -3,7 +3,6 @@
 
 namespace aech::math
 {
-
 	class vec3_t
 	{
 	public:
@@ -25,4 +24,4 @@ namespace aech::math
 	vec3_t operator-(vec3_t lhs, const vec3_t& rhs);
 	vec3_t operator*(vec3_t lhs, const vec3_t& rhs);
 	vec3_t operator*(vec3_t lhs, float rhs);
-}
+} // namespace aech::math

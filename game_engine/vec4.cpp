@@ -3,14 +3,19 @@
 
 namespace aech::math
 {
-	vec4_t::vec4_t(const vec3_t& vec3, float w)
-		: x{vec3.x}, y{vec3.y}, z{vec3.z}, w{w}
+	vec4_t::vec4_t(const vec3_t& vec3, float w) :
+		x{vec3.x},
+		y{vec3.y},
+		z{vec3.z},
+		w{w}
 	{
-
 	}
 
-	vec4_t::vec4_t(float x, float y, float z, float w)
-		: x{ x }, y{ y }, z{ z }, w{ w }
+	vec4_t::vec4_t(float x, float y, float z, float w) :
+		x{x},
+		y{y},
+		z{z},
+		w{w}
 	{
 	}
 
@@ -41,4 +46,4 @@ namespace aech::math
 	{
 		return lhs -= rhs;
 	}
-}
+} // namespace aech::math

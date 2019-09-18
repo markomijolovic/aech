@@ -1,9 +1,13 @@
 #pragma once
 
-#include "vec3.hpp"
-#include <vector>
 #include "vec2.hpp"
+
+#include "vec3.hpp"
+
 #include <glad/glad.h>
+
+#include <vector>
+
 
 namespace aech::graphics
 {
@@ -33,14 +37,14 @@ namespace aech::graphics
 		void commit(bool interleave = true);
 
 		std::vector<math::vec3_t> m_positions{};
-		std::vector<uint32_t> m_indices{};
+		std::vector<uint32_t>     m_indices{};
 		std::vector<math::vec2_t> m_uvs{};
 		std::vector<math::vec3_t> m_normals{};
 		std::vector<math::vec3_t> m_tangents{};
 		std::vector<math::vec3_t> m_bitangents{};
-		uint32_t m_vao{};
-		uint32_t m_vbo{};
-		uint32_t m_ebo{};
-		topology top{ topology::triangles };
+		uint32_t                  m_vao{};
+		uint32_t                  m_vbo{};
+		uint32_t                  m_ebo{};
+		topology                  top{topology::triangles};
 	};
-}
+} // namespace aech::graphics

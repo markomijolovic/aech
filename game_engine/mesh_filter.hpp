@@ -15,11 +15,11 @@ namespace aech::graphics
 		// make array happy
 		mesh_filter_t() = default;
 		mesh_filter_t(mesh_t* m_mesh, material_t* m_material);
-		[[nodiscard]] mesh_t* mesh() const;
+		[[nodiscard]] mesh_t*     mesh() const;
 		[[nodiscard]] material_t* material() const;
 
 	private:
-		mesh_t* m_mesh{};
+		mesh_t*     m_mesh{};
 		material_t* m_material{};
 	};
-}
+} // namespace aech::graphics

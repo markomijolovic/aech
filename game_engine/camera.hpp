@@ -7,4 +7,4 @@ namespace aech
 	{
 		math::mat4_t projection{};
 	};
-}
+} // namespace aech

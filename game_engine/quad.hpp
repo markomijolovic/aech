@@ -9,4 +9,4 @@ namespace aech::graphics
 	public:
 		quad_t();
 	};
-}
+} // namespace aech::graphics

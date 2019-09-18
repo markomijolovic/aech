@@ -8,15 +8,14 @@ namespace aech::graphics
 		std::vector<math::vec3_t> positions,
 		std::vector<math::vec3_t> normals,
 		std::vector<math::vec2_t> uvs,
-		topology top,
+		topology                  top,
 		std::vector<uint32_t>     indices,
 		std::vector<math::vec3_t> tangents,
-		std::vector<math::vec3_t> bitangents) 
-	:
+		std::vector<math::vec3_t> bitangents) :
 		m_positions{std::move(positions)},
 		m_indices{std::move(indices)},
 		m_uvs{std::move(uvs)},
-		m_normals{ std::move(normals) },
+		m_normals{std::move(normals)},
 		m_tangents{std::move(tangents)},
 		m_bitangents{std::move(bitangents)},
 		top{top}
@@ -140,34 +139,34 @@ namespace aech::graphics
 
 			size_t offset{};
 
-			glVertexAttribPointer(0, 3, GL_FLOAT, 0u, stride, reinterpret_cast<GLvoid*>(offset));
+			glVertexAttribPointer(0, 3, GL_FLOAT, 0U, stride, reinterpret_cast<GLvoid*>(offset));
 			glEnableVertexAttribArray(0);
 			offset += 3 * sizeof(float);
 
 			if (!m_uvs.empty())
 			{
-				glVertexAttribPointer(1, 2, GL_FLOAT, 0u, stride, reinterpret_cast<GLvoid*>(offset));
+				glVertexAttribPointer(1, 2, GL_FLOAT, 0U, stride, reinterpret_cast<GLvoid*>(offset));
 				glEnableVertexAttribArray(1);
 				offset += 2 * sizeof(float);
 			}
 
 			if (!m_normals.empty())
 			{
-				glVertexAttribPointer(2, 3, GL_FLOAT, 0u, stride, reinterpret_cast<GLvoid*>(offset));
+				glVertexAttribPointer(2, 3, GL_FLOAT, 0U, stride, reinterpret_cast<GLvoid*>(offset));
 				glEnableVertexAttribArray(2);
 				offset += 3 * sizeof(float);
 			}
 
 			if (!m_tangents.empty())
 			{
-				glVertexAttribPointer(3, 3, GL_FLOAT, 0u, stride, reinterpret_cast<GLvoid*>(offset));
+				glVertexAttribPointer(3, 3, GL_FLOAT, 0U, stride, reinterpret_cast<GLvoid*>(offset));
 				glEnableVertexAttribArray(3);
 				offset += 3 * sizeof(float);
 			}
 
 			if (!m_bitangents.empty())
 			{
-				glVertexAttribPointer(4, 3, GL_FLOAT, 0u, stride, reinterpret_cast<GLvoid*>(offset));
+				glVertexAttribPointer(4, 3, GL_FLOAT, 0U, stride, reinterpret_cast<GLvoid*>(offset));
 				glEnableVertexAttribArray(4);
 			}
 		}
@@ -175,34 +174,34 @@ namespace aech::graphics
 		{
 			size_t offset{};
 
-			glVertexAttribPointer(0, 3, GL_FLOAT, 0u, 0, reinterpret_cast<GLvoid*>(offset));
+			glVertexAttribPointer(0, 3, GL_FLOAT, 0U, 0, reinterpret_cast<GLvoid*>(offset));
 			glEnableVertexAttribArray(0);
 			offset += m_positions.size() * sizeof(float);
 
 			if (!m_uvs.empty())
 			{
-				glVertexAttribPointer(1, 2, GL_FLOAT, 0u, 0, reinterpret_cast<GLvoid*>(offset));
+				glVertexAttribPointer(1, 2, GL_FLOAT, 0U, 0, reinterpret_cast<GLvoid*>(offset));
 				glEnableVertexAttribArray(1);
 				offset += m_uvs.size() * sizeof(float);
 			}
 
 			if (!m_normals.empty())
 			{
-				glVertexAttribPointer(2, 3, GL_FLOAT, 0u, 0, reinterpret_cast<GLvoid*>(offset));
+				glVertexAttribPointer(2, 3, GL_FLOAT, 0U, 0, reinterpret_cast<GLvoid*>(offset));
 				glEnableVertexAttribArray(2);
 				offset += m_normals.size() * sizeof(float);
 			}
 
 			if (!m_tangents.empty())
 			{
-				glVertexAttribPointer(3, 3, GL_FLOAT, 0u, 0, reinterpret_cast<GLvoid*>(offset));
+				glVertexAttribPointer(3, 3, GL_FLOAT, 0U, 0, reinterpret_cast<GLvoid*>(offset));
 				glEnableVertexAttribArray(3);
 				offset += m_tangents.size() * sizeof(float);
 			}
 
 			if (!m_bitangents.empty())
 			{
-				glVertexAttribPointer(4, 3, GL_FLOAT, 0u, 0, reinterpret_cast<GLvoid*>(offset));
+				glVertexAttribPointer(4, 3, GL_FLOAT, 0U, 0, reinterpret_cast<GLvoid*>(offset));
 				glEnableVertexAttribArray(4);
 			}
 		}

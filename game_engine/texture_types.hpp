@@ -2,7 +2,8 @@
 
 #include <glad/glad.h>
 
-namespace aech::graphics::texture_types {
+namespace aech::graphics::texture_types
+{
 	enum class sized_internal_format
 	{
 		r8 = GL_R8,
@@ -52,4 +53,4 @@ namespace aech::graphics::texture_types {
 		threed = GL_TEXTURE_3D,
 		cube_map = GL_TEXTURE_CUBE_MAP
 	};
-}
+} // namespace aech::graphics::texture_types

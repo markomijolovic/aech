@@ -1,8 +1,10 @@
 #pragma once
 
 #include "aech_types.hpp"
-#include "system.hpp"
 #include "event.hpp"
+
+#include "system.hpp"
+
 
 namespace aech
 {
@@ -15,9 +17,9 @@ namespace aech
 
 	private:
 		std::bitset<8> m_buttons{};
-		float x_offset{};
-		float y_offset{};
-		void mouse_listener(events::event_t& event);
-		void keyboard_listener(events::event_t& event);
+		float          x_offset{};
+		float          y_offset{};
+		void           mouse_listener(events::event_t& event);
+		void           keyboard_listener(events::event_t& event);
 	};
-}
+} // namespace aech

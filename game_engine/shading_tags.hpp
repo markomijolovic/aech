@@ -2,6 +2,11 @@
 
 namespace aech::graphics
 {
-	struct transparent_t {};
-	struct opaque_t {};
-}
+	struct transparent_t
+	{
+	};
+
+	struct opaque_t
+	{
+	};
+} // namespace aech::graphics

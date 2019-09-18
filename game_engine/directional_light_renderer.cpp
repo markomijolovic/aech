@@ -1,9 +1,13 @@
 #include "directional_light_renderer.hpp"
-#include "mesh_filter.hpp"
-#include "main.hpp"
-#include "transforms.hpp"
 #include "directional_light.hpp"
+
+#include "main.hpp"
+#include "mesh_filter.hpp"
+
 #include "shader.hpp"
+
+#include "transforms.hpp"
+
 
 void graphics::directional_light_renderer_t::update()
 {
@@ -16,17 +20,29 @@ void graphics::directional_light_renderer_t::update()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_ONE, GL_ONE);
 
-	auto light_projection = math::orthographic(-2250, 2250, -2250, 2000, 0, 2250);
+	auto         light_projection = math::orthographic(-2250, 2250, -2250, 2000, 0, 2250);
 	math::mat4_t bias_matrix
 	{
-		0.5f, 0, 0, 0.5f,
-		0, 0.5f, 0, 0.5f,
-		0, 0, 0.5f, 0.5f,
-		0, 0, 0, 1
+		0.5F,
+		0,
+		0,
+		0.5F,
+		0,
+		0.5F,
+		0,
+		0.5F,
+		0,
+		0,
+		0.5F,
+		0.5F,
+		0,
+		0,
+		0,
+		1
 	};
 	for (auto light : entities)
 	{
-		auto& transform = engine.get_component<transform_t>(light);
+		auto& transform         = engine.get_component<transform_t>(light);
 		auto& directional_light = engine.get_component<directional_light_t>(light);
 
 		auto light_view = math::get_view_matrix(transform);

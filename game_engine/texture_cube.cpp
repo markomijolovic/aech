@@ -35,7 +35,7 @@ namespace aech::graphics
 	}
 
 
-	void texture_cube_t::generate_mips()
+	void texture_cube_t::generate_mips() const
 	{
 		bind();
 		glGenerateMipmap(static_cast<GLenum>(target));
@@ -44,14 +44,23 @@ namespace aech::graphics
 
 
 	void texture_cube_t::generate_face(uint32_t index,
-		void* data)
+	                                   void*    data) const
 	{
 		bind();
-		
+
 		if (data != nullptr)
 		{
-			glTexSubImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + index, 0, 0, 0, width, height, static_cast<GLenum>(format), static_cast<GLenum>(type), data);
+			glTexSubImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + index,
+			                0,
+			                0,
+			                0,
+			                width,
+			                height,
+			                static_cast<GLenum>(format),
+			                static_cast<GLenum>(type),
+			                data);
 		}
 		unbind();
+		// namespace aech::graphics
 	}
 }

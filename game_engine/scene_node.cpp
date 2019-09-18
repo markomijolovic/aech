@@ -1,12 +1,15 @@
 #include "main.hpp"
-#include "transform.hpp"
-#include "scene_node.hpp"
 #include "mat4.hpp"
+
+#include "scene_node.hpp"
+#include "transform.hpp"
+
 
 namespace aech::graphics
 {
-	scene_node_t::scene_node_t(transform_t* transform, scene_node_t* parent)
-		: m_parent{parent}, m_transform{transform}
+	scene_node_t::scene_node_t(transform_t* transform, scene_node_t* parent) :
+		m_parent{parent},
+		m_transform{transform}
 	{
 	}
 
@@ -27,7 +30,7 @@ namespace aech::graphics
 
 	void scene_node_t::set_scale(float scale) const
 	{
-		m_transform->scale = { scale, scale, scale };
+		m_transform->scale = {scale, scale, scale};
 	}
 
 	math::vec3_t scene_node_t::get_local_position() const
@@ -48,15 +51,15 @@ namespace aech::graphics
 	math::vec3_t scene_node_t::get_world_position() const
 	{
 		const auto transform_matrix = get_transform();
-		auto pos = transform_matrix * math::vec4_t{ m_transform->position, 1.0F};
-		return math::vec3_t{ pos };
+		auto       pos              = transform_matrix * math::vec4_t{m_transform->position, 1.0F};
+		return math::vec3_t{pos};
 	}
 
 	math::mat4_t scene_node_t::get_transform() const
 	{
 		auto transform_matrix = m_transform->get_transform_matrix();
 
-		if (m_parent)
+		if (m_parent != nullptr)
 		{
 			transform_matrix = m_parent->get_transform() * transform_matrix;
 		}
@@ -67,12 +70,12 @@ namespace aech::graphics
 	math::vec3_t scene_node_t::get_world_scale() const
 	{
 		auto transform = get_transform();
-		return { transform[0][0], transform[1][1], transform[2][2] };
+		return {transform[0][0], transform[1][1], transform[2][2]};
 	}
 
 	void scene_node_t::add_child(scene_node_t* node)
 	{
-		if (node->m_parent)
+		if (node->m_parent != nullptr)
 		{
 			node->m_parent->remove_child(node);
 		}
@@ -88,4 +91,4 @@ namespace aech::graphics
 			m_children.erase(it);
 		}
 	}
-}
+} // namespace aech::graphics

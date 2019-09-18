@@ -1,10 +1,16 @@
 #include "main.hpp"
-#include "transform.hpp"
-#include "transforms.hpp"
 #include "mesh.hpp"
+
 #include "mesh_filter.hpp"
-#include <glad/glad.h>
+
 #include "opaque_shadow_renderer.hpp"
+
+#include "transform.hpp"
+
+#include "transforms.hpp"
+
+#include <glad/glad.h>
+
 
 namespace aech::graphics
 {
@@ -15,14 +21,14 @@ namespace aech::graphics
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glDisable(GL_CULL_FACE);
 
-		auto& light_transform = engine.get_component<transform_t>(dirlight);
-		auto light_projection = math::orthographic(-2250, 2250, -2250, 2000, 0, 2250);
+		auto& light_transform  = engine.get_component<transform_t>(dirlight);
+		auto  light_projection = math::orthographic(-2250, 2250, -2250, 2000, 0, 2250);
 
 		material->shader()->use();
 		material->set_uniforms();
 		for (auto entity : entities)
 		{
-			auto& transform = engine.get_component<transform_t>(entity);
+			auto& transform   = engine.get_component<transform_t>(entity);
 			auto& mesh_filter = engine.get_component<mesh_filter_t>(entity);
 
 			auto light_view_matrix = math::get_view_matrix(light_transform);
@@ -34,4 +40,4 @@ namespace aech::graphics
 		}
 		glEnable(GL_CULL_FACE);
 	}
-}
+} // namespace aech::graphics

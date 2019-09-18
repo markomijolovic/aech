@@ -1,5 +1,4 @@
 #pragma once
-#include "resource_manager.hpp"
 #include "system.hpp"
 
 namespace aech::graphics
@@ -11,4 +10,4 @@ namespace aech::graphics
 
 		void update();
 	};
-}
+} // namespace aech::graphics

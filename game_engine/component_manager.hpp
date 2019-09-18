@@ -1,7 +1,8 @@
 #pragma once
-#include <unordered_map>
-#include <memory>
 #include "component_array.hpp"
+
+#include <memory>
+#include <unordered_map>
 
 
 namespace aech::ecs
@@ -17,13 +18,13 @@ namespace aech::ecs
 			using with_rr = std::add_rvalue_reference_t<without_r>;
 
 			auto type_name_without_r = typeid(without_r).name();
-			auto type_name_with_lr = typeid(with_lr).name();
-			auto type_name_with_rr = typeid(with_rr).name();
+			auto type_name_with_lr   = typeid(with_lr).name();
+			auto type_name_with_rr   = typeid(with_rr).name();
 
-			m_component_types.insert({ type_name_without_r, m_next_component_type++});
-			m_component_arrays.insert({ type_name_without_r, std::make_shared<component_array_t<T>>()});
-			m_component_arrays.insert({ type_name_with_lr, m_component_arrays[type_name_without_r]});
-			m_component_arrays.insert({ type_name_with_rr,  m_component_arrays[type_name_without_r] });
+			m_component_types.insert({type_name_without_r, m_next_component_type++});
+			m_component_arrays.insert({type_name_without_r, std::make_shared<component_array_t<T>>()});
+			m_component_arrays.insert({type_name_with_lr, m_component_arrays[type_name_without_r]});
+			m_component_arrays.insert({type_name_with_rr, m_component_arrays[type_name_without_r]});
 		}
 
 		template <typename T>

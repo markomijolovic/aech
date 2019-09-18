@@ -1,21 +1,24 @@
 #include "transparent_shadow_renderer.hpp"
-#include "mesh_filter.hpp"
-#include "transforms.hpp"
 #include "main.hpp"
 
-void aech::graphics::transparent_shadow_renderer_t::update()
+#include "mesh_filter.hpp"
+
+#include "transforms.hpp"
+
+
+void graphics::transparent_shadow_renderer_t::update()
 {
 	shadow_map->bind();
 	glViewport(0, 0, shadow_map->width(), shadow_map->height());
 	glDisable(GL_CULL_FACE);
 
-	auto& light_transform = engine.get_component<transform_t>(dirlight);
-	auto light_projection = math::orthographic(-2250, 2250, -2250, 2000, 0, 2250);
+	auto& light_transform  = engine.get_component<transform_t>(dirlight);
+	auto  light_projection = math::orthographic(-2250, 2250, -2250, 2000, 0, 2250);
 
 	material->shader()->use();
 	for (auto entity : entities)
 	{
-		auto& transform = engine.get_component<transform_t>(entity);
+		auto& transform   = engine.get_component<transform_t>(entity);
 		auto& mesh_filter = engine.get_component<mesh_filter_t>(entity);
 
 		auto light_view_matrix = math::get_view_matrix(light_transform);
@@ -27,7 +30,6 @@ void aech::graphics::transparent_shadow_renderer_t::update()
 		material->set_uniforms();
 
 		mesh_filter.mesh()->draw();
-
 	}
 	glEnable(GL_CULL_FACE);
 }

@@ -1,7 +1,9 @@
 #include "texture.hpp"
 #include <algorithm>
-#include <iostream>
 #include <glad/glad.h>
+
+#include <iostream>
+
 
 namespace aech::graphics
 {

@@ -9,10 +9,10 @@ namespace aech::graphics
 	public:
 		light_probe_t(math::vec3_t m_position, float m_radius);
 
-		texture_cube_t* irradiance() const;
-		texture_cube_t* prefiltered() const;
-		math::vec3_t position() const;
-		float radius() const;
+		[[nodiscard]] texture_cube_t* irradiance() const;
+		[[nodiscard]] texture_cube_t* prefiltered() const;
+		[[nodiscard]] math::vec3_t    position() const;
+		[[nodiscard]] float           radius() const;
 
 
 		void set_irradiance(texture_cube_t* irradiance);
@@ -20,7 +20,7 @@ namespace aech::graphics
 	private:
 		texture_cube_t* m_irradiance{};
 		texture_cube_t* m_prefiltered{};
-		math::vec3_t m_position{};
-		float m_radius{};
+		math::vec3_t    m_position{};
+		float           m_radius{};
 	};
-}
+} // namespace aech::graphics

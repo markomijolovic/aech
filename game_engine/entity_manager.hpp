@@ -1,8 +1,9 @@
 #pragma once
 #include <array>
 
-#include <queue>
 #include "aech_types.hpp"
+
+#include <queue>
 
 
 namespace aech::ecs

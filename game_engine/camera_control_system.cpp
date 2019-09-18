@@ -1,7 +1,9 @@
 #include "camera_control_system.hpp"
 #include "engine.hpp"
-#include "transforms.hpp"
 #include "transform.hpp"
+
+#include "transforms.hpp"
+
 
 extern aech::engine_t engine;
 
@@ -21,10 +23,10 @@ namespace aech
 		for (auto& entity : entities)
 		{
 			auto& transform = engine.get_component<transform_t>(entity);
-			auto speed = 2000.0f;
+			auto  speed     = 2000.0F;
 
 			auto view_matrix = math::get_view_matrix(transform);
-			auto right = math::vec3_t{
+			auto right       = math::vec3_t{
 				view_matrix[0][0],
 				view_matrix[0][1],
 				view_matrix[0][2]
@@ -36,18 +38,17 @@ namespace aech
 				view_matrix[1][2]
 			};
 
-			auto forward = math::vec3_t{ 
+			auto forward = math::vec3_t{
 				-view_matrix[2][0],
 				-view_matrix[2][1],
-				-view_matrix[2][2] 
+				-view_matrix[2][2]
 			};
 
-			
 
 			//process keyboard movement
 			if (m_buttons.test(static_cast<size_t>(input_buttons::w)))
 			{
-				transform.position	+= forward* dt * speed;
+				transform.position += forward * dt * speed;
 			}
 			else if (m_buttons.test(static_cast<size_t>(input_buttons::s)))
 			{
@@ -73,18 +74,18 @@ namespace aech
 			}
 
 			//process mouse movement
-			if (x_offset)
+			if (x_offset != 0.0f)
 			{
-				transform.rotation.y -= x_offset * 0.01f;
-				transform.rotation.y = std::fmod(transform.rotation.y, 360.0f);
-				x_offset = 0;
+				transform.rotation.y -= x_offset * 0.01F;
+				transform.rotation.y = std::fmod(transform.rotation.y, 360.0F);
+				x_offset             = 0;
 			}
 
-			if (y_offset)
+			if (y_offset != 0.0f)
 			{
-				transform.rotation.x += y_offset * 0.01f;
-				transform.rotation.x = std::clamp(transform.rotation.x, -89.0f, 89.0f);
-				y_offset = 0;
+				transform.rotation.x += y_offset * 0.01F;
+				transform.rotation.x = std::clamp(transform.rotation.x, -89.0F, 89.0F);
+				y_offset             = 0;
 			}
 		}
 	}
@@ -97,7 +98,7 @@ namespace aech
 	void camera_control_system_t::mouse_listener(events::event_t& event)
 	{
 		auto param = event.get_param<std::pair<float, float>>(events::window::params::mouse);
-		x_offset = param.first;
-		y_offset = param.second;
+		x_offset   = param.first;
+		y_offset   = param.second;
 	}
-}
+} // namespace aech

@@ -1,21 +1,34 @@
 #include <glad/glad.h>
+
 #include "GLFW/glfw3.h"
 
 #include "aech_types.hpp"
 
-#include <chrono>
 #include "camera.hpp"
+
 #include "camera_control_system.hpp"
-#include "main.hpp"
-#include "scene_node.hpp"
-#include "mesh_filter.hpp"
-#include "resource_manager.hpp"
-#include <iostream>
-#include "renderer.hpp"
+
 #include "directional_light.hpp"
+
+#include "main.hpp"
+#include "mesh_filter.hpp"
+
 #include "point_light.hpp"
-#include "shadow_caster.hpp"
+
+#include "renderer.hpp"
+
+#include "resource_manager.hpp"
+
+#include "scene_node.hpp"
+
 #include "shading_tags.hpp"
+
+#include "shadow_caster.hpp"
+
+#include <chrono>
+
+#include <iostream>
+
 
 using namespace aech;
 using namespace graphics;
@@ -23,25 +36,25 @@ using namespace events;
 
 std::bitset<8> m_buttons{};
 
-auto first_mouse = true;
+auto  first_mouse = true;
 float last_x{};
 float last_y{};
 
 void key_callback(GLFWwindow* window, int key, int scan_code, int action, int mode);
 void mouse_callback(GLFWwindow* window, double x_pos, double y_pos);
 
-int main(int argc, char* argv[])
+int main(int /*argc*/, char* /*argv*/[])
 {
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	glfwWindowHint(GLFW_RESIZABLE, false);
+	glfwWindowHint(GLFW_RESIZABLE, 0);
 
 	auto window = glfwCreateWindow(screen_width, screen_height, "sponza", nullptr, nullptr);
 	glfwMakeContextCurrent(window);
 
-	if (!gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress)))
+	if (gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress)) == 0)
 	{
 		std::clog << "Failed to init OpenGL context" << std::endl;
 		return -1;
@@ -53,7 +66,7 @@ int main(int argc, char* argv[])
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 	glViewport(0, 0, screen_width, screen_height);
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClearColor(0.0F, 0.0F, 0.0F, 1.0F);
 
 
 	engine.register_component<transform_t>();
@@ -75,13 +88,13 @@ int main(int argc, char* argv[])
 	}
 
 
-	// TODO: think of a better way to do this
+	// TODO(Marko): think of a better way to do this
 	renderer_t renderer{};
 	resource_manager::load_mesh("textures_pbr/sponza.obj");
-	auto delta_time = 1/60.0f;
+	auto delta_time = 1 / 60.0F;
 	renderer.light_probe_renderer->bake_probes();
 
-	while (!glfwWindowShouldClose(window))
+	while (glfwWindowShouldClose(window) == 0)
 	{
 		auto start_time = std::chrono::high_resolution_clock::now();
 		glfwPollEvents();
@@ -90,18 +103,18 @@ int main(int argc, char* argv[])
 		camera_control_system->update(delta_time);
 		renderer.update();
 		auto stop_time = std::chrono::high_resolution_clock::now();
-		delta_time = std::chrono::duration<float, std::chrono::seconds::period>(stop_time - start_time).count();
+		delta_time     = std::chrono::duration<float, std::chrono::seconds::period>(stop_time - start_time).count();
 		glfwSwapBuffers(window);
 	}
 
 	glfwTerminate();
 }
 
-void key_callback(GLFWwindow* window, int key, int scan_code, int action, int mode)
+void key_callback(GLFWwindow* window, int key, int /*scan_code*/, int action, int /*mode*/)
 {
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 	{
-		glfwSetWindowShouldClose(window, true);
+		glfwSetWindowShouldClose(window, 1);
 		return;
 	}
 
@@ -110,41 +123,41 @@ void key_callback(GLFWwindow* window, int key, int scan_code, int action, int mo
 	{
 		auto button_pressed = false;
 
-		switch(key)
+		switch (key)
 		{
-		case GLFW_KEY_W:
-			m_buttons.set(static_cast<size_t>(input_buttons::w));
-			button_pressed = true;
-			break;
-		case GLFW_KEY_A:
-			m_buttons.set(static_cast<size_t>(input_buttons::a));
-			button_pressed = true;
-			break;
-		case GLFW_KEY_S:
-			m_buttons.set(static_cast<size_t>(input_buttons::s));
-			button_pressed = true;
-			break;
-		case GLFW_KEY_D:
-			m_buttons.set(static_cast<size_t>(input_buttons::d));
-			button_pressed = true;
-			break;
-		case GLFW_KEY_Q:
-			m_buttons.set(static_cast<size_t>(input_buttons::q));
-			button_pressed = true;
-			break;
-		case GLFW_KEY_E:
-			m_buttons.set(static_cast<size_t>(input_buttons::e));
-			button_pressed = true;
-			break;
-		default:
-			// do nothing
-			break;
+			case GLFW_KEY_W:
+				m_buttons.set(static_cast<size_t>(input_buttons::w));
+				button_pressed = true;
+				break;
+			case GLFW_KEY_A:
+				m_buttons.set(static_cast<size_t>(input_buttons::a));
+				button_pressed = true;
+				break;
+			case GLFW_KEY_S:
+				m_buttons.set(static_cast<size_t>(input_buttons::s));
+				button_pressed = true;
+				break;
+			case GLFW_KEY_D:
+				m_buttons.set(static_cast<size_t>(input_buttons::d));
+				button_pressed = true;
+				break;
+			case GLFW_KEY_Q:
+				m_buttons.set(static_cast<size_t>(input_buttons::q));
+				button_pressed = true;
+				break;
+			case GLFW_KEY_E:
+				m_buttons.set(static_cast<size_t>(input_buttons::e));
+				button_pressed = true;
+				break;
+			default:
+				// do nothing
+				break;
 		}
 
 		if (button_pressed)
 		{
-			event_t event{ events::window::input };
-			event.set_param(events::window::params::input, m_buttons);
+			event_t event{window::input};
+			event.set_param(window::params::input, m_buttons);
 			engine.send_event(event);
 		}
 	}
@@ -154,50 +167,50 @@ void key_callback(GLFWwindow* window, int key, int scan_code, int action, int mo
 
 		switch (key)
 		{
-		case GLFW_KEY_W:
-			m_buttons.reset(static_cast<size_t>(input_buttons::w));
-			button_released = true;
-			break;
-		case GLFW_KEY_A:
-			m_buttons.reset(static_cast<size_t>(input_buttons::a));
-			button_released = true;
-			break;
-		case GLFW_KEY_S:
-			m_buttons.reset(static_cast<size_t>(input_buttons::s));
-			button_released = true;
-			break;
-		case GLFW_KEY_D:
-			m_buttons.reset(static_cast<size_t>(input_buttons::d));
-			button_released = true;
-			break;
-		case GLFW_KEY_Q:
-			m_buttons.reset(static_cast<size_t>(input_buttons::q));
-			button_released = true;
-			break;
-		case GLFW_KEY_E:
-			m_buttons.reset(static_cast<size_t>(input_buttons::e));
-			button_released = true;
-			break;
-		default:
-			// do nothing
-			break;
+			case GLFW_KEY_W:
+				m_buttons.reset(static_cast<size_t>(input_buttons::w));
+				button_released = true;
+				break;
+			case GLFW_KEY_A:
+				m_buttons.reset(static_cast<size_t>(input_buttons::a));
+				button_released = true;
+				break;
+			case GLFW_KEY_S:
+				m_buttons.reset(static_cast<size_t>(input_buttons::s));
+				button_released = true;
+				break;
+			case GLFW_KEY_D:
+				m_buttons.reset(static_cast<size_t>(input_buttons::d));
+				button_released = true;
+				break;
+			case GLFW_KEY_Q:
+				m_buttons.reset(static_cast<size_t>(input_buttons::q));
+				button_released = true;
+				break;
+			case GLFW_KEY_E:
+				m_buttons.reset(static_cast<size_t>(input_buttons::e));
+				button_released = true;
+				break;
+			default:
+				// do nothing
+				break;
 		}
 
 		if (button_released)
 		{
-			event_t event{ events::window::input };
-			event.set_param(events::window::params::input, m_buttons);
+			event_t event{window::input};
+			event.set_param(window::params::input, m_buttons);
 			engine.send_event(event);
 		}
 	}
 }
 
-void mouse_callback(GLFWwindow* window, double x_pos, double y_pos)
+void mouse_callback(GLFWwindow* /*window*/, double x_pos, double y_pos)
 {
 	if (first_mouse)
 	{
-		last_x = x_pos;
-		last_y = y_pos;
+		last_x      = x_pos;
+		last_y      = y_pos;
 		first_mouse = false;
 	}
 
@@ -207,8 +220,8 @@ void mouse_callback(GLFWwindow* window, double x_pos, double y_pos)
 	last_x = x_pos;
 	last_y = y_pos;
 
-	std::pair param = { x_offset, y_offset };
-	event_t event{ events::window::mouse };
-	event.set_param(events::window::params::mouse, param);
+	std::pair param = {x_offset, y_offset};
+	event_t   event{window::mouse};
+	event.set_param(window::params::mouse, param);
 	engine.send_event(event);
 }

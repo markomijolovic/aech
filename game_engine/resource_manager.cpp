@@ -6,14 +6,22 @@
 #include "mesh.hpp"
 #include "mesh_filter.hpp"
 #include "scene_node.hpp"
-#include "shadow_caster.hpp"
-#include "stb_image.h"
-#include "texture_cube.hpp"
-#include "transform.hpp"
-#include <assimp/postprocess.h>
-#include <fstream>
-#include <iostream>
 #include "shading_tags.hpp"
+
+#include "shadow_caster.hpp"
+
+#include "stb_image.h"
+
+#include "texture_cube.hpp"
+
+#include "transform.hpp"
+
+#include <assimp/postprocess.h>
+
+#include <fstream>
+
+#include <iostream>
+
 #include <sstream>
 
 
@@ -65,7 +73,7 @@ namespace aech::resource_manager
 			std::clog << exc.what() << std::endl;
 		}
 
-		return shaders[name] = shader_t{ vertex_code, fragment_code, geometry_code };
+		return shaders[name] = shader_t{vertex_code, fragment_code, geometry_code};
 	}
 
 	texture_cube_t* load_texture_cube(const std::string& name,
@@ -394,12 +402,12 @@ namespace aech::resource_manager
 
 		auto ret_val = &meshes[mesh];
 
-		std::vector<math::vec3_t>	positions(mesh->mNumVertices);
-		std::vector<math::vec3_t>   normals(mesh->mNumVertices);
-		std::vector<math::vec3_t>   tangents{};
-		std::vector<math::vec3_t>   bitangents{};
-		std::vector<math::vec2_t>   uvs{};
-		std::vector<uint32_t>       indices(3 * mesh->mNumFaces);
+		std::vector<math::vec3_t> positions(mesh->mNumVertices);
+		std::vector<math::vec3_t> normals(mesh->mNumVertices);
+		std::vector<math::vec3_t> tangents{};
+		std::vector<math::vec3_t> bitangents{};
+		std::vector<math::vec2_t> uvs{};
+		std::vector<uint32_t>     indices(3 * mesh->mNumFaces);
 
 		if (mesh->HasTextureCoords(0))
 		{
