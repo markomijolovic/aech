@@ -4,12 +4,23 @@
 
 namespace aech::graphics
 {
-	struct light_probe_t
+	class light_probe_t
 	{
-		texture_cube_t* irradiance{};
-		texture_cube_t* prefiltered{};
+	public:
+		light_probe_t(math::vec3_t m_position, float m_radius);
 
-		math::vec3_t position{};
-		float radius{};
+		texture_cube_t* irradiance() const;
+		texture_cube_t* prefiltered() const;
+		math::vec3_t position() const;
+		float radius() const;
+
+
+		void set_irradiance(texture_cube_t* irradiance);
+		void set_prefiltered(texture_cube_t* prefiltered);
+	private:
+		texture_cube_t* m_irradiance{};
+		texture_cube_t* m_prefiltered{};
+		math::vec3_t m_position{};
+		float m_radius{};
 	};
 }

@@ -8,7 +8,7 @@ namespace aech::events
 	{
 	}
 
-	event_id_t event_t::get_type() const
+	event_id_t event_t::type() const
 	{
 		return m_type;
 	}

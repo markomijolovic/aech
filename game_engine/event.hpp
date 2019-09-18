@@ -9,7 +9,7 @@ namespace aech::events
 	{
 	public:
 		explicit  event_t(event_id_t type);
-		[[nodiscard]] event_id_t get_type() const;
+		[[nodiscard]] event_id_t type() const;
 
 		template<typename T>
 		void set_param(param_id_t id, T&& value)

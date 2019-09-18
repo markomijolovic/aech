@@ -121,52 +121,52 @@ namespace aech::graphics
 		transparent_renderer->m_camera = m_camera;
 		transparent_renderer->dirlight = dirlight;
 
-		directional_light_renderer->mesh_filter.material()->set_texture("texture_position", &opaque_renderer->render_target->m_colour_attachments[0], 0);
-		directional_light_renderer->mesh_filter.material()->set_texture("texture_normal", &opaque_renderer->render_target->m_colour_attachments[1], 1);
-		directional_light_renderer->mesh_filter.material()->set_texture("texture_albedo", &opaque_renderer->render_target->m_colour_attachments[2], 2);
-		directional_light_renderer->mesh_filter.material()->set_texture("texture_metallic_roughness_ao", &opaque_renderer->render_target->m_colour_attachments[3], 3);
-		directional_light_renderer->mesh_filter.material()->set_texture("light_shadow_map", &opaque_shadow_renderer->shadow_map->m_colour_attachments[0], 4);
+		directional_light_renderer->mesh_filter.material()->set_texture("texture_position", &opaque_renderer->render_target->colour_attachments()[0], 0);
+		directional_light_renderer->mesh_filter.material()->set_texture("texture_normal", &opaque_renderer->render_target->colour_attachments()[1], 1);
+		directional_light_renderer->mesh_filter.material()->set_texture("texture_albedo", &opaque_renderer->render_target->colour_attachments()[2], 2);
+		directional_light_renderer->mesh_filter.material()->set_texture("texture_metallic_roughness_ao", &opaque_renderer->render_target->colour_attachments()[3], 3);
+		directional_light_renderer->mesh_filter.material()->set_texture("light_shadow_map", &opaque_shadow_renderer->shadow_map->colour_attachments()[0], 4);
 		
-		light_probe_renderer->ambient_material->set_texture("texture_position", &opaque_renderer->render_target->m_colour_attachments[0], 0);
-		light_probe_renderer->ambient_material->set_texture("texture_normal", &opaque_renderer->render_target->m_colour_attachments[1], 1);
-		light_probe_renderer->ambient_material->set_texture("texture_albedo", &opaque_renderer->render_target->m_colour_attachments[2], 2);
-		light_probe_renderer->ambient_material->set_texture("texture_metallic_roughness_ao", &opaque_renderer->render_target->m_colour_attachments[3], 3);
-		light_probe_renderer->ambient_material->set_texture("light_shadow_map", &opaque_shadow_renderer->shadow_map->m_colour_attachments[0], 4);
+		light_probe_renderer->ambient_material->set_texture("texture_position", &opaque_renderer->render_target->colour_attachments()[0], 0);
+		light_probe_renderer->ambient_material->set_texture("texture_normal", &opaque_renderer->render_target->colour_attachments()[1], 1);
+		light_probe_renderer->ambient_material->set_texture("texture_albedo", &opaque_renderer->render_target->colour_attachments()[2], 2);
+		light_probe_renderer->ambient_material->set_texture("texture_metallic_roughness_ao", &opaque_renderer->render_target->colour_attachments()[3], 3);
+		light_probe_renderer->ambient_material->set_texture("light_shadow_map", &opaque_shadow_renderer->shadow_map->colour_attachments()[0], 4);
 
-		transparent_renderer->mesh_filter.material()->set_texture("light_shadow_map", &opaque_shadow_renderer->shadow_map->m_colour_attachments[0], 4);
+		transparent_renderer->mesh_filter.material()->set_texture("light_shadow_map", &opaque_shadow_renderer->shadow_map->colour_attachments()[0], 4);
 
 		// bottom centre
-		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {0, 150, -50}, 400 });
-		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {300, 150, -50}, 400 });
-		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {600, 150, -50}, 400 });
-		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {850, 150, -50}, 400 });
-		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {1140, 150, -50}, 400 });
-		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {-300, 150, -50}, 400 });
-		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {-620, 150, -50}, 400 });
-		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {-950, 150, -50}, 400 });
-		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {-1210, 150, -50}, 400 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ {0, 150, -50}, 400 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ {300, 150, -50}, 400 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ {600, 150, -50}, 400 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ {850, 150, -50}, 400 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ {1140, 150, -50}, 400 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ {-300, 150, -50}, 400 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ {-620, 150, -50}, 400 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ {-950, 150, -50}, 400 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ {-1210, 150, -50}, 400 });
 
 		// bottom left 
-		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {0, 150, 400}, 400 });
-		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {300, 150, 400}, 400 });
-		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {600, 150, 400}, 400 });
-		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {850, 150, 400}, 400 });
-		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {1140, 150, 400}, 400 });
-		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {-300, 150, 400}, 400 });
-		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {-620, 150, 400}, 400 });
-		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {-950, 150, 400}, 400 });
-		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {-1210, 150, 400}, 400 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ {0, 150, 400}, 400 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ {300, 150, 400}, 400 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ {600, 150, 400}, 400 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ {850, 150, 400}, 400 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ {1140, 150, 400}, 400 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ {-300, 150, 400}, 400 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ {-620, 150, 400}, 400 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ {-950, 150, 400}, 400 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ {-1210, 150, 400}, 400 });
 
 		//bottom right
-		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {0, 150, -450}, 400 });
-		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {300, 150, -450}, 400 });
-		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {600, 150,-450}, 400 });
-		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {850, 150,-450}, 400 });
-		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {1140, 150, -450}, 400 });
-		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {-300, 150, -450}, 400 });
-		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {-620, 150, -450}, 400 });
-		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {-950, 150, -450}, 400 });
-		light_probe_renderer->light_probes.push_back(light_probe_t{ nullptr, nullptr, {-1210, 150, -450}, 400 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ {0, 150, -450}, 400 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ {300, 150, -450}, 400 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ {600, 150,-450}, 400 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ {850, 150,-450}, 400 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ {1140, 150, -450}, 400 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ {-300, 150, -450}, 400 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ {-620, 150, -450}, 400 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ {-950, 150, -450}, 400 });
+		light_probe_renderer->light_probes.push_back(light_probe_t{ {-1210, 150, -450}, 400 });
 
 
 		light_probe_renderer->camera_transform = &engine.get_component<transform_t>(m_camera);
@@ -243,14 +243,14 @@ namespace aech::graphics
 		point_light_renderer->update();
 		glCullFace(GL_BACK);
 
-		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, transparent_renderer->render_target->id);
-		glBindFramebuffer(GL_READ_FRAMEBUFFER, opaque_renderer->render_target->id);
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, transparent_renderer->render_target->id());
+		glBindFramebuffer(GL_READ_FRAMEBUFFER, opaque_renderer->render_target->id());
 		glBlitFramebuffer(0, 0, screen_width, screen_height, 0, 0, screen_width, screen_height, GL_DEPTH_BUFFER_BIT, GL_NEAREST);
 
 		transparent_renderer->update();
 
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-		glBindFramebuffer(GL_READ_FRAMEBUFFER, transparent_renderer->render_target->id);
+		glBindFramebuffer(GL_READ_FRAMEBUFFER, transparent_renderer->render_target->id());
 		glBlitFramebuffer(0, 0, screen_width, screen_height, 0, 0, screen_width, screen_height, GL_COLOR_BUFFER_BIT, GL_LINEAR);
 
 		// 5. forward rendering

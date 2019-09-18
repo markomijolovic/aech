@@ -39,16 +39,16 @@ namespace aech::graphics
 
 		// actually set the uniforms in the shader
 		void set_uniforms() const;
-		void set_texture(const std::string& name, texture_t* texture, uint32_t unit);
-		texture_t* get_texture(const std::string& name);
-		void set_texture_cube(const std::string& name, texture_cube_t* texture, uint32_t unit);
-		texture_cube_t* get_texture_cube(const std::string& name);
-		const std::unordered_map<std::string, std::pair<texture_t*, uint32_t>>& get_textures();
+		void set_texture(const std::string& name, const texture_t* texture, uint32_t unit);
+		const texture_t* get_texture(const std::string& name);
+		void set_texture_cube(const std::string& name, const texture_cube_t* texture, uint32_t unit);
+		const texture_cube_t* get_texture_cube(const std::string& name);
+		const std::unordered_map<std::string, std::pair<const texture_t*, uint32_t>>& get_textures();
 	private:
 		shader_t* m_shader{};
 		material_type m_type = material_type::opaque;
 		std::unordered_map<std::string, std::any> m_uniforms{};
-		std::unordered_map<std::string, std::pair<texture_t *, uint32_t>> m_textures{};
-		std::unordered_map<std::string, std::pair<texture_cube_t*, uint32_t>> m_texture_cubes{};
+		std::unordered_map<std::string, std::pair<const texture_t *, uint32_t>> m_textures{};
+		std::unordered_map<std::string, std::pair<const texture_cube_t*, uint32_t>> m_texture_cubes{};
 	};
 }

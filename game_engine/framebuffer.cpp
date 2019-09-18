@@ -1,10 +1,11 @@
+#include <iostream>
 #include "framebuffer.hpp"
 
 namespace aech::graphics
 {
-	const std::vector<texture_t>& framebuffer_t::get_colour_attachments()
+	uint32_t framebuffer_t::id()
 	{
-		return m_colour_attachments;
+		return m_id;
 	}
 
 	uint32_t framebuffer_t::width()
@@ -15,6 +16,11 @@ namespace aech::graphics
 	uint32_t framebuffer_t::height()
 	{
 		return m_height;
+	}
+
+	const std::vector<texture_t>& framebuffer_t::colour_attachments()
+	{
+		return m_colour_attachments;
 	}
 
 	framebuffer_t::framebuffer_t(uint32_t width,

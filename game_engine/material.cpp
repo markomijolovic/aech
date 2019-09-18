@@ -7,12 +7,12 @@
 // TODO: Look into using fewer glUseProgram calls
 namespace aech::graphics
 {
-	const std::unordered_map<std::string, std::pair<texture_t*, uint32_t>>& material_t::get_textures()
+	const std::unordered_map<std::string, std::pair<const texture_t*, uint32_t>>& material_t::get_textures()
 	{
 		return m_textures;
 	}
 
-	texture_t* material_t::get_texture(const std::string& name)
+	const texture_t* material_t::get_texture(const std::string& name)
 	{
 		if (m_textures.find(name) != std::end(m_textures))
 		{
@@ -21,7 +21,7 @@ namespace aech::graphics
 		return nullptr;
 	}
 
-	texture_cube_t* material_t::get_texture_cube(const std::string& name)
+	const texture_cube_t* material_t::get_texture_cube(const std::string& name)
 	{
 		if (m_texture_cubes.find(name) != std::end(m_texture_cubes))
 		{
@@ -45,13 +45,13 @@ namespace aech::graphics
 		return m_type;
 	}
 
-	void material_t::set_texture(const std::string& name, texture_t* texture, uint32_t unit)
+	void material_t::set_texture(const std::string& name, const texture_t* texture, uint32_t unit)
 	{
 		m_textures[name] = { texture, unit };
 	}
 
 
-	void material_t::set_texture_cube(const std::string& name, texture_cube_t* texture, uint32_t unit)
+	void material_t::set_texture_cube(const std::string& name, const texture_cube_t* texture, uint32_t unit)
 	{
 		m_texture_cubes[name] = { texture, unit };
 	}

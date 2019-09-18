@@ -30,13 +30,13 @@ void aech::graphics::light_probe_renderer_t::create_radiance_cubemap(size_t prob
 
 	const std::array capture_views
 	{
-		math::look_at(probe.position, probe.position + math::vec3_t{1, 0, 0}, {0, -1, 0}),
-		math::look_at(probe.position, probe.position + math::vec3_t{-1, 0, 0}, {0, -1, 0}),
-		math::look_at(probe.position, probe.position + math::vec3_t{0, 1, 0}, {0, 0, 1}),
-		math::look_at(probe.position, probe.position + math::vec3_t{0, -1, 0}, {0, 0, -1}),
+		math::look_at(probe.position(), probe.position() + math::vec3_t{1, 0, 0}, {0, -1, 0}),
+		math::look_at(probe.position(), probe.position() + math::vec3_t{-1, 0, 0}, {0, -1, 0}),
+		math::look_at(probe.position(), probe.position() + math::vec3_t{0, 1, 0}, {0, 0, 1}),
+		math::look_at(probe.position(), probe.position() + math::vec3_t{0, -1, 0}, {0, 0, -1}),
 
-		math::look_at(probe.position, probe.position + math::vec3_t{0, 0, 1}, {0, -1, 0}),
-		math::look_at(probe.position, probe.position + math::vec3_t{0, 0, -1}, {0, -1, 0})
+		math::look_at(probe.position(), probe.position() + math::vec3_t{0, 0, 1}, {0, -1, 0}),
+		math::look_at(probe.position(), probe.position() + math::vec3_t{0, 0, -1}, {0, -1, 0})
 	};
 
 	auto tex = &resource_manager::texture_cubes["radiance" + std::to_string(probe_index)];
@@ -111,18 +111,20 @@ void graphics::light_probe_renderer_t::process_radiance_map(size_t probe_index)
 	};
 	// diffuse precomputation
 
-	probe.irradiance = &resource_manager::texture_cubes["irradiance" + std::to_string(probe_index)];
-	probe.irradiance->width = 32;
-	probe.irradiance->height = 32;
-	probe.irradiance->sized_internal_format = texture_types::sized_internal_format::rgb32f;
-	probe.irradiance->format = texture_types::format::rgb;
-	probe.irradiance->type = texture_types::type::floating_point;
-	probe.irradiance->init();
+	auto irradiance = &resource_manager::texture_cubes["irradiance" + std::to_string(probe_index)];
+	irradiance->width = 32;
+	irradiance->height = 32;
+	irradiance->sized_internal_format = texture_types::sized_internal_format::rgb32f;
+	irradiance->format = texture_types::format::rgb;
+	irradiance->type = texture_types::type::floating_point;
+	irradiance->init();
+
+	probe.set_irradiance(irradiance);
 
 	irradiance_capture_material->shader()->use();
 	irradiance_capture_material->set_texture_cube("environment", &resource_manager::texture_cubes["radiance" + std::to_string(probe_index)], 0);
 
-	framebuffer_cube_t fbo{ probe.irradiance, 32, 32 };
+	framebuffer_cube_t fbo{ probe.irradiance(), 32, 32 };
 
 	fbo.bind();
 	glViewport(0, 0, fbo.width, fbo.height);
@@ -142,15 +144,17 @@ void graphics::light_probe_renderer_t::process_radiance_map(size_t probe_index)
 	// specular precomputation
 
 	// precompute prefiltered env map
-	probe.prefiltered = &resource_manager::texture_cubes["prefiltered" + std::to_string(probe_index)];
-	probe.prefiltered->width = 128;
-	probe.prefiltered->height = 128;
-	probe.prefiltered->sized_internal_format = texture_types::sized_internal_format::rgb32f;
-	probe.prefiltered->format = texture_types::format::rgb;
-	probe.prefiltered->type = texture_types::type::floating_point;
-	probe.prefiltered->init();
+	auto prefiltered = &resource_manager::texture_cubes["prefiltered" + std::to_string(probe_index)];
+	prefiltered->width = 128;
+	prefiltered->height = 128;
+	prefiltered->sized_internal_format = texture_types::sized_internal_format::rgb32f;
+	prefiltered->format = texture_types::format::rgb;
+	prefiltered->type = texture_types::type::floating_point;
+	prefiltered->init();
 
-	framebuffer_cube_t prefilter_fbo{ probe.prefiltered, 128, 128 };
+	probe.set_prefiltered(prefiltered);
+
+	framebuffer_cube_t prefilter_fbo{ probe.prefiltered(), 128, 128 };
 	prefilter_fbo.bind();
 
 	prefilter_material->shader()->use();
@@ -181,7 +185,7 @@ void graphics::light_probe_renderer_t::process_radiance_map(size_t probe_index)
 
 	auto& brdf_fbo = framebuffers["brdf"];
 	brdf_fbo.bind();
-	glViewport(0, 0, brdf_fbo.width, brdf_fbo.height);
+	glViewport(0, 0, brdf_fbo.width(), brdf_fbo.height());
 	brdf_material->shader()->use();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	ndc_quad->draw();
@@ -193,7 +197,7 @@ void graphics::light_probe_renderer_t::process_radiance_map(size_t probe_index)
 void graphics::light_probe_renderer_t::render_ambient_pass()
 {
 	render_target->bind();
-	glViewport(0, 0, render_target->width, render_target->height);
+	glViewport(0, 0, render_target->width(), render_target->height());
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_FRONT);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -201,18 +205,18 @@ void graphics::light_probe_renderer_t::render_ambient_pass()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_ONE, GL_ONE);
 	ambient_material->shader()->use();
-	ambient_material->set_texture("brdf_lut", &framebuffers["brdf"].m_colour_attachments.front(), 6);
+	ambient_material->set_texture("brdf_lut", &framebuffers["brdf"].colour_attachments().front(), 6);
 	ambient_material->set_uniform("camera_position", camera_transform->position);
 	ambient_material->set_uniform("projection", camera->projection);
 	ambient_material->set_uniform("view", math::get_view_matrix(*camera_transform));
 	ambient_material->set_uniform("camera_position", camera_transform->position);
 	for (auto &probe: light_probes)
 	{
-		ambient_material->set_uniform("probe_position", probe.position);
-		ambient_material->set_texture_cube("environment_irradiance", probe.irradiance, 7);
-		ambient_material->set_texture_cube("environment_prefiltered", probe.prefiltered, 8);
-		ambient_material->set_uniform("model", translate(probe.position) * math::scale(probe.radius));
-		ambient_material->set_uniform("probe_radius", probe.radius);
+		ambient_material->set_uniform("probe_position", probe.position());
+		ambient_material->set_texture_cube("environment_irradiance", probe.irradiance(), 7);
+		ambient_material->set_texture_cube("environment_prefiltered", probe.prefiltered(), 8);
+		ambient_material->set_uniform("model", translate(probe.position()) * math::scale(probe.radius()));
+		ambient_material->set_uniform("probe_radius", probe.radius());
 		ambient_material->set_uniforms();
 		ndc_sphere->draw();
 	}

@@ -11,7 +11,7 @@ namespace aech::graphics
 	void opaque_shadow_renderer_t::update()
 	{
 		shadow_map->bind();
-		glViewport(0, 0, shadow_map->width, shadow_map->height);
+		glViewport(0, 0, shadow_map->width(), shadow_map->height());
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glDisable(GL_CULL_FACE);
 

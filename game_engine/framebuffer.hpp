@@ -9,14 +9,7 @@ namespace aech::graphics
 	class framebuffer_t
 	{
 	public:
-		uint32_t id{};
-		uint32_t width{};
-		uint32_t height{};
-		bool mipmap{};
-		std::unique_ptr<texture_t> m_depth_and_stencil_texture{};
-		std::vector<texture_t> m_colour_attachments{};
-	
-
+		// make unordered_map happy
 		framebuffer_t() = default;
 		framebuffer_t(
 			uint32_t width, uint32_t height, uint32_t num_colour_attachments, bool depth,
@@ -24,7 +17,20 @@ namespace aech::graphics
 			texture_types::format format,
 			texture_types::type type
 		);
+
+		uint32_t id();
+		uint32_t width();
+		uint32_t height();
 		void bind() const;
 		void unbind() const;
+		const std::vector<texture_t>& colour_attachments();
+
+	private:
+		uint32_t m_id{};
+		uint32_t m_width{};
+		uint32_t m_height{};
+		std::unique_ptr<texture_t> m_depth_and_stencil_texture{};
+		std::vector<texture_t> m_colour_attachments{};
+		bool m_mipmap{};
 	};
 }

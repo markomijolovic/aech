@@ -3,8 +3,6 @@
 
 namespace aech::graphics
 {
-	class framebuffer_t;
-
 	struct directional_light_t
 	{
 		math::vec3_t colour{ 1.0F, 1.0F, 1.0F};

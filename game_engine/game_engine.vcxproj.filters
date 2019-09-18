@@ -234,9 +234,6 @@
     <ClInclude Include="light_probe_renderer.hpp">
       <Filter>Header Files\graphics\rendering</Filter>
     </ClInclude>
-    <ClInclude Include="ambient_renderer.hpp">
-      <Filter>Header Files\graphics\rendering</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="component_manager.cpp">
@@ -277,9 +274,6 @@
     </ClCompile>
     <ClCompile Include="texture.cpp">
       <Filter>Source Files\graphics\shading</Filter>
-    </ClCompile>
-    <ClCompile Include="render_target.cpp">
-      <Filter>Source Files\graphics</Filter>
     </ClCompile>
     <ClCompile Include="material.cpp">
       <Filter>Source Files\graphics\shading</Filter>
@@ -361,6 +355,12 @@
     </ClCompile>
     <ClCompile Include="mesh_filter.cpp">
       <Filter>Source Files\graphics\mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="framebuffer.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="light_probe.cpp">
+      <Filter>Source Files\graphics\rendering</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

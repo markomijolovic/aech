@@ -6,7 +6,7 @@
 void aech::graphics::transparent_shadow_renderer_t::update()
 {
 	shadow_map->bind();
-	glViewport(0, 0, shadow_map->width, shadow_map->height);
+	glViewport(0, 0, shadow_map->width(), shadow_map->height());
 	glDisable(GL_CULL_FACE);
 
 	auto& light_transform = engine.get_component<transform_t>(dirlight);
