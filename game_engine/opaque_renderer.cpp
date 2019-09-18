@@ -7,10 +7,22 @@
 #include "camera.hpp"
 #include "material_library.hpp"
 #include "opaque_renderer.hpp"
-#include <iostream>
 
 namespace aech::graphics
 {
+	void opaque_renderer_t::draw_skybox() const
+	{
+		glEnable(GL_DEPTH_TEST);
+		glDepthFunc(GL_LEQUAL);
+		skybox_mf.material()->shader()->use();
+		skybox_mf.material()->shader()->set_uniform("view", math::get_view_matrix(engine.get_component<transform_t>(m_camera)));
+		skybox_mf.material()->shader()->set_uniform("projection", engine.get_component<camera_t>(m_camera).projection);
+		skybox_mf.material()->set_uniforms();
+		glDisable(GL_CULL_FACE);
+		skybox_mf.mesh()->draw();
+		glEnable(GL_CULL_FACE);
+	}
+
 	void opaque_renderer_t::update()
 	{
 		setup_g_buffer();
@@ -49,15 +61,6 @@ namespace aech::graphics
 		shader->set_uniform("view", view);
 		shader->set_uniform("projection", projection);
 
-		if (mesh_filter.material()->get_texture_cube("skybox"))
-		{
-			glDisable(GL_CULL_FACE);
-			mesh_filter.mesh()->draw();
-			glEnable(GL_CULL_FACE);
-		}
-		else
-		{
-			mesh_filter.mesh()->draw();
-		}
+		mesh_filter.mesh()->draw();
 	}
 }

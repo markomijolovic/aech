@@ -5,12 +5,12 @@ aech::graphics::mesh_filter_t::mesh_filter_t(mesh_t* m_mesh, material_t* m_mater
 {
 }
 
-aech::graphics::mesh_t* aech::graphics::mesh_filter_t::mesh()
+aech::graphics::mesh_t* aech::graphics::mesh_filter_t::mesh() const
 {
 	return m_mesh;
 }
 
-aech::graphics::material_t* aech::graphics::mesh_filter_t::material()
+aech::graphics::material_t* aech::graphics::mesh_filter_t::material() const
 {
 	return m_material;
 }

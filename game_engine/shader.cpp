@@ -3,10 +3,11 @@
 
 namespace aech::graphics
 {
-	void shader_t::compile(
+	shader_t::shader_t(
 		const std::string& vertex_source,
 		const std::string& fragment_source,
-		const std::string& geometry_source)
+		const std::string& geometry_source
+	)
 	{
 		auto s_vertex = glCreateShader(GL_VERTEX_SHADER);
 		auto vertex_data = vertex_source.c_str();

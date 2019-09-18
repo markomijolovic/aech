@@ -55,39 +55,33 @@ void aech::graphics::light_probe_renderer_t::create_radiance_cubemap(size_t prob
 		fbo.attach(i);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		auto& view = capture_views[i];
+		cubemap_capture_material->shader()->use();
 		cubemap_capture_material->set_uniform("view", view);
 		cubemap_capture_material->set_uniform("projection", capture_projection);
-		cubemap_capture_skybox_material->shader()->use();
-		cubemap_capture_skybox_material->set_uniform("view", view);
-		cubemap_capture_skybox_material->set_uniform("projection", capture_projection);
 		for (auto entity : entities)
 		{
 			auto& transf = engine.get_component<transform_t>(entity);
 			auto& mesh_filter = engine.get_component<mesh_filter_t>(entity);
 			for (auto texture : mesh_filter.material()->get_textures())
 			{
-				cubemap_capture_material->shader()->use();
 				cubemap_capture_material->set_texture(texture.first, texture.second.first, texture.second.second);
 			}
 
-			// TODO: refactor this
-			if (mesh_filter.material()->get_texture_cube("skybox"))
-			{
-				glDisable(GL_CULL_FACE);
-				cubemap_capture_skybox_material->shader()->use();
-				cubemap_capture_skybox_material->set_texture_cube("skybox", (mesh_filter.material()->get_texture_cube("skybox")), 0);
-				cubemap_capture_skybox_material->set_uniforms();
-				mesh_filter.mesh()->draw();
-				glEnable(GL_CULL_FACE);
-			}
-			else
-			{
-				cubemap_capture_material->shader()->use();
-				cubemap_capture_material->shader()->set_uniform("model", transf.get_transform_matrix());
-				cubemap_capture_material->set_uniforms();
-				mesh_filter.mesh()->draw();
-			}
+			cubemap_capture_material->shader()->use();
+			cubemap_capture_material->shader()->set_uniform("model", transf.get_transform_matrix());
+			cubemap_capture_material->set_uniforms();
+			mesh_filter.mesh()->draw();
 		}
+
+		// render skybox
+		glDisable(GL_CULL_FACE);
+		cubemap_capture_skybox_material->shader()->use();
+		cubemap_capture_skybox_material->set_uniform("view", view);
+		cubemap_capture_skybox_material->set_uniform("projection", capture_projection);
+		cubemap_capture_skybox_material->set_texture_cube("skybox", (skybox_mf.material()->get_texture_cube("skybox")), 0);
+		cubemap_capture_skybox_material->set_uniforms();
+		skybox_mf.mesh()->draw();
+		glEnable(GL_CULL_FACE);
 	}
 	fbo.texture->generate_mips();
 	fbo.unbind();

@@ -65,9 +65,7 @@ namespace aech::resource_manager
 			std::clog << exc.what() << std::endl;
 		}
 
-		shaders[name] = shader_t{};
-		shaders[name].compile(vertex_code, fragment_code, geometry_code);
-		return shaders[name];
+		return shaders[name] = shader_t{ vertex_code, fragment_code, geometry_code };
 	}
 
 	texture_cube_t* load_texture_cube(const std::string& name,

@@ -275,9 +275,6 @@
     <ClCompile Include="material.cpp">
       <Filter>Source Files\graphics\shading</Filter>
     </ClCompile>
-    <ClCompile Include="texture_cube.cpp">
-      <Filter>Source Files\graphics</Filter>
-    </ClCompile>
     <ClCompile Include="cube.cpp">
       <Filter>Source Files\graphics\mesh</Filter>
     </ClCompile>
@@ -353,10 +350,13 @@
     <ClCompile Include="mesh_filter.cpp">
       <Filter>Source Files\graphics\mesh</Filter>
     </ClCompile>
-    <ClCompile Include="framebuffer.cpp">
-      <Filter>Source Files\graphics</Filter>
-    </ClCompile>
     <ClCompile Include="light_probe.cpp">
+      <Filter>Source Files\graphics\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="texture_cube.cpp">
+      <Filter>Source Files\graphics\shading</Filter>
+    </ClCompile>
+    <ClCompile Include="framebuffer.cpp">
       <Filter>Source Files\graphics\rendering</Filter>
     </ClCompile>
   </ItemGroup>
@@ -436,12 +436,26 @@
     <None Include="shaders\transparent_vertex.glsl">
       <Filter>Source Files\shaders</Filter>
     </None>
-    <None Include="shaders\pbr\screen_quad_vertex.glsl" />
-    <None Include="shaders\ambient_fragment.glsl" />
-    <None Include="shaders\ambient_vertex.glsl" />
-    <None Include="shaders\probe_capture_skybox_fragment.glsl" />
-    <None Include="shaders\probe_capture_skybox_vertex.glsl" />
-    <None Include="shaders\skybox_fragment.glsl" />
-    <None Include="shaders\skybox_vertex.glsl" />
+    <None Include="shaders\ambient_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\ambient_vertex.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\probe_capture_skybox_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\probe_capture_skybox_vertex.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\pbr\screen_quad_vertex.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\skybox_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\skybox_vertex.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -12,16 +12,17 @@ namespace aech::graphics
 	class shader_t
 	{
 	public:
+		// make unordered_map happy
 		shader_t() = default;
-		void use() const;
-		void compile(
-			const std::string& vertex_source,
+		shader_t(
+			const std::string & vertex_source,
 			const std::string& fragment_source,
-			const std::string& geometry_source
+			const std::string& geometry_source = {}
 		);
+		void use() const;
 
 		template<typename T>
-		void set_uniform(const std::string &name, const T&value)
+		void set_uniform(const std::string &name, const T&value) const
 		{
 			if constexpr(std::is_same_v<T, math::mat4_t>) {
 				glUniformMatrix4fv(glGetUniformLocation(id, name.c_str()), 1, true, (GLfloat *)(value[0]));

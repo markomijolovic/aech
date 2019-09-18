@@ -9,6 +9,7 @@
 #include "camera.hpp"
 #include "framebuffer.hpp"
 #include "framebuffer_library.hpp"
+#include "mesh_filter.hpp"
 
 namespace aech::graphics
 {
@@ -30,6 +31,8 @@ namespace aech::graphics
 		mesh_t* ndc_cube = mesh_library::default_meshes["cube"].get();
 		mesh_t* ndc_quad = mesh_library::default_meshes["quad"].get();
 		mesh_t* ndc_sphere = mesh_library::default_meshes["sphere"].get();
+
+		mesh_filter_t skybox_mf{ mesh_library::default_meshes["cube"].get() ,&material_library::default_materials["skybox"] };
 
 		void bake_probes();
 		void create_radiance_cubemap(size_t probe_index);

@@ -2,7 +2,7 @@
 
 in vec3 world_position;
 
-layout(location = 2) out vec4 fragment_colour;
+out vec4 fragment_colour;
 
 uniform samplerCube skybox;
 
