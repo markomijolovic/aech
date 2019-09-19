@@ -85,6 +85,18 @@
     <Filter Include="Source Files\resource management">
       <UniqueIdentifier>{b2b19feb-2cb1-472f-b8e8-31e23bb5e2dc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\includes\Dear ImGUI">
+      <UniqueIdentifier>{964a54f9-a9bc-48a1-a389-6d974cf70c12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\includes\Dear ImGUI">
+      <UniqueIdentifier>{8a0eda69-8482-4f49-b951-769ffa97caa6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\graphics\rendering\GUI">
+      <UniqueIdentifier>{6b9df11e-aa45-4569-ac60-774dec992b00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\graphics\rendering\GUI">
+      <UniqueIdentifier>{20e14305-83e2-4cf7-acaa-d56ed3f1e3fa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine.hpp">
@@ -234,6 +246,30 @@
     <ClInclude Include="light_probe_renderer.hpp">
       <Filter>Header Files\graphics\rendering</Filter>
     </ClInclude>
+    <ClInclude Include="imstb_truetype.h">
+      <Filter>Header Files\includes\Dear ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imconfig.h">
+      <Filter>Header Files\includes\Dear ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui.h">
+      <Filter>Header Files\includes\Dear ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_internal.h">
+      <Filter>Header Files\includes\Dear ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_rectpack.h">
+      <Filter>Header Files\includes\Dear ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_textedit.h">
+      <Filter>Header Files\includes\Dear ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_glfw.h">
+      <Filter>Header Files\graphics\rendering\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_opengl3.h">
+      <Filter>Header Files\graphics\rendering\GUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="component_manager.cpp">
@@ -359,6 +395,24 @@
     <ClCompile Include="framebuffer.cpp">
       <Filter>Source Files\graphics\rendering</Filter>
     </ClCompile>
+    <ClCompile Include="imgui.cpp">
+      <Filter>Source Files\includes\Dear ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_demo.cpp">
+      <Filter>Source Files\includes\Dear ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_draw.cpp">
+      <Filter>Source Files\includes\Dear ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_widgets.cpp">
+      <Filter>Source Files\includes\Dear ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_glfw.cpp">
+      <Filter>Source Files\graphics\rendering\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_opengl3.cpp">
+      <Filter>Source Files\graphics\rendering\GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="component_array.hpp">
@@ -457,5 +511,6 @@
     <None Include="shaders\skybox_vertex.glsl">
       <Filter>Source Files\shaders</Filter>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

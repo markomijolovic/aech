@@ -11,6 +11,7 @@
 #include "directional_light.hpp"
 
 #include "main.hpp"
+
 #include "mesh_filter.hpp"
 
 #include "point_light.hpp"
@@ -29,6 +30,10 @@
 
 #include <iostream>
 
+#include "imgui.h"
+#include "imgui_impl_glfw.h"
+#include "imgui_impl_opengl3.h"
+
 
 using namespace aech;
 using namespace graphics;
@@ -42,21 +47,33 @@ float last_y{};
 
 void key_callback(GLFWwindow* window, int key, int scan_code, int action, int mode);
 void mouse_callback(GLFWwindow* window, double x_pos, double y_pos);
+void glfw_error_callback(int error, const char* description);
 
 int main(int /*argc*/, char* /*argv*/[])
 {
-	glfwInit();
+	// init glfw
+	glfwSetErrorCallback(glfw_error_callback);
+	
+	if (!glfwInit())
+	{
+		return -1;		
+	}
+	
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_RESIZABLE, 0);
 
 	auto window = glfwCreateWindow(screen_width, screen_height, "sponza", nullptr, nullptr);
-	glfwMakeContextCurrent(window);
-
-	if (gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress)) == 0)
+	if (!window)
 	{
-		std::clog << "Failed to init OpenGL context" << std::endl;
+		return -1;
+	}
+	
+	glfwMakeContextCurrent(window);
+	
+	if (!gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress)))
+	{
 		return -1;
 	}
 
@@ -68,6 +85,14 @@ int main(int /*argc*/, char* /*argv*/[])
 	glViewport(0, 0, screen_width, screen_height);
 	glClearColor(0.0F, 0.0F, 0.0F, 1.0F);
 
+	// init dear imgui
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGui::StyleColorsLight();
+	auto &io = ImGui::GetIO();
+
+	ImGui_ImplGlfw_InitForOpenGL(window, true);
+	ImGui_ImplOpenGL3_Init("#version 450");
 
 	engine.register_component<transform_t>();
 	engine.register_component<scene_node_t>();
@@ -94,23 +119,59 @@ int main(int /*argc*/, char* /*argv*/[])
 	auto delta_time = 1 / 60.0F;
 	renderer.light_probe_renderer->bake_probes();
 
-	while (glfwWindowShouldClose(window) == 0)
+
+	/*
+	 *
+	 *
+	 * MAIN RENDER LOOP
+	 *
+	 * 
+	 */
+	
+	while (!glfwWindowShouldClose(window))
 	{
 		auto start_time = std::chrono::high_resolution_clock::now();
 		glfwPollEvents();
-
+		
+		
 		//player_control_system->update(delta_time);
 		camera_control_system->update(delta_time);
 		renderer.update();
 		auto stop_time = std::chrono::high_resolution_clock::now();
 		delta_time     = std::chrono::duration<float, std::chrono::seconds::period>(stop_time - start_time).count();
-		glfwSwapBuffers(window);
+
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
+		ImGui::NewFrame();
+		
+		{
+			ImGui::Begin("Hello, world");
+			ImGui::Text("This is ome useful text");
+			ImGui::End();
+		}
+		
+		ImGui::Render();
+		glViewport(0, 0, screen_width, screen_height);
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+		glfwSwapBuffers(window); 
 	}
 
+	/*
+	 *
+	 *
+	 * MAIN RENDER LOOP
+	 *
+	 * 
+	 */
+
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui_ImplGlfw_Shutdown();
+
+	glfwDestroyWindow(window);
 	glfwTerminate();
 }
 
-void key_callback(GLFWwindow* window, int key, int /*scan_code*/, int action, int /*mode*/)
+static void key_callback(GLFWwindow* window, int key, int /*scan_code*/, int action, int /*mode*/)
 {
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 	{
@@ -205,7 +266,7 @@ void key_callback(GLFWwindow* window, int key, int /*scan_code*/, int action, in
 	}
 }
 
-void mouse_callback(GLFWwindow* /*window*/, double x_pos, double y_pos)
+static void mouse_callback(GLFWwindow* /*window*/, double x_pos, double y_pos)
 {
 	if (first_mouse)
 	{
@@ -224,4 +285,10 @@ void mouse_callback(GLFWwindow* /*window*/, double x_pos, double y_pos)
 	event_t   event{window::mouse};
 	event.set_param(window::params::mouse, param);
 	engine.send_event(event);
+}
+
+
+static void glfw_error_callback(int error, const char* description)
+{
+	std::clog << "Glfw error " << error << ": " << description << std::endl;
 }

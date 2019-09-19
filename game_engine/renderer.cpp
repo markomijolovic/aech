@@ -118,7 +118,7 @@ namespace aech::graphics
 
 		auto dirlight = engine.create_entity();
 		engine.add_component(dirlight, directional_light_t{{1, 1, 1}, 5});
-		engine.add_component(dirlight, transform_t{{0, 1750, 0}, {-80, -10, -10},});
+		engine.add_component(dirlight, transform_t{{0, 1750, 0}, {-80, 10, -10},});
 
 		opaque_shadow_renderer->dirlight      = dirlight;
 		transparent_shadow_renderer->dirlight = dirlight;
