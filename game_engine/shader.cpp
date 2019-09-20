@@ -1,5 +1,6 @@
 #include "shader.hpp"
 #include <iostream>
+#include "glad/glad.h"
 
 namespace aech::graphics
 {

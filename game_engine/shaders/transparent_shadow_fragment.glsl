@@ -8,7 +8,7 @@ uniform sampler2D texture_albedo;
 
 void main()
 {
-	if (texture(texture_albedo, uvs).a < 0.1)
+	if (texture(texture_albedo, uvs).a < 0.5)
 	{
 		discard;
 	}

@@ -22,6 +22,12 @@ namespace aech::graphics
 		return m_colour_attachments;
 	}
 
+
+	const texture_t* framebuffer_t::depth_and_stencil()
+	{
+		return m_depth_and_stencil_texture.get();
+	}
+
 	framebuffer_t::framebuffer_t(uint32_t                             width,
 	                             uint32_t                             height,
 	                             uint32_t                             num_colour_attachments,
@@ -58,7 +64,7 @@ namespace aech::graphics
 			m_depth_and_stencil_texture                        = std::make_unique<texture_t>();
 			m_depth_and_stencil_texture->width                 = width;
 			m_depth_and_stencil_texture->height                = height;
-			m_depth_and_stencil_texture->sized_internal_format = texture_types::sized_internal_format::depth24;
+			m_depth_and_stencil_texture->sized_internal_format = texture_types::sized_internal_format::depth32f;
 			m_depth_and_stencil_texture->format                = texture_types::format::depth;
 			m_depth_and_stencil_texture->type                  = texture_types::type::floating_point;
 			m_depth_and_stencil_texture->mipmap                = false;

@@ -1,20 +1,21 @@
 #include "directional_light_renderer.hpp"
 #include "directional_light.hpp"
 
-#include "main.hpp"
 #include "mesh_filter.hpp"
 
 #include "shader.hpp"
 
 #include "transforms.hpp"
 
+#include "main.hpp"
 
-void graphics::directional_light_renderer_t::update()
+
+void aech::graphics::directional_light_renderer_t::update()
 {
 	mesh_filter.material()->shader()->use();
 
 	render_target->bind();
-	glViewport(0, 0, screen_width, screen_height);
+	glViewport(0, 0, window_manager.width(), window_manager.height());
 	glDisable(GL_CULL_FACE);
 	glDisable(GL_DEPTH_TEST);
 	glEnable(GL_BLEND);

@@ -1,4 +1,3 @@
-#include "main.hpp"
 #include "mesh.hpp"
 
 #include "mesh_filter.hpp"
@@ -9,8 +8,9 @@
 
 #include "transforms.hpp"
 
-#include <glad/glad.h>
+#include "glad/glad.h"
 
+#include "main.hpp"
 
 namespace aech::graphics
 {

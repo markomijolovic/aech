@@ -35,7 +35,8 @@ namespace aech
 		s,
 		d,
 		q,
-		e
+		e,
+		u
 	};
 
 	constexpr std::uint32_t fnv1a_32(char const* s, std::size_t count)
@@ -50,13 +51,13 @@ namespace aech
 
 	namespace events::window
 	{
-		constexpr event_id_t input = "Events::Window::INPUT"_hash;
+		constexpr event_id_t keyboard = "Events::Window::KEYBOARD"_hash;
 		constexpr event_id_t mouse = "Events::Window::MOUSE"_hash;
 	} // namespace events::window
 
 	namespace events::window::params
 	{
-		constexpr param_id_t input = "Events::Window::Params::INPUT"_hash;
+		constexpr param_id_t keyboard = "Events::Window::Params::KEYBOARD"_hash;
 		constexpr param_id_t mouse{"Events::Window::Params::MOUSE"_hash};
 	} // namespace events::window::params
 }     // namespace aech

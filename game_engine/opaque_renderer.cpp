@@ -1,7 +1,6 @@
 #include "transforms.hpp"
 #include "camera.hpp"
 
-#include "main.hpp"
 
 #include "material_library.hpp"
 
@@ -13,6 +12,8 @@
 #include "scene_node.hpp"
 
 #include "transform.hpp"
+#include "main.hpp"
+
 
 
 namespace aech::graphics
@@ -43,7 +44,7 @@ namespace aech::graphics
 	void opaque_renderer_t::setup_g_buffer() const
 	{
 		render_target->bind();
-		glViewport(0, 0, screen_width, screen_height);
+		glViewport(0, 0, window_manager.width(), window_manager.height());
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glEnable(GL_CULL_FACE);
 		glEnable(GL_DEPTH_TEST);

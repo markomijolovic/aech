@@ -1,5 +1,5 @@
 #include "mesh.hpp"
-#include <glad/glad.h>
+#include "glad/glad.h"
 #include <utility>
 
 namespace aech::graphics

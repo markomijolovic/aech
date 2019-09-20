@@ -6,16 +6,16 @@
 
 #include "camera.hpp"
 
-#include "main.hpp"
 
 #include "mesh_filter.hpp"
 
 #include "point_light.hpp"
 
 #include "transforms.hpp"
+#include "main.hpp"
 
 
-void graphics::point_light_renderer_t::update()
+void aech::graphics::point_light_renderer_t::update()
 {
 	auto& camera_transform = engine.get_component<transform_t>(m_camera);
 	auto& camera           = engine.get_component<camera_t>(m_camera);

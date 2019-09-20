@@ -1,12 +1,12 @@
 #include "transparent_shadow_renderer.hpp"
-#include "main.hpp"
 
 #include "mesh_filter.hpp"
 
 #include "transforms.hpp"
 
+#include "main.hpp"
 
-void graphics::transparent_shadow_renderer_t::update()
+void aech::graphics::transparent_shadow_renderer_t::update()
 {
 	shadow_map->bind();
 	glViewport(0, 0, shadow_map->width(), shadow_map->height());

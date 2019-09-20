@@ -1,12 +1,12 @@
 #include "framebuffer_library.hpp"
-#include "main.hpp"
 #include "resource_manager.hpp"
+#include "main.hpp"
 
-void graphics::generate_default_framebuffers()
+void aech::graphics::generate_default_framebuffers()
 {
 	framebuffers["g_buffer"] = {
-		screen_width,
-		screen_height,
+		window_manager.width(),
+		window_manager.height(),
 		4,
 		true,
 		texture_types::sized_internal_format::rgba32f,
@@ -14,8 +14,8 @@ void graphics::generate_default_framebuffers()
 		texture_types::type::floating_point
 	};
 	framebuffers["default"] = {
-		screen_width,
-		screen_height,
+		window_manager.width(),
+		window_manager.height(),
 		1,
 		true,
 		texture_types::sized_internal_format::rgba32f,
@@ -31,6 +31,13 @@ void graphics::generate_default_framebuffers()
 		texture_types::format::rgba,
 		texture_types::type::floating_point
 	};
+
+	auto shadow_map_texture = framebuffers["shadow_map"].depth_and_stencil();
+	
+	shadow_map_texture->bind();
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_REF_TO_TEXTURE);
+	shadow_map_texture->unbind();
+	
 	framebuffers["brdf"] = {
 		512,
 		512,

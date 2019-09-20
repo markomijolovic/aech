@@ -3,7 +3,6 @@
 
 #include "directional_light.hpp"
 
-#include "main.hpp"
 
 #include "scene_node.hpp"
 
@@ -12,9 +11,10 @@
 #include "transform.hpp"
 
 #include "transforms.hpp"
+#include "main.hpp"
 
 
-void graphics::transparent_renderer_t::update()
+void aech::graphics::transparent_renderer_t::update()
 {
 	render_target->bind();
 

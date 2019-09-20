@@ -4,10 +4,8 @@
 
 #include "vec3.hpp"
 
-#include <glad/glad.h>
-
 #include <vector>
-
+#include <glad/glad.h>
 
 namespace aech::graphics
 {

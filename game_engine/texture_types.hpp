@@ -1,6 +1,6 @@
 #pragma once
 
-#include <glad/glad.h>
+#include "glad/glad.h"
 
 namespace aech::graphics::texture_types
 {
@@ -14,7 +14,9 @@ namespace aech::graphics::texture_types
 		rg32f = GL_RG32F,
 		rgb32f = GL_RGB32F,
 		rgba32f = GL_RGBA32F,
-		depth24 = GL_DEPTH_COMPONENT24
+		depth24 = GL_DEPTH_COMPONENT24,
+		depth32 = GL_DEPTH_COMPONENT32,
+		depth32f = GL_DEPTH_COMPONENT32F
 	};
 
 	enum class format

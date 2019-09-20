@@ -1,6 +1,6 @@
 #include "texture_cube.hpp"
 #include <algorithm>
-#include <glad/glad.h>
+#include "glad/glad.h"
 #include <ostream>
 
 namespace aech::graphics

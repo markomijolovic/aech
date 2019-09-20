@@ -97,6 +97,12 @@
     <Filter Include="Source Files\graphics\rendering\GUI">
       <UniqueIdentifier>{20e14305-83e2-4cf7-acaa-d56ed3f1e3fa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\input">
+      <UniqueIdentifier>{c6d8e743-b0ae-4835-ae35-f8b8fe295fa4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\input">
+      <UniqueIdentifier>{6a14c235-540c-4837-8d70-4fdf50ad3fab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine.hpp">
@@ -201,9 +207,6 @@
     <ClInclude Include="camera.hpp">
       <Filter>Header Files\graphics\scene</Filter>
     </ClInclude>
-    <ClInclude Include="camera_control_system.hpp">
-      <Filter>Header Files\graphics\scene</Filter>
-    </ClInclude>
     <ClInclude Include="main.hpp">
       <Filter>Header Files\driver</Filter>
     </ClInclude>
@@ -269,6 +272,12 @@
     </ClInclude>
     <ClInclude Include="imgui_impl_opengl3.h">
       <Filter>Header Files\graphics\rendering\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="input_manager.hpp">
+      <Filter>Header Files\input</Filter>
+    </ClInclude>
+    <ClInclude Include="window_manager.hpp">
+      <Filter>Header Files\graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -344,9 +353,6 @@
     <ClCompile Include="glad.cpp">
       <Filter>Source Files\includes</Filter>
     </ClCompile>
-    <ClCompile Include="camera_control_system.cpp">
-      <Filter>Source Files\graphics\scene</Filter>
-    </ClCompile>
     <ClCompile Include="event.cpp">
       <Filter>Source Files\ecs core\event system</Filter>
     </ClCompile>
@@ -412,6 +418,12 @@
     </ClCompile>
     <ClCompile Include="imgui_impl_opengl3.cpp">
       <Filter>Source Files\graphics\rendering\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="input_manager.cpp">
+      <Filter>Source Files\input</Filter>
+    </ClCompile>
+    <ClCompile Include="window_manager.cpp">
+      <Filter>Source Files\graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

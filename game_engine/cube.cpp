@@ -1,8 +1,8 @@
 #include "cube.hpp"
-using namespace aech::math;
 
 namespace aech::graphics
 {
+	using namespace aech::math;
 	cube_t::cube_t() :
 		mesh_t
 		{

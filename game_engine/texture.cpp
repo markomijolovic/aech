@@ -1,6 +1,5 @@
 #include "texture.hpp"
 #include <algorithm>
-#include <glad/glad.h>
 
 #include <iostream>
 

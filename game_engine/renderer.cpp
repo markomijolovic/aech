@@ -1,6 +1,6 @@
 #include "renderer.hpp"
 #include "camera.hpp"
-
+#include <array>
 #include "directional_light.hpp"
 
 #include "material_library.hpp"
@@ -15,11 +15,15 @@
 #include "transforms.hpp"
 
 #include "transparent_shadow_renderer.hpp"
+#include "main.hpp"
+#include "imgui.h"
+#include "imgui_impl_opengl3.h"
+#include "imgui_impl_glfw.h"
 
 
 namespace aech::graphics
 {
-	renderer_t::renderer_t()
+	void renderer_t::init()
 	{
 		material_library::generate_default_materials();
 		mesh_library::generate_default_meshes();
@@ -123,6 +127,8 @@ namespace aech::graphics
 		opaque_shadow_renderer->dirlight      = dirlight;
 		transparent_shadow_renderer->dirlight = dirlight;
 
+		input_manager.set_camera_transform(&engine.get_component<transform_t>(m_camera));
+
 		opaque_renderer->m_camera      = m_camera;
 		point_light_renderer->m_camera = m_camera;
 		transparent_renderer->m_camera = m_camera;
@@ -145,8 +151,8 @@ namespace aech::graphics
 		                                                                 render_target->colour_attachments()[3],
 		                                                                3);
 		directional_light_renderer->mesh_filter.material()->set_texture("light_shadow_map",
-		                                                                &opaque_shadow_renderer->
-		                                                                 shadow_map->colour_attachments()[0],
+		                                                                opaque_shadow_renderer->
+		                                                           shadow_map->depth_and_stencil(),
 		                                                                4);
 
 		light_probe_renderer->ambient_material->set_texture("texture_position",
@@ -161,14 +167,10 @@ namespace aech::graphics
 		light_probe_renderer->ambient_material->set_texture("texture_metallic_roughness_ao",
 		                                                    &opaque_renderer->render_target->colour_attachments()[3],
 		                                                    3);
-		light_probe_renderer->ambient_material->set_texture("light_shadow_map",
-		                                                    &opaque_shadow_renderer->shadow_map->colour_attachments()[0
-		                                                    ],
-		                                                    4);
 
 		transparent_renderer->mesh_filter.material()->set_texture("light_shadow_map",
-		                                                          &opaque_shadow_renderer->
-		                                                           shadow_map->colour_attachments()[0],
+		                                                          opaque_shadow_renderer->
+		                                                           shadow_map->depth_and_stencil(),
 		                                                          4);
 
 		// bottom centre
@@ -253,6 +255,27 @@ namespace aech::graphics
 
 		auto mat = &material_library::default_materials["skybox"];
 		mat->set_texture_cube("skybox", &resource_manager::texture_cubes["skybox"], 0);
+
+	}
+
+
+	void renderer_t::render_gui()
+	{
+	
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
+		ImGui::NewFrame();
+		
+		ImGui::Begin("options");
+
+		ImGui::Checkbox("environment mapping", &environment_mapping);
+		ImGui::Checkbox("shadows", &shadows);
+		
+		ImGui::End();
+
+		
+		ImGui::Render();
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	}
 
 	void renderer_t::update()
@@ -262,11 +285,30 @@ namespace aech::graphics
 
 		// 2. render shadows
 		// TODO(Marko): fix shadows
-		opaque_shadow_renderer->update();
-		transparent_shadow_renderer->update();
+
+		if (shadows)
+		{
+			opaque_shadow_renderer->update();
+			transparent_shadow_renderer->update();
+		}
+		else
+		{
+			opaque_shadow_renderer->shadow_map->bind();
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		}
+	
 		// 4. render lights
 
-		light_probe_renderer->render_ambient_pass();
+		if (environment_mapping)
+		{
+			light_probe_renderer->render_ambient_pass();
+
+		}
+		else
+		{
+			light_probe_renderer->render_target->bind();
+				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		}
 
 		directional_light_renderer->update();
 
@@ -278,12 +320,12 @@ namespace aech::graphics
 		glBindFramebuffer(GL_READ_FRAMEBUFFER, opaque_renderer->render_target->id());
 		glBlitFramebuffer(0,
 		                  0,
-		                  screen_width,
-		                  screen_height,
+		                  	window_manager.width(),
+					window_manager.height(),
 		                  0,
 		                  0,
-		                  screen_width,
-		                  screen_height,
+		                  	window_manager.width(),
+		window_manager.height(),
 		                  GL_DEPTH_BUFFER_BIT,
 		                  GL_NEAREST);
 
@@ -295,16 +337,19 @@ namespace aech::graphics
 		glBindFramebuffer(GL_READ_FRAMEBUFFER, transparent_renderer->render_target->id());
 		glBlitFramebuffer(0,
 		                  0,
-		                  screen_width,
-		                  screen_height,
+		                  	window_manager.width(),
+		window_manager.height(),
 		                  0,
 		                  0,
-		                  screen_width,
-		                  screen_height,
+		                  	window_manager.width(),
+		window_manager.height(),
 		                  GL_COLOR_BUFFER_BIT,
 		                  GL_LINEAR);
 
-
+		if (gui)
+		{
+			render_gui();
+		}
 		// 5. forward rendering
 	}
 } // namespace aech::graphics

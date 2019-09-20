@@ -92,6 +92,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <AdditionalIncludeDirectories>include</AdditionalIncludeDirectories>
+      <ShowIncludes>false</ShowIncludes>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -126,6 +127,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <AdditionalIncludeDirectories>include</AdditionalIncludeDirectories>
+      <ShowIncludes>false</ShowIncludes>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -136,7 +138,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="camera.hpp" />
-    <ClInclude Include="camera_control_system.hpp" />
     <ClInclude Include="component_manager.hpp" />
     <ClInclude Include="cube.hpp" />
     <ClInclude Include="directional_light.hpp" />
@@ -164,6 +165,10 @@
     <ClInclude Include="imstb_textedit.h" />
     <ClInclude Include="imstb_truetype.h" />
     <ClInclude Include="indirect_lighting_renderer.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="input_manager.hpp">
       <SubType>
       </SubType>
     </ClInclude>
@@ -252,9 +257,12 @@
     <ClInclude Include="vec2.hpp" />
     <ClInclude Include="vec3.hpp" />
     <ClInclude Include="vec4.hpp" />
+    <ClInclude Include="window_manager.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="camera_control_system.cpp" />
     <ClCompile Include="component_manager.cpp" />
     <ClCompile Include="cube.cpp" />
     <ClCompile Include="directional_light_renderer.cpp" />
@@ -271,6 +279,7 @@
     <ClCompile Include="imgui_impl_glfw.cpp" />
     <ClCompile Include="imgui_impl_opengl3.cpp" />
     <ClCompile Include="imgui_widgets.cpp" />
+    <ClCompile Include="input_manager.cpp" />
     <ClCompile Include="light_probe.cpp" />
     <ClCompile Include="light_probe_renderer.cpp" />
     <ClCompile Include="main.cpp" />
@@ -301,6 +310,7 @@
     <ClCompile Include="vec2.cpp" />
     <ClCompile Include="vec3.cpp" />
     <ClCompile Include="vec4.cpp" />
+    <ClCompile Include="window_manager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="component_array.hpp" />

@@ -3,7 +3,7 @@
 
 #include "framebuffer_library.hpp"
 
-#include "main.hpp"
+
 
 #include "mat4.hpp"
 
@@ -15,9 +15,10 @@
 #include <iomanip>
 
 #include <iostream>
+#include "main.hpp"
 
 
-void graphics::light_probe_renderer_t::bake_probes()
+void aech::graphics::light_probe_renderer_t::bake_probes()
 {
 	std::clog << "Baking light probes" << std::endl;
 	for (size_t i{}; i < light_probes.size(); i++)
@@ -30,7 +31,7 @@ void graphics::light_probe_renderer_t::bake_probes()
 	std::clog << "100.00%" << std::endl;
 }
 
-void graphics::light_probe_renderer_t::create_radiance_cubemap(size_t probe_index)
+void aech::graphics::light_probe_renderer_t::create_radiance_cubemap(size_t probe_index)
 {
 	const static auto capture_projection = math::perspective(90, 1, 0.1f, 4000.0f);
 	glEnable(GL_DEPTH_TEST);
@@ -97,7 +98,7 @@ void graphics::light_probe_renderer_t::create_radiance_cubemap(size_t probe_inde
 	fbo.unbind();
 }
 
-void graphics::light_probe_renderer_t::process_radiance_map(size_t probe_index)
+void aech::graphics::light_probe_renderer_t::process_radiance_map(size_t probe_index)
 {
 	glDisable(GL_CULL_FACE);
 	const static auto capture_projection = math::perspective(90, 1, 0.1F, 10.0F);
@@ -201,7 +202,7 @@ void graphics::light_probe_renderer_t::process_radiance_map(size_t probe_index)
 }
 
 
-void graphics::light_probe_renderer_t::render_ambient_pass()
+void aech::graphics::light_probe_renderer_t::render_ambient_pass()
 {
 	render_target->bind();
 	glViewport(0, 0, render_target->width(), render_target->height());
