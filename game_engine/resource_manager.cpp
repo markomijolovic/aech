@@ -82,7 +82,8 @@ namespace aech::resource_manager
 	                                  const std::string& left,
 	                                  const std::string& right,
 	                                  const std::string& front,
-	                                  const std::string& back)
+	                                  const std::string& back, 
+										bool srgb)
 	{
 		if (texture_cubes.find(name) != std::end(texture_cubes))
 		{
@@ -121,11 +122,11 @@ namespace aech::resource_manager
 						format = texture_types::format::rg;
 						break;
 					case 3:
-						sized_internal_format = texture_types::sized_internal_format::rgb8;
+						sized_internal_format = srgb? texture_types::sized_internal_format::srgb8 : texture_types::sized_internal_format::rgb8;
 						format = texture_types::format::rgb;
 						break;
 					case 4:
-						sized_internal_format = texture_types::sized_internal_format::rgba8;
+						sized_internal_format = srgb? texture_types::sized_internal_format::srgb8a8: texture_types::sized_internal_format::rgba8;
 						format = texture_types::format::rgba;
 						break;
 					default:
@@ -160,7 +161,7 @@ namespace aech::resource_manager
 	}
 
 	texture_t* load_texture(const std::string& name,
-	                        const std::string& path)
+	                        const std::string& path, bool srgb)
 	{
 		if (textures.find(name) != std::end(textures))
 		{
@@ -192,11 +193,11 @@ namespace aech::resource_manager
 					format = texture_types::format::rg;
 					break;
 				case 3:
-					sized_internal_format = texture_types::sized_internal_format::rgb8;
+					sized_internal_format = srgb? texture_types::sized_internal_format::srgb8 : texture_types::sized_internal_format::rgb8;
 					format = texture_types::format::rgb;
 					break;
 				case 4:
-					sized_internal_format = texture_types::sized_internal_format::rgba8;
+					sized_internal_format = srgb? texture_types::sized_internal_format::srgb8a8 : texture_types::sized_internal_format::rgba8;
 					format = texture_types::format::rgba;
 					break;
 				default:
@@ -529,7 +530,7 @@ namespace aech::resource_manager
 			a_material->GetTexture(aiTextureType_HEIGHT, 0, &file);
 			auto file_name = std::string{file.C_Str()};
 
-			auto texture = load_texture(file_name, file_name);
+			auto texture = load_texture(file_name, file_name, false);
 			ret_val->set_texture("texture_normal", texture, 1);
 		}
 
@@ -539,7 +540,7 @@ namespace aech::resource_manager
 			a_material->GetTexture(aiTextureType_SPECULAR, 0, &file);
 			auto file_name = std::string{file.C_Str()};
 
-			auto texture = load_texture(file_name, file_name);
+			auto texture = load_texture(file_name, file_name, false);
 			ret_val->set_texture("texture_metallic", texture, 2);
 		}
 
@@ -549,7 +550,7 @@ namespace aech::resource_manager
 			a_material->GetTexture(aiTextureType_SHININESS, 0, &file);
 			auto file_name = std::string{file.C_Str()};
 
-			auto texture = load_texture(file_name, file_name);
+			auto texture = load_texture(file_name, file_name, false);
 			ret_val->set_texture("texture_roughness", texture, 3);
 		}
 
@@ -559,7 +560,7 @@ namespace aech::resource_manager
 			a_material->GetTexture(aiTextureType_AMBIENT, 0, &file);
 			auto file_name = std::string{file.C_Str()};
 
-			auto texture = load_texture(file_name, file_name);
+			auto texture = load_texture(file_name, file_name, false);
 			ret_val->set_texture("texture_ao", texture, 4);
 		}
 

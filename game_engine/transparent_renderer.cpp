@@ -56,6 +56,10 @@ void aech::graphics::transparent_renderer_t::update()
 
 	auto light_view = math::get_view_matrix(light_transform);
 
+	if (renderer.shadows) 
+	{
+		mesh_filter.material()->shader()->set_uniform("poisson_sampling_distance_multiplier", renderer.poisson_sampling_distance);
+	}
 
 	for (auto entity : entities)
 	{

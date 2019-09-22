@@ -315,6 +315,10 @@
   <ItemGroup>
     <None Include="component_array.hpp" />
     <None Include="packages.config" />
+    <None Include="post_processing_fragment.glsl">
+      <SubType>
+      </SubType>
+    </None>
     <None Include="shaders\ambient_fragment.glsl" />
     <None Include="shaders\ambient_irradiance_fragment.glsl" />
     <None Include="shaders\ambient_irradiance_vertex.glsl" />
@@ -346,6 +350,10 @@
     <None Include="shaders\transparent_shadow_fragment.glsl" />
     <None Include="shaders\transparent_shadow_vertex.glsl" />
     <None Include="shaders\transparent_vertex.glsl" />
+    <None Include="tonemap_fragment.glsl">
+      <SubType>
+      </SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

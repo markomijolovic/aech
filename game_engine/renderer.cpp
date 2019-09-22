@@ -29,8 +29,13 @@ namespace aech::graphics
 		mesh_library::generate_default_meshes();
 		generate_default_framebuffers();
 
+		post_process_fbo = &framebuffers["post_process"];
+		
+		tonemap_shader = &resource_manager::shaders["tonemap"];
+		
 		ndc_cube = mesh_library::default_meshes["cube"].get();
-
+		screen_quad = mesh_library::default_meshes["quad"].get();
+		
 		hdr_to_cubemap_shader = &resource_manager::shaders["hdr_to_cubemap"];
 		irradiance_shader     = &resource_manager::shaders["irradiance"];
 
@@ -38,6 +43,8 @@ namespace aech::graphics
 		irradiance_fbo  = &framebuffer_cubes["precomputed_irradiance"];
 
 		specular_prefilter_shader = &resource_manager::shaders["prefilter"];
+
+		post_process_shader = &resource_manager::shaders["post_process"];
 
 		light_probe_renderer = engine.register_system<light_probe_renderer_t>();
 		{
@@ -123,6 +130,9 @@ namespace aech::graphics
 		auto dirlight = engine.create_entity();
 		engine.add_component(dirlight, directional_light_t{{1, 1, 1}, 5});
 		engine.add_component(dirlight, transform_t{{0, 1750, 0}, {-80, 10, -10},});
+
+		directional_light_renderer->render_target->bind();
+		
 
 		opaque_shadow_renderer->dirlight      = dirlight;
 		transparent_shadow_renderer->dirlight = dirlight;
@@ -256,8 +266,40 @@ namespace aech::graphics
 		auto mat = &material_library::default_materials["skybox"];
 		mat->set_texture_cube("skybox", &resource_manager::texture_cubes["skybox"], 0);
 
+		
 	}
 
+
+	void renderer_t::bake_probes()
+	{
+		light_probe_renderer->bake_probes();
+	}
+
+	void renderer_t::post_process()
+	{
+		post_process_fbo->bind();
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glDisable(GL_DEPTH_TEST);
+		tonemap_shader->use();
+		transparent_renderer->render_target->colour_attachments().front().bind(0);
+		tonemap_shader->set_uniform("tex", 0);
+		screen_quad->draw();
+		glEnable(GL_DEPTH_TEST);
+		
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glDisable(GL_DEPTH_TEST);
+		post_process_shader->use();
+		post_process_fbo->colour_attachments().front().bind(0);
+		post_process_shader->set_uniform("source", 0);
+		post_process_shader->set_uniform("use_fxaa", fxaa);
+		post_process_shader->set_uniform("resolution", math::vec2_t{static_cast<float>(window_manager.width()),
+			                                 static_cast<float>(window_manager.height())
+		                                 });
+		
+		screen_quad->draw();
+		glEnable(GL_DEPTH_TEST);
+	}
 
 	void renderer_t::render_gui()
 	{
@@ -270,9 +312,12 @@ namespace aech::graphics
 
 		ImGui::Checkbox("environment mapping", &environment_mapping);
 		ImGui::Checkbox("shadows", &shadows);
+		ImGui::Checkbox("fxaa", &fxaa);
+		ImGui::NewLine();
+		ImGui::Text("poisson shadow sampling distance");
+		ImGui::SliderFloat("", &poisson_sampling_distance, 0.0F, 10.0F, "%.3f");
 		
 		ImGui::End();
-
 		
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -333,19 +378,21 @@ namespace aech::graphics
 
 		opaque_renderer->draw_skybox();
 
-		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-		glBindFramebuffer(GL_READ_FRAMEBUFFER, transparent_renderer->render_target->id());
-		glBlitFramebuffer(0,
-		                  0,
-		                  	window_manager.width(),
-		window_manager.height(),
-		                  0,
-		                  0,
-		                  	window_manager.width(),
-		window_manager.height(),
-		                  GL_COLOR_BUFFER_BIT,
-		                  GL_LINEAR);
-
+		//glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
+		//glBindFramebuffer(GL_READ_FRAMEBUFFER, transparent_renderer->render_target->id());
+		//glBlitFramebuffer(0,
+		//                  0,
+		//                  	window_manager.width(),
+		//window_manager.height(),
+		//                  0,
+		//                  0,
+		//                  	window_manager.width(),
+		//window_manager.height(),
+		//                  GL_COLOR_BUFFER_BIT,
+		//                  GL_LINEAR);
+		
+		post_process();
+		
 		if (gui)
 		{
 			render_gui();

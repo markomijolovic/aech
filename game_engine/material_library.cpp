@@ -88,6 +88,13 @@ void aech::graphics::material_library::generate_default_materials()
 	                                                    "shaders/skybox_vertex.glsl",
 	                                                    "shaders/skybox_fragment.glsl");
 	default_materials["skybox"] = {skybox_shader};
+
+	auto post_processing_shader = &resource_manager::load_shader("post_process", "shaders/pbr/screen_quad_vertex.glsl", "post_processing_fragment.glsl");
+	default_materials["post_process"] = {post_processing_shader};
+
+	auto tonemap_shader = &resource_manager::load_shader("tonemap", "shaders/pbr/screen_quad_vertex.glsl", "tonemap_fragment.glsl");
+	default_materials["tonemap"] = {tonemap_shader};
+
 }
 
 aech::graphics::material_t aech::graphics::material_library::create_material(const std::string& from)

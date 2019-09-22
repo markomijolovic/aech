@@ -524,5 +524,11 @@
       <Filter>Source Files\shaders</Filter>
     </None>
     <None Include="packages.config" />
+    <None Include="post_processing_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="tonemap_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

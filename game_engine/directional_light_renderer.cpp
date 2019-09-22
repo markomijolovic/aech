@@ -41,6 +41,12 @@ void aech::graphics::directional_light_renderer_t::update()
 		0,
 		1
 	};
+
+	if (renderer.shadows)
+	{
+		mesh_filter.material()->shader()->set_uniform("poisson_sampling_distance_multiplier", renderer.poisson_sampling_distance);
+	}
+	
 	for (auto light : entities)
 	{
 		auto& transform         = engine.get_component<transform_t>(light);

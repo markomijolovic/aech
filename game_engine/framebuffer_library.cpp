@@ -48,6 +48,16 @@ void aech::graphics::generate_default_framebuffers()
 		texture_types::type::floating_point
 	};
 
+	framebuffers["post_process"] = {
+		window_manager.width(),
+		window_manager.height(),
+		1,
+		true,
+		texture_types::sized_internal_format::rgba8,
+		texture_types::format::rgba,
+		texture_types::type::ubyte
+	};
+
 	auto& environment_texture                 = resource_manager::texture_cubes["environment"];
 	environment_texture.width                 = 1024;
 	environment_texture.height                = 1024;

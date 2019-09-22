@@ -28,7 +28,8 @@ void main()
 {
 	position = vec4(fragment_world_position, 1.0);
 	normal_out = vec4(get_normal(), 1.0);
-	albedo = vec4(pow(texture(texture_albedo, uvs).rgb, vec3(2.2)), 1.0);
+	albedo = texture(texture_albedo, uvs);
+	//albedo = vec4(pow(texture(texture_albedo, uvs).rgb, vec3(2.2)), 1.0);
 
 	metallic_roughness_ao.r = texture(texture_metallic, uvs).r;
 	metallic_roughness_ao.g = texture(texture_roughness, uvs).r;

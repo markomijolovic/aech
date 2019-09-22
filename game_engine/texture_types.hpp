@@ -13,7 +13,9 @@ namespace aech::graphics::texture_types
 		r32f = GL_R32F,
 		rg32f = GL_RG32F,
 		rgb32f = GL_RGB32F,
+		srgb8 = GL_SRGB8,
 		rgba32f = GL_RGBA32F,
+		srgb8a8 = GL_SRGB8_ALPHA8,
 		depth24 = GL_DEPTH_COMPONENT24,
 		depth32 = GL_DEPTH_COMPONENT32,
 		depth32f = GL_DEPTH_COMPONENT32F

@@ -20,6 +20,15 @@
 
 void aech::graphics::light_probe_renderer_t::bake_probes()
 {
+	std::clog << "Rendering brdf LUT" << std::endl;
+	auto& brdf_fbo = framebuffers["brdf"];
+	brdf_fbo.bind();
+	glViewport(0, 0, brdf_fbo.width(), brdf_fbo.height());
+	brdf_material->shader()->use();
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	ndc_quad->draw();
+	brdf_fbo.unbind();
+	
 	std::clog << "Baking light probes" << std::endl;
 	for (size_t i{}; i < light_probes.size(); i++)
 	{
@@ -28,6 +37,8 @@ void aech::graphics::light_probe_renderer_t::bake_probes()
 		create_radiance_cubemap(i);
 		process_radiance_map(i);
 	}
+	
+	
 	std::clog << "100.00%" << std::endl;
 }
 
@@ -190,15 +201,6 @@ void aech::graphics::light_probe_renderer_t::process_radiance_map(size_t probe_i
 	}
 
 	prefilter_fbo.unbind();
-	glDisable(GL_DEPTH_TEST);
-
-	auto& brdf_fbo = framebuffers["brdf"];
-	glViewport(0, 0, brdf_fbo.width(), brdf_fbo.height());
-	brdf_material->shader()->use();
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	ndc_quad->draw();
-	brdf_fbo.unbind();
-	glEnable(GL_CULL_FACE);
 }
 
 

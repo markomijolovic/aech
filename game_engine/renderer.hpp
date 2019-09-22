@@ -24,20 +24,27 @@ namespace aech::graphics
 		std::shared_ptr<opaque_renderer_t>             opaque_renderer{};
 		std::vector<light_probe_t>                     probes{};
 		mesh_t*                                        ndc_cube{};
+		mesh_t*                                        screen_quad{};
 		framebuffer_cube_t*                            hdr_capture_fbo{};
 		framebuffer_cube_t*                            irradiance_fbo{};
 		framebuffer_cube_t*                            specular_prefilter_fbo{};
+		framebuffer_t * post_process_fbo{};
 		shader_t*                                      hdr_to_cubemap_shader{};
 		shader_t*                                      irradiance_shader{};
 		shader_t*                                      specular_prefilter_shader{};
+		shader_t*                                      post_process_shader{};
+		shader_t* tonemap_shader{};
 
-		bool lights{};
-		bool shadows{};
-		bool environment_mapping {true};
+		bool shadows{true};
+		bool environment_mapping{true};
+		bool fxaa{true};
 		bool gui{};
-		
+		float poisson_sampling_distance {1.337F};
+
 		void init();
 		void render_gui();
 		void update();
+		void post_process();
+		void bake_probes();
 	};
 } // namespace aech::graphics

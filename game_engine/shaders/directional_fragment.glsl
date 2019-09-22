@@ -15,6 +15,8 @@ uniform vec3 light_colour;
 uniform float light_intensity;
 uniform mat4 depth_bias_vp;
 
+uniform float poisson_sampling_distance_multiplier;
+
 uniform vec3 camera_position;
 
 const float pi = 3.14159265359;
@@ -83,7 +85,7 @@ float shadow(vec3 position, float cosangle) {
 	for (int i = 0; i < 4; i++) 
 	{
 		int index = int(16.0*random(floor(position * 1000.0), i)) %16;
-		visibility -= 0.25*(1.0-texture( light_shadow_map, vec3(shadow_coords.xy + poisson_disk[index]*2*texel_size,  shadow_coords.z-bias )));
+		visibility -= 0.25*(1.0-texture( light_shadow_map, vec3(shadow_coords.xy + poisson_disk[index]*poisson_sampling_distance_multiplier*texel_size,  shadow_coords.z-bias )));
 	}
 
 	return visibility;
