@@ -5,6 +5,7 @@
 
 #include "vec3.hpp"
 
+#include "vec2.hpp"
 
 #include <string>
 
@@ -32,6 +33,10 @@ namespace aech::graphics
 			else if constexpr (std::is_same_v<T, math::vec3_t>)
 			{
 				glUniform3fv(glGetUniformLocation(id, name.c_str()), 1, (GLfloat*)(&value));
+			}
+			else if constexpr (std::is_same_v<T, math::vec2_t>)
+			{
+				glUniform2fv(glGetUniformLocation(id, name.c_str()), 1, (GLfloat*)(&value));
 			}
 			else if constexpr (std::is_same_v<T, math::vec4_t>)
 			{

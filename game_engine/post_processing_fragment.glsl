@@ -97,7 +97,7 @@ void main()
 	vec4 colour;
 	if (use_fxaa) 
 	{
-		colour = apply(source, uvs * vec2(1280, 720), vec2(1280, 720));
+		colour = apply(source, uvs * vec2(resolution.x, resolution.y), vec2(resolution.x, resolution.y));
 	}
 	else
 	{
