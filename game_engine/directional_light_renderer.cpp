@@ -10,11 +10,11 @@
 #include "main.hpp"
 
 
-void aech::graphics::directional_light_renderer_t::update()
+void aech::graphics::directional_light_renderer_t::update() const
 {
-	mesh_filter.material()->shader()->use();
+	m_mesh_filter.material()->shader()->use();
 
-	render_target->bind();
+	m_render_target->bind();
 	glViewport(0, 0, window_manager.width(), window_manager.height());
 	glDisable(GL_CULL_FACE);
 	glDisable(GL_DEPTH_TEST);
@@ -42,9 +42,9 @@ void aech::graphics::directional_light_renderer_t::update()
 		1
 	};
 
-	if (renderer.shadows)
+	if (renderer.shadows())
 	{
-		mesh_filter.material()->shader()->set_uniform("poisson_sampling_distance_multiplier", renderer.poisson_sampling_distance);
+		m_mesh_filter.material()->shader()->set_uniform("poisson_sampling_distance_multiplier", renderer.poisson_sampling_distance());
 	}
 	
 	for (auto light : entities)
@@ -54,12 +54,22 @@ void aech::graphics::directional_light_renderer_t::update()
 
 		auto light_view = math::get_view_matrix(transform);
 
-		mesh_filter.material()->shader()->set_uniform("light_dir", transform.get_forward_vector());
-		mesh_filter.material()->shader()->set_uniform("light_colour", directional_light.colour);
-		mesh_filter.material()->shader()->set_uniform("light_intensity", directional_light.intensity);
-		mesh_filter.material()->shader()->set_uniform("depth_bias_vp", bias_matrix * light_projection * light_view);
-		mesh_filter.material()->set_uniforms();
+		m_mesh_filter.material()->shader()->set_uniform("light_dir", transform.get_forward_vector());
+		m_mesh_filter.material()->shader()->set_uniform("light_colour", directional_light.colour);
+		m_mesh_filter.material()->shader()->set_uniform("light_intensity", directional_light.intensity);
+		m_mesh_filter.material()->shader()->set_uniform("depth_bias_vp", bias_matrix * light_projection * light_view);
+		m_mesh_filter.material()->set_uniforms();
 
-		mesh_filter.mesh()->draw();
+		m_mesh_filter.mesh()->draw();
 	}
+}
+
+aech::graphics::framebuffer_t* aech::graphics::directional_light_renderer_t::render_target() const
+{
+	return m_render_target;
+}
+
+aech::graphics::mesh_filter_t aech::graphics::directional_light_renderer_t::mesh_filter() const
+{
+	return m_mesh_filter;
 }

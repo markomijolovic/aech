@@ -30,13 +30,13 @@ namespace aech::graphics
 			{
 				glUniformMatrix4fv(glGetUniformLocation(id, name.c_str()), 1, true, (GLfloat *)(value[0]));
 			}
-			else if constexpr (std::is_same_v<T, math::vec3_t>)
-			{
-				glUniform3fv(glGetUniformLocation(id, name.c_str()), 1, (GLfloat*)(&value));
-			}
 			else if constexpr (std::is_same_v<T, math::vec2_t>)
 			{
 				glUniform2fv(glGetUniformLocation(id, name.c_str()), 1, (GLfloat*)(&value));
+			}
+			else if constexpr (std::is_same_v<T, math::vec3_t>)
+			{
+				glUniform3fv(glGetUniformLocation(id, name.c_str()), 1, (GLfloat*)(&value));
 			}
 			else if constexpr (std::is_same_v<T, math::vec4_t>)
 			{

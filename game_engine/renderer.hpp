@@ -14,6 +14,18 @@ namespace aech::graphics
 	class renderer_t
 	{
 	public:
+		void init();
+		void bake_probes();
+		void update();	
+
+		[[nodiscard]] bool shadows() const;
+		[[nodiscard]] bool gui() const;
+		[[nodiscard]] float poisson_sampling_distance() const;
+		void set_gui(bool gui);
+		
+		static math::mat4_t light_projection();
+
+	private:
 		entity_t                                       m_camera{};
 		std::shared_ptr<directional_light_renderer_t>  directional_light_renderer{};
 		std::shared_ptr<point_light_renderer_t>        point_light_renderer{};
@@ -27,24 +39,20 @@ namespace aech::graphics
 		mesh_t*                                        screen_quad{};
 		framebuffer_cube_t*                            hdr_capture_fbo{};
 		framebuffer_cube_t*                            irradiance_fbo{};
-		framebuffer_cube_t*                            specular_prefilter_fbo{};
-		framebuffer_t * post_process_fbo{};
+		framebuffer_t*                                 post_process_fbo{};
 		shader_t*                                      hdr_to_cubemap_shader{};
 		shader_t*                                      irradiance_shader{};
 		shader_t*                                      specular_prefilter_shader{};
 		shader_t*                                      post_process_shader{};
-		shader_t* tonemap_shader{};
+		shader_t*                                      tonemap_shader{};
 
-		bool shadows{true};
-		bool environment_mapping{true};
-		bool fxaa{true};
-		bool gui{};
-		float poisson_sampling_distance {1.337F};
+		bool  m_shadows{true};
+		bool  environment_mapping{true};
+		bool  fxaa{true};
+		bool  m_gui{};
+		float m_poisson_sampling_distance{1.337F};
 
-		void init();
 		void render_gui();
-		void update();
-		void post_process();
-		void bake_probes();
+		void post_process() const;
 	};
 } // namespace aech::graphics

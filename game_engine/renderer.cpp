@@ -19,6 +19,7 @@
 #include "imgui.h"
 #include "imgui_impl_opengl3.h"
 #include "imgui_impl_glfw.h"
+#include <iostream>
 
 
 namespace aech::graphics
@@ -30,12 +31,12 @@ namespace aech::graphics
 		generate_default_framebuffers();
 
 		post_process_fbo = &framebuffers["post_process"];
-		
+
 		tonemap_shader = &resource_manager::shaders["tonemap"];
-		
-		ndc_cube = mesh_library::default_meshes["cube"].get();
+
+		ndc_cube    = mesh_library::default_meshes["cube"].get();
 		screen_quad = mesh_library::default_meshes["quad"].get();
-		
+
 		hdr_to_cubemap_shader = &resource_manager::shaders["hdr_to_cubemap"];
 		irradiance_shader     = &resource_manager::shaders["irradiance"];
 
@@ -113,139 +114,124 @@ namespace aech::graphics
 		}
 
 		m_camera = engine.create_entity();
-		engine.add_component(
-		                     m_camera,
-		                     transform_t{
-			                     {0.0F, 0.0F, 0.0F}
-		                     }
-		                    );
-
-		engine.add_component(
-		                     m_camera,
-		                     camera_t{
-			                     math::perspective(90.0F, 1280.0F / 720, 0.1F, 4000.0F)
-		                     }
-		                    );
+		engine.add_component(m_camera, transform_t{{0.0F, 0.0F, 0.0F}});
+		engine.add_component(m_camera,camera_t{math::perspective(90.0F, 1280.0F / 720, 0.1F, 4000.0F)});
 
 		auto dirlight = engine.create_entity();
 		engine.add_component(dirlight, directional_light_t{{1, 1, 1}, 5});
-		engine.add_component(dirlight, transform_t{{0, 1750, 0}, {-80, 10, -10},});
+		engine.add_component(dirlight, transform_t{{0, 1750, 0}, {-80, 10, -10}});
 
-		directional_light_renderer->render_target->bind();
-		
-
+		directional_light_renderer->render_target()->bind();
 		opaque_shadow_renderer->dirlight      = dirlight;
 		transparent_shadow_renderer->dirlight = dirlight;
-
 		input_manager.set_camera_transform(&engine.get_component<transform_t>(m_camera));
 
 		opaque_renderer->m_camera      = m_camera;
 		point_light_renderer->m_camera = m_camera;
-		transparent_renderer->m_camera = m_camera;
-		transparent_renderer->dirlight = dirlight;
 
-		directional_light_renderer->mesh_filter.material()->set_texture("texture_position",
-		                                                                &opaque_renderer->
-		                                                                 render_target->colour_attachments()[0],
-		                                                                0);
-		directional_light_renderer->mesh_filter.material()->set_texture("texture_normal",
-		                                                                &opaque_renderer->
-		                                                                 render_target->colour_attachments()[1],
-		                                                                1);
-		directional_light_renderer->mesh_filter.material()->set_texture("texture_albedo",
-		                                                                &opaque_renderer->
-		                                                                 render_target->colour_attachments()[2],
-		                                                                2);
-		directional_light_renderer->mesh_filter.material()->set_texture("texture_metallic_roughness_ao",
-		                                                                &opaque_renderer->
-		                                                                 render_target->colour_attachments()[3],
-		                                                                3);
-		directional_light_renderer->mesh_filter.material()->set_texture("light_shadow_map",
-		                                                                opaque_shadow_renderer->
-		                                                           shadow_map->depth_and_stencil(),
-		                                                                4);
+		transparent_renderer->set_camera(&engine.get_component<camera_t>(m_camera));
+		transparent_renderer->set_camera_transform(&engine.get_component<transform_t>(m_camera));
+		transparent_renderer->set_dirlight(&engine.get_component<directional_light_t>(dirlight));
+		transparent_renderer->set_dirlight_transform(&engine.get_component<transform_t>(dirlight));
 
-		light_probe_renderer->ambient_material->set_texture("texture_position",
-		                                                    &opaque_renderer->render_target->colour_attachments()[0],
-		                                                    0);
-		light_probe_renderer->ambient_material->set_texture("texture_normal",
-		                                                    &opaque_renderer->render_target->colour_attachments()[1],
-		                                                    1);
-		light_probe_renderer->ambient_material->set_texture("texture_albedo",
-		                                                    &opaque_renderer->render_target->colour_attachments()[2],
-		                                                    2);
-		light_probe_renderer->ambient_material->set_texture("texture_metallic_roughness_ao",
-		                                                    &opaque_renderer->render_target->colour_attachments()[3],
-		                                                    3);
+		light_probe_renderer->set_camera(&engine.get_component<camera_t>(m_camera));
+		light_probe_renderer->set_camera_transform(&engine.get_component<transform_t>(m_camera));
 
-		transparent_renderer->mesh_filter.material()->set_texture("light_shadow_map",
+		directional_light_renderer->mesh_filter().material()->set_texture("texture_position",
+		                                                                  &opaque_renderer->
+		                                                                   render_target->colour_attachments()[0],
+		                                                                  0);
+		directional_light_renderer->mesh_filter().material()->set_texture("texture_normal",
+		                                                                  &opaque_renderer->
+		                                                                   render_target->colour_attachments()[1],
+		                                                                  1);
+		directional_light_renderer->mesh_filter().material()->set_texture("texture_albedo",
+		                                                                  &opaque_renderer->
+		                                                                   render_target->colour_attachments()[2],
+		                                                                  2);
+		directional_light_renderer->mesh_filter().material()->set_texture("texture_metallic_roughness_ao",
+		                                                                  &opaque_renderer->
+		                                                                   render_target->colour_attachments()[3],
+		                                                                  3);
+		directional_light_renderer->mesh_filter().material()->set_texture("light_shadow_map",
+		                                                                  opaque_shadow_renderer->
+		                                                                  shadow_map->depth_and_stencil(),
+		                                                                  4);
+
+		light_probe_renderer->ambient_material()->set_texture("texture_position",
+		                                                      &opaque_renderer->render_target->colour_attachments()[0],
+		                                                      0);
+		light_probe_renderer->ambient_material()->set_texture("texture_normal",
+		                                                      &opaque_renderer->render_target->colour_attachments()[1],
+		                                                      1);
+		light_probe_renderer->ambient_material()->set_texture("texture_albedo",
+		                                                      &opaque_renderer->render_target->colour_attachments()[2],
+		                                                      2);
+		light_probe_renderer->ambient_material()->set_texture("texture_metallic_roughness_ao",
+		                                                      &opaque_renderer->render_target->colour_attachments()[3],
+		                                                      3);
+
+		transparent_renderer->mesh_filter().material()->set_texture("light_shadow_map",
 		                                                          opaque_shadow_renderer->
-		                                                           shadow_map->depth_and_stencil(),
+		                                                          shadow_map->depth_and_stencil(),
 		                                                          4);
 
 		// bottom centre
-		light_probe_renderer->light_probes.push_back(light_probe_t{{0, 150, -50}, 400});
-		light_probe_renderer->light_probes.push_back(light_probe_t{{300, 150, -50}, 400});
-		light_probe_renderer->light_probes.push_back(light_probe_t{{600, 150, -50}, 400});
-		light_probe_renderer->light_probes.push_back(light_probe_t{{850, 150, -50}, 400});
-		light_probe_renderer->light_probes.push_back(light_probe_t{{1140, 150, -50}, 400});
-		light_probe_renderer->light_probes.push_back(light_probe_t{{-300, 150, -50}, 400});
-		light_probe_renderer->light_probes.push_back(light_probe_t{{-620, 150, -50}, 400});
-		light_probe_renderer->light_probes.push_back(light_probe_t{{-950, 150, -50}, 400});
-		light_probe_renderer->light_probes.push_back(light_probe_t{{-1210, 150, -50}, 400});
+		light_probe_renderer->add_probe(light_probe_t{{0, 150, -50}, 400});
+		light_probe_renderer->add_probe(light_probe_t{{300, 150, -50}, 400});
+		light_probe_renderer->add_probe(light_probe_t{{600, 150, -50}, 400});
+		light_probe_renderer->add_probe(light_probe_t{{850, 150, -50}, 400});
+		light_probe_renderer->add_probe(light_probe_t{{1140, 150, -50}, 400});
+		light_probe_renderer->add_probe(light_probe_t{{-300, 150, -50}, 400});
+		light_probe_renderer->add_probe(light_probe_t{{-620, 150, -50}, 400});
+		light_probe_renderer->add_probe(light_probe_t{{-950, 150, -50}, 400});
+		light_probe_renderer->add_probe(light_probe_t{{-1210, 150, -50}, 400});
 
 		// bottom left 
-		light_probe_renderer->light_probes.push_back(light_probe_t{{0, 150, 400}, 400});
-		light_probe_renderer->light_probes.push_back(light_probe_t{{300, 150, 400}, 400});
-		light_probe_renderer->light_probes.push_back(light_probe_t{{600, 150, 400}, 400});
-		light_probe_renderer->light_probes.push_back(light_probe_t{{850, 150, 400}, 400});
-		light_probe_renderer->light_probes.push_back(light_probe_t{{1140, 150, 400}, 400});
-		light_probe_renderer->light_probes.push_back(light_probe_t{{-300, 150, 400}, 400});
-		light_probe_renderer->light_probes.push_back(light_probe_t{{-620, 150, 400}, 400});
-		light_probe_renderer->light_probes.push_back(light_probe_t{{-950, 150, 400}, 400});
-		light_probe_renderer->light_probes.push_back(light_probe_t{{-1210, 150, 400}, 400});
+		light_probe_renderer->add_probe(light_probe_t{{0, 150, 400}, 400});
+		light_probe_renderer->add_probe(light_probe_t{{300, 150, 400}, 400});
+		light_probe_renderer->add_probe(light_probe_t{{600, 150, 400}, 400});
+		light_probe_renderer->add_probe(light_probe_t{{850, 150, 400}, 400});
+		light_probe_renderer->add_probe(light_probe_t{{1140, 150, 400}, 400});
+		light_probe_renderer->add_probe(light_probe_t{{-300, 150, 400}, 400});
+		light_probe_renderer->add_probe(light_probe_t{{-620, 150, 400}, 400});
+		light_probe_renderer->add_probe(light_probe_t{{-950, 150, 400}, 400});
+		light_probe_renderer->add_probe(light_probe_t{{-1210, 150, 400}, 400});
 
 		//bottom right
-		light_probe_renderer->light_probes.push_back(light_probe_t{{0, 150, -450}, 400});
-		light_probe_renderer->light_probes.push_back(light_probe_t{{300, 150, -450}, 400});
-		light_probe_renderer->light_probes.push_back(light_probe_t{{600, 150, -450}, 400});
-		light_probe_renderer->light_probes.push_back(light_probe_t{{850, 150, -450}, 400});
-		light_probe_renderer->light_probes.push_back(light_probe_t{{1140, 150, -450}, 400});
-		light_probe_renderer->light_probes.push_back(light_probe_t{{-300, 150, -450}, 400});
-		light_probe_renderer->light_probes.push_back(light_probe_t{{-620, 150, -450}, 400});
-		light_probe_renderer->light_probes.push_back(light_probe_t{{-950, 150, -450}, 400});
-		light_probe_renderer->light_probes.push_back(light_probe_t{{-1210, 150, -450}, 400});
+		light_probe_renderer->add_probe(light_probe_t{{0, 150, -450}, 400});
+		light_probe_renderer->add_probe(light_probe_t{{300, 150, -450}, 400});
+		light_probe_renderer->add_probe(light_probe_t{{600, 150, -450}, 400});
+		light_probe_renderer->add_probe(light_probe_t{{850, 150, -450}, 400});
+		light_probe_renderer->add_probe(light_probe_t{{1140, 150, -450}, 400});
+		light_probe_renderer->add_probe(light_probe_t{{-300, 150, -450}, 400});
+		light_probe_renderer->add_probe(light_probe_t{{-620, 150, -450}, 400});
+		light_probe_renderer->add_probe(light_probe_t{{-950, 150, -450}, 400});
+		light_probe_renderer->add_probe(light_probe_t{{-1210, 150, -450}, 400});
 
-
-		light_probe_renderer->camera_transform = &engine.get_component<transform_t>(m_camera);
-		light_probe_renderer->camera           = &engine.get_component<camera_t>(m_camera);
-
+		light_probe_renderer->set_camera_transform(&engine.get_component<transform_t>(m_camera));
+		light_probe_renderer->set_camera(&engine.get_component<camera_t>(m_camera));
 		// TODO(Marko): refactor this
 
 		const static auto capture_projection = math::perspective(90, 1, 0.1F, 10.0F);
 		const std::array  capture_views
 		{
-			math::look_at({}, math::vec3_t{1, 0, 0}, {0, -1, 0}),
-			math::look_at({}, math::vec3_t{-1, 0, 0}, {0, -1, 0}),
-			math::look_at({}, math::vec3_t{0, 1, 0}, {0, 0, 1}),
-			math::look_at({}, math::vec3_t{0, -1, 0}, {0, 0, -1}),
+			look_at({}, math::vec3_t{1, 0, 0}, {0, -1, 0}),
+			look_at({}, math::vec3_t{-1, 0, 0}, {0, -1, 0}),
+			look_at({}, math::vec3_t{0, 1, 0}, {0, 0, 1}),
+			look_at({}, math::vec3_t{0, -1, 0}, {0, 0, -1}),
 
-			math::look_at({}, math::vec3_t{0, 0, 1}, {0, -1, 0}),
-			math::look_at({}, math::vec3_t{0, 0, -1}, {0, -1, 0})
+			look_at({}, math::vec3_t{0, 0, 1}, {0, -1, 0}),
+			look_at({}, math::vec3_t{0, 0, -1}, {0, -1, 0})
 		};
 
 		auto skybox                = resource_manager::load_hdr_texture("skybox", "textures_pbr/hdr/skybox.hdr");
 		auto sky                   = &resource_manager::texture_cubes["skybox"];
-		sky->width                 = 1024;
-		sky->height                = 1024;
-		sky->sized_internal_format = texture_types::sized_internal_format::rgba32f;
-		sky->format                = texture_types::format::rgba;
-		sky->type                  = texture_types::type::floating_point;
-		sky->init();
+		*sky = texture_cube_t {1024, 1024, texture_types::sized_internal_format::rgba32f, texture_types::format::rgba, texture_types::type::floating_point};
 		framebuffer_cube_t fbo{&resource_manager::texture_cubes["skybox"], 1024, 1024};
 
 		fbo.bind();
-		glViewport(0, 0, fbo.width, fbo.height);
+		glViewport(0, 0, fbo.width(), fbo.height());
 
 		hdr_to_cubemap_shader->use();
 		hdr_to_cubemap_shader->set_uniform("equirectangular_map", 0);
@@ -259,14 +245,12 @@ namespace aech::graphics
 			hdr_to_cubemap_shader->set_uniform("view", capture_views[i]);
 			ndc_cube->draw();
 		}
-		aech::graphics::framebuffer_cube_t::unbind();
+		framebuffer_cube_t::unbind();
 
 		sky->generate_mips();
 
 		auto mat = &material_library::default_materials["skybox"];
 		mat->set_texture_cube("skybox", &resource_manager::texture_cubes["skybox"], 0);
-
-		
 	}
 
 
@@ -275,17 +259,38 @@ namespace aech::graphics
 		light_probe_renderer->bake_probes();
 	}
 
-	void renderer_t::post_process()
+
+	bool renderer_t::gui() const
+	{
+		return m_gui;
+	}
+
+	void renderer_t::set_gui(bool gui)
+	{
+		m_gui = gui;
+	}
+
+	float renderer_t::poisson_sampling_distance() const
+	{
+		return m_poisson_sampling_distance;
+	}
+
+	bool renderer_t::shadows() const
+	{
+		return m_shadows;
+	}
+
+	void renderer_t::post_process() const
 	{
 		post_process_fbo->bind();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glDisable(GL_DEPTH_TEST);
 		tonemap_shader->use();
-		transparent_renderer->render_target->colour_attachments().front().bind(0);
+		transparent_renderer->render_target()->colour_attachments().front().bind(0);
 		tonemap_shader->set_uniform("tex", 0);
 		screen_quad->draw();
 		glEnable(GL_DEPTH_TEST);
-		
+
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glDisable(GL_DEPTH_TEST);
@@ -293,32 +298,39 @@ namespace aech::graphics
 		post_process_fbo->colour_attachments().front().bind(0);
 		post_process_shader->set_uniform("source", 0);
 		post_process_shader->set_uniform("use_fxaa", fxaa);
-		post_process_shader->set_uniform("resolution", math::vec2_t{static_cast<float>(window_manager.width()),
+		post_process_shader->set_uniform("resolution",
+		                                 math::vec2_t{
+			                                 static_cast<float>(window_manager.width()),
 			                                 static_cast<float>(window_manager.height())
 		                                 });
-		
+
 		screen_quad->draw();
 		glEnable(GL_DEPTH_TEST);
 	}
 
+
+	math::mat4_t renderer_t::light_projection()
+	{
+		return math::orthographic(-2250, 2250, -2250, 2000, 0, 2250);
+	}
+
 	void renderer_t::render_gui()
 	{
-	
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
-		
+
 		ImGui::Begin("options");
 
 		ImGui::Checkbox("environment mapping", &environment_mapping);
-		ImGui::Checkbox("shadows", &shadows);
+		ImGui::Checkbox("shadows", &m_shadows);
 		ImGui::Checkbox("fxaa", &fxaa);
 		ImGui::NewLine();
 		ImGui::Text("poisson shadow sampling distance");
-		ImGui::SliderFloat("", &poisson_sampling_distance, 0.0F, 10.0F, "%.3f");
-		
+		ImGui::SliderFloat("", &m_poisson_sampling_distance, 0.0F, 10.0F, "%.3f");
+
 		ImGui::End();
-		
+
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	}
@@ -327,12 +339,11 @@ namespace aech::graphics
 	{
 		// 1. render to g buffer
 		opaque_renderer->update();
-
-		// 2. render shadows
-		// TODO(Marko): fix shadows
-
-		if (shadows)
+		
+		// 2. shadows
+		if (m_shadows)
 		{
+			// create shadow map
 			opaque_shadow_renderer->update();
 			transparent_shadow_renderer->update();
 		}
@@ -341,62 +352,51 @@ namespace aech::graphics
 			opaque_shadow_renderer->shadow_map->bind();
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		}
-	
-		// 4. render lights
-
+		
+		// 3. render ambient lighting
 		if (environment_mapping)
 		{
 			light_probe_renderer->render_ambient_pass();
-
 		}
 		else
 		{
-			light_probe_renderer->render_target->bind();
-				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			light_probe_renderer->render_target()->bind();
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		}
 
+		// 4. render direct lighting
 		directional_light_renderer->update();
-
+		
 		glCullFace(GL_FRONT);
 		point_light_renderer->update();
 		glCullFace(GL_BACK);
 
-		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, transparent_renderer->render_target->id());
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, transparent_renderer->render_target()->id());
 		glBindFramebuffer(GL_READ_FRAMEBUFFER, opaque_renderer->render_target->id());
 		glBlitFramebuffer(0,
 		                  0,
-		                  	window_manager.width(),
-					window_manager.height(),
+		                  window_manager.width(),
+		                  window_manager.height(),
 		                  0,
 		                  0,
-		                  	window_manager.width(),
-		window_manager.height(),
+		                  window_manager.width(),
+		                  window_manager.height(),
 		                  GL_DEPTH_BUFFER_BIT,
 		                  GL_NEAREST);
 
+		// 5. forward render transparent objects
 		transparent_renderer->update();
 
+		// 6. render skybox over the whole scene
 		opaque_renderer->draw_skybox();
 
-		//glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-		//glBindFramebuffer(GL_READ_FRAMEBUFFER, transparent_renderer->render_target->id());
-		//glBlitFramebuffer(0,
-		//                  0,
-		//                  	window_manager.width(),
-		//window_manager.height(),
-		//                  0,
-		//                  0,
-		//                  	window_manager.width(),
-		//window_manager.height(),
-		//                  GL_COLOR_BUFFER_BIT,
-		//                  GL_LINEAR);
-		
+		// 7. tonemapping and fxaa
 		post_process();
-		
-		if (gui)
+
+		// 8. render gui
+		if (m_gui)
 		{
 			render_gui();
 		}
-		// 5. forward rendering
 	}
 } // namespace aech::graphics

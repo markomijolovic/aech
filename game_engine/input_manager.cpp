@@ -8,7 +8,7 @@ void aech::input_manager_t::update(float dt)
 {
 	if (!holding_u && m_buttons.test(static_cast<size_t>(input_buttons::u)))
 	{
-		graphics::renderer.gui = !graphics::renderer.gui;
+		graphics::renderer.set_gui(!graphics::renderer.gui());
 		holding_u = true;
 	}
 	else if (!m_buttons.test(static_cast<size_t>(input_buttons::u)))
@@ -16,7 +16,7 @@ void aech::input_manager_t::update(float dt)
 		holding_u = false;
 	}
 
-	if (graphics::renderer.gui)
+	if (graphics::renderer.gui())
 	{
 		return;
 	}

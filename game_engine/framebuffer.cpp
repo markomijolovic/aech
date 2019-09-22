@@ -44,35 +44,21 @@ namespace aech::graphics
 
 		for (size_t i = 0; i < num_colour_attachments; i++)
 		{
-			m_colour_attachments.emplace_back();
-			m_colour_attachments.back().width                 = width;
-			m_colour_attachments.back().height                = height;
-			m_colour_attachments.back().sized_internal_format = sized_internal_format;
-			m_colour_attachments.back().format                = format;
-			m_colour_attachments.back().type                  = type;
-			m_colour_attachments.back().mipmap                = m_mipmap;
-			m_colour_attachments.back().generate();
+			m_colour_attachments.emplace_back(width ,height, sized_internal_format, format, type, m_mipmap);
 			glFramebufferTexture2D(GL_FRAMEBUFFER,
 			                       GL_COLOR_ATTACHMENT0 + i,
 			                       GL_TEXTURE_2D,
-			                       m_colour_attachments.back().id,
+			                       m_colour_attachments.back().id(),
 			                       0);
 		}
 
 		if (depth)
 		{
-			m_depth_and_stencil_texture                        = std::make_unique<texture_t>();
-			m_depth_and_stencil_texture->width                 = width;
-			m_depth_and_stencil_texture->height                = height;
-			m_depth_and_stencil_texture->sized_internal_format = texture_types::sized_internal_format::depth32f;
-			m_depth_and_stencil_texture->format                = texture_types::format::depth;
-			m_depth_and_stencil_texture->type                  = texture_types::type::floating_point;
-			m_depth_and_stencil_texture->mipmap                = false;
-			m_depth_and_stencil_texture->generate();
+			m_depth_and_stencil_texture                        = std::make_unique<texture_t>(width, height, texture_types::sized_internal_format::depth32f, texture_types::format::depth, texture_types::type::floating_point, false);
 			glFramebufferTexture2D(GL_FRAMEBUFFER,
 			                       GL_DEPTH_ATTACHMENT,
 			                       GL_TEXTURE_2D,
-			                       m_depth_and_stencil_texture->id,
+			                       m_depth_and_stencil_texture->id(),
 			                       0);
 		}
 

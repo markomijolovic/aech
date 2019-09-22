@@ -5,19 +5,33 @@
 
 namespace aech::graphics
 {
-	void texture_cube_t::init()
+	texture_cube_t::texture_cube_t(uint32_t width,
+		uint32_t height,
+		texture_types::sized_internal_format sif,
+		texture_types::format f,
+		texture_types::type t,
+		bool mipmap,
+		texture_types::filtering min,
+		texture_types::filtering mag)
+		: m_width{width}, m_height{height}, m_sized_internal_format{sif}, m_format{f}, m_type{t}, m_filtering_mag{mag}, m_filtering_min{min}
 	{
-		glGenTextures(1, &id);
-
+		glGenTextures(1, &m_id);
+		
 		bind();
-		glTexParameteri(static_cast<GLenum>(target), GL_TEXTURE_MIN_FILTER, static_cast<GLenum>(filtering_min));
-		glTexParameteri(static_cast<GLenum>(target), GL_TEXTURE_MAG_FILTER, static_cast<GLenum>(filtering_mag));
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, static_cast<GLenum>(wrap_s));
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, static_cast<GLenum>(wrap_t));
-		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, static_cast<GLenum>(wrap_r));
+		glTexParameteri(static_cast<GLenum>(texture_types::target::cube_map), GL_TEXTURE_MIN_FILTER, static_cast<GLenum>(m_filtering_min));
+		glTexParameteri(static_cast<GLenum>(texture_types::target::cube_map), GL_TEXTURE_MAG_FILTER, static_cast<GLenum>(m_filtering_mag));
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, static_cast<GLenum>(m_wrap_s));
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, static_cast<GLenum>(m_wrap_t));
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, static_cast<GLenum>(m_wrap_r));
 		const int levels = mipmap ? floor(log2(std::max(width, height))) + 1 : 1;
-		glTexStorage2D(GL_TEXTURE_CUBE_MAP, levels, static_cast<GLenum>(sized_internal_format), width, height);
+		glTexStorage2D(GL_TEXTURE_CUBE_MAP, levels, static_cast<GLenum>(m_sized_internal_format), width, height);
 		unbind();
+	}
+
+
+	uint32_t texture_cube_t::id() const
+	{
+		return m_id;
 	}
 
 	void texture_cube_t::bind(int32_t unit) const
@@ -26,19 +40,19 @@ namespace aech::graphics
 		{
 			glActiveTexture(GL_TEXTURE0 + unit);
 		}
-		glBindTexture(static_cast<GLenum>(target), id);
+		glBindTexture(static_cast<GLenum>(texture_types::target::cube_map), m_id);
 	}
 
-	void texture_cube_t::unbind() const
+	void texture_cube_t::unbind()
 	{
-		glBindTexture(static_cast<GLenum>(target), 0);
+		glBindTexture(static_cast<GLenum>(texture_types::target::cube_map), 0);
 	}
 
 
 	void texture_cube_t::generate_mips() const
 	{
 		bind();
-		glGenerateMipmap(static_cast<GLenum>(target));
+		glGenerateMipmap(static_cast<GLenum>(texture_types::target::cube_map));
 		unbind();
 	}
 
@@ -54,10 +68,10 @@ namespace aech::graphics
 			                0,
 			                0,
 			                0,
-			                width,
-			                height,
-			                static_cast<GLenum>(format),
-			                static_cast<GLenum>(type),
+			                m_width,
+			                m_height,
+			                static_cast<GLenum>(m_format),
+			                static_cast<GLenum>(m_type),
 			                data);
 		}
 		unbind();

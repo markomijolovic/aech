@@ -93,7 +93,7 @@ namespace aech::resource_manager
 		std::clog << "Loading cubemap texture " << name << " from " << top << ", " << bottom << ", " << left << ", " <<
 			right << ", " << front << ", " << back << std::endl;
 
-		texture_cube_t texture{};
+		auto &texture = texture_cubes[name];
 
 		stbi_set_flip_vertically_on_load(0);
 
@@ -135,11 +135,7 @@ namespace aech::resource_manager
 
 				if (i == 0)
 				{
-					texture.width                 = width;
-					texture.height                = height;
-					texture.sized_internal_format = sized_internal_format;
-					texture.format                = format;
-					texture.init();
+					texture = texture_cube_t {static_cast<uint32_t>(width), static_cast<uint32_t>(height), sized_internal_format, format};
 				}
 
 				texture.generate_face(i,
@@ -154,8 +150,6 @@ namespace aech::resource_manager
 		}
 
 		texture.generate_mips();
-
-		texture_cubes[name] = texture;
 
 		return &texture_cubes[name];
 	}
@@ -205,20 +199,20 @@ namespace aech::resource_manager
 			}
 
 			auto& texture = textures[name] = texture_t{
-				.width = static_cast<uint32_t>(width),
-				.height = static_cast<uint32_t>(height),
-				.sized_internal_format = sized_internal_format,
-				.format = format,
-				.type = texture_types::type::ubyte,
-				.filtering_min = texture_types::filtering::linear_mipmap_linear,
-				.data = data,
+				static_cast<uint32_t>(width),
+				static_cast<uint32_t>(height),
+				sized_internal_format,
+				format,
+				texture_types::type::ubyte,
+				true,
+				texture_types::filtering::linear_mipmap_linear,
+				texture_types::filtering::linear,
+				data,
 			};
-			texture.generate();
 		}
 		else
 		{
 			std::clog << "Failed to load texture " << name << " from " << path << std::endl;
-			textures[name] = texture_t{};
 		}
 		stbi_image_free(data);
 
@@ -269,20 +263,20 @@ namespace aech::resource_manager
 			}
 
 			auto& texture = textures[name] = texture_t{
-				.width = static_cast<uint32_t>(width),
-				.height = static_cast<uint32_t>(height),
-				.sized_internal_format = sized_internal_format,
-				.format = format,
-				.type = texture_types::type::floating_point,
-				.filtering_min = texture_types::filtering::linear_mipmap_linear,
-				.data = data,
+				static_cast<uint32_t>(width),
+				static_cast<uint32_t>(height),
+				sized_internal_format,
+				format,
+				texture_types::type::floating_point,
+				true,
+				texture_types::filtering::linear_mipmap_linear,
+				texture_types::filtering::linear,
+				 data,
 			};
-			texture.generate();
 		}
 		else
 		{
 			std::clog << "Failed to load hdr texture " << name << " from " << path << std::endl;
-			textures[name] = texture_t{};
 		}
 		stbi_image_free(data);
 
