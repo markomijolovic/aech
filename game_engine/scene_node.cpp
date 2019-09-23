@@ -7,9 +7,10 @@
 
 namespace aech::graphics
 {
-	scene_node_t::scene_node_t(transform_t* transform, scene_node_t* parent) :
-		m_parent{parent},
-		m_transform{transform}
+	scene_node_t::scene_node_t(transform_t* transform, scene_node_t* parent)
+	:
+		m_transform{transform},
+		m_parent{parent}
 	{
 	}
 

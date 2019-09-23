@@ -403,7 +403,8 @@ namespace aech::resource_manager
 		std::vector<math::vec3_t> bitangents{};
 		std::vector<math::vec2_t> uvs{};
 		std::vector<uint32_t>     indices(3 * mesh->mNumFaces);
-
+		bounding_box_t aabb{};
+		
 		if (mesh->HasTextureCoords(0))
 		{
 			uvs.resize(mesh->mNumVertices);
@@ -418,6 +419,14 @@ namespace aech::resource_manager
 				mesh->mVertices[i].y,
 				mesh->mVertices[i].z
 			};
+
+			aabb.min_coords.x = std::min(aabb.min_coords.x, positions[i].x);
+			aabb.min_coords.y = std::min(aabb.min_coords.y, positions[i].y);
+			aabb.min_coords.z = std::min(aabb.min_coords.z, positions[i].z);
+
+			aabb.max_coords.x = std::max(aabb.max_coords.x, positions[i].x);
+			aabb.max_coords.y = std::max(aabb.max_coords.y, positions[i].y);
+			aabb.max_coords.z = std::max(aabb.max_coords.z, positions[i].z);
 
 			normals[i] = math::vec3_t{
 				mesh->mNormals[i].x,
@@ -460,6 +469,7 @@ namespace aech::resource_manager
 		{
 			positions,
 			normals,
+			aabb,
 			uvs,
 			mesh_t::topology::triangles,
 			indices,

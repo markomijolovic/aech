@@ -279,6 +279,15 @@
     <ClInclude Include="window_manager.hpp">
       <Filter>Header Files\graphics</Filter>
     </ClInclude>
+    <ClInclude Include="bounding_box.hpp">
+      <Filter>Header Files\graphics\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="intersection_tests.hpp">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="camera_frustum.hpp">
+      <Filter>Header Files\graphics\scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="component_manager.cpp">
@@ -424,6 +433,18 @@
     </ClCompile>
     <ClCompile Include="window_manager.cpp">
       <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="bounding_box.cpp">
+      <Filter>Source Files\graphics\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="intersection_tests.cpp">
+      <Filter>Source Files\math</Filter>
+    </ClCompile>
+    <ClCompile Include="camera.cpp">
+      <Filter>Source Files\graphics\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="camera_frustum.cpp">
+      <Filter>Source Files\graphics\scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

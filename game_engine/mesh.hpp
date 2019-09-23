@@ -6,6 +6,7 @@
 
 #include <vector>
 #include <glad/glad.h>
+#include "bounding_box.hpp"
 
 namespace aech::graphics
 {
@@ -23,6 +24,7 @@ namespace aech::graphics
 		mesh_t(
 			std::vector<math::vec3_t> positions,
 			std::vector<math::vec3_t> normals,
+			bounding_box_t aabb,
 			std::vector<math::vec2_t> uvs = {},
 			topology top = topology::triangles,
 			std::vector<uint32_t> indices = {},
@@ -30,6 +32,8 @@ namespace aech::graphics
 			std::vector<math::vec3_t> bitangents = {}
 		);
 		void draw() const;
+
+		[[nodiscard]] bounding_box_t bounding_box() const;
 
 	protected:
 		void commit(bool interleave = true);
@@ -40,6 +44,7 @@ namespace aech::graphics
 		std::vector<math::vec3_t> m_normals{};
 		std::vector<math::vec3_t> m_tangents{};
 		std::vector<math::vec3_t> m_bitangents{};
+		bounding_box_t m_aabb{};
 		uint32_t                  m_vao{};
 		uint32_t                  m_vbo{};
 		uint32_t                  m_ebo{};

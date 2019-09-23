@@ -5,14 +5,14 @@
 #include "transform.hpp"
 
 #include "vec3.hpp"
+#include "bounding_box.hpp"
 
 
 namespace aech::graphics
 {
 	/**
-	 * a game object is a base class for entities
+	 * represents a node in the scene
 	 */
-
 	class scene_node_t
 	{
 	public:
@@ -27,8 +27,9 @@ namespace aech::graphics
 		void                       set_scale(const math::vec3_t& scale) const;
 		void                       set_scale(float scale) const;
 
+		// make array happy
 		scene_node_t() = default;
-		explicit scene_node_t(transform_t* transform, scene_node_t* parent = nullptr);
+		scene_node_t(transform_t* transform, scene_node_t* parent = nullptr);
 
 		void add_child(scene_node_t* node);
 		void remove_child(scene_node_t* node);

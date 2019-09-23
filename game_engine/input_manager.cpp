@@ -21,51 +21,53 @@ void aech::input_manager_t::update(float dt)
 		return;
 	}
 	
-	auto view_matrix = math::get_view_matrix(*m_camera_transform);
+	auto view_matrix = math::get_view_matrix(*m_camera->transform);
 	auto right = math::vec3_t {view_matrix[0][0], view_matrix[0][1], view_matrix[0][2]};
 	auto up = math::vec3_t {view_matrix[1][0], view_matrix[1][1], view_matrix[1][2]};
 	auto forward = math::vec3_t {-view_matrix[2][0], -view_matrix[2][1], -view_matrix[2][2]};
 
 	if (m_buttons.test(static_cast<size_t>(input_buttons::w)))
 	{
-		m_camera_transform->position += forward * dt * movement_speed;
+		m_camera->transform->position += forward * dt * movement_speed;
 	}
 	else if (m_buttons.test(static_cast<size_t>(input_buttons::s)))
 	{
-		m_camera_transform->position -= forward * dt * movement_speed;
+		m_camera->transform->position -= forward * dt * movement_speed;
 	}
 
 	if (m_buttons.test(static_cast<size_t>(input_buttons::q)))
 	{
-		m_camera_transform->position += up * dt * movement_speed;
+		m_camera->transform->position += up * dt * movement_speed;
 	}
 	else if (m_buttons.test(static_cast<size_t>(input_buttons::e)))
 	{
-		m_camera_transform->position -= up * dt * movement_speed;
+		m_camera->transform->position -= up * dt * movement_speed;
 	}
 
 	if (m_buttons.test(static_cast<size_t>(input_buttons::a)))
 	{
-		m_camera_transform->position -= right * dt * movement_speed;
+		m_camera->transform->position -= right * dt * movement_speed;
 	}
 	else if (m_buttons.test(static_cast<size_t>(input_buttons::d)))
 	{
-		m_camera_transform->position += right * dt * movement_speed;
+		m_camera->transform->position += right * dt * movement_speed;
 	}
 
 	if (offset.first)
 	{
-		m_camera_transform->rotation.y -= offset.first * mouse_sens;
-		m_camera_transform->rotation.y = std::fmod(m_camera_transform->rotation.y, 360.0F);
+		m_camera->transform->rotation.y -= offset.first * mouse_sens;
+		m_camera->transform->rotation.y = std::fmod(m_camera->transform->rotation.y, 360.0F);
 		offset.first = 0;
 	}
 
 	if (offset.second)
 	{
-		m_camera_transform->rotation.x += offset.second * mouse_sens;
-		m_camera_transform->rotation.x = std::clamp(m_camera_transform->rotation.x, -89.0F, 89.0F);
+		m_camera->transform->rotation.x += offset.second * mouse_sens;
+		m_camera->transform->rotation.x = std::clamp(m_camera->transform->rotation.x, -89.0F, 89.0F);
 		offset.second = 0;
 	}
+
+	m_camera->recalculate_frustum();
 }
 
 aech::input_manager_t::input_manager_t()
@@ -88,7 +90,7 @@ void aech::input_manager_t::keyboard_listener(events::event_t& event)
 }
 
 
-void aech::input_manager_t::set_camera_transform(transform_t* camera_transform)
+void aech::input_manager_t::set_camera(camera_t* camera)
 {
-	m_camera_transform = camera_transform;
+	m_camera = camera;
 }

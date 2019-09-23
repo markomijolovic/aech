@@ -2,7 +2,8 @@
 
 namespace aech::graphics
 {
-	using namespace aech::math;
+	using namespace math;
+
 	cube_t::cube_t() :
 		mesh_t
 		{
@@ -82,6 +83,12 @@ namespace aech::graphics
 				vec3_t(0.0F, 1.0F, 0.0F),
 				vec3_t(0.0F, 1.0F, 0.0F),
 				vec3_t(0.0F, 1.0F, 0.0)
+			},
+
+			{
+
+				{-0.5F, -0.5F, -0.5F, 1.0F},
+				{0.5F, 0.5F,0.5F, 1.0F}
 			},
 
 			{

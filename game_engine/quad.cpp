@@ -18,6 +18,12 @@ aech::graphics::quad_t::quad_t()
 		{1.0F, 0.0F,},
 	};
 
+	m_aabb =
+	{
+		{-1.0F, -1.0F, -1.0F, 1.0F},
+		{1.0F, 1.0F, 1.0F, 1.0F}
+	};
+
 	top = topology::triangle_strip;
 	commit();
 }

@@ -13,7 +13,7 @@
 
 #include "transform.hpp"
 #include "main.hpp"
-
+#include "intersection_tests.hpp"
 
 
 namespace aech::graphics
@@ -60,7 +60,10 @@ namespace aech::graphics
 	{
 		auto  view        = math::get_view_matrix(engine.get_component<transform_t>(m_camera));
 		auto& scene_node  = engine.get_component<scene_node_t>(entity);
+
 		auto& mesh_filter = engine.get_component<mesh_filter_t>(entity);
+		auto &camera = engine.get_component<camera_t>(m_camera);
+		if (!camera.frustum.intersects(mesh_filter.mesh()->bounding_box())) return;
 		auto  shader      = mesh_filter.material()->shader();
 		auto  model       = scene_node.get_transform();
 		auto& projection  = engine.get_component<camera_t>(m_camera).projection;

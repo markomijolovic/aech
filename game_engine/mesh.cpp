@@ -7,6 +7,7 @@ namespace aech::graphics
 	mesh_t::mesh_t(
 		std::vector<math::vec3_t> positions,
 		std::vector<math::vec3_t> normals,
+		bounding_box_t aabb,
 		std::vector<math::vec2_t> uvs,
 		topology                  top,
 		std::vector<uint32_t>     indices,
@@ -14,6 +15,7 @@ namespace aech::graphics
 		std::vector<math::vec3_t> bitangents) :
 		m_positions{std::move(positions)},
 		m_indices{std::move(indices)},
+		m_aabb{std::move(aabb)},
 		m_uvs{std::move(uvs)},
 		m_normals{std::move(normals)},
 		m_tangents{std::move(tangents)},
@@ -209,6 +211,11 @@ namespace aech::graphics
 		glBindVertexArray(0);
 	}
 
+
+	bounding_box_t mesh_t::bounding_box() const
+	{
+		return m_aabb;
+	}
 
 	void mesh_t::draw() const
 	{

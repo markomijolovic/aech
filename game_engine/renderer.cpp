@@ -73,6 +73,7 @@ namespace aech::graphics
 			signature.set(engine.get_component_type<potential_occluder_t>());
 			signature.set(engine.get_component_type<transform_t>());
 			signature.set(engine.get_component_type<opaque_t>());
+			signature.set(engine.get_component_type<scene_node_t>());
 			engine.set_system_signature<opaque_shadow_renderer_t>(signature);
 		}
 
@@ -82,6 +83,7 @@ namespace aech::graphics
 			signature.set(engine.get_component_type<potential_occluder_t>());
 			signature.set(engine.get_component_type<transform_t>());
 			signature.set(engine.get_component_type<transparent_t>());
+			signature.set(engine.get_component_type<scene_node_t>());
 			engine.set_system_signature<transparent_shadow_renderer_t>(signature);
 		}
 
@@ -90,6 +92,7 @@ namespace aech::graphics
 			signature_t signature{};
 			signature.set(engine.get_component_type<directional_light_t>());
 			signature.set(engine.get_component_type<transform_t>());
+			// TODO: signature.set(engine.get_component_type<scene_node_t>());
 			engine.set_system_signature<directional_light_renderer_t>(signature);
 		}
 
@@ -99,7 +102,7 @@ namespace aech::graphics
 			signature.set(engine.get_component_type<point_light_t>());
 			signature.set(engine.get_component_type<transform_t>());
 			signature.set(engine.get_component_type<mesh_filter_t>());
-			signature.set(engine.get_component_type<scene_node_t>());
+			// TODO: signature.set(engine.get_component_type<scene_node_t>());
 			engine.set_system_signature<point_light_renderer_t>(signature);
 		}
 
@@ -115,7 +118,8 @@ namespace aech::graphics
 
 		m_camera = engine.create_entity();
 		engine.add_component(m_camera, transform_t{{0.0F, 0.0F, 0.0F}});
-		engine.add_component(m_camera,camera_t{math::perspective(90.0F, 1280.0F / 720, 0.1F, 4000.0F)});
+		engine.add_component(m_camera,camera_t{math::perspective(90.0F, 1280.0F / 720, 0.1F, 4000.0F), {}, &engine.get_component<transform_t>(m_camera)});
+		engine.get_component<camera_t>(m_camera).recalculate_frustum();
 
 		auto dirlight = engine.create_entity();
 		engine.add_component(dirlight, directional_light_t{{1, 1, 1}, 5});
@@ -124,7 +128,7 @@ namespace aech::graphics
 		directional_light_renderer->render_target()->bind();
 		opaque_shadow_renderer->dirlight      = dirlight;
 		transparent_shadow_renderer->set_light_transform(&engine.get_component<transform_t>(dirlight));
-		input_manager.set_camera_transform(&engine.get_component<transform_t>(m_camera));
+		input_manager.set_camera(&engine.get_component<camera_t>(m_camera));
 
 		opaque_renderer->m_camera      = m_camera;
 		point_light_renderer->m_camera = m_camera;

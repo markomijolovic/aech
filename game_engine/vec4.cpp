@@ -28,6 +28,16 @@ namespace aech::math
 		return *this;
 	}
 
+
+	vec4_t& vec4_t::operator*(float f)
+	{
+		x*=f;
+		y*=f;
+		z*=f;
+		w*=f;
+		return *this;
+	}
+
 	vec4_t& vec4_t::operator-=(const vec4_t& vec4)
 	{
 		x -= vec4.x;
@@ -45,5 +55,11 @@ namespace aech::math
 	vec4_t operator-(vec4_t lhs, const vec4_t& rhs)
 	{
 		return lhs -= rhs;
+	}
+
+
+	float dot(const vec4_t& lhs, const vec4_t& rhs)
+	{
+		return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z + lhs.w * rhs.w;
 	}
 } // namespace aech::math

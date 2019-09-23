@@ -2,9 +2,12 @@
 #include <bitset>
 #include "transform.hpp"
 #include <memory>
+#include "camera_frustum.hpp"
 
 namespace aech
 {
+	struct camera_t;
+
 	namespace events {
 		class event_t;
 	}
@@ -17,14 +20,14 @@ namespace aech
 
 		void mouse_listener(events::event_t& event);
 		void keyboard_listener(events::event_t& event);
-		void set_camera_transform(transform_t* camera_transform);
-		
+		void set_camera(camera_t* camera);
+
 	private:
 		inline static float movement_speed{2000.0f};
 		inline static float mouse_sens{0.1f};
 		bool holding_u {};
-		
-		transform_t *m_camera_transform{};
+
+		camera_t* m_camera{};
 		std::bitset<32> m_buttons{};
 		std::pair<float, float> offset{};
 	};

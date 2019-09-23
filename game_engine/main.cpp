@@ -43,7 +43,7 @@ int main(int /*argc*/, char* /*argv*/[])
 	resource_manager::load_mesh("textures_pbr/sponza.obj");
 		
 	auto delta_time = 1 / 60.0F;
-	renderer.bake_probes();
+	//renderer.bake_probes();
 	
 	while (!window_manager.should_close())
 	{
