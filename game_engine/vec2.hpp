@@ -5,7 +5,8 @@ namespace aech::math
 	class vec2_t
 	{
 	public:
-		float x, y;
+		float x{};
+		float y{};
 
 		vec2_t() = default;
 		vec2_t(float x, float y);

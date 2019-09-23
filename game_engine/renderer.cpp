@@ -70,7 +70,7 @@ namespace aech::graphics
 		opaque_shadow_renderer = engine.register_system<opaque_shadow_renderer_t>();
 		{
 			signature_t signature{};
-			signature.set(engine.get_component_type<shadow_caster_t>());
+			signature.set(engine.get_component_type<potential_occluder_t>());
 			signature.set(engine.get_component_type<transform_t>());
 			signature.set(engine.get_component_type<opaque_t>());
 			engine.set_system_signature<opaque_shadow_renderer_t>(signature);
@@ -79,7 +79,7 @@ namespace aech::graphics
 		transparent_shadow_renderer = engine.register_system<transparent_shadow_renderer_t>();
 		{
 			signature_t signature{};
-			signature.set(engine.get_component_type<shadow_caster_t>());
+			signature.set(engine.get_component_type<potential_occluder_t>());
 			signature.set(engine.get_component_type<transform_t>());
 			signature.set(engine.get_component_type<transparent_t>());
 			engine.set_system_signature<transparent_shadow_renderer_t>(signature);
@@ -123,7 +123,7 @@ namespace aech::graphics
 
 		directional_light_renderer->render_target()->bind();
 		opaque_shadow_renderer->dirlight      = dirlight;
-		transparent_shadow_renderer->dirlight = dirlight;
+		transparent_shadow_renderer->set_light_transform(&engine.get_component<transform_t>(dirlight));
 		input_manager.set_camera_transform(&engine.get_component<transform_t>(m_camera));
 
 		opaque_renderer->m_camera      = m_camera;
@@ -260,14 +260,14 @@ namespace aech::graphics
 	}
 
 
-	bool renderer_t::gui() const
+	bool renderer_t::options() const
 	{
-		return m_gui;
+		return m_options;
 	}
 
-	void renderer_t::set_gui(bool gui)
+	void renderer_t::set_options(bool gui)
 	{
-		m_gui = gui;
+		m_options = gui;
 	}
 
 	float renderer_t::poisson_sampling_distance() const
@@ -308,28 +308,32 @@ namespace aech::graphics
 		glEnable(GL_DEPTH_TEST);
 	}
 
-
-	math::mat4_t renderer_t::light_projection()
-	{
-		return math::orthographic(-2250, 2250, -2250, 2000, 0, 2250);
-	}
-
 	void renderer_t::render_gui()
 	{
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
 
-		ImGui::Begin("options");
-
-		ImGui::Checkbox("environment mapping", &environment_mapping);
-		ImGui::Checkbox("shadows", &m_shadows);
-		ImGui::Checkbox("fxaa", &fxaa);
-		ImGui::NewLine();
-		ImGui::Text("poisson shadow sampling distance");
-		ImGui::SliderFloat("", &m_poisson_sampling_distance, 0.0F, 10.0F, "%.3f");
-
+		ImGui::Begin("aech");
+		// TODO: why does this give completely different results?
+		ImGui::Text("average fps: %.2f fps", ImGui::GetIO().Framerate);
+		ImGui::Text("average frametime: %.2f ms", 1000.0F/ImGui::GetIO().Framerate);
+		ImGui::Text("press 'u' to toggle options");
 		ImGui::End();
+
+		if (m_options)
+		{
+			ImGui::Begin("options");
+
+			ImGui::Checkbox("environment mapping", &environment_mapping);
+			ImGui::Checkbox("shadows", &m_shadows);
+			ImGui::Checkbox("fxaa", &fxaa);
+			ImGui::NewLine();
+			ImGui::Text("poisson shadow sampling distance");
+			ImGui::SliderFloat("", &m_poisson_sampling_distance, 0.0F, 10.0F, "%.3f");
+
+			ImGui::End();
+		}
 
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -394,9 +398,6 @@ namespace aech::graphics
 		post_process();
 
 		// 8. render gui
-		if (m_gui)
-		{
-			render_gui();
-		}
+		render_gui();
 	}
 } // namespace aech::graphics

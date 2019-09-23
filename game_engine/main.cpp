@@ -50,11 +50,12 @@ int main(int /*argc*/, char* /*argv*/[])
 		window_manager.begin_frame();
 		
 		auto start_time = std::chrono::high_resolution_clock::now();
+
 		
 		input_manager.update(delta_time);
 		renderer.update();
 		auto stop_time = std::chrono::high_resolution_clock::now();
-		delta_time     = std::chrono::duration<float, std::chrono::seconds::period>(stop_time - start_time).count();
+		delta_time     = std::chrono::duration<float>(stop_time - start_time).count();
 		
 		window_manager.end_frame();
 	}

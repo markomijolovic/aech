@@ -14,11 +14,12 @@ namespace aech::graphics
 	class transparent_shadow_renderer_t : public ecs::system_t
 	{
 	public:
-		entity_t dirlight{};
-
-		framebuffer_t* shadow_map = &framebuffers["shadow_map"];
-		material_t*    material   = &material_library::default_materials["transparent_shadow"];
-
+		void set_light_transform(transform_t* t);
 		void update();
+
+	private:
+		material_t*    m_material   = &material_library::default_materials["transparent_shadow"];
+		framebuffer_t* m_shadow_map = &framebuffers["shadow_map"];
+		transform_t*   m_light_transform{};
 	};
 } // namespace aech::graphics

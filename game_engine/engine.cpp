@@ -17,7 +17,7 @@ namespace aech
 		register_component<graphics::mesh_filter_t>();
 		register_component<graphics::directional_light_t>();
 		register_component<graphics::point_light_t>();
-		register_component<graphics::shadow_caster_t>();
+		register_component<graphics::potential_occluder_t>();
 		register_component<graphics::opaque_t>();
 		register_component<graphics::transparent_t>();
 	}

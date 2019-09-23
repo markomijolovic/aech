@@ -12,12 +12,10 @@ namespace aech::graphics
 	/**
 	 * a game object is a base class for entities
 	 */
-	struct scene_node_t
-	{
-		std::vector<scene_node_t*> m_children{};
-		scene_node_t*              m_parent{};
-		transform_t*               m_transform{};
 
+	class scene_node_t
+	{
+	public:
 		[[nodiscard]] math::vec3_t get_local_position() const;
 		[[nodiscard]] math::vec3_t get_local_scale() const;
 		[[nodiscard]] math::vec3_t get_local_rotation() const;
@@ -34,5 +32,10 @@ namespace aech::graphics
 
 		void add_child(scene_node_t* node);
 		void remove_child(scene_node_t* node);
+
+	private:
+		std::vector<scene_node_t*> m_children{};
+		scene_node_t*              m_parent{};
+		transform_t*               m_transform{};
 	};
 } // namespace aech::graphics

@@ -7,6 +7,7 @@
 #include "point_light_renderer.hpp"
 #include "light_probe_renderer.hpp"
 #include "transparent_renderer.hpp"
+#include "transforms.hpp"
 
 
 namespace aech::graphics
@@ -16,14 +17,14 @@ namespace aech::graphics
 	public:
 		void init();
 		void bake_probes();
-		void update();	
+		void update();
 
-		[[nodiscard]] bool shadows() const;
-		[[nodiscard]] bool gui() const;
+		[[nodiscard]] bool  shadows() const;
+		[[nodiscard]] bool  options() const;
 		[[nodiscard]] float poisson_sampling_distance() const;
-		void set_gui(bool gui);
-		
-		static math::mat4_t light_projection();
+		void                set_options(bool gui);
+
+		inline static auto light_projection{math::orthographic(-2250, 2250, -2250, 2000, 0, 2250)};
 
 	private:
 		entity_t                                       m_camera{};
@@ -49,7 +50,7 @@ namespace aech::graphics
 		bool  m_shadows{true};
 		bool  environment_mapping{true};
 		bool  fxaa{true};
-		bool  m_gui{};
+		bool  m_options{};
 		float m_poisson_sampling_distance{1.337F};
 
 		void render_gui();

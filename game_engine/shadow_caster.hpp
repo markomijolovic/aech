@@ -2,7 +2,7 @@
 
 namespace aech::graphics
 {
-	struct shadow_caster_t
+	struct potential_occluder_t
 	{
 	};
 } // namespace aech::graphics

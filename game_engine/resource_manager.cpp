@@ -296,7 +296,7 @@ namespace aech::resource_manager
 		if (node->mNumMeshes == 1)
 		{
 			engine.add_component(entity,
-			                     shadow_caster_t{}
+			                     potential_occluder_t{}
 			                    );
 		}
 
@@ -338,7 +338,7 @@ namespace aech::resource_manager
 
 
 				engine.add_component(child_entity,
-				                     shadow_caster_t{}
+				                     potential_occluder_t{}
 				                    );
 				mesh_filter_t mesh_filter{mesh, material};
 				engine.add_component(child_entity,

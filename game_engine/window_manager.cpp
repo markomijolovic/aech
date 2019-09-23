@@ -63,6 +63,8 @@ aech::graphics::window_manager_t::window_manager_t()
 	}
 	
 	glfwMakeContextCurrent(window);
+	// disable vsync
+	glfwSwapInterval(0);
 	
 	if (!gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress)))
 	{
@@ -131,7 +133,7 @@ static void key_callback(GLFWwindow* window, int key, int scan_code, int action,
 				break;
 			case GLFW_KEY_U:
 				window_manager.set_button(input_buttons::u);
-				if (!renderer.gui())
+				if (!renderer.options())
 				{
 					glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 				}

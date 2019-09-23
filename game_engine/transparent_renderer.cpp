@@ -84,7 +84,7 @@ void aech::graphics::transparent_renderer_t::update()
 		mesh_filter.material()->shader()->set_uniform("light_colour", m_dirlight->colour);
 		mesh_filter.material()->shader()->set_uniform("light_intensity", m_dirlight->intensity);
 		mesh_filter.material()->shader()->set_uniform("depth_bias_vp", bias_matrix * aech::graphics::renderer_t::
-		                                                               light_projection() * light_view);
+		                                                               light_projection * light_view);
 		mesh_filter.material()->shader()->set_uniform("camera_position", m_camera_transform->position);
 		mesh_filter.mesh()->draw();
 	}
