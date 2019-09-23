@@ -13,8 +13,6 @@
 
 #include "transform.hpp"
 #include "main.hpp"
-#include "intersection_tests.hpp"
-
 
 namespace aech::graphics
 {
@@ -25,7 +23,7 @@ namespace aech::graphics
 		skybox_mf.material()->shader()->use();
 		skybox_mf.material()->shader()->set_uniform("view",
 		                                            math::get_view_matrix(engine.get_component<transform_t>(m_camera)));
-		skybox_mf.material()->shader()->set_uniform("projection", engine.get_component<camera_t>(m_camera).projection);
+		skybox_mf.material()->shader()->set_uniform("projection", engine.get_component<camera_t>(m_camera).projection());
 		skybox_mf.material()->set_uniforms();
 		glDisable(GL_CULL_FACE);
 		skybox_mf.mesh()->draw();
@@ -63,10 +61,11 @@ namespace aech::graphics
 
 		auto& mesh_filter = engine.get_component<mesh_filter_t>(entity);
 		auto &camera = engine.get_component<camera_t>(m_camera);
-		if (!camera.frustum.intersects(mesh_filter.mesh()->bounding_box())) return;
+		// view frustum culling
+		if (!camera.sees(*mesh_filter.mesh())) return;
 		auto  shader      = mesh_filter.material()->shader();
 		auto  model       = scene_node.get_transform();
-		auto& projection  = engine.get_component<camera_t>(m_camera).projection;
+		auto projection  = camera.projection();
 
 		mesh_filter.material()->set_uniforms();
 		shader->set_uniform("model", model);

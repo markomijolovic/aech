@@ -48,7 +48,7 @@ namespace aech::graphics
 		shader_t*                                      tonemap_shader{};
 
 		bool  m_shadows{true};
-		bool  environment_mapping{false};
+		bool  environment_mapping{true};
 		bool  fxaa{true};
 		bool  m_options{};
 		float m_poisson_sampling_distance{1.337F};

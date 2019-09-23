@@ -20,54 +20,52 @@ void aech::input_manager_t::update(float dt)
 	{
 		return;
 	}
-	
-	auto view_matrix = math::get_view_matrix(*m_camera->transform);
-	auto right = math::vec3_t {view_matrix[0][0], view_matrix[0][1], view_matrix[0][2]};
-	auto up = math::vec3_t {view_matrix[1][0], view_matrix[1][1], view_matrix[1][2]};
-	auto forward = math::vec3_t {-view_matrix[2][0], -view_matrix[2][1], -view_matrix[2][2]};
 
+	auto view_matrix = m_camera->view_matrix();
+	auto right       = math::vec3_t{view_matrix[0][0], view_matrix[0][1], view_matrix[0][2]};
+	auto up          = math::vec3_t{view_matrix[1][0], view_matrix[1][1], view_matrix[1][2]};
+	auto forward     = math::vec3_t{-view_matrix[2][0], -view_matrix[2][1], -view_matrix[2][2]};
+
+	math::vec3_t trans{};
 	if (m_buttons.test(static_cast<size_t>(input_buttons::w)))
 	{
-		m_camera->transform->position += forward * dt * movement_speed;
+		trans += forward * dt * movement_speed;
 	}
-	else if (m_buttons.test(static_cast<size_t>(input_buttons::s)))
+	if (m_buttons.test(static_cast<size_t>(input_buttons::s)))
 	{
-		m_camera->transform->position -= forward * dt * movement_speed;
+		trans -= forward * dt * movement_speed;
 	}
 
 	if (m_buttons.test(static_cast<size_t>(input_buttons::q)))
 	{
-		m_camera->transform->position += up * dt * movement_speed;
+		trans += up * dt * movement_speed;
 	}
-	else if (m_buttons.test(static_cast<size_t>(input_buttons::e)))
+	if (m_buttons.test(static_cast<size_t>(input_buttons::e)))
 	{
-		m_camera->transform->position -= up * dt * movement_speed;
+		trans -= up * dt * movement_speed;
 	}
 
 	if (m_buttons.test(static_cast<size_t>(input_buttons::a)))
 	{
-		m_camera->transform->position -= right * dt * movement_speed;
+		trans -= right * dt * movement_speed;
 	}
-	else if (m_buttons.test(static_cast<size_t>(input_buttons::d)))
+	if (m_buttons.test(static_cast<size_t>(input_buttons::d)))
 	{
-		m_camera->transform->position += right * dt * movement_speed;
+		trans += right * dt * movement_speed;
 	}
+	m_camera->translate(trans);
 
 	if (offset.first)
 	{
-		m_camera->transform->rotation.y -= offset.first * mouse_sens;
-		m_camera->transform->rotation.y = std::fmod(m_camera->transform->rotation.y, 360.0F);
+		m_camera->rotate_y(-offset.first * mouse_sens);
 		offset.first = 0;
 	}
 
 	if (offset.second)
 	{
-		m_camera->transform->rotation.x += offset.second * mouse_sens;
-		m_camera->transform->rotation.x = std::clamp(m_camera->transform->rotation.x, -89.0F, 89.0F);
+		m_camera->rotate_x(offset.second * mouse_sens);
 		offset.second = 0;
 	}
-
-	m_camera->recalculate_frustum();
 }
 
 aech::input_manager_t::input_manager_t()

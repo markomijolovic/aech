@@ -234,11 +234,13 @@ void aech::graphics::light_probe_renderer_t::render_ambient_pass()
 	m_ambient_material->shader()->use();
 	m_ambient_material->set_texture("brdf_lut", &framebuffers["brdf"].colour_attachments().front(), 6);
 	m_ambient_material->set_uniform("camera_position", m_camera_transform->position);
-	m_ambient_material->set_uniform("projection", m_camera->projection);
+	m_ambient_material->set_uniform("projection", m_camera->projection());
 	m_ambient_material->set_uniform("view", math::get_view_matrix(*m_camera_transform));
 	m_ambient_material->set_uniform("camera_position", m_camera_transform->position);
 	for (auto& probe : m_light_probes)
 	{
+		// view frustum culling of probes
+		if (!m_camera->sees(probe.position(), probe.radius())) continue;
 		m_ambient_material->set_uniform("probe_position", probe.position());
 		m_ambient_material->set_texture_cube("environment_irradiance", probe.irradiance(), 7);
 		m_ambient_material->set_texture_cube("environment_prefiltered", probe.prefiltered(), 8);

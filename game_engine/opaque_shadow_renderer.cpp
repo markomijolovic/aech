@@ -19,8 +19,9 @@ namespace aech::graphics
 		shadow_map->bind();
 		glViewport(0, 0, shadow_map->width(), shadow_map->height());
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glDisable(GL_CULL_FACE);
-
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
+		
 		auto& light_transform  = engine.get_component<transform_t>(dirlight);
 		auto  light_projection = math::orthographic(-2250, 2250, -2250, 2000, 0, 2250);
 
@@ -38,6 +39,5 @@ namespace aech::graphics
 			material->shader()->set_uniform("model", transform.get_transform_matrix());
 			mesh_filter.mesh()->draw();
 		}
-		glEnable(GL_CULL_FACE);
 	}
 } // namespace aech::graphics

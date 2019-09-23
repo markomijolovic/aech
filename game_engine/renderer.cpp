@@ -118,8 +118,7 @@ namespace aech::graphics
 
 		m_camera = engine.create_entity();
 		engine.add_component(m_camera, transform_t{{0.0F, 0.0F, 0.0F}});
-		engine.add_component(m_camera,camera_t{math::perspective(90.0F, 1280.0F / 720, 0.1F, 4000.0F), {}, &engine.get_component<transform_t>(m_camera)});
-		engine.get_component<camera_t>(m_camera).recalculate_frustum();
+		engine.add_component(m_camera,camera_t{math::perspective(90.0F, 1280.0F / 720, 0.1F, 4000.0F), &engine.get_component<transform_t>(m_camera),  {}});
 
 		auto dirlight = engine.create_entity();
 		engine.add_component(dirlight, directional_light_t{{1, 1, 1}, 5});

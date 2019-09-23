@@ -16,7 +16,8 @@ void aech::graphics::transparent_shadow_renderer_t::update()
 {
 	m_shadow_map->bind();
 	glViewport(0, 0, m_shadow_map->width(), m_shadow_map->height());
-	glDisable(GL_CULL_FACE);
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
 
 	auto light_view_matrix = math::get_view_matrix(*m_light_transform);
 
@@ -34,5 +35,4 @@ void aech::graphics::transparent_shadow_renderer_t::update()
 
 		mesh_filter.mesh()->draw();
 	}
-	glEnable(GL_CULL_FACE);
 }

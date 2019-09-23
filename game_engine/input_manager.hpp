@@ -3,15 +3,11 @@
 #include "transform.hpp"
 #include <memory>
 #include "camera_frustum.hpp"
+#include "camera.hpp"
+#include "event.hpp"
 
 namespace aech
 {
-	struct camera_t;
-
-	namespace events {
-		class event_t;
-	}
-
 	class input_manager_t
 	{
 	public:

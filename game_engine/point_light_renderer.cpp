@@ -36,6 +36,6 @@ void aech::graphics::point_light_renderer_t::update()
 		mesh_filter.material()->shader()->set_uniform("light_intensity", point_light.intensity);
 		mesh_filter.material()->shader()->set_uniform("model", transform.get_transform_matrix());
 		mesh_filter.material()->shader()->set_uniform("view", math::get_view_matrix(camera_transform));
-		mesh_filter.material()->shader()->set_uniform("projection", camera.projection);
+		mesh_filter.material()->shader()->set_uniform("projection", camera.projection());
 	}
 }

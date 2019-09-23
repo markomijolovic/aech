@@ -180,10 +180,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="intersection_tests.hpp">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="light_probe.hpp">
       <SubType>
       </SubType>
@@ -275,7 +271,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="bounding_box.cpp" />
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="camera_frustum.cpp" />
     <ClCompile Include="component_manager.cpp" />
@@ -295,7 +290,6 @@
     <ClCompile Include="imgui_impl_opengl3.cpp" />
     <ClCompile Include="imgui_widgets.cpp" />
     <ClCompile Include="input_manager.cpp" />
-    <ClCompile Include="intersection_tests.cpp" />
     <ClCompile Include="light_probe.cpp" />
     <ClCompile Include="light_probe_renderer.cpp" />
     <ClCompile Include="main.cpp" />
