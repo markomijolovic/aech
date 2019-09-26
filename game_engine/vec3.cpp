@@ -70,4 +70,10 @@ namespace aech::math
 	{
 		return lhs *= rhs;
 	}
+
+
+	vec3_t operator*(float lhs, vec3_t rhs)
+	{
+		return rhs * lhs;
+	}
 } // namespace aech::math

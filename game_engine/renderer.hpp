@@ -41,18 +41,29 @@ namespace aech::graphics
 		framebuffer_cube_t*                            hdr_capture_fbo{};
 		framebuffer_cube_t*                            irradiance_fbo{};
 		framebuffer_t*                                 post_process_fbo{};
+		framebuffer_t*                                 m_ssao_fbo{};
+		framebuffer_t*                                 m_ssao_blurred_fbo{};
+		framebuffer_t*                                 m_gbuffer{};
 		shader_t*                                      hdr_to_cubemap_shader{};
 		shader_t*                                      irradiance_shader{};
 		shader_t*                                      specular_prefilter_shader{};
 		shader_t*                                      post_process_shader{};
 		shader_t*                                      tonemap_shader{};
 
+		shader_t* m_ssao_shader{};
+		shader_t* m_ssao_blur_shader{};
+
+		std::unique_ptr<texture_t> ssao_noise_texture{};
+		std::vector<math::vec3_t> ssao_kernel{};
+
 		bool  m_shadows{true};
-		bool  environment_mapping{true};
+		bool  environment_mapping{false};
 		bool  fxaa{true};
+		bool m_ssao{true};
 		bool  m_options{};
 		float m_poisson_sampling_distance{1.337F};
 
+		void render_ssao() const;
 		void render_gui();
 		void post_process() const;
 	};

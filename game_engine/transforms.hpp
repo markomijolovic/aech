@@ -15,6 +15,11 @@ namespace aech::math
 		return angle * (pi / 180.0F);
 	}
 
+	inline auto lerp(float a, float b, float t)
+	{
+		return a + t* (b-a);
+	}
+	
 	mat4_t translate(float x, float y, float z);
 	mat4_t translate(const vec3_t& vec3);
 	mat4_t scale(float x, float y, float z);

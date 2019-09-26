@@ -20,6 +20,7 @@
 #include "imgui_impl_opengl3.h"
 #include "imgui_impl_glfw.h"
 #include <iostream>
+#include <random>
 
 
 namespace aech::graphics
@@ -34,6 +35,13 @@ namespace aech::graphics
 
 		tonemap_shader = &resource_manager::shaders["tonemap"];
 
+		m_gbuffer = &framebuffers["g_buffer"];
+		m_ssao_blurred_fbo = &framebuffers["ssao_blurred"];
+		m_ssao_fbo = &framebuffers["ssao"];
+
+		m_ssao_shader = &resource_manager::shaders["ssao"];
+		m_ssao_blur_shader = &resource_manager::shaders["ssao_blur"];
+		
 		ndc_cube    = mesh_library::default_meshes["cube"].get();
 		screen_quad = mesh_library::default_meshes["quad"].get();
 
@@ -254,6 +262,26 @@ namespace aech::graphics
 
 		auto mat = &material_library::default_materials["skybox"];
 		mat->set_texture_cube("skybox", &resource_manager::texture_cubes["skybox"], 0);
+
+		// ssao
+
+		std::uniform_real_distribution<float> zero_to_one {0.0F, 1.0F};
+		std::default_random_engine rengine{};
+
+		for(uint32_t i = 0; i  <64; i++)
+		{
+			math::vec3_t sample{zero_to_one(rengine) * 2 - 1, zero_to_one(rengine) * 2 - 1, zero_to_one(rengine)};
+			sample = zero_to_one(rengine) * math::normalize(sample);
+			float scale = i/64.0F;
+			scale = math::lerp(0.1F, 1.0F, scale * scale);
+			ssao_kernel.push_back(scale * sample);
+		}
+
+		std::vector<math::vec3_t> ssao_noise{};
+		for (uint32_t i = 0; i < 16; i++)
+			ssao_noise.emplace_back(zero_to_one(rengine) * 2 - 1, zero_to_one(rengine) * 2 - 1, 0);
+
+		ssao_noise_texture = std::make_unique<texture_t>(4, 4, texture_types::sized_internal_format::rgb32f , texture_types::format::rgb  , texture_types::type::floating_point, false, texture_types::filtering::linear , texture_types::filtering::linear , ssao_noise.data());
 	}
 
 
@@ -342,6 +370,37 @@ namespace aech::graphics
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	}
 
+
+	void renderer_t::render_ssao() const
+	{
+		m_ssao_fbo->bind();
+		m_ssao_shader->use();
+		glViewport(0, 0, m_ssao_fbo->width(), m_ssao_fbo->height());
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		m_gbuffer->colour_attachments()[0].bind(0);
+		m_gbuffer->colour_attachments()[1].bind(1);
+		m_ssao_shader->set_uniform("texture_position", 0);
+		m_ssao_shader->set_uniform("texture_normal", 1);
+		ssao_noise_texture->bind(2);
+		m_ssao_shader->set_uniform("texture_noise", 2);
+		auto &camera = engine.get_component<camera_t>(m_camera);
+		m_ssao_shader->set_uniform("projection", camera.projection());
+		m_ssao_shader->set_uniform("view", camera.view_matrix());
+		m_ssao_shader->set_uniform("resolution", math::vec2_t{(float)window_manager.width(), (float)window_manager.height()});
+		m_ssao_shader->set_uniform("radius", 0.5F);
+		for(size_t i = 0; i < ssao_kernel.size(); i++)
+			m_ssao_shader->set_uniform("samples[" + std::to_string(i) + "]", ssao_kernel[i]);
+		screen_quad->draw();
+		
+		m_ssao_blurred_fbo->bind();
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		m_ssao_blur_shader->use();
+		m_ssao_fbo->colour_attachments()[0].bind(0);
+		m_ssao_blur_shader->set_uniform("ssao_input", 0);
+		screen_quad->draw();
+	}
+
 	void renderer_t::update()
 	{
 		// 1. render to g buffer
@@ -358,6 +417,11 @@ namespace aech::graphics
 		{
 			opaque_shadow_renderer->shadow_map->bind();
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		}
+
+		if (m_ssao)
+		{
+			render_ssao();
 		}
 		
 		// 3. render ambient lighting

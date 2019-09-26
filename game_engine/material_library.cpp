@@ -95,6 +95,9 @@ void aech::graphics::material_library::generate_default_materials()
 	auto tonemap_shader = &resource_manager::load_shader("tonemap", "shaders/pbr/screen_quad_vertex.glsl", "shaders/tonemap_fragment.glsl");
 	default_materials["tonemap"] = {tonemap_shader};
 
+	resource_manager::load_shader("ssao", "shaders/pbr/screen_quad_vertex.glsl", "shaders/ssao_fragment.glsl");
+	resource_manager::load_shader("ssao_blur", "shaders/pbr/screen_quad_vertex.glsl", "shaders/ssao_blur_fragment.glsl");
+
 }
 
 aech::graphics::material_t aech::graphics::material_library::create_material(const std::string& from)

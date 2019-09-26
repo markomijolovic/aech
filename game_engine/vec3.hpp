@@ -24,4 +24,5 @@ namespace aech::math
 	vec3_t operator-(vec3_t lhs, const vec3_t& rhs);
 	vec3_t operator*(vec3_t lhs, const vec3_t& rhs);
 	vec3_t operator*(vec3_t lhs, float rhs);
+	vec3_t operator*(float lhs, vec3_t rhs);
 } // namespace aech::math

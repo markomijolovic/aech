@@ -32,6 +32,28 @@ void aech::graphics::generate_default_framebuffers()
 		texture_types::type::floating_point
 	};
 
+	framebuffers["ssao"] =
+	{
+		window_manager.width(),
+		window_manager.height(),
+		1,
+		true,
+		texture_types::sized_internal_format::r32f ,
+		texture_types::format::r,
+		texture_types::type::floating_point 
+	};
+
+	framebuffers["ssao_blurred"] =
+	{
+		window_manager.width(),
+		window_manager.height(),
+		1,
+		true,
+		texture_types::sized_internal_format::r32f ,
+		texture_types::format::r,
+		texture_types::type::floating_point 
+	};
+
 	auto shadow_map_texture = framebuffers["shadow_map"].depth_and_stencil();
 	
 	shadow_map_texture->bind();
