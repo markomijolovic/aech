@@ -10,10 +10,13 @@ uniform sampler2D texture_position;
 uniform sampler2D texture_normal;
 uniform sampler2D texture_albedo;
 uniform sampler2D texture_metallic_roughness_ao;
+uniform sampler2D texture_ssao;
 
 uniform samplerCube environment_irradiance;
 uniform samplerCube environment_prefiltered;
 uniform sampler2D brdf_lut;
+
+uniform bool ssao;
 
 uniform vec3 camera_position;
 uniform vec3 probe_position;
@@ -77,5 +80,7 @@ void main()
 	vec3 irradiance = texture(environment_irradiance, normal).rgb;
 	
 	vec3 colour = attenuation * (specular + irradiance * albedo * (vec3(1.0) - f));
-	fragment_colour = vec4(colour, 1.0);
+	if (ssao) colour *= texture(texture_ssao, uv).r;
+	fragment_colour = vec4(vec3(texture(texture_ssao, uv).r), 1.0);
+	fragment_colour = vec4(1.0);
 }

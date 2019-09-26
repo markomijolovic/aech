@@ -19,6 +19,8 @@ namespace aech::graphics
 		void bake_probes();
 		void update();
 
+		[[nodiscard]] bool ssao() const;
+		[[nodiscard]] const texture_t* ssao_texture() const;
 		[[nodiscard]] bool  shadows() const;
 		[[nodiscard]] bool  options() const;
 		[[nodiscard]] float poisson_sampling_distance() const;

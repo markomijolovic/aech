@@ -9,6 +9,9 @@ uniform sampler2D texture_position;
 uniform sampler2D texture_normal;
 uniform sampler2D texture_albedo;
 uniform sampler2D texture_metallic_roughness_ao;
+uniform sampler2D texture_ssao;
+
+uniform bool ssao;
 
 uniform samplerCube environment_irradiance;
 uniform samplerCube environment_prefiltered;
@@ -77,5 +80,6 @@ void main()
 	vec3 irradiance = texture(environment_irradiance, normal).rgb;
 
 	vec3 colour = attenuation * (specular + irradiance * albedo * (vec3(1.0) - f)*(1 - metallic));
+	if (ssao) colour *= texture(texture_ssao, uv).r;
 	fragment_colour = vec4(colour, 1.0);
 }

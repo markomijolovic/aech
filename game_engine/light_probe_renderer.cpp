@@ -232,6 +232,12 @@ void aech::graphics::light_probe_renderer_t::render_ambient_pass()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_ONE, GL_ONE);
 	m_ambient_material->shader()->use();
+	m_ambient_material->shader()->set_uniform("ssao", renderer.ssao());
+	if (renderer.ssao())
+	{
+		renderer.ssao_texture()->bind(5);
+		m_ambient_material->set_uniform("texture_ssao", 5);
+	}
 	m_ambient_material->set_texture("brdf_lut", &framebuffers["brdf"].colour_attachments().front(), 6);
 	m_ambient_material->set_uniform("camera_position", m_camera_transform->position);
 	m_ambient_material->set_uniform("projection", m_camera->projection());

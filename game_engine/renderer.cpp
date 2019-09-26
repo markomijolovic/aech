@@ -306,6 +306,17 @@ namespace aech::graphics
 		return m_poisson_sampling_distance;
 	}
 
+
+	bool renderer_t::ssao() const
+	{
+		return m_ssao;
+	}
+
+	const texture_t* renderer_t::ssao_texture() const
+	{
+		return &m_ssao_blurred_fbo->colour_attachments().front();
+	}
+
 	bool renderer_t::shadows() const
 	{
 		return m_shadows;
@@ -359,6 +370,7 @@ namespace aech::graphics
 			ImGui::Checkbox("environment mapping", &environment_mapping);
 			ImGui::Checkbox("shadows", &m_shadows);
 			ImGui::Checkbox("fxaa", &fxaa);
+			ImGui::Checkbox("ssao", &m_ssao);
 			ImGui::NewLine();
 			ImGui::Text("poisson shadow sampling distance");
 			ImGui::SliderFloat("", &m_poisson_sampling_distance, 0.0F, 10.0F, "%.3f");
@@ -388,7 +400,7 @@ namespace aech::graphics
 		m_ssao_shader->set_uniform("projection", camera.projection());
 		m_ssao_shader->set_uniform("view", camera.view_matrix());
 		m_ssao_shader->set_uniform("resolution", math::vec2_t{(float)window_manager.width(), (float)window_manager.height()});
-		m_ssao_shader->set_uniform("radius", 0.5F);
+		m_ssao_shader->set_uniform("radius", 50.0F);
 		for(size_t i = 0; i < ssao_kernel.size(); i++)
 			m_ssao_shader->set_uniform("samples[" + std::to_string(i) + "]", ssao_kernel[i]);
 		screen_quad->draw();
