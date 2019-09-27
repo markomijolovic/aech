@@ -8,6 +8,7 @@
 #include "light_probe_renderer.hpp"
 #include "transparent_renderer.hpp"
 #include "transforms.hpp"
+#include "render_cache.hpp"
 
 
 namespace aech::graphics
@@ -19,6 +20,7 @@ namespace aech::graphics
 		void bake_probes();
 		void update();
 
+		[[nodiscard]] render_cache_t* render_cache();
 		[[nodiscard]] bool ssao() const;
 		[[nodiscard]] const texture_t* ssao_texture() const;
 		[[nodiscard]] bool  shadows() const;
@@ -30,14 +32,15 @@ namespace aech::graphics
 
 	private:
 		entity_t                                       m_camera{};
-		std::shared_ptr<directional_light_renderer_t>  directional_light_renderer{};
 		std::shared_ptr<point_light_renderer_t>        point_light_renderer{};
 		std::shared_ptr<opaque_shadow_renderer_t>      opaque_shadow_renderer{};
 		std::shared_ptr<transparent_shadow_renderer_t> transparent_shadow_renderer{};
 		std::shared_ptr<transparent_renderer_t>        transparent_renderer{};
 		std::shared_ptr<light_probe_renderer_t>        light_probe_renderer{};
 		std::shared_ptr<opaque_renderer_t>             opaque_renderer{};
+		std::unique_ptr<directional_light_renderer_t>  m_directional_light_renderer{};
 		std::vector<light_probe_t>                     probes{};
+		render_cache_t									m_render_cache{};
 		mesh_t*                                        ndc_cube{};
 		mesh_t*                                        screen_quad{};
 		framebuffer_cube_t*                            hdr_capture_fbo{};
@@ -65,8 +68,8 @@ namespace aech::graphics
 		bool  m_options{};
 		float m_poisson_sampling_distance{1.337F};
 
-		void render_ssao() const;
+		void render_ssao();
 		void render_gui();
-		void post_process() const;
+		void post_process();
 	};
 } // namespace aech::graphics

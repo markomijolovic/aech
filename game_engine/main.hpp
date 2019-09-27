@@ -12,7 +12,7 @@ namespace aech
 	namespace graphics
 	{
 		inline 	 window_manager_t window_manager{};
-		inline renderer_t renderer{};
+		inline	 renderer_t renderer{};
 	}
 
 }

@@ -172,10 +172,6 @@
     <ClInclude Include="imstb_rectpack.h" />
     <ClInclude Include="imstb_textedit.h" />
     <ClInclude Include="imstb_truetype.h" />
-    <ClInclude Include="indirect_lighting_renderer.hpp">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="input_manager.hpp">
       <SubType>
       </SubType>
@@ -185,6 +181,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="light_probe_renderer.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="render_cache.hpp">
       <SubType>
       </SubType>
     </ClInclude>
@@ -275,6 +275,7 @@
     <ClCompile Include="camera_frustum.cpp" />
     <ClCompile Include="component_manager.cpp" />
     <ClCompile Include="cube.cpp" />
+    <ClCompile Include="directional_light.cpp" />
     <ClCompile Include="directional_light_renderer.cpp" />
     <ClCompile Include="engine.cpp" />
     <ClCompile Include="entity_manager.cpp" />
@@ -304,6 +305,7 @@
     <ClCompile Include="quad.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="framebuffer.cpp" />
+    <ClCompile Include="render_cache.cpp" />
     <ClCompile Include="resource_manager.cpp" />
     <ClCompile Include="scene_node.cpp" />
     <ClCompile Include="shader.cpp" />

@@ -103,6 +103,9 @@
     <Filter Include="Source Files\input">
       <UniqueIdentifier>{6a14c235-540c-4837-8d70-4fdf50ad3fab}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\graphics\lighting">
+      <UniqueIdentifier>{aa589a5e-39e7-4aee-9558-ca93e5dbf4d1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine.hpp">
@@ -240,9 +243,6 @@
     <ClInclude Include="framebuffer_cube.hpp">
       <Filter>Header Files\graphics\rendering</Filter>
     </ClInclude>
-    <ClInclude Include="indirect_lighting_renderer.hpp">
-      <Filter>Header Files\graphics\rendering</Filter>
-    </ClInclude>
     <ClInclude Include="light_probe.hpp">
       <Filter>Header Files\graphics\rendering</Filter>
     </ClInclude>
@@ -284,6 +284,9 @@
     </ClInclude>
     <ClInclude Include="camera_frustum.hpp">
       <Filter>Header Files\graphics\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="render_cache.hpp">
+      <Filter>Header Files\graphics\rendering</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -436,6 +439,12 @@
     </ClCompile>
     <ClCompile Include="camera_frustum.cpp">
       <Filter>Source Files\graphics\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="render_cache.cpp">
+      <Filter>Source Files\graphics\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="directional_light.cpp">
+      <Filter>Source Files\graphics\lighting</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

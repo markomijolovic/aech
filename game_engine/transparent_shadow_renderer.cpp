@@ -7,21 +7,28 @@
 #include "main.hpp"
 
 
-void aech::graphics::transparent_shadow_renderer_t::set_light_transform(transform_t* t)
+aech::graphics::transparent_shadow_renderer_t::transparent_shadow_renderer_t(render_cache_t* render_cache,
+	directional_light_t* directional_light)
+	: m_render_cache{render_cache}, m_dirlight{directional_light}
 {
-	m_light_transform = t;
 }
 
 void aech::graphics::transparent_shadow_renderer_t::update()
 {
 	m_shadow_map->bind();
-	glViewport(0, 0, m_shadow_map->width(), m_shadow_map->height());
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
+	m_render_cache->set_viewport(0, 0, m_shadow_map->width(), m_shadow_map->height());
+	m_render_cache->set_cull(true);
+	m_render_cache->set_cull_face(cull_face::back);
+	
+	//glViewport(0, 0, m_shadow_map->width(), m_shadow_map->height());
+	//glEnable(GL_CULL_FACE);
+	//glCullFace(GL_BACK);
 
-	auto light_view_matrix = math::get_view_matrix(*m_light_transform);
+	auto light_view_matrix = math::get_view_matrix(*m_dirlight->transform());
 
-	m_material->shader()->use();
+	m_render_cache->set_shader(m_material->shader());
+	
+	//m_material->shader()->use();
 	for (auto entity : entities)
 	{
 		auto& transform   = engine.get_component<transform_t>(entity);

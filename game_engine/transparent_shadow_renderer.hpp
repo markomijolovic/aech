@@ -7,6 +7,8 @@
 
 #include "resource_manager.hpp"
 #include "system.hpp"
+#include "directional_light_renderer.hpp"
+#include "directional_light.hpp"
 
 
 namespace aech::graphics
@@ -14,12 +16,13 @@ namespace aech::graphics
 	class transparent_shadow_renderer_t : public ecs::system_t
 	{
 	public:
-		void set_light_transform(transform_t* t);
+		transparent_shadow_renderer_t(render_cache_t* render_cache, directional_light_t* directional_light);
 		void update();
 
 	private:
 		material_t*    m_material   = &material_library::default_materials["transparent_shadow"];
 		framebuffer_t* m_shadow_map = &framebuffers["shadow_map"];
-		transform_t*   m_light_transform{};
+		directional_light_t* m_dirlight{};
+		render_cache_t* m_render_cache{};
 	};
 } // namespace aech::graphics

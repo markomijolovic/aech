@@ -15,27 +15,31 @@
 #include "main.hpp"
 
 
+aech::graphics::point_light_renderer_t::point_light_renderer_t(render_cache_t* render_cache, camera_t* camera)
+	: m_render_cache{render_cache}, m_camera{camera}
+{
+}
+
 void aech::graphics::point_light_renderer_t::update()
 {
-	auto& camera_transform = engine.get_component<transform_t>(m_camera);
-	auto& camera           = engine.get_component<camera_t>(m_camera);
-
 	for (auto light : entities)
 	{
 		auto& transform   = engine.get_component<transform_t>(light);
 		auto& mesh_filter = engine.get_component<mesh_filter_t>(light);
 		auto& point_light = engine.get_component<point_light_t>(light);
 
-		mesh_filter.material()->shader()->use();
+		m_render_cache->set_shader(mesh_filter.material()->shader());
+		
+		//mesh_filter.material()->shader()->use();
 		mesh_filter.material()->set_uniforms();
 
-		mesh_filter.material()->shader()->set_uniform("camera_position", camera_transform.position);
+		mesh_filter.material()->shader()->set_uniform("camera_position", m_camera->transform()->position);
 		mesh_filter.material()->shader()->set_uniform("light_position", transform.position);
 		mesh_filter.material()->shader()->set_uniform("light_range", point_light.range);
 		mesh_filter.material()->shader()->set_uniform("light_colour", point_light.colour);
 		mesh_filter.material()->shader()->set_uniform("light_intensity", point_light.intensity);
 		mesh_filter.material()->shader()->set_uniform("model", transform.get_transform_matrix());
-		mesh_filter.material()->shader()->set_uniform("view", math::get_view_matrix(camera_transform));
-		mesh_filter.material()->shader()->set_uniform("projection", camera.projection());
+		mesh_filter.material()->shader()->set_uniform("view", math::get_view_matrix(*m_camera->transform()));
+		mesh_filter.material()->shader()->set_uniform("projection", m_camera->projection());
 	}
 }

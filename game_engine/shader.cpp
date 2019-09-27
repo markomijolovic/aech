@@ -52,6 +52,18 @@ namespace aech::graphics
 		}
 	}
 
+
+	bool shader_t::operator==(const shader_t& rhs) const
+	{
+		return id == rhs.id;
+	}
+
+
+	bool shader_t::operator!=(const shader_t& rhs) const
+	{
+		return !(*this == rhs);
+	}
+
 	void shader_t::use() const
 	{
 		glUseProgram(id);

@@ -14,26 +14,12 @@
 #include "main.hpp"
 
 
-void aech::graphics::transparent_renderer_t::set_camera_transform(transform_t* t)
+aech::graphics::transparent_renderer_t::transparent_renderer_t(render_cache_t* render_cache,
+	camera_t* camera,
+	directional_light_t* dirlight)
+	: m_render_cache{render_cache}, m_camera{camera}, m_dirlight{dirlight}
 {
-	m_camera_transform = t;
 }
-
-void aech::graphics::transparent_renderer_t::set_dirlight_transform(transform_t* t)
-{
-	m_dirlight_transform = t;
-}
-
-void aech::graphics::transparent_renderer_t::set_camera(camera_t* camera)
-{
-	m_camera = camera;
-}
-
-void aech::graphics::transparent_renderer_t::set_dirlight(directional_light_t* dirlight)
-{
-	m_dirlight = dirlight;
-}
-
 
 aech::graphics::framebuffer_t* aech::graphics::transparent_renderer_t::render_target() const
 {
@@ -49,11 +35,16 @@ void aech::graphics::transparent_renderer_t::update()
 {
 	m_render_target->bind();
 
-	m_mesh_filter.material()->shader()->use();
+	m_render_cache->set_shader(m_mesh_filter.material()->shader());
+	//m_mesh_filter.material()->shader()->use();
 
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	m_render_cache->set_depth_test(true);
+	m_render_cache->set_blend(true);
+	m_render_cache->set_blend(blend_func::src_alpha, blend_func::one_minus_src_alpha);
+	
+	//glEnable(GL_DEPTH_TEST);
+	//glEnable(GL_BLEND);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	const static math::mat4_t bias_matrix
 	{
@@ -63,7 +54,7 @@ void aech::graphics::transparent_renderer_t::update()
 		{0.0F, 0.0F, 0.0F, 1.0F}
 	};
 	
-	auto light_view = math::get_view_matrix(*m_dirlight_transform);
+	auto light_view = math::get_view_matrix(*m_dirlight->transform());
 
 	if (renderer.shadows()) 
 	{
@@ -81,14 +72,14 @@ void aech::graphics::transparent_renderer_t::update()
 
 		mesh_filter.material()->set_uniforms();
 		mesh_filter.material()->shader()->set_uniform("model", transform.get_transform_matrix());
-		mesh_filter.material()->shader()->set_uniform("view", math::get_view_matrix(*m_camera_transform));
+		mesh_filter.material()->shader()->set_uniform("view", math::get_view_matrix(*m_camera->transform()));
 		mesh_filter.material()->shader()->set_uniform("projection", m_camera->projection());
-		mesh_filter.material()->shader()->set_uniform("light_dir", m_dirlight_transform->get_forward_vector());
-		mesh_filter.material()->shader()->set_uniform("light_colour", m_dirlight->colour);
-		mesh_filter.material()->shader()->set_uniform("light_intensity", m_dirlight->intensity);
+		mesh_filter.material()->shader()->set_uniform("light_dir", m_dirlight->transform()->get_forward_vector());
+		mesh_filter.material()->shader()->set_uniform("light_colour", m_dirlight->colour());
+		mesh_filter.material()->shader()->set_uniform("light_intensity", m_dirlight->intensity());
 		mesh_filter.material()->shader()->set_uniform("depth_bias_vp", bias_matrix * aech::graphics::renderer_t::
 		                                                               light_projection * light_view);
-		mesh_filter.material()->shader()->set_uniform("camera_position", m_camera_transform->position);
+		mesh_filter.material()->shader()->set_uniform("camera_position", m_camera->transform()->position);
 		mesh_filter.mesh()->draw();
 	}
 }

@@ -59,10 +59,10 @@ namespace aech
 			return m_component_manager.get_component_type<T>();
 		}
 
-		template <typename T>
-		std::shared_ptr<T> register_system()
+		template <typename T, typename... Args>
+		std::shared_ptr<T> register_system(Args&&... args)
 		{
-			return m_system_manager.register_system<T>();
+			return m_system_manager.register_system<T>(std::forward<Args>(args)...);
 		}
 
 		template <typename T>

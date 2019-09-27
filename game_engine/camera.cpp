@@ -31,6 +31,12 @@ aech::math::mat4_t aech::camera_t::projection() const
 	return m_projection;
 }
 
+
+aech::transform_t* aech::camera_t::transform() const
+{
+	return m_transform;
+}
+
 aech::math::mat4_t aech::camera_t::view_matrix() const
 {
 	return math::get_view_matrix(*m_transform);

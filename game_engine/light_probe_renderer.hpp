@@ -19,6 +19,8 @@
 #include "system.hpp"
 
 #include <vector>
+#include "render_cache.hpp"
+#include "directional_light_renderer.hpp"
 
 
 namespace aech::graphics
@@ -26,6 +28,8 @@ namespace aech::graphics
 	class light_probe_renderer_t : public ecs::system_t
 	{
 	public:
+		light_probe_renderer_t(render_cache_t* render_cache, camera_t* camera);
+		
 		void bake_probes();
 		void render_ambient_pass();
 		
@@ -35,15 +39,11 @@ namespace aech::graphics
 		void add_probe(light_probe_t&& probe);
 		void add_probe(const light_probe_t& probe);
 
-		void set_camera(camera_t* camera);
-		void set_camera_transform(transform_t* transform);
-		
 	private:
 		std::vector<light_probe_t> m_light_probes{};
-		transform_t*               m_camera_transform{};
 		camera_t*                  m_camera{};
+		render_cache_t* m_render_cache{};
 		framebuffer_t*             m_render_target = &framebuffers["default"];
-
 		material_t* prefilter_material{&material_library::default_materials["prefilter"]};
 		material_t* cubemap_capture_material{&material_library::default_materials["capture"]};
 		material_t* cubemap_capture_skybox_material{&material_library::default_materials["capture_skybox"]};

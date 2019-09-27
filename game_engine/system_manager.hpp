@@ -13,12 +13,12 @@ namespace aech::ecs
 	class system_manager_t
 	{
 	public:
-		template <typename T>
-		std::shared_ptr<T> register_system()
+		template <typename T, typename... Args>
+		std::shared_ptr<T> register_system(Args&&... args)
 		{
 			auto type_name = typeid(T).name();
 
-			auto system = std::make_shared<T>();
+			auto system = std::make_shared<T>(std::forward<Args>(args)...);
 			m_systems.insert({type_name, system});
 
 			return system;

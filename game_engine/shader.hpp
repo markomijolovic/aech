@@ -21,6 +21,10 @@ namespace aech::graphics
 			const std::string& fragment_source,
 			const std::string& geometry_source
 		);
+
+		bool operator==(const shader_t&rhs) const;
+		bool operator!=(const shader_t&rhs)const;
+		
 		void use() const;
 
 		template <typename T>
