@@ -1,5 +1,16 @@
 #include "render_cache.hpp"
 
+
+aech::graphics::render_cache_t::render_cache_t()
+{
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LESS);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
+}
+
 void ::aech::graphics::render_cache_t::set_depth_test(bool enable)
 {
 	if (m_depth_test != enable)
@@ -48,7 +59,7 @@ void ::aech::graphics::render_cache_t::set_cull(bool enable)
 		if (m_cull = enable)
 			glEnable(GL_CULL_FACE);
 		else
-			glEnable(GL_CULL_FACE);
+			glDisable(GL_CULL_FACE);
 	}
 }
 

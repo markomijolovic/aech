@@ -38,6 +38,8 @@ namespace aech::graphics
 	class render_cache_t
 	{
 	public:
+		render_cache_t();
+		
 		void set_depth_test(bool enable);
 		void set_depth_func(depth_func func);
 		void set_blend(bool enable);
@@ -49,14 +51,14 @@ namespace aech::graphics
 		void clear(clear bit);
 		
 	private:
-		bool m_depth_test{};
-		depth_func m_depth_func{};
-		bool m_blend{};
-		blend_func m_blend_source{};
-		blend_func m_blend_dest{};
-		bool m_cull{};
-		cull_face m_cull_face{};	
-		shader_t* m_shader{};
+		bool m_depth_test{true};
+		depth_func m_depth_func{depth_func::less};
+		bool m_blend{true};
+		blend_func m_blend_source{blend_func::src_alpha};
+		blend_func m_blend_dest{blend_func::one_minus_src_alpha};
+		bool m_cull{true};
+		cull_face m_cull_face{cull_face::back};	
+		shader_t* m_shader{nullptr};
 
 		std::array<uint32_t, 4> viewport_dimensions{};
 	};

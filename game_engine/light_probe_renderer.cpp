@@ -54,6 +54,9 @@ void aech::graphics::light_probe_renderer_t::bake_probes()
 	//glViewport(0, 0, brdf_fbo.width(), brdf_fbo.height());
 	m_render_cache->set_shader(brdf_material->shader());
 	
+	m_render_cache->set_depth_test(false);
+	m_render_cache->set_blend(false);
+	
 	//brdf_material->shader()->use();
 	m_render_cache->clear(clear::color_and_depth_buffer_bit);
 	
@@ -62,7 +65,7 @@ void aech::graphics::light_probe_renderer_t::bake_probes()
 	brdf_fbo.unbind();
 	
 	std::clog << "Baking light probes" << std::endl;
-	for (size_t i{}; i < 1 && i < m_light_probes.size(); i++)
+	for (size_t i{}; i < m_light_probes.size(); i++)
 	{
 		std::clog << std::setw(6) << std::fixed << std::setprecision(2) << static_cast<float>(i) / m_light_probes.size() *
 			100 << "%" << std::endl;
