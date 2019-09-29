@@ -1,5 +1,6 @@
 #include "vec4.hpp"
 #include "vec3.hpp"
+#include <stdexcept>
 
 namespace aech::math
 {
@@ -28,16 +29,6 @@ namespace aech::math
 		return *this;
 	}
 
-
-	vec4_t& vec4_t::operator*(float f)
-	{
-		x *= f;
-		y *= f;
-		z *= f;
-		w *= f;
-		return *this;
-	}
-
 	vec4_t& vec4_t::operator-=(const vec4_t& vec4)
 	{
 		x -= vec4.x;
@@ -45,6 +36,24 @@ namespace aech::math
 		z -= vec4.z;
 		w -= vec4.w;
 		return *this;
+	}
+
+
+	vec4_t& vec4_t::operator*=(float rhs)
+	{
+		x *= rhs; y *= rhs; z *= rhs; w*= rhs;
+		return *this;
+	}
+
+
+	vec4_t operator*(vec4_t lhs, float rhs)
+	{
+		return lhs *= rhs;
+	}
+
+	vec4_t operator*(float lhs, vec4_t rhs)
+	{
+		return rhs *= lhs;
 	}
 
 	vec4_t operator+(vec4_t lhs, const vec4_t& rhs)
@@ -57,9 +66,27 @@ namespace aech::math
 		return lhs -= rhs;
 	}
 
-
-	float dot(const vec4_t& lhs, const vec4_t& rhs)
+	float& vec4_t::operator[](size_t index)
 	{
-		return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z + lhs.w * rhs.w;
+		switch(index)
+		{
+		case 0: return x; 
+		case 1: return y; 
+		case 2: return z; 
+		case 3: return w; 
+		default: throw std::runtime_error {"Index out of bounds for vec4_t's operator[]"};
+		}
+	}
+
+	const float& vec4_t::operator[](size_t index) const
+	{
+		switch(index)
+		{
+		case 0: return x;
+		case 1: return y;
+		case 2: return z;
+		case 3: return w; 
+		default: throw std::runtime_error {"Index out of bounds for vec4_t's operator[]"};
+		}
 	}
 } // namespace aech::math

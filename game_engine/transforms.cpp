@@ -38,7 +38,7 @@ namespace aech::math
 		auto  axis = normalize(axis_);
 		float s    = std::sin(angle);
 		float c    = std::cos(angle);
-		float oc   = 1.0 - c;
+		float oc   = 1.0F - c;
 
 		return mat4_t{
 			oc * axis.x * axis.x + c,

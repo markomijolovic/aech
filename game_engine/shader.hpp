@@ -32,7 +32,7 @@ namespace aech::graphics
 		{
 			if constexpr (std::is_same_v<T, math::mat4_t>)
 			{
-				glUniformMatrix4fv(glGetUniformLocation(id, name.c_str()), 1, true, const_cast<GLfloat *>(reinterpret_cast<const GLfloat *>(value[0])));
+				glUniformMatrix4fv(glGetUniformLocation(id, name.c_str()), 1, true, const_cast<GLfloat *>(reinterpret_cast<const GLfloat *>(&value[0])));
 			}
 			else if constexpr (std::is_same_v<T, math::vec2_t>)
 			{

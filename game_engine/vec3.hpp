@@ -16,13 +16,14 @@ namespace aech::math
 
 		vec3_t& operator+=(const vec3_t& vec3);
 		vec3_t& operator-=(const vec3_t& vec3);
-		vec3_t& operator*=(const vec3_t& vec3);
 		vec3_t& operator*=(float rhs);
+
+		float &operator[](size_t index);
+		const float &operator[](size_t index) const;
 	};
 
 	vec3_t operator+(vec3_t lhs, const vec3_t& rhs);
 	vec3_t operator-(vec3_t lhs, const vec3_t& rhs);
-	vec3_t operator*(vec3_t lhs, const vec3_t& rhs);
 	vec3_t operator*(vec3_t lhs, float rhs);
 	vec3_t operator*(float lhs, vec3_t rhs);
 } // namespace aech::math

@@ -11,7 +11,7 @@ namespace aech::math
 		{
 			for (auto col = 0; col < 4; col++)
 			{
-				auto sum = 0.0f;
+				auto sum = 0.0F;
 				for (auto i = 0; i < 4; i++)
 				{
 					sum += data[row][i] * rhs.data[i][col];
@@ -91,13 +91,13 @@ namespace aech::math
 		}
 	}
 
-	float* mat4_t::operator[](size_t i)
+	vec4_t& mat4_t::operator[](size_t i)
 	{
 		return data[i];
 	}
 
 
-	const float* mat4_t::operator[](size_t i) const
+	const vec4_t& mat4_t::operator[](size_t i) const
 	{
 		return data[i];
 	}

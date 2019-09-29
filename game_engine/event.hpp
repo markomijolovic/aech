@@ -25,7 +25,6 @@ namespace aech::events
 			return std::any_cast<T>(m_data[id]);
 		}
 
-
 	private:
 		event_id_t                               m_type{};
 		std::unordered_map<param_id_t, std::any> m_data{};

@@ -209,16 +209,16 @@ static void mouse_callback(GLFWwindow* window, double x_pos, double y_pos)
 	using namespace graphics;
 	if (window_manager.first_mouse())
 	{
-		window_manager.set_x(x_pos);
-		window_manager.set_y(y_pos);
+		window_manager.set_x(static_cast<float>(x_pos));
+		window_manager.set_y(static_cast<float>(y_pos));
 		window_manager.set_first_mouse(false);
 	}
 
-	float x_offset = x_pos - window_manager.x();
-	float y_offset = window_manager.y() - y_pos;
+	auto x_offset = static_cast<float>(x_pos) - window_manager.x();
+	auto y_offset = window_manager.y() - static_cast<float>(y_pos);
 
-	window_manager.set_x(x_pos);
-	window_manager.set_y(y_pos);
+	window_manager.set_x(static_cast<float>(x_pos));
+	window_manager.set_y(static_cast<float>(y_pos));
 
 	std::pair<float, float> param = {x_offset, y_offset};
 	events::event_t         event{events::window::mouse};

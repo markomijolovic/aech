@@ -53,8 +53,8 @@ void ImGui_ImplGlfw_ScrollCallback(GLFWwindow* window, double xoffset, double yo
 	}
 
 	auto& io = ImGui::GetIO();
-	io.MouseWheelH += xoffset;
-	io.MouseWheel += yoffset;
+	io.MouseWheelH += static_cast<float>(xoffset);
+	io.MouseWheel += static_cast<float>(yoffset);
 }
 
 void ImGui_ImplGlfw_KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
@@ -231,7 +231,7 @@ void ImGui_ImplGlfw_NewFrame()
 	glfwGetWindowSize(g_Window, &w, &h);
 	glfwGetFramebufferSize(g_Window, &display_w, &display_h);
 
-	io.DisplaySize = ImVec2(w, h);
+	io.DisplaySize = ImVec2(static_cast<float>(w), static_cast<float>(h));
 	if (w > 0 && h > 0)
 		io.DisplayFramebufferScale = ImVec2(static_cast<float>(display_w) / w, static_cast<float>(display_h) / h);
 

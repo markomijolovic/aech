@@ -1,5 +1,6 @@
 #include "camera_frustum.hpp"
 #include "bounding_box.hpp"
+#include "vector_math.hpp"
 
 
 void aech::camera_frustum_t::recalculate(const math::mat4_t& pv)

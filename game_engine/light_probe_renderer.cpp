@@ -211,7 +211,7 @@ void aech::graphics::light_probe_renderer_t::process_radiance_map(size_t probe_i
 
 	//glViewport(0, 0, fbo.width(), fbo.height());
 
-	for (size_t i = 0; i < 6; i++)
+	for (uint32_t i = 0; i < 6; i++)
 	{
 		fbo.attach(i);
 		m_render_cache->clear(clear::color_and_depth_buffer_bit);
@@ -249,10 +249,10 @@ void aech::graphics::light_probe_renderer_t::process_radiance_map(size_t probe_i
 	                                     0);
 	prefilter_material->set_uniform("projection", capture_projection);
 
-	const int levels = floor(log2(128)) + 1;
+	const auto levels = static_cast<uint32_t>(floor(log2(128)) + 1);
 	for (uint32_t mip = 0; mip < levels; mip++)
 	{
-		uint32_t width  = 128 * std::pow(0.5, mip);
+		auto width  = static_cast<uint32_t>(128 * std::pow(0.5, mip));
 		auto     height = width;
 		m_render_cache->set_viewport(0, 0, width, height);
 

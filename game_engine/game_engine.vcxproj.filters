@@ -288,6 +288,9 @@
     <ClInclude Include="render_cache.hpp">
       <Filter>Header Files\graphics\rendering</Filter>
     </ClInclude>
+    <ClInclude Include="vector_math.hpp">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="component_manager.cpp">
@@ -445,6 +448,9 @@
     </ClCompile>
     <ClCompile Include="directional_light.cpp">
       <Filter>Source Files\graphics\lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="vector_math.cpp">
+      <Filter>Source Files\math</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

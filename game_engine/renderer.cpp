@@ -246,7 +246,7 @@ namespace aech::graphics
 		hdr_to_cubemap_shader->set_uniform("equirectangular_map", 0);
 		skybox->bind(0);
 
-		for (size_t i = 0; i < 6; i++)
+		for (uint32_t i = 0; i < 6; i++)
 		{
 			fbo.attach(i);
 			m_render_cache.clear(clear::color_and_depth_buffer_bit);
@@ -278,7 +278,7 @@ namespace aech::graphics
 
 		std::vector<math::vec3_t> ssao_noise{};
 		for (uint32_t i = 0; i < 16; i++)
-			ssao_noise.emplace_back(zero_to_one(rengine) * 2 - 1, zero_to_one(rengine) * 2 - 1, 0);
+			ssao_noise.emplace_back(zero_to_one(rengine) * 2 - 1, zero_to_one(rengine) * 2 - 1, 0.F);
 
 		ssao_noise_texture = std::make_unique<texture_t>(4,
 		                                                 4,

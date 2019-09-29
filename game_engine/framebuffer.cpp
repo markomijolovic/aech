@@ -23,7 +23,7 @@ namespace aech::graphics
 	}
 
 
-	const texture_t* framebuffer_t::depth_and_stencil()
+	const texture_t* framebuffer_t::depth_and_stencil() const
 	{
 		return m_depth_and_stencil_texture.get();
 	}
@@ -42,7 +42,7 @@ namespace aech::graphics
 		glGenFramebuffers(1, &m_id);
 		glBindFramebuffer(GL_FRAMEBUFFER, m_id);
 
-		for (size_t i = 0; i < num_colour_attachments; i++)
+		for (uint32_t i = 0; i < num_colour_attachments; i++)
 		{
 			m_colour_attachments.emplace_back(width, height, sized_internal_format, format, type, m_mipmap);
 			glFramebufferTexture2D(GL_FRAMEBUFFER,

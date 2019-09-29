@@ -100,7 +100,7 @@ namespace aech::resource_manager
 		std::vector<std::string> faces{top, bottom, left, right, front, back};
 
 
-		for (size_t i = 0; i < faces.size(); i++)
+		for (uint32_t i = 0; i < faces.size(); i++)
 		{
 			int32_t    width;
 			int32_t    height;

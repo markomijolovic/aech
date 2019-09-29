@@ -13,7 +13,7 @@ aech::graphics::framebuffer_cube_t::framebuffer_cube_t(texture_cube_t* texture, 
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rbo_id);
 }
 
-void aech::graphics::framebuffer_cube_t::attach(int i, uint32_t miplevel) const
+void aech::graphics::framebuffer_cube_t::attach(uint32_t i, uint32_t miplevel) const
 {
 	glFramebufferTexture2D(GL_FRAMEBUFFER,
 	                       GL_COLOR_ATTACHMENT0,

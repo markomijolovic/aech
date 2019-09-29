@@ -28,7 +28,7 @@ namespace aech::graphics
 		glGenTextures(1, &m_id);
 		bind();
 
-		const int levels = m_mipmap ? floor(log2(std::max(m_width, m_height))) + 1 : 1;
+		const auto levels = m_mipmap ? static_cast<uint32_t>(floor(log2(std::max(m_width, m_height)))) + 1 : 1U;
 		glTexStorage2D(static_cast<GLenum>(texture_types::target::twod),
 		               levels,
 		               static_cast<GLenum>(m_sized_internal_format),

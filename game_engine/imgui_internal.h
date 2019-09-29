@@ -584,7 +584,7 @@ struct ImGuiDataTypeInfo
 // Stacked color modifier, backup of modified data so we can restore it
 struct ImGuiColorMod
 {
-    ImGuiCol    Col;
+    ImGuiCol    Col{};
     ImVec4      BackupValue;
 };
 

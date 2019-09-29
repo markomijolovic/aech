@@ -29,7 +29,7 @@ namespace aech::graphics
 		void                                        bind() const;
 		static void                                 unbind();
 		[[nodiscard]] const std::vector<texture_t>& colour_attachments() const;
-		[[nodiscard]] const texture_t*              depth_and_stencil();
+		[[nodiscard]] const texture_t*              depth_and_stencil() const;
 
 	private:
 		uint32_t                   m_id{};

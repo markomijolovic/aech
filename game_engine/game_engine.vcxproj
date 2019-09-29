@@ -265,6 +265,10 @@
     <ClInclude Include="vec2.hpp" />
     <ClInclude Include="vec3.hpp" />
     <ClInclude Include="vec4.hpp" />
+    <ClInclude Include="vector_math.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="window_manager.hpp">
       <SubType>
       </SubType>
@@ -322,6 +326,7 @@
     <ClCompile Include="vec2.cpp" />
     <ClCompile Include="vec3.cpp" />
     <ClCompile Include="vec4.cpp" />
+    <ClCompile Include="vector_math.cpp" />
     <ClCompile Include="window_manager.cpp" />
   </ItemGroup>
   <ItemGroup>

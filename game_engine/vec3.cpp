@@ -1,5 +1,6 @@
 #include "vec3.hpp"
 #include "vec4.hpp"
+#include <stdexcept>
 
 namespace aech::math
 {
@@ -44,15 +45,6 @@ namespace aech::math
 		return lhs -= rhs;
 	}
 
-
-	vec3_t& vec3_t::operator*=(const vec3_t& vec3)
-	{
-		x *= vec3.x;
-		y *= vec3.y;
-		z *= vec3.z;
-		return *this;
-	}
-
 	vec3_t& vec3_t::operator*=(float rhs)
 	{
 		x *= rhs;
@@ -61,9 +53,26 @@ namespace aech::math
 		return *this;
 	}
 
-	vec3_t operator*(vec3_t lhs, const vec3_t& rhs)
+	float& vec3_t::operator[](size_t index)
 	{
-		return lhs *= rhs;
+		switch(index)
+		{
+		case 0: return x; 
+		case 1: return y; 
+		case 2: return z; 
+		default: throw std::runtime_error {"Index out of bounds for vec3_t's operator[]"};
+		}
+	}
+
+	const float& vec3_t::operator[](size_t index) const
+	{
+		switch(index)
+		{
+		case 0: return x; 
+		case 1: return y; 
+		case 2: return z; 
+		default: throw std::runtime_error {"Index out of bounds for vec3_t's operator[]"};
+		}
 	}
 
 	vec3_t operator*(vec3_t lhs, float rhs)
@@ -71,9 +80,11 @@ namespace aech::math
 		return lhs *= rhs;
 	}
 
+	
+
 
 	vec3_t operator*(float lhs, vec3_t rhs)
 	{
-		return rhs * lhs;
+		return rhs *= lhs;
 	}
 } // namespace aech::math
