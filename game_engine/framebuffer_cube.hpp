@@ -14,13 +14,13 @@ namespace aech::graphics
 			uint32_t        width,
 			uint32_t        height
 		);
-		
-		void attach(int i, uint32_t miplevel = 0) const;
-		void bind() const;
+
+		void        attach(int i, uint32_t miplevel = 0) const;
+		void        bind() const;
 		static void unbind();
 
-		[[nodiscard]] uint32_t width() const;
-		[[nodiscard]] uint32_t height() const;
+		[[nodiscard]] uint32_t        width() const;
+		[[nodiscard]] uint32_t        height() const;
 		[[nodiscard]] texture_cube_t* texture() const;
 	private:
 		uint32_t        id{};

@@ -15,8 +15,9 @@
 #include "main.hpp"
 
 
-aech::graphics::point_light_renderer_t::point_light_renderer_t(render_cache_t* render_cache, camera_t* camera)
-	: m_render_cache{render_cache}, m_camera{camera}
+aech::graphics::point_light_renderer_t::point_light_renderer_t(render_cache_t* render_cache, camera_t* camera) :
+	m_camera{camera},
+	m_render_cache{render_cache}
 {
 }
 
@@ -29,7 +30,7 @@ void aech::graphics::point_light_renderer_t::update()
 		auto& point_light = engine.get_component<point_light_t>(light);
 
 		m_render_cache->set_shader(mesh_filter.material()->shader());
-		
+
 		//mesh_filter.material()->shader()->use();
 		mesh_filter.material()->set_uniforms();
 

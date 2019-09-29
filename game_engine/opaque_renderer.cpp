@@ -25,28 +25,29 @@ namespace aech::graphics
 	{
 		m_render_cache->set_depth_test(true);
 		m_render_cache->set_depth_func(depth_func::lequal);
-		
+
 		//glEnable(GL_DEPTH_TEST);
 		//glDepthFunc(GL_LEQUAL);
 		m_render_cache->set_shader(skybox_mf.material()->shader());
-		
+
 		//skybox_mf.material()->shader()->use();
 		skybox_mf.material()->shader()->set_uniform("view",
 		                                            math::get_view_matrix(*m_camera->transform()));
 		skybox_mf.material()->shader()->set_uniform("projection", m_camera->projection());
 		skybox_mf.material()->set_uniforms();
 		m_render_cache->set_cull(false);
-		
+
 		//glDisable(GL_CULL_FACE);
 		skybox_mf.mesh()->draw();
 		m_render_cache->set_cull(true);
-		
+
 		//glEnable(GL_CULL_FACE);
 	}
 
 
-	opaque_renderer_t::opaque_renderer_t(render_cache_t* render_cache, camera_t* camera)
-		: m_render_cache{render_cache}, m_camera{camera}
+	opaque_renderer_t::opaque_renderer_t(render_cache_t* render_cache, camera_t* camera) :
+		m_camera{camera},
+		m_render_cache{render_cache}
 	{
 	}
 
@@ -83,15 +84,16 @@ namespace aech::graphics
 
 	void opaque_renderer_t::draw_entity(entity_t entity) const
 	{
-		auto  view        = math::get_view_matrix(*m_camera->transform());
-		auto& scene_node  = engine.get_component<scene_node_t>(entity);
+		auto  view       = math::get_view_matrix(*m_camera->transform());
+		auto& scene_node = engine.get_component<scene_node_t>(entity);
 
 		auto& mesh_filter = engine.get_component<mesh_filter_t>(entity);
 		// view frustum culling
-		if (!m_camera->sees(*mesh_filter.mesh())) return;
-		auto  shader      = mesh_filter.material()->shader();
-		auto  model       = scene_node.get_transform();
-		auto projection  = m_camera->projection();
+		if (!m_camera->sees(*mesh_filter.mesh()))
+			return;
+		auto shader     = mesh_filter.material()->shader();
+		auto model      = scene_node.get_transform();
+		auto projection = m_camera->projection();
 
 		m_render_cache->set_shader(shader);
 		mesh_filter.material()->set_uniforms();

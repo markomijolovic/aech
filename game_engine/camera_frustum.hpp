@@ -14,13 +14,12 @@ namespace aech
 		[[nodiscard]] bool intersects(const graphics::bounding_box_t& aabb) const;
 		// sphere
 		[[nodiscard]] bool intersects(const math::vec3_t& centre, float radius) const;
-		void recalculate(const math::mat4_t& pv);
-		
+		void               recalculate(const math::mat4_t& pv);
+
 	private:
 		// 6 frustum planes
 		// one plane consists of coefficients a, b, c and d
 		// in the plane equation a*x + b*y + c*z + d = 0
 		std::array<math::vec4_t, 6> planes{};
-
 	};
 }

@@ -82,8 +82,8 @@ namespace aech::resource_manager
 	                                  const std::string& left,
 	                                  const std::string& right,
 	                                  const std::string& front,
-	                                  const std::string& back, 
-										bool srgb)
+	                                  const std::string& back,
+	                                  bool               srgb)
 	{
 		if (texture_cubes.find(name) != std::end(texture_cubes))
 		{
@@ -93,7 +93,7 @@ namespace aech::resource_manager
 		std::clog << "Loading cubemap texture " << name << " from " << top << ", " << bottom << ", " << left << ", " <<
 			right << ", " << front << ", " << back << std::endl;
 
-		auto &texture = texture_cubes[name];
+		auto& texture = texture_cubes[name];
 
 		stbi_set_flip_vertically_on_load(0);
 
@@ -122,11 +122,15 @@ namespace aech::resource_manager
 						format = texture_types::format::rg;
 						break;
 					case 3:
-						sized_internal_format = srgb? texture_types::sized_internal_format::srgb8 : texture_types::sized_internal_format::rgb8;
+						sized_internal_format = srgb
+							                        ? texture_types::sized_internal_format::srgb8
+							                        : texture_types::sized_internal_format::rgb8;
 						format = texture_types::format::rgb;
 						break;
 					case 4:
-						sized_internal_format = srgb? texture_types::sized_internal_format::srgb8a8: texture_types::sized_internal_format::rgba8;
+						sized_internal_format = srgb
+							                        ? texture_types::sized_internal_format::srgb8a8
+							                        : texture_types::sized_internal_format::rgba8;
 						format = texture_types::format::rgba;
 						break;
 					default:
@@ -135,7 +139,12 @@ namespace aech::resource_manager
 
 				if (i == 0)
 				{
-					texture = texture_cube_t {static_cast<uint32_t>(width), static_cast<uint32_t>(height), sized_internal_format, format};
+					texture = texture_cube_t{
+						static_cast<uint32_t>(width),
+						static_cast<uint32_t>(height),
+						sized_internal_format,
+						format
+					};
 				}
 
 				texture.generate_face(i,
@@ -155,7 +164,8 @@ namespace aech::resource_manager
 	}
 
 	texture_t* load_texture(const std::string& name,
-	                        const std::string& path, bool srgb)
+	                        const std::string& path,
+	                        bool               srgb)
 	{
 		if (textures.find(name) != std::end(textures))
 		{
@@ -187,11 +197,15 @@ namespace aech::resource_manager
 					format = texture_types::format::rg;
 					break;
 				case 3:
-					sized_internal_format = srgb? texture_types::sized_internal_format::srgb8 : texture_types::sized_internal_format::rgb8;
+					sized_internal_format = srgb
+						                        ? texture_types::sized_internal_format::srgb8
+						                        : texture_types::sized_internal_format::rgb8;
 					format = texture_types::format::rgb;
 					break;
 				case 4:
-					sized_internal_format = srgb? texture_types::sized_internal_format::srgb8a8 : texture_types::sized_internal_format::rgba8;
+					sized_internal_format = srgb
+						                        ? texture_types::sized_internal_format::srgb8a8
+						                        : texture_types::sized_internal_format::rgba8;
 					format = texture_types::format::rgba;
 					break;
 				default:
@@ -199,16 +213,16 @@ namespace aech::resource_manager
 			}
 
 			auto& texture = textures[name] = texture_t{
-				static_cast<uint32_t>(width),
-				static_cast<uint32_t>(height),
-				sized_internal_format,
-				format,
-				texture_types::type::ubyte,
-				true,
-				texture_types::filtering::linear_mipmap_linear,
-				texture_types::filtering::linear,
-				data,
-			};
+				                static_cast<uint32_t>(width),
+				                static_cast<uint32_t>(height),
+				                sized_internal_format,
+				                format,
+				                texture_types::type::ubyte,
+				                true,
+				                texture_types::filtering::linear_mipmap_linear,
+				                texture_types::filtering::linear,
+				                data,
+			                };
 		}
 		else
 		{
@@ -263,16 +277,16 @@ namespace aech::resource_manager
 			}
 
 			auto& texture = textures[name] = texture_t{
-				static_cast<uint32_t>(width),
-				static_cast<uint32_t>(height),
-				sized_internal_format,
-				format,
-				texture_types::type::floating_point,
-				true,
-				texture_types::filtering::linear_mipmap_linear,
-				texture_types::filtering::linear,
-				 data,
-			};
+				                static_cast<uint32_t>(width),
+				                static_cast<uint32_t>(height),
+				                sized_internal_format,
+				                format,
+				                texture_types::type::floating_point,
+				                true,
+				                texture_types::filtering::linear_mipmap_linear,
+				                texture_types::filtering::linear,
+				                data,
+			                };
 		}
 		else
 		{
@@ -403,8 +417,8 @@ namespace aech::resource_manager
 		std::vector<math::vec3_t> bitangents{};
 		std::vector<math::vec2_t> uvs{};
 		std::vector<uint32_t>     indices(3 * mesh->mNumFaces);
-		bounding_box_t aabb{};
-		
+		bounding_box_t            aabb{};
+
 		if (mesh->HasTextureCoords(0))
 		{
 			uvs.resize(mesh->mNumVertices);

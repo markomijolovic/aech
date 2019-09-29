@@ -9,9 +9,10 @@
 
 #include "main.hpp"
 
-aech::graphics::directional_light_renderer_t::directional_light_renderer_t(render_cache_t* render_cache,
-	directional_light_t* directional_light)
-	: m_render_cache{render_cache}, m_directional_light{directional_light}
+aech::graphics::directional_light_renderer_t::directional_light_renderer_t(render_cache_t*      render_cache,
+                                                                           directional_light_t* directional_light) :
+	m_render_cache{render_cache},
+	m_directional_light{directional_light}
 {
 }
 
@@ -26,10 +27,10 @@ void aech::graphics::directional_light_renderer_t::update() const
 	m_render_cache->set_cull(false);
 	//glDisable(GL_CULL_FACE);
 	m_render_cache->set_depth_test(false);
-	
+
 	//glDisable(GL_DEPTH_TEST);
 	m_render_cache->set_blend(true);
-	
+
 	//glEnable(GL_BLEND);
 	m_render_cache->set_blend(blend_func::one, blend_func::one);
 	//glBlendFunc(GL_ONE, GL_ONE);
@@ -57,12 +58,14 @@ void aech::graphics::directional_light_renderer_t::update() const
 
 	if (renderer.shadows())
 	{
-		m_mesh_filter.material()->shader()->set_uniform("poisson_sampling_distance_multiplier", renderer.poisson_sampling_distance());
+		m_mesh_filter.material()->shader()->set_uniform("poisson_sampling_distance_multiplier",
+		                                                renderer.poisson_sampling_distance());
 	}
 
 	auto light_view = math::get_view_matrix(*m_directional_light->transform());
 
-	m_mesh_filter.material()->shader()->set_uniform("light_dir", m_directional_light->transform()->get_forward_vector());
+	m_mesh_filter.material()->shader()->
+	              set_uniform("light_dir", m_directional_light->transform()->get_forward_vector());
 	m_mesh_filter.material()->shader()->set_uniform("light_colour", m_directional_light->colour());
 	m_mesh_filter.material()->shader()->set_uniform("light_intensity", m_directional_light->intensity());
 	m_mesh_filter.material()->shader()->set_uniform("depth_bias_vp", bias_matrix * light_projection * light_view);

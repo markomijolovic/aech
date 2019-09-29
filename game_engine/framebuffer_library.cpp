@@ -38,9 +38,9 @@ void aech::graphics::generate_default_framebuffers()
 		window_manager.height(),
 		1,
 		true,
-		texture_types::sized_internal_format::r32f ,
+		texture_types::sized_internal_format::r32f,
 		texture_types::format::r,
-		texture_types::type::floating_point 
+		texture_types::type::floating_point
 	};
 
 	framebuffers["ssao_blurred"] =
@@ -49,17 +49,17 @@ void aech::graphics::generate_default_framebuffers()
 		window_manager.height(),
 		1,
 		true,
-		texture_types::sized_internal_format::r32f ,
+		texture_types::sized_internal_format::r32f,
 		texture_types::format::r,
-		texture_types::type::floating_point 
+		texture_types::type::floating_point
 	};
 
 	auto shadow_map_texture = framebuffers["shadow_map"].depth_and_stencil();
-	
+
 	shadow_map_texture->bind();
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_REF_TO_TEXTURE);
 	shadow_map_texture->unbind();
-	
+
 	framebuffers["brdf"] = {
 		512,
 		512,
@@ -80,8 +80,14 @@ void aech::graphics::generate_default_framebuffers()
 		texture_types::type::ubyte
 	};
 
-	auto environment_texture                 = &resource_manager::texture_cubes["environment"];
-	*environment_texture = texture_cube_t{1024, 1024, texture_types::sized_internal_format::rgb32f, texture_types::format::rgb, texture_types::type::floating_point};
+	auto environment_texture = &resource_manager::texture_cubes["environment"];
+	*environment_texture     = texture_cube_t{
+		1024,
+		1024,
+		texture_types::sized_internal_format::rgb32f,
+		texture_types::format::rgb,
+		texture_types::type::floating_point
+	};
 
 	framebuffer_cubes["hdr_capture"] = {&resource_manager::texture_cubes["environment"], 1024, 1024};
 }

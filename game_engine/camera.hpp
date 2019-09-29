@@ -17,11 +17,11 @@ namespace aech
 		void                    translate(const math::vec3_t& amount);
 		// does this camera "see" this mesh?
 		bool                       sees(const graphics::mesh_t& mesh);
-		bool                       sees(const math::vec3_t&centre, float radius);
+		bool                       sees(const math::vec3_t& centre, float radius);
 		[[nodiscard]] math::mat4_t view_matrix() const;
 		[[nodiscard]] math::mat4_t projection() const;
 		[[nodiscard]] transform_t* transform() const;
-		
+
 	private:
 		math::mat4_t     m_projection{};
 		camera_frustum_t m_frustum{};

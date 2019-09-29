@@ -35,13 +35,13 @@ namespace aech::graphics
 
 		tonemap_shader = &resource_manager::shaders["tonemap"];
 
-		m_gbuffer = &framebuffers["g_buffer"];
+		m_gbuffer          = &framebuffers["g_buffer"];
 		m_ssao_blurred_fbo = &framebuffers["ssao_blurred"];
-		m_ssao_fbo = &framebuffers["ssao"];
+		m_ssao_fbo         = &framebuffers["ssao"];
 
-		m_ssao_shader = &resource_manager::shaders["ssao"];
+		m_ssao_shader      = &resource_manager::shaders["ssao"];
 		m_ssao_blur_shader = &resource_manager::shaders["ssao_blur"];
-		
+
 		ndc_cube    = mesh_library::default_meshes["cube"].get();
 		screen_quad = mesh_library::default_meshes["quad"].get();
 
@@ -57,17 +57,22 @@ namespace aech::graphics
 
 		m_camera = engine.create_entity();
 		engine.add_component(m_camera, transform_t{{0.0F, 0.0F, 0.0F}});
-		engine.add_component(m_camera,camera_t{math::perspective(90.0F, 1280.0F / 720, 0.1F, 4000.0F), &engine.get_component<transform_t>(m_camera),  {}});
+		engine.add_component(m_camera,
+		                     camera_t{
+			                     math::perspective(90.0F, 1280.0F / 720, 0.1F, 4000.0F),
+			                     &engine.get_component<transform_t>(m_camera),
+			                     {}
+		                     });
 
 		auto dirlight = engine.create_entity();
 		engine.add_component(dirlight, transform_t{{0, 1750, 0}, {-80, 10, -10}});
 		engine.add_component(dirlight, directional_light_t{{1, 1, 1}, 5, &engine.get_component<transform_t>(dirlight)});
 
 		auto camera = &engine.get_component<camera_t>(m_camera);
-		auto dir = &engine.get_component<directional_light_t>(dirlight);
+		auto dir    = &engine.get_component<directional_light_t>(dirlight);
 
 		input_manager.set_camera(camera);
-		
+
 		light_probe_renderer = engine.register_system<light_probe_renderer_t>(render_cache(), camera);
 		{
 			// for now, testing
@@ -131,43 +136,47 @@ namespace aech::graphics
 		}
 
 		m_directional_light_renderer->mesh_filter().material()->set_texture("texture_position",
-		                                                                  &opaque_renderer->
-		                                                                   render_target()->colour_attachments()[0],
-		                                                                  0);
+		                                                                    &opaque_renderer->
+		                                                                     render_target()->colour_attachments()[0],
+		                                                                    0);
 		m_directional_light_renderer->mesh_filter().material()->set_texture("texture_normal",
-		                                                                  &opaque_renderer->
-		                                                                   render_target()->colour_attachments()[1],
-		                                                                  1);
+		                                                                    &opaque_renderer->
+		                                                                     render_target()->colour_attachments()[1],
+		                                                                    1);
 		m_directional_light_renderer->mesh_filter().material()->set_texture("texture_albedo",
-		                                                                  &opaque_renderer->
-		                                                                   render_target()->colour_attachments()[2],
-		                                                                  2);
+		                                                                    &opaque_renderer->
+		                                                                     render_target()->colour_attachments()[2],
+		                                                                    2);
 		m_directional_light_renderer->mesh_filter().material()->set_texture("texture_metallic_roughness_ao",
-		                                                                  &opaque_renderer->
-		                                                                   render_target()->colour_attachments()[3],
-		                                                                  3);
+		                                                                    &opaque_renderer->
+		                                                                     render_target()->colour_attachments()[3],
+		                                                                    3);
 		m_directional_light_renderer->mesh_filter().material()->set_texture("light_shadow_map",
-		                                                                  opaque_shadow_renderer->
-		                                                                  render_target()->depth_and_stencil(),
-		                                                                  4);
+		                                                                    opaque_shadow_renderer->
+		                                                                    render_target()->depth_and_stencil(),
+		                                                                    4);
 
 		light_probe_renderer->ambient_material()->set_texture("texture_position",
-		                                                      &opaque_renderer->render_target()->colour_attachments()[0],
+		                                                      &opaque_renderer->render_target()->colour_attachments()[0
+		                                                      ],
 		                                                      0);
 		light_probe_renderer->ambient_material()->set_texture("texture_normal",
-		                                                      &opaque_renderer->render_target()->colour_attachments()[1],
+		                                                      &opaque_renderer->render_target()->colour_attachments()[1
+		                                                      ],
 		                                                      1);
 		light_probe_renderer->ambient_material()->set_texture("texture_albedo",
-		                                                      &opaque_renderer->render_target()->colour_attachments()[2],
+		                                                      &opaque_renderer->render_target()->colour_attachments()[2
+		                                                      ],
 		                                                      2);
 		light_probe_renderer->ambient_material()->set_texture("texture_metallic_roughness_ao",
-		                                                      &opaque_renderer->render_target()->colour_attachments()[3],
+		                                                      &opaque_renderer->render_target()->colour_attachments()[3
+		                                                      ],
 		                                                      3);
 
 		transparent_renderer->mesh_filter().material()->set_texture("light_shadow_map",
-		                                                          opaque_shadow_renderer->
-		                                                          render_target()->depth_and_stencil(),
-		                                                          4);
+		                                                            opaque_shadow_renderer->
+		                                                            render_target()->depth_and_stencil(),
+		                                                            4);
 
 		// bottom centre
 		light_probe_renderer->add_probe(light_probe_t{{0, 150, -50}, 400});
@@ -216,9 +225,15 @@ namespace aech::graphics
 			look_at({}, math::vec3_t{0, 0, -1}, {0, -1, 0})
 		};
 
-		auto skybox                = resource_manager::load_hdr_texture("skybox", "textures_pbr/hdr/skybox.hdr");
-		auto sky                   = &resource_manager::texture_cubes["skybox"];
-		*sky = texture_cube_t {1024, 1024, texture_types::sized_internal_format::rgba32f, texture_types::format::rgba, texture_types::type::floating_point};
+		auto skybox = resource_manager::load_hdr_texture("skybox", "textures_pbr/hdr/skybox.hdr");
+		auto sky    = &resource_manager::texture_cubes["skybox"];
+		*sky        = texture_cube_t{
+			1024,
+			1024,
+			texture_types::sized_internal_format::rgba32f,
+			texture_types::format::rgba,
+			texture_types::type::floating_point
+		};
 		framebuffer_cube_t fbo{&resource_manager::texture_cubes["skybox"], 1024, 1024};
 
 		fbo.bind();
@@ -248,15 +263,15 @@ namespace aech::graphics
 
 		// ssao
 
-		std::uniform_real_distribution<float> zero_to_one {0.0F, 1.0F};
-		std::default_random_engine rengine{};
+		std::uniform_real_distribution<float> zero_to_one{0.0F, 1.0F};
+		std::default_random_engine            rengine{};
 
-		for(uint32_t i = 0; i  <64; i++)
+		for (uint32_t i = 0; i < 64; i++)
 		{
 			math::vec3_t sample{zero_to_one(rengine) * 2 - 1, zero_to_one(rengine) * 2 - 1, zero_to_one(rengine)};
-			sample = zero_to_one(rengine) * math::normalize(sample);
-			float scale = i/64.0F;
-			scale = math::lerp(0.1F, 1.0F, scale * scale);
+			sample      = zero_to_one(rengine) * normalize(sample);
+			float scale = i / 64.0F;
+			scale       = math::lerp(0.1F, 1.0F, scale * scale);
 			ssao_kernel.push_back(scale * sample);
 		}
 
@@ -264,7 +279,15 @@ namespace aech::graphics
 		for (uint32_t i = 0; i < 16; i++)
 			ssao_noise.emplace_back(zero_to_one(rengine) * 2 - 1, zero_to_one(rengine) * 2 - 1, 0);
 
-		ssao_noise_texture = std::make_unique<texture_t>(4, 4, texture_types::sized_internal_format::rgb32f , texture_types::format::rgb  , texture_types::type::floating_point, false, texture_types::filtering::linear , texture_types::filtering::linear , ssao_noise.data());
+		ssao_noise_texture = std::make_unique<texture_t>(4,
+		                                                 4,
+		                                                 texture_types::sized_internal_format::rgb32f,
+		                                                 texture_types::format::rgb,
+		                                                 texture_types::type::floating_point,
+		                                                 false,
+		                                                 texture_types::filtering::linear,
+		                                                 texture_types::filtering::linear,
+		                                                 ssao_noise.data());
 	}
 
 
@@ -326,7 +349,7 @@ namespace aech::graphics
 		m_render_cache.set_depth_test(true);
 		//glEnable(GL_DEPTH_TEST);
 
-		
+
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		m_render_cache.clear(clear::color_and_depth_buffer_bit);
 		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -357,7 +380,7 @@ namespace aech::graphics
 		ImGui::Begin("aech");
 		// TODO: why does this give completely different results?
 		ImGui::Text("average fps: %.2f fps", ImGui::GetIO().Framerate);
-		ImGui::Text("average frametime: %.2f ms", 1000.0F/ImGui::GetIO().Framerate);
+		ImGui::Text("average frametime: %.2f ms", 1000.0F / ImGui::GetIO().Framerate);
 		ImGui::Text("press 'u' to toggle options");
 		ImGui::End();
 
@@ -397,15 +420,19 @@ namespace aech::graphics
 		m_ssao_shader->set_uniform("texture_normal", 1);
 		ssao_noise_texture->bind(2);
 		m_ssao_shader->set_uniform("texture_noise", 2);
-		auto &camera = engine.get_component<camera_t>(m_camera);
+		auto& camera = engine.get_component<camera_t>(m_camera);
 		m_ssao_shader->set_uniform("projection", camera.projection());
 		m_ssao_shader->set_uniform("view", camera.view_matrix());
-		m_ssao_shader->set_uniform("resolution", math::vec2_t{(float)window_manager.width(), (float)window_manager.height()});
+		m_ssao_shader->set_uniform("resolution",
+		                           math::vec2_t{
+			                           static_cast<float>(window_manager.width()),
+			                           static_cast<float>(window_manager.height())
+		                           });
 		m_ssao_shader->set_uniform("radius", 50.0F);
-		for(size_t i = 0; i < ssao_kernel.size(); i++)
+		for (size_t i = 0; i < ssao_kernel.size(); i++)
 			m_ssao_shader->set_uniform("samples[" + std::to_string(i) + "]", ssao_kernel[i]);
 		screen_quad->draw();
-		
+
 		m_ssao_blurred_fbo->bind();
 		m_render_cache.clear(clear::color_and_depth_buffer_bit);
 		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -420,7 +447,7 @@ namespace aech::graphics
 	{
 		// 1. render to g buffer
 		opaque_renderer->update();
-		
+
 		// 2. shadows
 		if (m_shadows)
 		{
@@ -439,7 +466,7 @@ namespace aech::graphics
 		{
 			render_ssao();
 		}
-		
+
 		// 3. render ambient lighting
 		if (environment_mapping)
 		{
@@ -449,7 +476,7 @@ namespace aech::graphics
 		{
 			light_probe_renderer->render_target()->bind();
 			m_render_cache.clear(clear::color_and_depth_buffer_bit);
-			
+
 			//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		}
 
@@ -457,7 +484,7 @@ namespace aech::graphics
 		m_directional_light_renderer->update();
 
 		m_render_cache.set_cull_face(cull_face::front);
-		
+
 		//glCullFace(GL_FRONT);
 		point_light_renderer->update();
 		m_render_cache.set_cull_face(cull_face::back);

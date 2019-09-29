@@ -44,7 +44,7 @@ namespace aech::graphics
 
 		for (size_t i = 0; i < num_colour_attachments; i++)
 		{
-			m_colour_attachments.emplace_back(width ,height, sized_internal_format, format, type, m_mipmap);
+			m_colour_attachments.emplace_back(width, height, sized_internal_format, format, type, m_mipmap);
 			glFramebufferTexture2D(GL_FRAMEBUFFER,
 			                       GL_COLOR_ATTACHMENT0 + i,
 			                       GL_TEXTURE_2D,
@@ -54,7 +54,12 @@ namespace aech::graphics
 
 		if (depth)
 		{
-			m_depth_and_stencil_texture                        = std::make_unique<texture_t>(width, height, texture_types::sized_internal_format::depth32f, texture_types::format::depth, texture_types::type::floating_point, false);
+			m_depth_and_stencil_texture = std::make_unique<texture_t>(width,
+			                                                          height,
+			                                                          texture_types::sized_internal_format::depth32f,
+			                                                          texture_types::format::depth,
+			                                                          texture_types::type::floating_point,
+			                                                          false);
 			glFramebufferTexture2D(GL_FRAMEBUFFER,
 			                       GL_DEPTH_ATTACHMENT,
 			                       GL_TEXTURE_2D,

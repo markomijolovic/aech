@@ -13,7 +13,7 @@ namespace aech
 	class engine_t
 	{
 	public:
-		void init();
+		void                   init();
 		[[nodiscard]] entity_t create_entity();
 		void                   destroy_entity(entity_t entity);
 
@@ -60,7 +60,7 @@ namespace aech
 		}
 
 		template <typename T, typename... Args>
-		std::shared_ptr<T> register_system(Args&&... args)
+		std::shared_ptr<T> register_system(Args&&...args)
 		{
 			return m_system_manager.register_system<T>(std::forward<Args>(args)...);
 		}
@@ -76,7 +76,7 @@ namespace aech
 
 	private:
 		ecs::component_manager_t m_component_manager{};
-		ecs::entity_manager_t		m_entity_manager{};
+		ecs::entity_manager_t    m_entity_manager{};
 		ecs::system_manager_t    m_system_manager{};
 		events::event_manager_t  m_event_manager{};
 	};

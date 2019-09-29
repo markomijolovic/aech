@@ -14,8 +14,9 @@
 
 namespace aech::graphics
 {
-	opaque_shadow_renderer_t::opaque_shadow_renderer_t(render_cache_t* render_cache, directional_light_t* dirlight)
-		: m_render_cache{render_cache}, m_dirlight{dirlight}
+	opaque_shadow_renderer_t::opaque_shadow_renderer_t(render_cache_t* render_cache, directional_light_t* dirlight) :
+		m_dirlight{dirlight},
+		m_render_cache{render_cache}
 	{
 	}
 
@@ -32,16 +33,16 @@ namespace aech::graphics
 		m_render_cache->clear(clear::color_and_depth_buffer_bit);
 		m_render_cache->set_cull(true);
 		m_render_cache->set_cull_face(cull_face::back);
-		
+
 		//glViewport(0, 0, shadow_map->width(), shadow_map->height());
 		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		//glEnable(GL_CULL_FACE);
 		//glCullFace(GL_BACK);
-		
-		auto  light_projection = math::orthographic(-2250, 2250, -2250, 2000, 0, 2250);
+
+		auto light_projection = math::orthographic(-2250, 2250, -2250, 2000, 0, 2250);
 
 		m_render_cache->set_shader(material->shader());
-		
+
 		//material->shader()->use();
 		material->set_uniforms();
 		for (auto entity : entities)

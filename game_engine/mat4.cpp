@@ -42,7 +42,7 @@ namespace aech::math
 
 	mat4_t mat4_t::operator*(float rhs) const
 	{
-		mat4_t result{ *this };
+		mat4_t result{*this};
 		for (auto row = 0; row < 4; row++)
 		{
 			for (auto col = 0; col < 4; col++)
@@ -64,7 +64,7 @@ namespace aech::math
 		assert(list.size() == 16);
 
 		size_t i{}, j{};
-		for (auto el: list)
+		for (auto el : list)
 		{
 			data[i][j] = el;
 			if (j++ == 3)
@@ -81,7 +81,7 @@ namespace aech::math
 		assert(list.size() == 4);
 
 		size_t i{};
-		for (const auto &vec4: list)
+		for (const auto& vec4 : list)
 		{
 			data[i][0] = vec4.x;
 			data[i][1] = vec4.y;

@@ -1,8 +1,10 @@
 #include "directional_light.hpp"
 #include "transform.hpp"
 
-aech::graphics::directional_light_t::directional_light_t(math::vec3_t colour, float intensity, transform_t* transform)
-	: m_transform{transform}, m_colour{colour}, m_intensity{intensity}
+aech::graphics::directional_light_t::directional_light_t(math::vec3_t colour, float intensity, transform_t* transform) :
+	m_colour{colour},
+	m_intensity{intensity},
+	m_transform{transform}
 {
 }
 

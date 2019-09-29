@@ -21,10 +21,10 @@ namespace aech
 	private:
 		inline static float movement_speed{2000.0f};
 		inline static float mouse_sens{0.1f};
-		bool holding_u {};
+		bool                holding_u{};
 
-		camera_t* m_camera{};
-		std::bitset<32> m_buttons{};
+		camera_t*               m_camera{};
+		std::bitset<32>         m_buttons{};
 		std::pair<float, float> offset{};
 	};
 }

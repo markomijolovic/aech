@@ -41,7 +41,7 @@ void aech::graphics::window_manager_t::begin_frame()
 
 void aech::graphics::window_manager_t::end_frame()
 {
-	glfwSwapBuffers(window); 
+	glfwSwapBuffers(window);
 }
 
 aech::graphics::window_manager_t::window_manager_t()
@@ -50,7 +50,7 @@ aech::graphics::window_manager_t::window_manager_t()
 	{
 		throw std::exception{};
 	}
-	
+
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -61,11 +61,11 @@ aech::graphics::window_manager_t::window_manager_t()
 	{
 		throw std::exception{};
 	}
-	
+
 	glfwMakeContextCurrent(window);
 	// disable vsync
 	glfwSwapInterval(0);
-	
+
 	if (!gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress)))
 	{
 		throw std::exception{};
@@ -83,7 +83,7 @@ aech::graphics::window_manager_t::window_manager_t()
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGui::StyleColorsLight();
-	auto &io = ImGui::GetIO();
+	auto& io = ImGui::GetIO();
 
 	ImGui_ImplGlfw_InitForOpenGL(window, true);
 	ImGui_ImplOpenGL3_Init("#version 450");
@@ -107,7 +107,7 @@ static void key_callback(GLFWwindow* window, int key, int scan_code, int action,
 		switch (key)
 		{
 			case GLFW_KEY_W:
-			
+
 				window_manager.set_button(input_buttons::w);
 				button_pressed = true;
 				break;
@@ -221,7 +221,7 @@ static void mouse_callback(GLFWwindow* window, double x_pos, double y_pos)
 	window_manager.set_y(y_pos);
 
 	std::pair<float, float> param = {x_offset, y_offset};
-	events::event_t   event{events::window::mouse};
+	events::event_t         event{events::window::mouse};
 	event.set_param(events::window::params::mouse, param);
 	engine.send_event(event);
 }

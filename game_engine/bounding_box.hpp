@@ -22,5 +22,5 @@ namespace aech::graphics
 			-std::numeric_limits<float>::max(),
 			1.0F
 		};
-	};	
+	};
 }

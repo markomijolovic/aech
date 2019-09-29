@@ -17,8 +17,8 @@ void aech::graphics::material_library::generate_default_materials()
 	default_materials["directional"] = {directional};
 
 	auto point = &resource_manager::load_shader("point",
-	                                                            "shaders/point_vertex.glsl",
-	                                                            "shaders/point_fragment.glsl");
+	                                            "shaders/point_vertex.glsl",
+	                                            "shaders/point_fragment.glsl");
 	default_materials["point"] = {point};
 
 	auto opaque_shadow_shader = &resource_manager::load_shader("opaque_shadow",
@@ -89,15 +89,20 @@ void aech::graphics::material_library::generate_default_materials()
 	                                                    "shaders/skybox_fragment.glsl");
 	default_materials["skybox"] = {skybox_shader};
 
-	auto post_processing_shader = &resource_manager::load_shader("post_process", "shaders/pbr/screen_quad_vertex.glsl", "shaders/post_processing_fragment.glsl");
+	auto post_processing_shader = &resource_manager::load_shader("post_process",
+	                                                             "shaders/pbr/screen_quad_vertex.glsl",
+	                                                             "shaders/post_processing_fragment.glsl");
 	default_materials["post_process"] = {post_processing_shader};
 
-	auto tonemap_shader = &resource_manager::load_shader("tonemap", "shaders/pbr/screen_quad_vertex.glsl", "shaders/tonemap_fragment.glsl");
+	auto tonemap_shader = &resource_manager::load_shader("tonemap",
+	                                                     "shaders/pbr/screen_quad_vertex.glsl",
+	                                                     "shaders/tonemap_fragment.glsl");
 	default_materials["tonemap"] = {tonemap_shader};
 
 	resource_manager::load_shader("ssao", "shaders/pbr/screen_quad_vertex.glsl", "shaders/ssao_fragment.glsl");
-	resource_manager::load_shader("ssao_blur", "shaders/pbr/screen_quad_vertex.glsl", "shaders/ssao_blur_fragment.glsl");
-
+	resource_manager::load_shader("ssao_blur",
+	                              "shaders/pbr/screen_quad_vertex.glsl",
+	                              "shaders/ssao_blur_fragment.glsl");
 }
 
 aech::graphics::material_t aech::graphics::material_library::create_material(const std::string& from)

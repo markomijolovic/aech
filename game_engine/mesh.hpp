@@ -24,11 +24,11 @@ namespace aech::graphics
 		mesh_t(
 			std::vector<math::vec3_t> positions,
 			std::vector<math::vec3_t> normals,
-			bounding_box_t aabb,
-			std::vector<math::vec2_t> uvs = {},
-			topology top = topology::triangles,
-			std::vector<uint32_t> indices = {},
-			std::vector<math::vec3_t> tangents = {},
+			bounding_box_t            aabb,
+			std::vector<math::vec2_t> uvs        = {},
+			topology                  top        = topology::triangles,
+			std::vector<uint32_t>     indices    = {},
+			std::vector<math::vec3_t> tangents   = {},
 			std::vector<math::vec3_t> bitangents = {}
 		);
 		void draw() const;
@@ -44,7 +44,7 @@ namespace aech::graphics
 		std::vector<math::vec3_t> m_normals{};
 		std::vector<math::vec3_t> m_tangents{};
 		std::vector<math::vec3_t> m_bitangents{};
-		bounding_box_t m_aabb{};
+		bounding_box_t            m_aabb{};
 		uint32_t                  m_vao{};
 		uint32_t                  m_vbo{};
 		uint32_t                  m_ebo{};

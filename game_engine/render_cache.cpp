@@ -11,7 +11,7 @@ aech::graphics::render_cache_t::render_cache_t()
 	glCullFace(GL_BACK);
 }
 
-void ::aech::graphics::render_cache_t::set_depth_test(bool enable)
+void aech::graphics::render_cache_t::set_depth_test(bool enable)
 {
 	if (m_depth_test != enable)
 	{
@@ -22,7 +22,7 @@ void ::aech::graphics::render_cache_t::set_depth_test(bool enable)
 	}
 }
 
-void ::aech::graphics::render_cache_t::set_depth_func(depth_func func)
+void aech::graphics::render_cache_t::set_depth_func(depth_func func)
 {
 	if (m_depth_func != func)
 	{
@@ -31,7 +31,7 @@ void ::aech::graphics::render_cache_t::set_depth_func(depth_func func)
 	}
 }
 
-void ::aech::graphics::render_cache_t::set_blend(bool enable)
+void aech::graphics::render_cache_t::set_blend(bool enable)
 {
 	if (m_blend != enable)
 	{
@@ -47,12 +47,12 @@ void aech::graphics::render_cache_t::set_blend(blend_func source, blend_func des
 	if (m_blend_source != source || m_blend_dest != dest)
 	{
 		m_blend_source = source;
-		m_blend_dest = dest;
+		m_blend_dest   = dest;
 		glBlendFunc(static_cast<GLenum>(source), static_cast<GLenum>(dest));
 	}
 }
 
-void ::aech::graphics::render_cache_t::set_cull(bool enable)
+void aech::graphics::render_cache_t::set_cull(bool enable)
 {
 	if (m_cull != enable)
 	{
@@ -63,7 +63,7 @@ void ::aech::graphics::render_cache_t::set_cull(bool enable)
 	}
 }
 
-void ::aech::graphics::render_cache_t::set_cull_face(cull_face face)
+void aech::graphics::render_cache_t::set_cull_face(cull_face face)
 {
 	if (m_cull_face != face)
 	{
@@ -72,7 +72,7 @@ void ::aech::graphics::render_cache_t::set_cull_face(cull_face face)
 	}
 }
 
-void ::aech::graphics::render_cache_t::set_shader(shader_t* shader)
+void aech::graphics::render_cache_t::set_shader(shader_t* shader)
 {
 	if (!m_shader || *m_shader != *shader)
 	{

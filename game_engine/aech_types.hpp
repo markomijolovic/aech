@@ -52,7 +52,7 @@ namespace aech
 	namespace events::window
 	{
 		constexpr event_id_t keyboard = "Events::Window::KEYBOARD"_hash;
-		constexpr event_id_t mouse = "Events::Window::MOUSE"_hash;
+		constexpr event_id_t mouse    = "Events::Window::MOUSE"_hash;
 	} // namespace events::window
 
 	namespace events::window::params

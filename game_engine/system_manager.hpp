@@ -14,7 +14,7 @@ namespace aech::ecs
 	{
 	public:
 		template <typename T, typename... Args>
-		std::shared_ptr<T> register_system(Args&&... args)
+		std::shared_ptr<T> register_system(Args&&...args)
 		{
 			auto type_name = typeid(T).name();
 

@@ -44,11 +44,13 @@ void aech::camera_frustum_t::recalculate(const math::mat4_t& pv)
 
 bool aech::camera_frustum_t::intersects(const math::vec3_t& centre, float radius) const
 {
-	for (auto &plane :planes)
+	for (auto& plane : planes)
 	{
 		int32_t count{};
-		if (math::dot(math::vec4_t{centre, 1.0F}, plane) >= -radius) count++;
-		if (!count) return false;
+		if (dot(math::vec4_t{centre, 1.0F}, plane) >= -radius)
+			count++;
+		if (!count)
+			return false;
 	}
 
 	return true;
@@ -70,14 +72,16 @@ bool aech::camera_frustum_t::intersects(const graphics::bounding_box_t& aabb) co
 	};
 
 	// test all vertices against all planes
-	for (auto &plane: planes)
+	for (auto& plane : planes)
 	{
 		int32_t count{};
-		for (auto &vertex: vertices)
+		for (auto& vertex : vertices)
 		{
-			if (dot(vertex, plane) > 0) count++;
+			if (dot(vertex, plane) > 0)
+				count++;
 		}
-		if (!count) return false;
+		if (!count)
+			return false;
 	}
 
 	return true;

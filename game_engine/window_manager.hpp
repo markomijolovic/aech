@@ -16,10 +16,10 @@ namespace aech::graphics
 		void end_frame();
 
 		std::bitset<32> buttons();
-		bool first_mouse();
-		float x();
-		float y();
-		
+		bool            first_mouse();
+		float           x();
+		float           y();
+
 		void set_button(input_buttons button);
 		void reset_button(input_buttons button);
 		void set_first_mouse(bool f);
@@ -28,14 +28,14 @@ namespace aech::graphics
 
 		uint32_t width();
 		uint32_t height();
-		
+
 	private:
-		bool m_first_mouse {true};
-		float last_x {};
-		float last_y {};
-		uint32_t screen_width = 1920;
-		uint32_t screen_height = 1080;
+		bool            m_first_mouse{true};
+		float           last_x{};
+		float           last_y{};
+		uint32_t        screen_width  = 1920;
+		uint32_t        screen_height = 1080;
 		std::bitset<32> m_buttons{};
-		GLFWwindow *window{};
+		GLFWwindow*     window{};
 	};
 }

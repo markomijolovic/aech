@@ -20,13 +20,13 @@ namespace aech::graphics
 		void bake_probes();
 		void update();
 
-		[[nodiscard]] render_cache_t* render_cache();
-		[[nodiscard]] bool ssao() const;
+		[[nodiscard]] render_cache_t*  render_cache();
+		[[nodiscard]] bool             ssao() const;
 		[[nodiscard]] const texture_t* ssao_texture() const;
-		[[nodiscard]] bool  shadows() const;
-		[[nodiscard]] bool  options() const;
-		[[nodiscard]] float poisson_sampling_distance() const;
-		void                set_options(bool gui);
+		[[nodiscard]] bool             shadows() const;
+		[[nodiscard]] bool             options() const;
+		[[nodiscard]] float            poisson_sampling_distance() const;
+		void                           set_options(bool gui);
 
 		inline static auto light_projection{math::orthographic(-2250, 2250, -2250, 2000, 0, 2250)};
 
@@ -40,7 +40,7 @@ namespace aech::graphics
 		std::shared_ptr<opaque_renderer_t>             opaque_renderer{};
 		std::unique_ptr<directional_light_renderer_t>  m_directional_light_renderer{};
 		std::vector<light_probe_t>                     probes{};
-		render_cache_t									m_render_cache{};
+		render_cache_t                                 m_render_cache{};
 		mesh_t*                                        ndc_cube{};
 		mesh_t*                                        screen_quad{};
 		framebuffer_cube_t*                            hdr_capture_fbo{};
@@ -59,12 +59,12 @@ namespace aech::graphics
 		shader_t* m_ssao_blur_shader{};
 
 		std::unique_ptr<texture_t> ssao_noise_texture{};
-		std::vector<math::vec3_t> ssao_kernel{};
+		std::vector<math::vec3_t>  ssao_kernel{};
 
 		bool  m_shadows{true};
 		bool  environment_mapping{false};
 		bool  fxaa{true};
-		bool m_ssao{true};
+		bool  m_ssao{true};
 		bool  m_options{};
 		float m_poisson_sampling_distance{1.337F};
 

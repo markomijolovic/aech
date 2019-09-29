@@ -31,10 +31,10 @@ namespace aech::math
 
 	vec4_t& vec4_t::operator*(float f)
 	{
-		x*=f;
-		y*=f;
-		z*=f;
-		w*=f;
+		x *= f;
+		y *= f;
+		z *= f;
+		w *= f;
 		return *this;
 	}
 

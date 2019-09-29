@@ -6,13 +6,12 @@
 
 namespace aech
 {
-	inline engine_t             engine{};
+	inline engine_t        engine{};
 	inline input_manager_t input_manager{};
-	
+
 	namespace graphics
 	{
-		inline 	 window_manager_t window_manager{};
-		inline	 renderer_t renderer{};
+		inline window_manager_t window_manager{};
+		inline renderer_t       renderer{};
 	}
-
 }

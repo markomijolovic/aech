@@ -41,24 +41,24 @@ int main(int /*argc*/, char* /*argv*/[])
 	renderer.init();
 
 	resource_manager::load_mesh("textures_pbr/sponza.obj");
-		
+
 	auto delta_time = 1 / 60.0F;
 	renderer.bake_probes();
-	
+
 	while (!window_manager.should_close())
 	{
 		window_manager.begin_frame();
-		
+
 		auto start_time = std::chrono::high_resolution_clock::now();
 
-		
+
 		input_manager.update(delta_time);
 		renderer.update();
 
 		//renderer.bake_probes();
 		auto stop_time = std::chrono::high_resolution_clock::now();
 		delta_time     = std::chrono::duration<float>(stop_time - start_time).count();
-		
+
 		window_manager.end_frame();
 	}
 }

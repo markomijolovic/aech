@@ -4,7 +4,6 @@
 #include "framebuffer_library.hpp"
 
 
-
 #include "mat4.hpp"
 
 #include "mesh_filter.hpp"
@@ -18,8 +17,9 @@
 #include "main.hpp"
 
 
-aech::graphics::light_probe_renderer_t::light_probe_renderer_t(render_cache_t* render_cache, camera_t* camera)
-	: m_render_cache{render_cache}, m_camera{camera}
+aech::graphics::light_probe_renderer_t::light_probe_renderer_t(render_cache_t* render_cache, camera_t* camera) :
+	m_camera{camera},
+	m_render_cache{render_cache}
 {
 }
 
@@ -29,12 +29,12 @@ aech::graphics::material_t* aech::graphics::light_probe_renderer_t::ambient_mate
 }
 
 
-::aech::graphics::framebuffer_t* ::aech::graphics::light_probe_renderer_t::render_target() const
+aech::graphics::framebuffer_t* aech::graphics::light_probe_renderer_t::render_target() const
 {
 	return m_render_target;
 }
 
-void ::aech::graphics::light_probe_renderer_t::add_probe(light_probe_t&& probe)
+void aech::graphics::light_probe_renderer_t::add_probe(light_probe_t&& probe)
 {
 	m_light_probes.push_back(probe);
 }
@@ -42,7 +42,7 @@ void ::aech::graphics::light_probe_renderer_t::add_probe(light_probe_t&& probe)
 
 void aech::graphics::light_probe_renderer_t::add_probe(const light_probe_t& probe)
 {
-		m_light_probes.push_back(probe);
+	m_light_probes.push_back(probe);
 }
 
 void aech::graphics::light_probe_renderer_t::bake_probes()
@@ -53,27 +53,28 @@ void aech::graphics::light_probe_renderer_t::bake_probes()
 	m_render_cache->set_viewport(0, 0, brdf_fbo.width(), brdf_fbo.height());
 	//glViewport(0, 0, brdf_fbo.width(), brdf_fbo.height());
 	m_render_cache->set_shader(brdf_material->shader());
-	
+
 	m_render_cache->set_depth_test(false);
 	m_render_cache->set_blend(false);
-	
+
 	//brdf_material->shader()->use();
 	m_render_cache->clear(clear::color_and_depth_buffer_bit);
-	
+
 	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	ndc_quad->draw();
 	brdf_fbo.unbind();
-	
+
 	std::clog << "Baking light probes" << std::endl;
 	for (size_t i{}; i < m_light_probes.size(); i++)
 	{
-		std::clog << std::setw(6) << std::fixed << std::setprecision(2) << static_cast<float>(i) / m_light_probes.size() *
+		std::clog << std::setw(6) << std::fixed << std::setprecision(2) << static_cast<float>(i) / m_light_probes.size()
+			*
 			100 << "%" << std::endl;
 		create_radiance_cubemap(i);
 		process_radiance_map(i);
 	}
-	
-	
+
+
 	std::clog << "100.00%" << std::endl;
 }
 
@@ -81,10 +82,10 @@ void aech::graphics::light_probe_renderer_t::create_radiance_cubemap(size_t prob
 {
 	const static auto capture_projection = math::perspective(90, 1, 0.1f, 4000.0f);
 	m_render_cache->set_depth_test(true);
-	
+
 	//glEnable(GL_DEPTH_TEST);
 	m_render_cache->set_depth_func(depth_func::lequal);
-	
+
 	//glDepthFunc(GL_LEQUAL);
 	auto& probe = m_light_probes[probe_index];
 
@@ -99,23 +100,29 @@ void aech::graphics::light_probe_renderer_t::create_radiance_cubemap(size_t prob
 		look_at(probe.position(), probe.position() + math::vec3_t{0, 0, -1}, {0, -1, 0})
 	};
 
-	auto tex                   = &resource_manager::texture_cubes["radiance" + std::to_string(probe_index)];
-	*tex = texture_cube_t{1024, 1024, texture_types::sized_internal_format::rgb32f, texture_types::format::rgb, texture_types::type::floating_point};
-	
+	auto tex = &resource_manager::texture_cubes["radiance" + std::to_string(probe_index)];
+	*tex     = texture_cube_t{
+		1024,
+		1024,
+		texture_types::sized_internal_format::rgb32f,
+		texture_types::format::rgb,
+		texture_types::type::floating_point
+	};
+
 	framebuffer_cube_t fbo{tex, 1024, 1024};
 	fbo.bind();
 	m_render_cache->set_viewport(0, 0, fbo.width(), fbo.height());
-	
+
 	//glViewport(0, 0, fbo.width(), fbo.height());
 	for (uint32_t i = 0; i < 6; i++)
 	{
 		fbo.attach(i);
 		m_render_cache->clear(clear::color_and_depth_buffer_bit);
-		
+
 		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		auto& view = capture_views[i];
 		m_render_cache->set_shader(cubemap_capture_material->shader());
-		
+
 		//cubemap_capture_material->shader()->use();
 		cubemap_capture_material->set_uniform("view", view);
 		cubemap_capture_material->set_uniform("projection", capture_projection);
@@ -123,7 +130,7 @@ void aech::graphics::light_probe_renderer_t::create_radiance_cubemap(size_t prob
 		{
 			auto& transf      = engine.get_component<transform_t>(entity);
 			auto& mesh_filter = engine.get_component<mesh_filter_t>(entity);
-			for (const auto &texture : mesh_filter.material()->get_textures())
+			for (const auto& texture : mesh_filter.material()->get_textures())
 			{
 				cubemap_capture_material->set_texture(texture.first, texture.second.first, texture.second.second);
 			}
@@ -137,10 +144,10 @@ void aech::graphics::light_probe_renderer_t::create_radiance_cubemap(size_t prob
 
 		// render skybox
 		m_render_cache->set_cull(false);
-		
+
 		//glDisable(GL_CULL_FACE);
 		m_render_cache->set_shader(cubemap_capture_skybox_material->shader());
-		
+
 		//cubemap_capture_skybox_material->shader()->use();
 		cubemap_capture_skybox_material->set_uniform("view", view);
 		cubemap_capture_skybox_material->set_uniform("projection", capture_projection);
@@ -149,23 +156,23 @@ void aech::graphics::light_probe_renderer_t::create_radiance_cubemap(size_t prob
 		cubemap_capture_skybox_material->set_uniforms();
 		skybox_mf.mesh()->draw();
 		m_render_cache->set_cull(true);
-		
+
 		//glEnable(GL_CULL_FACE);
 	}
 	fbo.texture()->generate_mips();
-			
+
 	fbo.unbind();
 }
 
 void aech::graphics::light_probe_renderer_t::process_radiance_map(size_t probe_index)
 {
 	m_render_cache->set_cull(false);
-	
+
 	//glDisable(GL_CULL_FACE);
 	const static auto capture_projection = math::perspective(90, 1, 0.1F, 10.0F);
 
-	auto& probe = m_light_probes[probe_index];
-	const std::array                       capture_views
+	auto&            probe = m_light_probes[probe_index];
+	const std::array capture_views
 	{
 		look_at({}, math::vec3_t{1, 0, 0}, {0, -1, 0}),
 		look_at({}, math::vec3_t{-1, 0, 0}, {0, -1, 0}),
@@ -175,16 +182,22 @@ void aech::graphics::light_probe_renderer_t::process_radiance_map(size_t probe_i
 		look_at({}, math::vec3_t{0, 0, 1}, {0, -1, 0}),
 		look_at({}, math::vec3_t{0, 0, -1}, {0, -1, 0})
 	};
-	
+
 	// diffuse precomputation
 
-	auto irradiance                   = &resource_manager::texture_cubes["irradiance" + std::to_string(probe_index)];
-	*irradiance = texture_cube_t {32, 32, texture_types::sized_internal_format::rgb32f, texture_types::format::rgb, texture_types::type::floating_point};
+	auto irradiance = &resource_manager::texture_cubes["irradiance" + std::to_string(probe_index)];
+	*irradiance     = texture_cube_t{
+		32,
+		32,
+		texture_types::sized_internal_format::rgb32f,
+		texture_types::format::rgb,
+		texture_types::type::floating_point
+	};
 
 	probe.set_irradiance(irradiance);
 
 	m_render_cache->set_shader(irradiance_capture_material->shader());
-	
+
 	//irradiance_capture_material->shader()->use();
 	irradiance_capture_material->set_texture_cube("environment",
 	                                              &resource_manager::texture_cubes[
@@ -195,14 +208,14 @@ void aech::graphics::light_probe_renderer_t::process_radiance_map(size_t probe_i
 
 	fbo.bind();
 	m_render_cache->set_viewport(0, 0, fbo.width(), fbo.height());
-	
+
 	//glViewport(0, 0, fbo.width(), fbo.height());
 
 	for (size_t i = 0; i < 6; i++)
 	{
 		fbo.attach(i);
 		m_render_cache->clear(clear::color_and_depth_buffer_bit);
-		
+
 		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		irradiance_capture_material->shader()->set_uniform("projection", capture_projection);
 		irradiance_capture_material->shader()->set_uniform("view", capture_views[i]);
@@ -216,14 +229,20 @@ void aech::graphics::light_probe_renderer_t::process_radiance_map(size_t probe_i
 
 	// precompute prefiltered env map
 	auto prefiltered = &resource_manager::texture_cubes["prefiltered" + std::to_string(probe_index)];
-	*prefiltered = texture_cube_t {128, 128, texture_types::sized_internal_format::rgb32f, texture_types::format::rgb, texture_types::type::floating_point};
+	*prefiltered     = texture_cube_t{
+		128,
+		128,
+		texture_types::sized_internal_format::rgb32f,
+		texture_types::format::rgb,
+		texture_types::type::floating_point
+	};
 
 	probe.set_prefiltered(prefiltered);
 
 	framebuffer_cube_t prefilter_fbo{probe.prefiltered(), 128, 128};
 	prefilter_fbo.bind();
 	m_render_cache->set_shader(prefilter_material->shader());
-	
+
 	//prefilter_material->shader()->use();
 	prefilter_material->set_texture_cube("environment_map",
 	                                     &resource_manager::texture_cubes["radiance" + std::to_string(probe_index)],
@@ -236,7 +255,7 @@ void aech::graphics::light_probe_renderer_t::process_radiance_map(size_t probe_i
 		uint32_t width  = 128 * std::pow(0.5, mip);
 		auto     height = width;
 		m_render_cache->set_viewport(0, 0, width, height);
-		
+
 		//glViewport(0, 0, width, height);
 		auto roughness = static_cast<float>(mip) / (levels - 1);
 		prefilter_material->set_uniform("roughness", roughness);
@@ -246,7 +265,7 @@ void aech::graphics::light_probe_renderer_t::process_radiance_map(size_t probe_i
 			prefilter_material->set_uniforms();
 			prefilter_fbo.attach(i, mip);
 			m_render_cache->clear(clear::color_and_depth_buffer_bit);
-			
+
 			//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			ndc_cube->draw();
 		}
@@ -259,7 +278,7 @@ void aech::graphics::light_probe_renderer_t::render_ambient_pass()
 {
 	m_render_target->bind();
 	m_render_cache->set_viewport(0, 0, m_render_target->width(), m_render_target->height());
-	
+
 	//glViewport(0, 0, m_render_target->width(), m_render_target->height());
 	m_render_cache->set_cull(true);
 	m_render_cache->set_cull_face(cull_face::front);
@@ -274,7 +293,7 @@ void aech::graphics::light_probe_renderer_t::render_ambient_pass()
 	//glEnable(GL_BLEND);
 	//glBlendFunc(GL_ONE, GL_ONE);
 	m_render_cache->set_shader(m_ambient_material->shader());
-	
+
 	//m_ambient_material->shader()->use();
 	m_ambient_material->shader()->set_uniform("ssao", renderer.ssao());
 	if (renderer.ssao())
@@ -290,7 +309,8 @@ void aech::graphics::light_probe_renderer_t::render_ambient_pass()
 	for (auto& probe : m_light_probes)
 	{
 		// view frustum culling of probes
-		if (!m_camera->sees(probe.position(), probe.radius())) continue;
+		if (!m_camera->sees(probe.position(), probe.radius()))
+			continue;
 		m_ambient_material->set_uniform("probe_position", probe.position());
 		m_ambient_material->set_texture_cube("environment_irradiance", probe.irradiance(), 7);
 		m_ambient_material->set_texture_cube("environment_prefiltered", probe.prefiltered(), 8);

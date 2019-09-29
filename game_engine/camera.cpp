@@ -6,7 +6,7 @@ void aech::camera_t::rotate_x(float amount)
 {
 	m_transform->rotation.x += amount;
 	m_transform->rotation.x = std::clamp(m_transform->rotation.x, -89.0F, 89.0F);
-	m_dirty = true;
+	m_dirty                 = true;
 }
 
 const aech::camera_frustum_t& aech::camera_t::frustum()
@@ -19,9 +19,10 @@ const aech::camera_frustum_t& aech::camera_t::frustum()
 	return m_frustum;
 }
 
-
-aech::camera_t::camera_t(const math::mat4_t& projection, transform_t* transform, camera_frustum_t frustum)
-	: m_projection{projection}, m_transform{transform}, m_frustum{frustum}
+aech::camera_t::camera_t(const math::mat4_t& projection, transform_t* transform, camera_frustum_t frustum) :
+	m_projection{projection},
+	m_frustum{frustum},
+	m_transform{transform}
 {
 }
 

@@ -29,11 +29,11 @@ namespace aech::graphics
 	{
 	public:
 		light_probe_renderer_t(render_cache_t* render_cache, camera_t* camera);
-		
+
 		void bake_probes();
 		void render_ambient_pass();
-		
-		[[nodiscard]] material_t* ambient_material() const;
+
+		[[nodiscard]] material_t*    ambient_material() const;
 		[[nodiscard]] framebuffer_t* render_target() const;
 
 		void add_probe(light_probe_t&& probe);
@@ -42,11 +42,13 @@ namespace aech::graphics
 	private:
 		std::vector<light_probe_t> m_light_probes{};
 		camera_t*                  m_camera{};
-		render_cache_t* m_render_cache{};
+		render_cache_t*            m_render_cache{};
 		framebuffer_t*             m_render_target = &framebuffers["default"];
-		material_t* prefilter_material{&material_library::default_materials["prefilter"]};
-		material_t* cubemap_capture_material{&material_library::default_materials["capture"]};
-		material_t* cubemap_capture_skybox_material{&material_library::default_materials["capture_skybox"]};
+		material_t*                prefilter_material{&material_library::default_materials["prefilter"]};
+		material_t*                cubemap_capture_material{&material_library::default_materials["capture"]};
+		material_t*                cubemap_capture_skybox_material{
+			&material_library::default_materials["capture_skybox"]
+		};
 		material_t* irradiance_capture_material{&material_library::default_materials["irradiance"]};
 		material_t* brdf_material{&material_library::default_materials["brdf"]};
 		material_t* m_ambient_material{&material_library::default_materials["ambient"]};

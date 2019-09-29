@@ -5,21 +5,31 @@
 
 namespace aech::graphics
 {
-	texture_cube_t::texture_cube_t(uint32_t width,
-		uint32_t height,
-		texture_types::sized_internal_format sif,
-		texture_types::format f,
-		texture_types::type t,
-		bool mipmap,
-		texture_types::filtering min,
-		texture_types::filtering mag)
-		: m_width{width}, m_height{height}, m_sized_internal_format{sif}, m_format{f}, m_type{t}, m_filtering_mag{mag}, m_filtering_min{min}
+	texture_cube_t::texture_cube_t(uint32_t                             width,
+	                               uint32_t                             height,
+	                               texture_types::sized_internal_format sif,
+	                               texture_types::format                f,
+	                               texture_types::type                  t,
+	                               bool                                 mipmap,
+	                               texture_types::filtering             min,
+	                               texture_types::filtering             mag) :
+		m_width{width},
+		m_height{height},
+		m_sized_internal_format{sif},
+		m_format{f},
+		m_type{t},
+		m_filtering_min{min},
+		m_filtering_mag{mag}
 	{
 		glGenTextures(1, &m_id);
-		
+
 		bind();
-		glTexParameteri(static_cast<GLenum>(texture_types::target::cube_map), GL_TEXTURE_MIN_FILTER, static_cast<GLenum>(m_filtering_min));
-		glTexParameteri(static_cast<GLenum>(texture_types::target::cube_map), GL_TEXTURE_MAG_FILTER, static_cast<GLenum>(m_filtering_mag));
+		glTexParameteri(static_cast<GLenum>(texture_types::target::cube_map),
+		                GL_TEXTURE_MIN_FILTER,
+		                static_cast<GLenum>(m_filtering_min));
+		glTexParameteri(static_cast<GLenum>(texture_types::target::cube_map),
+		                GL_TEXTURE_MAG_FILTER,
+		                static_cast<GLenum>(m_filtering_mag));
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, static_cast<GLenum>(m_wrap_s));
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, static_cast<GLenum>(m_wrap_t));
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, static_cast<GLenum>(m_wrap_r));
