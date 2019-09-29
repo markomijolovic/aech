@@ -23,7 +23,7 @@ namespace aech
 	inline constexpr component_type_t max_components = 32;
 	using signature_t = std::bitset<max_components>;
 
-	inline constexpr float pi = 3.1415926535897932384626433832795029;
+	inline constexpr float pi = 3.1415926535897932384626433832795029F;
 
 	using event_id_t = std::uint32_t;
 	using param_id_t = std::uint32_t;
@@ -39,9 +39,9 @@ namespace aech
 		u
 	};
 
-	constexpr std::uint32_t fnv1a_32(char const* s, std::size_t count)
+	constexpr uint32_t fnv1a_32(char const* s, std::size_t count)
 	{
-		return ((count != 0u ? fnv1a_32(s, count - 1) : 2166136261U) ^ s[count]) * 16777619U;
+		return static_cast<uint32_t>(((count != 0u ? fnv1a_32(s, count - 1) : 2166136261U) ^ s[count]) * 16777619ULL);
 	}
 
 	constexpr uint32_t operator""_hash(const char* s, std::size_t count)
