@@ -240,6 +240,7 @@ namespace aech::graphics
 		m_render_cache.set_viewport(0, 0, fbo.width(), fbo.height());
 		//glViewport(0, 0, fbo.width(), fbo.height());
 
+		m_render_cache.set_cull(false);
 		m_render_cache.set_shader(hdr_to_cubemap_shader);
 		//hdr_to_cubemap_shader->use();
 		hdr_to_cubemap_shader->set_uniform("equirectangular_map", 0);
