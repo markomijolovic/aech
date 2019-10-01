@@ -28,37 +28,38 @@ namespace aech::graphics
 		void use() const;
 
 		template <typename T>
-		void set_uniform(const std::string& name, const T& value) const
+		void set_uniform(const std::string& name, T&& value) const
 		{
-			if constexpr (std::is_same_v<T, math::mat4_t>)
+			using Type = std::remove_cvref_t<T>;
+			if constexpr (std::is_same_v<Type, math::mat4_t>)
 			{
 				glUniformMatrix4fv(glGetUniformLocation(id, name.c_str()), 1, true, const_cast<GLfloat *>(reinterpret_cast<const GLfloat *>(&value[0])));
 			}
-			else if constexpr (std::is_same_v<T, math::vec2_t>)
+			else if constexpr (std::is_same_v<Type, math::vec2_t>)
 			{
 				glUniform2fv(glGetUniformLocation(id, name.c_str()), 1, const_cast<GLfloat*>(reinterpret_cast<const GLfloat*>(&value)));
 			}
-			else if constexpr (std::is_same_v<T, math::vec3_t>)
+			else if constexpr (std::is_same_v<Type, math::vec3_t>)
 			{
 				glUniform3fv(glGetUniformLocation(id, name.c_str()), 1, const_cast<GLfloat*>(reinterpret_cast<const GLfloat*>(&value)));
 			}
-			else if constexpr (std::is_same_v<T, math::vec4_t>)
+			else if constexpr (std::is_same_v<Type, math::vec4_t>)
 			{
 				glUniform4fv(glGetUniformLocation(id, name.c_str()), 1, const_cast<GLfloat*>(reinterpret_cast<const GLfloat*>(&value)));
 			}
-			else if constexpr (std::is_same_v<T, bool>)
+			else if constexpr (std::is_same_v<Type, bool>)
 			{
 				glUniform1i(glGetUniformLocation(id, name.c_str()), static_cast<GLint>(value));
 			}
-			else if constexpr (std::is_same_v<T, int32_t>)
+			else if constexpr (std::is_same_v<Type, int32_t>)
 			{
 				glUniform1i(glGetUniformLocation(id, name.c_str()), value);
 			}
-			else if constexpr (std::is_same_v<T, uint32_t>)
+			else if constexpr (std::is_same_v<Type, uint32_t>)
 			{
 				glUniform1i(glGetUniformLocation(id, name.c_str()), static_cast<int32_t>(value));
 			}
-			else if constexpr (std::is_same_v<T, float>)
+			else if constexpr (std::is_same_v<Type, float>)
 			{
 				glUniform1f(glGetUniformLocation(id, name.c_str()), value);
 			}

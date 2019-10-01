@@ -28,7 +28,7 @@ namespace aech::graphics
 		// stores the uniform value in the material
 		// note that this does not actually set it in the shader
 		template <typename T>
-		void set_uniform(const std::string& name, const T& value)
+		void set_uniform(const std::string& name, T&& value)
 		{
 			m_uniforms[name] = value;
 		}
