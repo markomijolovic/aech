@@ -41,7 +41,7 @@ namespace aech
 
 	constexpr uint32_t fnv1a_32(char const* s, std::size_t count)
 	{
-		return static_cast<uint32_t>(((count != 0u ? fnv1a_32(s, count - 1) : 2166136261U) ^ s[count]) * 16777619ULL);
+		return static_cast<uint32_t>(((count != 0U ? fnv1a_32(s, count - 1) : 2166136261U) ^ s[count]) * 16777619ULL);
 	}
 
 	constexpr uint32_t operator""_hash(const char* s, std::size_t count)
