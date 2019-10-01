@@ -299,6 +299,7 @@ namespace aech::resource_manager
 
 	entity_t process_node(const aiNode* node, const aiScene* scene)
 	{
+		// TODO: potential to optimize calculation of aabb
 		const auto entity = engine.create_entity();
 		engine.add_component(entity,
 		                     transform_t{}
@@ -307,39 +308,42 @@ namespace aech::resource_manager
 		engine.add_component(entity,
 		                     scene_node_t{transform}
 		                    );
-		if (node->mNumMeshes == 1)
-		{
-			engine.add_component(entity,
-			                     potential_occluder_t{}
-			                    );
-		}
 
 		auto scene_node = &engine.get_component<scene_node_t>(entity);
 
-		for (size_t i = 0; i < node->mNumMeshes; i++)
+		if (node->mNumMeshes == 1)
 		{
-			const auto a_mesh      = scene->mMeshes[node->mMeshes[i]];
+			engine.add_component(entity,
+		                     potential_occluder_t{}
+		                    );
+			const auto a_mesh      = scene->mMeshes[node->mMeshes[0]];
 			const auto mesh        = parse_mesh(a_mesh, scene);
 			const auto a_material  = scene->mMaterials[a_mesh->mMaterialIndex];
 			const auto material    = parse_material(scene, a_material);
-			auto&      mesh_filter = engine.get_component<mesh_filter_t>(entity);
-			if (node->mNumMeshes == 1)
+			mesh_filter_t mesh_filter{mesh, material};
+			engine.add_component(entity,
+			                     mesh_filter
+			                    );
+			
+			scene_node->set_aabb(mesh->calculate_aabb());
+			if (mesh_filter.material()->type() == material_t::material_type::opaque)
 			{
-				mesh_filter_t mesh_filter{mesh, material};
-				engine.add_component(entity,
-				                     mesh_filter
-				                    );
-				if (mesh_filter.material()->type() == material_t::material_type::opaque)
-				{
-					engine.add_component(entity, opaque_t{});
-				}
-				else
-				{
-					engine.add_component(entity, transparent_t{});
-				}
+				engine.add_component(entity, opaque_t{});
 			}
 			else
 			{
+				engine.add_component(entity, transparent_t{});
+			}
+		}
+		else
+		{
+			for (size_t i = 0; i < node->mNumMeshes; i++)
+		{
+				const auto a_mesh      = scene->mMeshes[node->mMeshes[i]];
+				const auto mesh        = parse_mesh(a_mesh, scene);
+				const auto a_material  = scene->mMaterials[a_mesh->mMaterialIndex];
+				const auto material    = parse_material(scene, a_material);
+		
 				const auto child_entity = engine.create_entity();
 				engine.add_component(child_entity,
 				                     transform_t{}
@@ -369,9 +373,13 @@ namespace aech::resource_manager
 
 				const auto child_scene_node  = &engine.get_component<scene_node_t>(child_entity);
 				auto&      child_mesh_filter = engine.get_component<mesh_filter_t>(child_entity);
+				child_scene_node->set_aabb(mesh->calculate_aabb());
+				// TODO: potential to calculate bounding volume hierarchy here
 				scene_node->add_child(child_scene_node);
 			}
 		}
+
+		
 
 		for (size_t i = 0; i < node->mNumChildren; i++)
 		{
@@ -398,7 +406,9 @@ namespace aech::resource_manager
 			return invalid_entity_id;
 		}
 
-		return process_node(scene->mRootNode, scene);
+		engine.set_root_node(process_node(scene->mRootNode, scene));
+		
+		return engine.root_node();
 	}
 
 	mesh_t* parse_mesh(aiMesh* mesh, const aiScene* /*scene*/)
@@ -417,7 +427,6 @@ namespace aech::resource_manager
 		std::vector<math::vec3_t> bitangents{};
 		std::vector<math::vec2_t> uvs{};
 		std::vector<uint32_t>     indices(3 * mesh->mNumFaces);
-		bounding_box_t            aabb{};
 
 		if (mesh->HasTextureCoords(0))
 		{
@@ -433,14 +442,6 @@ namespace aech::resource_manager
 				mesh->mVertices[i].y,
 				mesh->mVertices[i].z
 			};
-
-			aabb.min_coords.x = std::min(aabb.min_coords.x, positions[i].x);
-			aabb.min_coords.y = std::min(aabb.min_coords.y, positions[i].y);
-			aabb.min_coords.z = std::min(aabb.min_coords.z, positions[i].z);
-
-			aabb.max_coords.x = std::max(aabb.max_coords.x, positions[i].x);
-			aabb.max_coords.y = std::max(aabb.max_coords.y, positions[i].y);
-			aabb.max_coords.z = std::max(aabb.max_coords.z, positions[i].z);
 
 			normals[i] = math::vec3_t{
 				mesh->mNormals[i].x,
@@ -483,7 +484,6 @@ namespace aech::resource_manager
 		{
 			positions,
 			normals,
-			aabb,
 			uvs,
 			mesh_t::topology::triangles,
 			indices,

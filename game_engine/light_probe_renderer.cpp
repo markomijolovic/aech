@@ -130,6 +130,7 @@ void aech::graphics::light_probe_renderer_t::create_radiance_cubemap(size_t prob
 		{
 			auto& transf      = engine.get_component<transform_t>(entity);
 			auto& mesh_filter = engine.get_component<mesh_filter_t>(entity);
+			auto& scene_node = engine.get_component<scene_node_t>(entity);
 			for (const auto& texture : mesh_filter.material()->get_textures())
 			{
 				cubemap_capture_material->set_texture(texture.first, texture.second.first, texture.second.second);
@@ -137,7 +138,7 @@ void aech::graphics::light_probe_renderer_t::create_radiance_cubemap(size_t prob
 
 			m_render_cache->set_shader(cubemap_capture_material->shader());
 			//cubemap_capture_material->shader()->use();
-			cubemap_capture_material->shader()->set_uniform("model", transf.get_transform_matrix());
+			cubemap_capture_material->shader()->set_uniform("model", scene_node.get_transform());
 			cubemap_capture_material->set_uniforms();
 			mesh_filter.mesh()->draw();
 		}

@@ -89,15 +89,14 @@ namespace aech::graphics
 
 		auto& mesh_filter = engine.get_component<mesh_filter_t>(entity);
 		// view frustum culling
-		if (!m_camera->sees(*mesh_filter.mesh()))
+		if (!m_camera->sees(scene_node))
 			return;
 		auto shader     = mesh_filter.material()->shader();
-		auto model      = scene_node.get_transform();
 		auto projection = m_camera->projection();
 
 		m_render_cache->set_shader(shader);
 		mesh_filter.material()->set_uniforms();
-		shader->set_uniform("model", model);
+		shader->set_uniform("model", scene_node.get_transform());
 		shader->set_uniform("view", view);
 		shader->set_uniform("projection", projection);
 

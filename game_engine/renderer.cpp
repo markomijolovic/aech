@@ -2,18 +2,12 @@
 #include "camera.hpp"
 #include <array>
 #include "directional_light.hpp"
-
 #include "material_library.hpp"
-
 #include "mesh_library.hpp"
-
 #include "point_light.hpp"
 #include "shading_tags.hpp"
-
 #include "shadow_caster.hpp"
-
 #include "transforms.hpp"
-
 #include "transparent_shadow_renderer.hpp"
 #include "main.hpp"
 #include "imgui.h"

@@ -35,6 +35,17 @@ namespace aech
 	}
 
 
+	void engine_t::set_root_node(entity_t root_node)
+	{
+		m_root_node = root_node;
+	}
+
+
+	entity_t engine_t::root_node() const
+	{
+		return m_root_node;
+	}
+
 	void engine_t::add_event_listener(event_id_t event_id, const std::function<void(events::event_t&)>& listener)
 	{
 		m_event_manager.add_listener(event_id, listener);

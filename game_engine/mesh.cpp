@@ -1,13 +1,13 @@
 #include "mesh.hpp"
 #include "glad/glad.h"
 #include <utility>
+#include <algorithm>
 
 namespace aech::graphics
 {
 	mesh_t::mesh_t(
 		std::vector<math::vec3_t> positions,
 		std::vector<math::vec3_t> normals,
-		bounding_box_t            aabb,
 		std::vector<math::vec2_t> uvs,
 		topology                  top,
 		std::vector<uint32_t>     indices,
@@ -19,7 +19,6 @@ namespace aech::graphics
 		m_normals{std::move(normals)},
 		m_tangents{std::move(tangents)},
 		m_bitangents{std::move(bitangents)},
-		m_aabb{std::move(aabb)},
 		top{top}
 	{
 		commit();
@@ -211,12 +210,6 @@ namespace aech::graphics
 		glBindVertexArray(0);
 	}
 
-
-	bounding_box_t mesh_t::bounding_box() const
-	{
-		return m_aabb;
-	}
-
 	void mesh_t::draw() const
 	{
 		glBindVertexArray(m_vao);
@@ -229,5 +222,24 @@ namespace aech::graphics
 			glDrawArrays(static_cast<GLenum>(top), 0, static_cast<GLsizei>(m_positions.size()));
 		}
 		glBindVertexArray(0);
+	}
+
+
+	bounding_box_t mesh_t::calculate_aabb() const
+	{
+		bounding_box_t aabb{};
+
+		for (const auto& pos: m_positions)
+		{
+			aabb.min_coords.x = std::min(aabb.min_coords.x, pos.x);
+			aabb.min_coords.y = std::min(aabb.min_coords.y, pos.y);
+			aabb.min_coords.z = std::min(aabb.min_coords.z, pos.z);
+
+			aabb.max_coords.x = std::max(aabb.max_coords.x, pos.x);
+			aabb.max_coords.y = std::max(aabb.max_coords.y, pos.y);
+			aabb.max_coords.z = std::max(aabb.max_coords.z, pos.z);
+		}
+
+		return aabb;
 	}
 } // namespace aech::graphics

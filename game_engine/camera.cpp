@@ -26,7 +26,6 @@ aech::camera_t::camera_t(const math::mat4_t& projection, transform_t* transform,
 {
 }
 
-
 aech::math::mat4_t aech::camera_t::projection() const
 {
 	return m_projection;
@@ -43,11 +42,11 @@ aech::math::mat4_t aech::camera_t::view_matrix() const
 	return math::get_view_matrix(*m_transform);
 }
 
-bool aech::camera_t::sees(const graphics::mesh_t& mesh)
-{
-	return frustum().intersects(mesh.bounding_box());
-}
 
+bool aech::camera_t::sees(const graphics::scene_node_t& scene_node)
+{
+	return frustum().intersects(scene_node.bounding_box());
+}
 
 bool aech::camera_t::sees(const math::vec3_t& centre, float radius)
 {

@@ -71,11 +71,11 @@ void aech::graphics::transparent_renderer_t::update()
 		auto& scene_node  = engine.get_component<scene_node_t>(entity);
 
 		// view frustum culling
-		if (!m_camera->sees(*mesh_filter.mesh()))
+		if (!m_camera->sees(scene_node))
 			continue;
 
 		mesh_filter.material()->set_uniforms();
-		mesh_filter.material()->shader()->set_uniform("model", transform.get_transform_matrix());
+		mesh_filter.material()->shader()->set_uniform("model", scene_node.get_transform());
 		mesh_filter.material()->shader()->set_uniform("view", math::get_view_matrix(*m_camera->transform()));
 		mesh_filter.material()->shader()->set_uniform("projection", m_camera->projection());
 		mesh_filter.material()->shader()->set_uniform("light_dir", m_dirlight->transform()->get_forward_vector());

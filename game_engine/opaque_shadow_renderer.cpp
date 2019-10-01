@@ -39,8 +39,6 @@ namespace aech::graphics
 		//glEnable(GL_CULL_FACE);
 		//glCullFace(GL_BACK);
 
-		auto light_projection = math::orthographic(-2250, 2250, -2250, 2000, 0, 2250);
-
 		m_render_cache->set_shader(material->shader());
 
 		//material->shader()->use();
@@ -49,12 +47,12 @@ namespace aech::graphics
 		{
 			auto& transform   = engine.get_component<transform_t>(entity);
 			auto& mesh_filter = engine.get_component<mesh_filter_t>(entity);
-
+			auto &scene_node = engine.get_component<scene_node_t>(entity);
 			auto light_view_matrix = math::get_view_matrix(*m_dirlight->transform());
 
-			material->shader()->set_uniform("projection", light_projection);
+			material->shader()->set_uniform("projection", renderer.light_projection);
 			material->shader()->set_uniform("view", light_view_matrix);
-			material->shader()->set_uniform("model", transform.get_transform_matrix());
+			material->shader()->set_uniform("model", scene_node.get_transform());
 			mesh_filter.mesh()->draw();
 		}
 	}

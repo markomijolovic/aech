@@ -57,11 +57,5 @@ aech::graphics::sphere_t::sphere_t(const uint32_t sectors, const uint32_t stacks
 		}
 	}
 
-	m_aabb =
-	{
-		{-1.0F, -1.0F, -1.0F, 1.0F},
-		{1.0F, 1.0F, 1.0F, 1.0F}
-	};
-
 	commit();
 }

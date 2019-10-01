@@ -4,22 +4,22 @@
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 #include "main.hpp"
+#include <chrono>
 
 static void key_callback(GLFWwindow* window, int key, int scan_code, int action, int mode);
 static void mouse_callback(GLFWwindow* window, double x_pos, double y_pos);
 
-
-uint32_t aech::graphics::window_manager_t::width()
+uint32_t aech::graphics::window_manager_t::width() const
 {
 	return screen_width;
 }
 
-uint32_t aech::graphics::window_manager_t::height()
+uint32_t aech::graphics::window_manager_t::height() const
 {
 	return screen_height;
 }
 
-bool aech::graphics::window_manager_t::should_close()
+bool aech::graphics::window_manager_t::should_close() const
 {
 	return glfwWindowShouldClose(window);
 }
@@ -242,22 +242,22 @@ void aech::graphics::window_manager_t::set_y(float y)
 	last_y = y;
 }
 
-std::bitset<32> aech::graphics::window_manager_t::buttons()
+std::bitset<32> aech::graphics::window_manager_t::buttons() const
 {
 	return m_buttons;
 }
 
-float aech::graphics::window_manager_t::x()
+float aech::graphics::window_manager_t::x() const
 {
 	return last_x;
 }
 
-float aech::graphics::window_manager_t::y()
+float aech::graphics::window_manager_t::y() const
 {
 	return last_y;
 }
 
-bool aech::graphics::window_manager_t::first_mouse()
+bool aech::graphics::window_manager_t::first_mouse() const
 {
 	return m_first_mouse;
 }

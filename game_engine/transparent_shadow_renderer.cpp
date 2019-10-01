@@ -34,6 +34,7 @@ void aech::graphics::transparent_shadow_renderer_t::update()
 	{
 		auto& transform   = engine.get_component<transform_t>(entity);
 		auto& mesh_filter = engine.get_component<mesh_filter_t>(entity);
+		auto &scene_node = engine.get_component<scene_node_t>(entity);
 
 		m_material->shader()->set_uniform("projection", renderer.light_projection);
 		m_material->shader()->set_uniform("view", light_view_matrix);

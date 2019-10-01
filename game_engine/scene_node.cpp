@@ -73,6 +73,13 @@ namespace aech::graphics
 		return {transform[0][0], transform[1][1], transform[2][2]};
 	}
 
+
+	bounding_box_t scene_node_t::bounding_box() const
+	{
+		// TODO: how to transform aabb?
+		return m_aabb;
+	}
+
 	void scene_node_t::add_child(scene_node_t* node)
 	{
 		if (node->m_parent != nullptr)
@@ -90,5 +97,10 @@ namespace aech::graphics
 		{
 			m_children.erase(it);
 		}
+	}
+
+	void scene_node_t::set_aabb(const bounding_box_t& aabb)
+	{
+		m_aabb = aabb;
 	}
 } // namespace aech::graphics
