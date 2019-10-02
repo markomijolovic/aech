@@ -28,7 +28,7 @@ namespace aech::graphics
 		[[nodiscard]] float            poisson_sampling_distance() const;
 		void                           set_options(bool gui);
 
-		inline static auto light_projection{math::orthographic(-2250, 2250, -2250, 2000, 0, 2250)};
+		inline static auto light_projection{math::orthographic(-225.0, 225.0, -225.0, 200.0, 0, 225.0)};
 
 	private:
 		entity_t                                       m_camera{};

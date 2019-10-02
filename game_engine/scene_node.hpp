@@ -24,10 +24,11 @@ namespace aech::graphics
 		[[nodiscard]] math::vec3_t get_world_position() const;
 		[[nodiscard]] math::vec3_t get_world_scale() const;
 		[[nodiscard]] bounding_box_t bounding_box() const;
-		void                       set_position(const math::vec3_t& position) const;
-		void                       set_rotation(const math::vec3_t& rotation) const;
-		void                       set_scale(const math::vec3_t& scale) const;
-		void                       set_scale(float scale) const;
+		void                       set_position(const math::vec3_t& position);
+		void                       set_rotation(const math::vec3_t& rotation);
+		void                       set_scale(const math::vec3_t& scale);
+		void                       set_scale(float scale);
+		void parent_changed() const;
 
 		// make array happy
 		scene_node_t() = default;
@@ -43,5 +44,8 @@ namespace aech::graphics
 		bounding_box_t m_aabb{};
 		scene_node_t*              m_parent{};
 		transform_t*               m_transform{};
+		// transform cache
+		mutable math::mat4_t m_transform_matrix{};
+		mutable bool m_dirty{true};
 	};
 } // namespace aech::graphics

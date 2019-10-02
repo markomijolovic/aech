@@ -449,9 +449,6 @@
     <ClCompile Include="directional_light.cpp">
       <Filter>Source Files\graphics\lighting</Filter>
     </ClCompile>
-    <ClCompile Include="vector_math.cpp">
-      <Filter>Source Files\math</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="component_array.hpp">

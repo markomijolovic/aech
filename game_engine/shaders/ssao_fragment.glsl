@@ -32,7 +32,8 @@ void main()
 	mat3 tbn = mat3(tangent, bitangent, normal);
 
 	float occlusion = 0.0F;
-	for (int i = 0; i < 64; i++) 
+	// 32 == sample_count
+	for (int i = 0; i < 32; i++) 
 	{
 		// _sample position in view space
 		vec3 _sample = tbn * samples[i];
@@ -51,6 +52,6 @@ void main()
 		occlusion += (_sample_depth >= _sample.z ? 1.0F:0.0F) * range_check;
 	}
 
-	occlusion = 1.0F - (occlusion/64);
+	occlusion = 1.0F - (occlusion/32);
 	fragment_colour = occlusion;
 }

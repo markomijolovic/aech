@@ -3,5 +3,8 @@
 
 namespace aech::math
 {
-	float dot (const vec4_t& a, const vec4_t& b);
+	inline float dot (const vec4_t& a, const vec4_t& b)
+	{
+		return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
+	};
 }

@@ -80,7 +80,7 @@ void aech::graphics::light_probe_renderer_t::bake_probes()
 
 void aech::graphics::light_probe_renderer_t::create_radiance_cubemap(size_t probe_index)
 {
-	const static auto capture_projection = math::perspective(90, 1, 0.1f, 4000.0f);
+	const static auto capture_projection = math::perspective(90, 1, 0.01f, 400.0f);
 	m_render_cache->set_depth_test(true);
 
 	//glEnable(GL_DEPTH_TEST);

@@ -38,7 +38,7 @@ void aech::graphics::transparent_shadow_renderer_t::update()
 
 		m_material->shader()->set_uniform("projection", renderer.light_projection);
 		m_material->shader()->set_uniform("view", light_view_matrix);
-		m_material->shader()->set_uniform("model", transform.get_transform_matrix());
+		m_material->shader()->set_uniform("model", scene_node.get_transform());
 		m_material->set_texture("texture_albedo", mesh_filter.material()->get_texture("texture_albedo"), 0);
 		m_material->set_uniforms();
 
