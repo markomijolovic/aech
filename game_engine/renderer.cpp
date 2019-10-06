@@ -205,49 +205,47 @@ namespace aech::graphics
 		light_probe_renderer->add_probe(light_probe_t{{-95.0, 15.0, -45.0}, 40.0});
 		light_probe_renderer->add_probe(light_probe_t{{-121.0, 15.0, -45.0}, 40.0});
 
-		// middle centre
-		light_probe_renderer->add_probe(light_probe_t{{0, 60.0, -5.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{30.0, 60.0, -5.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{60.0, 60.0, -5.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{85.0, 60.0, -5.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{114.0, 60.0, -5.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{-30.0, 60.0, -5.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{-62.0, 60.0, -5.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{-95.0, 60.0, -5.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{-121.0, 60.0, -5.0}, 40.0});
+		//// middle centre
+		//light_probe_renderer->add_probe(light_probe_t{{0, 60.0, -5.0}, 40.0});
+		//light_probe_renderer->add_probe(light_probe_t{{30.0, 60.0, -5.0}, 40.0});
+		//light_probe_renderer->add_probe(light_probe_t{{60.0, 60.0, -5.0}, 40.0});
+		//light_probe_renderer->add_probe(light_probe_t{{85.0, 60.0, -5.0}, 40.0});
+		//light_probe_renderer->add_probe(light_probe_t{{114.0, 60.0, -5.0}, 40.0});
+		//light_probe_renderer->add_probe(light_probe_t{{-30.0, 60.0, -5.0}, 40.0});
+		//light_probe_renderer->add_probe(light_probe_t{{-62.0, 60.0, -5.0}, 40.0});
+		//light_probe_renderer->add_probe(light_probe_t{{-95.0, 60.0, -5.0}, 40.0});
+		//light_probe_renderer->add_probe(light_probe_t{{-121.0, 60.0, -5.0}, 40.0});
 
 
-		// middle left 
-		light_probe_renderer->add_probe(light_probe_t{{0, 60.0, 40.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{30.0, 60.0, 40.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{60.0, 60.0, 40.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{85.0, 60.0, 40.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{114.0, 60.0, 40.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{-30.0, 60.0, 40.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{-62.0, 60.0, 40.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{-95.0, 60.0, 40.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{-121.0, 60.0, 40.0}, 40.0});
+		//// middle left 
+		//light_probe_renderer->add_probe(light_probe_t{{0, 60.0, 40.0}, 40.0});
+		//light_probe_renderer->add_probe(light_probe_t{{30.0, 60.0, 40.0}, 40.0});
+		//light_probe_renderer->add_probe(light_probe_t{{60.0, 60.0, 40.0}, 40.0});
+		//light_probe_renderer->add_probe(light_probe_t{{85.0, 60.0, 40.0}, 40.0});
+		//light_probe_renderer->add_probe(light_probe_t{{114.0, 60.0, 40.0}, 40.0});
+		//light_probe_renderer->add_probe(light_probe_t{{-30.0, 60.0, 40.0}, 40.0});
+		//light_probe_renderer->add_probe(light_probe_t{{-62.0, 60.0, 40.0}, 40.0});
+		//light_probe_renderer->add_probe(light_probe_t{{-95.0, 60.0, 40.0}, 40.0});
+		//light_probe_renderer->add_probe(light_probe_t{{-121.0, 60.0, 40.0}, 40.0});
 
-		// middle right
-		light_probe_renderer->add_probe(light_probe_t{{0, 60.0, -45.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{30.0, 60.0, -45.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{60.0, 60.0, -45.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{85.0, 60.0, -45.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{114.0, 60.0, -45.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{-30.0, 60.0, -45.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{-62.0, 60.0, -45.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{-95.0, 60.0, -45.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{-121.0, 60.0, -45.0}, 40.0});
+		//// middle right
+		//light_probe_renderer->add_probe(light_probe_t{{0, 60.0, -45.0}, 40.0});
+		//light_probe_renderer->add_probe(light_probe_t{{30.0, 60.0, -45.0}, 40.0});
+		//light_probe_renderer->add_probe(light_probe_t{{60.0, 60.0, -45.0}, 40.0});
+		//light_probe_renderer->add_probe(light_probe_t{{85.0, 60.0, -45.0}, 40.0});
+		//light_probe_renderer->add_probe(light_probe_t{{114.0, 60.0, -45.0}, 40.0});
+		//light_probe_renderer->add_probe(light_probe_t{{-30.0, 60.0, -45.0}, 40.0});
+		//light_probe_renderer->add_probe(light_probe_t{{-62.0, 60.0, -45.0}, 40.0});
+		//light_probe_renderer->add_probe(light_probe_t{{-95.0, 60.0, -45.0}, 40.0});
+		//light_probe_renderer->add_probe(light_probe_t{{-121.0, 60.0, -45.0}, 40.0});
 
 
-		// top centre
-		light_probe_renderer->add_probe(light_probe_t{{0, 105, -5.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{40.0, 105, -5.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{70.0, 105, -5.0}, 30.0});
-		//light_probe_renderer->add_probe(light_probe_t{{120.0, 105, -5.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{-40.0, 105, -5.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{-80.0, 105, -5.0}, 40.0});
-		//light_probe_renderer->add_probe(light_probe_t{{-120.0, 105, -5.0}, 40.0});
+		//// top centre
+		//light_probe_renderer->add_probe(light_probe_t{{0, 105, -5.0}, 40.0});
+		//light_probe_renderer->add_probe(light_probe_t{{40.0, 105, -5.0}, 40.0});
+		//light_probe_renderer->add_probe(light_probe_t{{70.0, 105, -5.0}, 30.0});
+		//light_probe_renderer->add_probe(light_probe_t{{-40.0, 105, -5.0}, 40.0});
+		//light_probe_renderer->add_probe(light_probe_t{{-80.0, 105, -5.0}, 40.0});
 
 
 		// TODO(Marko): refactor this
@@ -303,14 +301,14 @@ namespace aech::graphics
 
 		// ssao
 
-		std::uniform_real_distribution<float> zero_to_one{0.0F, 1.0F};
+		std::uniform_real_distribution zero_to_one{0.0F, 1.0F};
 		std::default_random_engine            rengine{};
 
-		for (uint32_t i = 0; i < 32; i++)
+		for (uint32_t i = 0; i < ssao_kernel_size; i++)
 		{
 			math::vec3_t sample{zero_to_one(rengine) * 2 - 1, zero_to_one(rengine) * 2 - 1, zero_to_one(rengine)};
 			sample      = zero_to_one(rengine) * normalize(sample);
-			float scale = i / 64.0F;
+			auto scale = static_cast<float>(i) / ssao_kernel_size;
 			scale       = math::lerp(0.1F, 1.0F, scale * scale);
 			ssao_kernel.push_back(scale * sample);
 		}
@@ -429,12 +427,17 @@ namespace aech::graphics
 			ImGui::Begin("options");
 
 			ImGui::Checkbox("environment mapping", &environment_mapping);
-			ImGui::Checkbox("shadows", &m_shadows);
-			ImGui::Checkbox("fxaa", &fxaa);
-			ImGui::Checkbox("ssao", &m_ssao);
 			ImGui::NewLine();
-			ImGui::Text("poisson shadow sampling distance");
-			ImGui::SliderFloat("", &m_poisson_sampling_distance, 0.0F, 10.0F, "%.3f");
+			
+			ImGui::Checkbox("shadows", &m_shadows);
+			ImGui::SliderFloat("shadow sampling radius", &m_poisson_sampling_distance, 0.0F, 10.0F, "%.3f");
+			ImGui::NewLine();
+			
+			ImGui::Checkbox("fxaa", &fxaa);
+			ImGui::NewLine();
+			
+			ImGui::Checkbox("ssao", &m_ssao);
+			ImGui::SliderFloat("ssao hemisphere radius", &m_ssao_hemisphere_sampling_radius, 0.0F, 100.0F, "%.3f");
 
 			ImGui::End();
 		}
@@ -468,7 +471,7 @@ namespace aech::graphics
 			                           static_cast<float>(window_manager.width()),
 			                           static_cast<float>(window_manager.height())
 		                           });
-		m_ssao_shader->set_uniform("radius", 50.0F);
+		m_ssao_shader->set_uniform("radius", m_ssao_hemisphere_sampling_radius);
 		for (size_t i = 0; i < ssao_kernel.size(); i++)
 			m_ssao_shader->set_uniform("samples[" + std::to_string(i) + "]", ssao_kernel[i]);
 		screen_quad->draw();

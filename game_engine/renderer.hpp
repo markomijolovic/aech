@@ -31,6 +31,8 @@ namespace aech::graphics
 		inline static auto light_projection{math::orthographic(-225.0, 225.0, -225.0, 200.0, 0, 225.0)};
 
 	private:
+		inline static constexpr uint32_t ssao_kernel_size{32};
+		
 		entity_t                                       m_camera{};
 		std::shared_ptr<point_light_renderer_t>        point_light_renderer{};
 		std::shared_ptr<opaque_shadow_renderer_t>      opaque_shadow_renderer{};
@@ -62,11 +64,12 @@ namespace aech::graphics
 		std::vector<math::vec3_t>  ssao_kernel{};
 
 		bool  m_shadows{true};
+		float m_poisson_sampling_distance{1.337F};
+		float m_ssao_hemisphere_sampling_radius{5.0F};
 		bool  environment_mapping{false};
 		bool  fxaa{true};
 		bool  m_ssao{true};
 		bool  m_options{};
-		float m_poisson_sampling_distance{1.337F};
 
 		void render_ssao();
 		void render_gui();

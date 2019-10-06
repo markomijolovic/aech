@@ -8,7 +8,7 @@ uniform sampler2D texture_position;
 uniform sampler2D texture_normal;
 uniform sampler2D texture_noise;
 
-uniform vec3 samples[64];
+uniform vec3 samples[32];
 uniform vec2 resolution;
 uniform mat4 view;
 uniform mat4 projection;
@@ -44,9 +44,8 @@ void main()
 		offset.xyz /= offset.w;
 		offset.xyz = offset.xyz * 0.5 + 0.5; // _sample position in screen space
 
-		float _sample_depth = vec3(view * vec4(texture(texture_position, offset.xy).xyz, 1.0)).z; // depth in view space
-
-
+		float _sample_depth = view_pos.z; // deptih in view space
+		
 		float range_check = smoothstep(0.0F, 1.0F, radius/ abs(view_pos.z - _sample_depth));
 		// maybe add bias?
 		occlusion += (_sample_depth >= _sample.z ? 1.0F:0.0F) * range_check;
