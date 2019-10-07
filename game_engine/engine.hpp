@@ -38,6 +38,12 @@ namespace aech
 		}
 
 		template <typename T>
+		bool has_component(entity_t entity)
+		{
+			return m_component_manager.has_component<T>(entity);
+		}
+
+		template <typename T>
 		void remove_component(entity_t entity)
 		{
 			m_component_manager.remove_component<T>(entity);

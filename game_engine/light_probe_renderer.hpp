@@ -49,6 +49,7 @@ namespace aech::graphics
 		material_t*                cubemap_capture_skybox_material{
 			&material_library::default_materials["capture_skybox"]
 		};
+		material_t* cubemap_capture_transparent_material { &material_library::default_materials["capture_transparent"]};
 		material_t* irradiance_capture_material{&material_library::default_materials["irradiance"]};
 		material_t* brdf_material{&material_library::default_materials["brdf"]};
 		material_t* m_ambient_material{&material_library::default_materials["ambient"]};

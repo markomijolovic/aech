@@ -40,7 +40,6 @@ int main(int /*argc*/, char* /*argv*/[])
 
 		input_manager.update(delta_time);
 		renderer.update();
-
 		auto stop_time = std::chrono::high_resolution_clock::now();
 		delta_time     = std::chrono::duration<float>(stop_time - start_time).count();
 

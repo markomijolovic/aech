@@ -32,8 +32,8 @@ void aech::graphics::material_library::generate_default_materials()
 	default_materials["transparent_shadow"] = {transparent_shadow_shader};
 
 	auto transparent_shader = &resource_manager::load_shader("transparent",
-	                                                         "shaders/transparent_vertex.glsl",
-	                                                         "shaders/transparent_fragment.glsl");
+	                                                         "shaders/g_buffer_vertex.glsl",
+	                                                         "shaders/g_buffer_transparent_fragment.glsl");
 	default_materials["transparent"] = {transparent_shader, material_t::material_type::transparent};
 
 	auto hdr_to_cubemap_shader = &resource_manager::load_shader("hdr_to_cubemap",
@@ -71,6 +71,9 @@ void aech::graphics::material_library::generate_default_materials()
 	                                                           "shaders/probe_capture_fragment.glsl");
 	default_materials["capture"] = {probe_capture_shader};
 
+	auto probe_capture_transparent_shader = &resource_manager::load_shader("capture_transparent", "shaders/probe_capture_vertex.glsl", "shaders/probe_capture_transparent_fragment.glsl");
+	default_materials["capture_transparent"] = {probe_capture_transparent_shader};
+	
 
 	auto probe_capture_skybox_shader = &resource_manager::load_shader("capture_skybox",
 	                                                                  "shaders/probe_capture_skybox_vertex.glsl",

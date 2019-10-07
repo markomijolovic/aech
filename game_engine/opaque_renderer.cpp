@@ -25,7 +25,8 @@ namespace aech::graphics
 	{
 		m_render_cache->set_depth_test(true);
 		m_render_cache->set_depth_func(depth_func::lequal);
-
+		m_render_cache->set_blend(false);
+		
 		//glEnable(GL_DEPTH_TEST);
 		//glDepthFunc(GL_LEQUAL);
 		m_render_cache->set_shader(skybox_mf.material()->shader());

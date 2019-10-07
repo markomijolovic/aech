@@ -166,12 +166,10 @@ namespace aech::graphics
 		                                                      &opaque_renderer->render_target()->colour_attachments()[3
 		                                                      ],
 		                                                      3);
+		m_render_cache.set_shader(m_ssao_shader);
+		m_ssao_shader->set_uniform("texture_position", opaque_renderer->render_target()->colour_attachments()[0]);
+		m_ssao_shader->set_uniform("texture_normal", opaque_renderer->render_target()->colour_attachments()[1]);
 
-		transparent_renderer->mesh_filter().material()->set_texture("light_shadow_map",
-		                                                            opaque_shadow_renderer->
-		                                                            render_target()->depth_and_stencil(),
-		                                                            4);
-		
 		// bottom centre
 		light_probe_renderer->add_probe(light_probe_t{{0, 15.0, -5.0}, 40.0});
 		light_probe_renderer->add_probe(light_probe_t{{30.0, 15.0, -5.0}, 40.0});
@@ -326,6 +324,9 @@ namespace aech::graphics
 		                                                 texture_types::filtering::linear,
 		                                                 texture_types::filtering::linear,
 		                                                 ssao_noise.data());
+		m_render_cache.set_shader(m_ssao_shader);
+		m_ssao_shader->set_uniform("texture_noise", ssao_noise_texture->id());
+
 	}
 
 
@@ -381,7 +382,7 @@ namespace aech::graphics
 		//glDisable(GL_DEPTH_TEST);
 		m_render_cache.set_shader(tonemap_shader);
 		//tonemap_shader->use();
-		transparent_renderer->render_target()->colour_attachments().front().bind(0);
+		m_directional_light_renderer->render_target()->colour_attachments().front().bind(0);
 		tonemap_shader->set_uniform("tex", 0);
 		screen_quad->draw();
 		m_render_cache.set_depth_test(true);
@@ -446,11 +447,13 @@ namespace aech::graphics
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	}
 
-	// TODO: fix ssao, it's very slow at the mooment
 	void renderer_t::render_ssao()
 	{
 		m_ssao_fbo->bind();
 		m_render_cache.set_shader(m_ssao_shader);
+		m_render_cache.set_depth_test(false);
+		m_render_cache.set_cull(false);
+		m_render_cache.set_blend(false);
 		//m_ssao_shader->use();
 		m_render_cache.set_viewport(0, 0, m_ssao_fbo->width(), m_ssao_fbo->height());
 		//glViewport(0, 0, m_ssao_fbo->width(), m_ssao_fbo->height());
@@ -490,6 +493,7 @@ namespace aech::graphics
 	{
 		// 1. render to g buffer
 		opaque_renderer->update();
+		transparent_renderer->update();
 
 		// 2. shadows
 		if (m_shadows)
@@ -519,8 +523,6 @@ namespace aech::graphics
 		{
 			light_probe_renderer->render_target()->bind();
 			m_render_cache.clear(clear::color_and_depth_buffer_bit);
-
-			//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		}
 
 		// 4. render direct lighting
@@ -533,7 +535,7 @@ namespace aech::graphics
 		m_render_cache.set_cull_face(cull_face::back);
 		//glCullFace(GL_BACK);
 
-		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, transparent_renderer->render_target()->id());
+		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_directional_light_renderer->render_target()->id());
 		glBindFramebuffer(GL_READ_FRAMEBUFFER, opaque_renderer->render_target()->id());
 		glBlitFramebuffer(0,
 		                  0,
@@ -547,8 +549,9 @@ namespace aech::graphics
 		                  GL_NEAREST);
 
 		// 5. forward render transparent objects
-		transparent_renderer->update();
+		//transparent_renderer->update();
 
+		m_directional_light_renderer->render_target()->bind();
 		// 6. render skybox over the whole scene
 		opaque_renderer->draw_skybox();
 

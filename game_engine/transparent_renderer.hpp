@@ -31,7 +31,7 @@ namespace aech::graphics
 		camera_t*            m_camera{};
 		directional_light_t* m_dirlight{};
 		render_cache_t*      m_render_cache{};
-		framebuffer_t*       m_render_target = &framebuffers["default"];
+		framebuffer_t*       m_render_target = &framebuffers["g_buffer"];
 		mesh_filter_t        m_mesh_filter{
 			mesh_library::default_meshes["quad"].get(),
 			&material_library::default_materials["transparent"]

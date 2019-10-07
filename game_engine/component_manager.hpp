@@ -52,6 +52,12 @@ namespace aech::ecs
 			get_component_array<T>()->remove_data(entity);
 		}
 
+		template <typename T>
+		bool has_component(entity_t entity)
+		{
+			return get_component_array<T>()->has_entity(entity);
+		}
+
 		void entity_destroyed(entity_t entity);
 	private:
 

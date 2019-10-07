@@ -15,6 +15,8 @@
 
 #include <iostream>
 #include "main.hpp"
+#include "shading_tags.hpp"
+#include <unordered_set>
 
 
 aech::graphics::light_probe_renderer_t::light_probe_renderer_t(render_cache_t* render_cache, camera_t* camera) :
@@ -113,6 +115,9 @@ void aech::graphics::light_probe_renderer_t::create_radiance_cubemap(size_t prob
 	fbo.bind();
 	m_render_cache->set_viewport(0, 0, fbo.width(), fbo.height());
 
+	// TOOD: this needs refactoring
+	std::unordered_set<entity_t> transparent_entities{};
+
 	//glViewport(0, 0, fbo.width(), fbo.height());
 	for (uint32_t i = 0; i < 6; i++)
 	{
@@ -128,6 +133,11 @@ void aech::graphics::light_probe_renderer_t::create_radiance_cubemap(size_t prob
 		cubemap_capture_material->set_uniform("projection", capture_projection);
 		for (auto entity : entities)
 		{
+			if (engine.has_component<transparent_t>(entity))
+			{
+				transparent_entities.insert(entity);
+				continue;
+			}
 			auto& transf      = engine.get_component<transform_t>(entity);
 			auto& mesh_filter = engine.get_component<mesh_filter_t>(entity);
 			auto& scene_node = engine.get_component<scene_node_t>(entity);
@@ -136,10 +146,31 @@ void aech::graphics::light_probe_renderer_t::create_radiance_cubemap(size_t prob
 				cubemap_capture_material->set_texture(texture.first, texture.second.first, texture.second.second);
 			}
 
-			m_render_cache->set_shader(cubemap_capture_material->shader());
 			//cubemap_capture_material->shader()->use();
 			cubemap_capture_material->shader()->set_uniform("model", scene_node.get_transform());
 			cubemap_capture_material->set_uniforms();
+			mesh_filter.mesh()->draw();
+		}
+
+		// render transparent entities
+		m_render_cache->set_shader(cubemap_capture_transparent_material->shader());
+		cubemap_capture_transparent_material->set_uniform("view", view);
+		cubemap_capture_transparent_material->set_uniform("projection", capture_projection);
+		m_render_cache->set_blend(true);
+		m_render_cache->set_blend(blend_func::src_alpha, blend_func::one_minus_src_alpha);
+		for (auto entity: transparent_entities)
+		{
+			auto& transf      = engine.get_component<transform_t>(entity);
+			auto& mesh_filter = engine.get_component<mesh_filter_t>(entity);
+			auto& scene_node = engine.get_component<scene_node_t>(entity);
+			for (const auto& texture : mesh_filter.material()->get_textures())
+			{
+				cubemap_capture_transparent_material->set_texture(texture.first, texture.second.first, texture.second.second);
+			}
+
+			//cubemap_capture_material->shader()->use();
+			cubemap_capture_transparent_material->shader()->set_uniform("model", scene_node.get_transform());
+			cubemap_capture_transparent_material->set_uniforms();
 			mesh_filter.mesh()->draw();
 		}
 

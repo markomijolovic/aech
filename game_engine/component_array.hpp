@@ -24,6 +24,11 @@ namespace aech::ecs
 			m_size++;
 		}
 
+		bool has_entity(entity_t entity)
+		{
+			return m_entity_to_index.find(entity) != std::end(m_entity_to_index);
+		}
+
 		void remove_data(entity_t entity)
 		{
 			auto index               = m_entity_to_index[entity];
