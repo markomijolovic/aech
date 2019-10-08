@@ -9,7 +9,7 @@ void aech::graphics::generate_default_framebuffers()
 		window_manager.height(),
 		4,
 		true,
-		texture_types::sized_internal_format::rgba32f,
+		texture_types::sized_internal_format::rgba16f,
 		texture_types::format::rgba,
 		texture_types::type::floating_point
 	};
@@ -18,7 +18,7 @@ void aech::graphics::generate_default_framebuffers()
 		window_manager.height(),
 		1,
 		true,
-		texture_types::sized_internal_format::rgba32f,
+		texture_types::sized_internal_format::rgba16f,
 		texture_types::format::rgba,
 		texture_types::type::floating_point
 	};
@@ -27,7 +27,7 @@ void aech::graphics::generate_default_framebuffers()
 		4096,
 		1,
 		true,
-		texture_types::sized_internal_format::rgba32f,
+		texture_types::sized_internal_format::rgba16f,
 		texture_types::format::rgba,
 		texture_types::type::floating_point
 	};
@@ -38,7 +38,7 @@ void aech::graphics::generate_default_framebuffers()
 		window_manager.height(),
 		1,
 		true,
-		texture_types::sized_internal_format::r32f,
+		texture_types::sized_internal_format::r16f,
 		texture_types::format::r,
 		texture_types::type::floating_point
 	};
@@ -49,7 +49,7 @@ void aech::graphics::generate_default_framebuffers()
 		window_manager.height(),
 		1,
 		true,
-		texture_types::sized_internal_format::r32f,
+		texture_types::sized_internal_format::r16f,
 		texture_types::format::r,
 		texture_types::type::floating_point
 	};
@@ -65,7 +65,7 @@ void aech::graphics::generate_default_framebuffers()
 		512,
 		1,
 		true,
-		texture_types::sized_internal_format::rg32f,
+		texture_types::sized_internal_format::rg16f,
 		texture_types::format::rg,
 		texture_types::type::floating_point
 	};
@@ -84,7 +84,7 @@ void aech::graphics::generate_default_framebuffers()
 	*environment_texture     = texture_cube_t{
 		1024,
 		1024,
-		texture_types::sized_internal_format::rgb32f,
+		texture_types::sized_internal_format::rgb16f,
 		texture_types::format::rgb,
 		texture_types::type::floating_point
 	};

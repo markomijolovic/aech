@@ -265,7 +265,7 @@ namespace aech::graphics
 		*sky        = texture_cube_t{
 			1024,
 			1024,
-			texture_types::sized_internal_format::rgba32f,
+			texture_types::sized_internal_format::rgba16f,
 			texture_types::format::rgba,
 			texture_types::type::floating_point
 		};
@@ -317,7 +317,7 @@ namespace aech::graphics
 
 		ssao_noise_texture = std::make_unique<texture_t>(4,
 		                                                 4,
-		                                                 texture_types::sized_internal_format::rgb32f,
+		                                                 texture_types::sized_internal_format::rgb16f,
 		                                                 texture_types::format::rgb,
 		                                                 texture_types::type::floating_point,
 		                                                 false,

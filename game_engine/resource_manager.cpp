@@ -257,19 +257,19 @@ namespace aech::resource_manager
 			switch (number_of_components)
 			{
 				case 1:
-					sized_internal_format = texture_types::sized_internal_format::r32f;
+					sized_internal_format = texture_types::sized_internal_format::r16f;
 					format = texture_types::format::r;
 					break;
 				case 2:
-					sized_internal_format = texture_types::sized_internal_format::rg32f;
+					sized_internal_format = texture_types::sized_internal_format::rg16f;
 					format = texture_types::format::rg;
 					break;
 				case 3:
-					sized_internal_format = texture_types::sized_internal_format::rgb32f;
+					sized_internal_format = texture_types::sized_internal_format::rgb16f;
 					format = texture_types::format::rgb;
 					break;
 				case 4:
-					sized_internal_format = texture_types::sized_internal_format::rgba32f;
+					sized_internal_format = texture_types::sized_internal_format::rgba16f;
 					format = texture_types::format::rgba;
 					break;
 				default:

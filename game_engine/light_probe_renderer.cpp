@@ -106,7 +106,7 @@ void aech::graphics::light_probe_renderer_t::create_radiance_cubemap(size_t prob
 	*tex     = texture_cube_t{
 		1024,
 		1024,
-		texture_types::sized_internal_format::rgb32f,
+		texture_types::sized_internal_format::rgb16f,
 		texture_types::format::rgb,
 		texture_types::type::floating_point
 	};
@@ -221,7 +221,7 @@ void aech::graphics::light_probe_renderer_t::process_radiance_map(size_t probe_i
 	*irradiance     = texture_cube_t{
 		32,
 		32,
-		texture_types::sized_internal_format::rgb32f,
+		texture_types::sized_internal_format::rgb16f,
 		texture_types::format::rgb,
 		texture_types::type::floating_point
 	};
@@ -264,7 +264,7 @@ void aech::graphics::light_probe_renderer_t::process_radiance_map(size_t probe_i
 	*prefiltered     = texture_cube_t{
 		128,
 		128,
-		texture_types::sized_internal_format::rgb32f,
+		texture_types::sized_internal_format::rgb16f,
 		texture_types::format::rgb,
 		texture_types::type::floating_point
 	};
