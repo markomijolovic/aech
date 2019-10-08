@@ -15,6 +15,7 @@
 #include "imgui_impl_glfw.h"
 #include <iostream>
 #include <random>
+#include "vector_math.hpp"
 
 
 namespace aech::graphics
@@ -49,25 +50,26 @@ namespace aech::graphics
 
 		post_process_shader = &resource_manager::shaders["post_process"];
 
-		m_camera = engine.create_entity();
-		engine.add_component(m_camera, transform_t{{0.0F, 0.0F, 0.0F}});
-		engine.add_component(m_camera,
+		auto m_camera_entity = engine.create_entity();
+		engine.add_component(m_camera_entity, transform_t{{0.0F, 0.0F, 0.0F}});
+		engine.add_component(m_camera_entity,
 		                     camera_t{
 			                     math::perspective(90.0F, 1280.0F / 720, 0.01F, 400.00F),
-			                     &engine.get_component<transform_t>(m_camera),
+			                     &engine.get_component<transform_t>(m_camera_entity),
 			                     {}
 		                     });
+
+		m_camera = &engine.get_component<camera_t>(m_camera_entity);
 
 		auto dirlight = engine.create_entity();
 		engine.add_component(dirlight, transform_t{{0, 175.0, 0}, {-80, 10, -10}});
 		engine.add_component(dirlight, directional_light_t{{1, 1, 1}, 5, &engine.get_component<transform_t>(dirlight)});
 
-		auto camera = &engine.get_component<camera_t>(m_camera);
 		auto dir    = &engine.get_component<directional_light_t>(dirlight);
 
-		input_manager.set_camera(camera);
+		input_manager.set_camera(m_camera);
 
-		light_probe_renderer = engine.register_system<light_probe_renderer_t>(render_cache(), camera);
+		light_probe_renderer = engine.register_system<light_probe_renderer_t>(render_cache(), m_camera);
 		{
 			// for now, testing
 			signature_t signature{};
@@ -77,7 +79,7 @@ namespace aech::graphics
 			engine.set_system_signature<light_probe_renderer_t>(signature);
 		}
 
-		opaque_renderer = engine.register_system<opaque_renderer_t>(render_cache(), camera);
+		opaque_renderer = engine.register_system<opaque_renderer_t>(render_cache(), m_camera);
 		{
 			signature_t signature{};
 			signature.set(engine.get_component_type<transform_t>());
@@ -109,7 +111,7 @@ namespace aech::graphics
 
 		m_directional_light_renderer = std::make_unique<directional_light_renderer_t>(render_cache(), dir);
 
-		point_light_renderer = engine.register_system<point_light_renderer_t>(render_cache(), camera);
+		point_light_renderer = engine.register_system<point_light_renderer_t>(render_cache(), m_camera);
 		{
 			signature_t signature{};
 			signature.set(engine.get_component_type<point_light_t>());
@@ -119,7 +121,7 @@ namespace aech::graphics
 			engine.set_system_signature<point_light_renderer_t>(signature);
 		}
 
-		transparent_renderer = engine.register_system<transparent_renderer_t>(render_cache(), camera, dir);
+		transparent_renderer = engine.register_system<transparent_renderer_t>(render_cache(), m_camera, dir);
 		{
 			signature_t signature{};
 			signature.set(engine.get_component_type<transform_t>());
@@ -273,11 +275,8 @@ namespace aech::graphics
 
 		fbo.bind();
 		m_render_cache.set_viewport(0, 0, fbo.width(), fbo.height());
-		//glViewport(0, 0, fbo.width(), fbo.height());
-
 		m_render_cache.set_cull(false);
 		m_render_cache.set_shader(hdr_to_cubemap_shader);
-		//hdr_to_cubemap_shader->use();
 		hdr_to_cubemap_shader->set_uniform("equirectangular_map", 0);
 		skybox->bind(0);
 
@@ -285,7 +284,6 @@ namespace aech::graphics
 		{
 			fbo.attach(i);
 			m_render_cache.clear(clear::color_and_depth_buffer_bit);
-			//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			hdr_to_cubemap_shader->set_uniform("projection", capture_projection);
 			hdr_to_cubemap_shader->set_uniform("view", capture_views[i]);
 			ndc_cube->draw();
@@ -300,12 +298,12 @@ namespace aech::graphics
 		// ssao
 
 		std::uniform_real_distribution zero_to_one{0.0F, 1.0F};
-		std::default_random_engine            rengine{};
+		std::default_random_engine            random_engine{};
 
 		for (uint32_t i = 0; i < ssao_kernel_size; i++)
 		{
-			math::vec3_t sample{zero_to_one(rengine) * 2 - 1, zero_to_one(rengine) * 2 - 1, zero_to_one(rengine)};
-			sample      = zero_to_one(rengine) * normalize(sample);
+			math::vec3_t sample{zero_to_one(random_engine) * 2 - 1, zero_to_one(random_engine) * 2 - 1, zero_to_one(random_engine)};
+			sample      = zero_to_one(random_engine) * normalize(sample);
 			auto scale = static_cast<float>(i) / ssao_kernel_size;
 			scale       = math::lerp(0.1F, 1.0F, scale * scale);
 			ssao_kernel.push_back(scale * sample);
@@ -313,7 +311,7 @@ namespace aech::graphics
 
 		std::vector<math::vec3_t> ssao_noise{};
 		for (uint32_t i = 0; i < 16; i++)
-			ssao_noise.emplace_back(zero_to_one(rengine) * 2 - 1, zero_to_one(rengine) * 2 - 1, 0.F);
+			ssao_noise.emplace_back(zero_to_one(random_engine) * 2 - 1, zero_to_one(random_engine) * 2 - 1, 0.F);
 
 		ssao_noise_texture = std::make_unique<texture_t>(4,
 		                                                 4,
@@ -326,7 +324,6 @@ namespace aech::graphics
 		                                                 ssao_noise.data());
 		m_render_cache.set_shader(m_ssao_shader);
 		m_ssao_shader->set_uniform("texture_noise", ssao_noise_texture->id());
-
 	}
 
 
@@ -339,6 +336,36 @@ namespace aech::graphics
 	bool renderer_t::options() const
 	{
 		return m_options;
+	}
+
+
+	bool renderer_t::sort_front_to_back(entity_t a, entity_t b)
+	{
+		auto &scene_node_a = engine.get_component<scene_node_t>(a);
+		auto &scene_node_b = engine.get_component<scene_node_t>(b);
+		auto aabb_a = scene_node_a.bounding_box();
+		auto aabb_b = scene_node_b.bounding_box();
+
+		auto centroid_a = math::vec3_t{(aabb_a.min_coords + aabb_a.max_coords)/2.0F};
+		auto centroid_b = math::vec3_t{(aabb_b.min_coords + aabb_b.max_coords)/2.0F};
+		
+		return math::distance_squared(centroid_a, renderer.m_camera->transform()->position)
+			<= math::distance_squared(centroid_b, renderer.m_camera->transform()->position);
+	}
+
+
+	bool renderer_t::sort_back_to_front(entity_t a, entity_t b)
+	{
+		auto &scene_node_a = engine.get_component<scene_node_t>(a);
+		auto &scene_node_b = engine.get_component<scene_node_t>(b);
+		auto aabb_a = scene_node_a.bounding_box();
+		auto aabb_b = scene_node_b.bounding_box();
+
+		auto centroid_a = math::vec3_t{(aabb_a.min_coords + aabb_a.max_coords)/2.0F};
+		auto centroid_b = math::vec3_t{(aabb_b.min_coords + aabb_b.max_coords)/2.0F};
+		
+		return math::distance_squared(centroid_a, renderer.m_camera->transform()->position)
+			>= math::distance_squared(centroid_b, renderer.m_camera->transform()->position);
 	}
 
 	void renderer_t::set_options(bool gui)
@@ -378,24 +405,16 @@ namespace aech::graphics
 		post_process_fbo->bind();
 		m_render_cache.clear(clear::color_and_depth_buffer_bit);
 		m_render_cache.set_depth_test(false);
-		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		//glDisable(GL_DEPTH_TEST);
 		m_render_cache.set_shader(tonemap_shader);
-		//tonemap_shader->use();
 		m_directional_light_renderer->render_target()->colour_attachments().front().bind(0);
 		tonemap_shader->set_uniform("tex", 0);
 		screen_quad->draw();
 		m_render_cache.set_depth_test(true);
-		//glEnable(GL_DEPTH_TEST);
-
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		m_render_cache.clear(clear::color_and_depth_buffer_bit);
-		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		m_render_cache.set_depth_test(false);
-		//glDisable(GL_DEPTH_TEST);
 		m_render_cache.set_shader(post_process_shader);
-		//post_process_shader->use();
 		post_process_fbo->colour_attachments().front().bind(0);
 		post_process_shader->set_uniform("source", 0);
 		post_process_shader->set_uniform("use_fxaa", fxaa);
@@ -407,7 +426,6 @@ namespace aech::graphics
 
 		screen_quad->draw();
 		m_render_cache.set_depth_test(true);
-		//glEnable(GL_DEPTH_TEST);
 	}
 
 	void renderer_t::render_gui()
@@ -420,7 +438,7 @@ namespace aech::graphics
 		// TODO: why does this give completely different results?
 		ImGui::Text("average fps: %.2f fps", ImGui::GetIO().Framerate);
 		ImGui::Text("average frametime: %.2f ms", 1000.0F / ImGui::GetIO().Framerate);
-		ImGui::Text("press 'u' to toggle options");
+		ImGui::Text("press 'o' to toggle options");
 		ImGui::End();
 
 		if (m_options)
@@ -454,11 +472,8 @@ namespace aech::graphics
 		m_render_cache.set_depth_test(false);
 		m_render_cache.set_cull(false);
 		m_render_cache.set_blend(false);
-		//m_ssao_shader->use();
 		m_render_cache.set_viewport(0, 0, m_ssao_fbo->width(), m_ssao_fbo->height());
-		//glViewport(0, 0, m_ssao_fbo->width(), m_ssao_fbo->height());
 		m_render_cache.clear(clear::color_and_depth_buffer_bit);
-		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		m_gbuffer->colour_attachments()[0].bind(0);
 		m_gbuffer->colour_attachments()[1].bind(1);
@@ -466,9 +481,8 @@ namespace aech::graphics
 		m_ssao_shader->set_uniform("texture_normal", 1);
 		ssao_noise_texture->bind(2);
 		m_ssao_shader->set_uniform("texture_noise", 2);
-		auto& camera = engine.get_component<camera_t>(m_camera);
-		m_ssao_shader->set_uniform("projection", camera.projection());
-		m_ssao_shader->set_uniform("view", camera.view_matrix());
+		m_ssao_shader->set_uniform("projection", m_camera->projection());
+		m_ssao_shader->set_uniform("view", m_camera->view_matrix());
 		m_ssao_shader->set_uniform("resolution",
 		                           math::vec2_t{
 			                           static_cast<float>(window_manager.width()),
@@ -481,9 +495,7 @@ namespace aech::graphics
 
 		m_ssao_blurred_fbo->bind();
 		m_render_cache.clear(clear::color_and_depth_buffer_bit);
-		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		m_render_cache.set_shader(m_ssao_blur_shader);
-		//m_ssao_blur_shader->use();
 		m_ssao_fbo->colour_attachments()[0].bind(0);
 		m_ssao_blur_shader->set_uniform("ssao_input", 0);
 		screen_quad->draw();
@@ -501,12 +513,6 @@ namespace aech::graphics
 			// create shadow map
 			opaque_shadow_renderer->update();
 			transparent_shadow_renderer->update();
-		}
-		else
-		{
-			opaque_shadow_renderer->render_target()->bind();
-			m_render_cache.clear(clear::color_and_depth_buffer_bit);
-			//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		}
 
 		if (m_ssao)
@@ -529,11 +535,8 @@ namespace aech::graphics
 		m_directional_light_renderer->update();
 
 		m_render_cache.set_cull_face(cull_face::front);
-
-		//glCullFace(GL_FRONT);
 		point_light_renderer->update();
 		m_render_cache.set_cull_face(cull_face::back);
-		//glCullFace(GL_BACK);
 
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_directional_light_renderer->render_target()->id());
 		glBindFramebuffer(GL_READ_FRAMEBUFFER, opaque_renderer->render_target()->id());
@@ -547,9 +550,6 @@ namespace aech::graphics
 		                  window_manager.height(),
 		                  GL_DEPTH_BUFFER_BIT,
 		                  GL_NEAREST);
-
-		// 5. forward render transparent objects
-		//transparent_renderer->update();
 
 		m_directional_light_renderer->render_target()->bind();
 		// 6. render skybox over the whole scene

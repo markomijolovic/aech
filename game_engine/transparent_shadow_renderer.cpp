@@ -16,21 +16,21 @@ aech::graphics::transparent_shadow_renderer_t::transparent_shadow_renderer_t(ren
 
 void aech::graphics::transparent_shadow_renderer_t::update()
 {
+	auto light_view_matrix = math::get_view_matrix(*m_dirlight->transform());
 	m_shadow_map->bind();
 	m_render_cache->set_viewport(0, 0, m_shadow_map->width(), m_shadow_map->height());
 	m_render_cache->set_cull(true);
 	m_render_cache->set_cull_face(cull_face::back);
-
-	//glViewport(0, 0, m_shadow_map->width(), m_shadow_map->height());
-	//glEnable(GL_CULL_FACE);
-	//glCullFace(GL_BACK);
-
-	auto light_view_matrix = math::get_view_matrix(*m_dirlight->transform());
-
 	m_render_cache->set_shader(m_material->shader());
 
-	//m_material->shader()->use();
-	for (auto entity : entities)
+	std::set<entity_t, decltype(&renderer.sort_back_to_front)> entities_sorted{&renderer.sort_back_to_front};
+	for (auto entity: m_entities)
+	{
+		auto &scene_node = engine.get_component<scene_node_t>(entity);
+		entities_sorted.insert(entity);
+	}
+
+	for (auto entity : entities_sorted)
 	{
 		auto& transform   = engine.get_component<transform_t>(entity);
 		auto& mesh_filter = engine.get_component<mesh_filter_t>(entity);

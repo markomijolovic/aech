@@ -131,8 +131,8 @@ static void key_callback(GLFWwindow* window, int key, int scan_code, int action,
 				window_manager.set_button(input_buttons::e);
 				button_pressed = true;
 				break;
-			case GLFW_KEY_U:
-				window_manager.set_button(input_buttons::u);
+			case GLFW_KEY_O:
+				window_manager.set_button(input_buttons::o);
 				if (!renderer.options())
 				{
 					glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
@@ -185,8 +185,8 @@ static void key_callback(GLFWwindow* window, int key, int scan_code, int action,
 				window_manager.reset_button(input_buttons::e);
 				button_released = true;
 				break;
-			case GLFW_KEY_U:
-				window_manager.reset_button(input_buttons::u);
+			case GLFW_KEY_O:
+				window_manager.reset_button(input_buttons::o);
 				button_released = true;
 				break;
 			default:

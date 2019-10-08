@@ -56,6 +56,23 @@ namespace aech::math
 		return rhs *= lhs;
 	}
 
+
+	vec4_t& vec4_t::operator/=(float rhs)
+	{
+		x /= rhs; y/=rhs; z /= rhs; w/= rhs;
+		return *this;
+	}
+
+	vec4_t operator/(vec4_t lhs, float rhs)
+	{
+		return lhs /= rhs;
+	}
+
+	vec4_t operator/(float lhs, vec4_t rhs)
+	{
+		return rhs /= lhs;
+	}
+
 	vec4_t operator+(vec4_t lhs, const vec4_t& rhs)
 	{
 		return lhs += rhs;

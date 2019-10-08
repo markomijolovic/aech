@@ -131,7 +131,7 @@ void aech::graphics::light_probe_renderer_t::create_radiance_cubemap(size_t prob
 		//cubemap_capture_material->shader()->use();
 		cubemap_capture_material->set_uniform("view", view);
 		cubemap_capture_material->set_uniform("projection", capture_projection);
-		for (auto entity : entities)
+		for (auto entity : m_entities)
 		{
 			if (engine.has_component<transparent_t>(entity))
 			{

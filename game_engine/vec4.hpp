@@ -22,10 +22,13 @@ namespace aech::math
 		vec4_t& operator+=(const vec4_t& vec4);
 		vec4_t& operator-=(const vec4_t& vec4);
 		vec4_t& operator*=(float rhs);
+		vec4_t& operator/=(float rhs);
 	};
 
 	vec4_t operator*(vec4_t lhs, float rhs);
 	vec4_t operator*(float lhs, vec4_t rhs);
 	vec4_t operator+(vec4_t lhs, const vec4_t& rhs);
 	vec4_t operator-(vec4_t lhs, const vec4_t& rhs);
+	vec4_t operator/(vec4_t lhs, float rhs);
+	vec4_t operator/(float lhs, vec4_t rhs);
 } // namespace aech::math

@@ -16,7 +16,7 @@ uniform float light_intensity;
 uniform mat4 depth_bias_vp;
 
 uniform float poisson_sampling_distance_multiplier;
-
+uniform bool shadows;
 uniform vec3 camera_position;
 
 const float pi = 3.14159265359;
@@ -114,7 +114,8 @@ void main()
 	vec3 specular = (ndf * smith * f) / (4.0 * max(dot(normal, view), 0.0) * max(dot(normal, light), 0.0) + 0.00001);
 	vec3 diffuse = mix((vec3(1.0) - f), vec3(0), metallic) * (albedo / pi); 
 
-	vec3 outgoing_radiance = (diffuse + specular) * radiance * max(dot(normal, light), 0.0) * shadow(position, max(dot(normal, light), 0.0));
+	vec3 outgoing_radiance = (diffuse + specular) * radiance * max(dot(normal, light), 0.0);
+	if (shadows) outgoing_radiance *= shadow(position, max(dot(normal, light), 0.0));
 
 	fragment_colour = vec4(outgoing_radiance, 1.0);
 }

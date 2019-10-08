@@ -33,17 +33,17 @@ namespace aech::graphics
 		m_render_cache->clear(clear::color_and_depth_buffer_bit);
 		m_render_cache->set_cull(true);
 		m_render_cache->set_cull_face(cull_face::back);
-
-		//glViewport(0, 0, shadow_map->width(), shadow_map->height());
-		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		//glEnable(GL_CULL_FACE);
-		//glCullFace(GL_BACK);
-
 		m_render_cache->set_shader(material->shader());
-
-		//material->shader()->use();
 		material->set_uniforms();
-		for (auto entity : entities)
+
+		std::set<entity_t, decltype(&renderer.sort_front_to_back)> entities_sorted{&renderer.sort_front_to_back};
+		for (auto entity : m_entities)
+		{
+			auto &scene_node = engine.get_component<scene_node_t>(entity);
+			entities_sorted.insert(entity);
+		}
+
+		for (auto entity: entities_sorted)
 		{
 			auto& transform   = engine.get_component<transform_t>(entity);
 			auto& mesh_filter = engine.get_component<mesh_filter_t>(entity);

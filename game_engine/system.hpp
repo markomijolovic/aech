@@ -8,6 +8,6 @@ namespace aech::ecs
 {
 	struct system_t
 	{
-		std::set<entity_t> entities{};
+		std::set<entity_t> m_entities{};
 	};
 } // namespace aech

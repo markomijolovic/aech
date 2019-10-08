@@ -6,14 +6,14 @@
 
 void aech::input_manager_t::update(float dt)
 {
-	if (!holding_u && m_buttons.test(static_cast<size_t>(input_buttons::u)))
+	if (!holding_o && m_buttons.test(static_cast<size_t>(input_buttons::o)))
 	{
 		graphics::renderer.set_options(!graphics::renderer.options());
-		holding_u = true;
+		holding_o = true;
 	}
-	else if (!m_buttons.test(static_cast<size_t>(input_buttons::u)))
+	else if (!m_buttons.test(static_cast<size_t>(input_buttons::o)))
 	{
-		holding_u = false;
+		holding_o = false;
 	}
 
 	if (graphics::renderer.options())
@@ -86,7 +86,6 @@ void aech::input_manager_t::keyboard_listener(events::event_t& event)
 {
 	m_buttons = event.get_param<std::bitset<32>>(events::window::params::keyboard);
 }
-
 
 void aech::input_manager_t::set_camera(camera_t* camera)
 {

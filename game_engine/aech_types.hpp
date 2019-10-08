@@ -36,7 +36,7 @@ namespace aech
 		d,
 		q,
 		e,
-		u
+		o
 	};
 
 	constexpr uint32_t fnv1a_32(char const* s, std::size_t count)

@@ -27,13 +27,15 @@ namespace aech::graphics
 		[[nodiscard]] bool             options() const;
 		[[nodiscard]] float            poisson_sampling_distance() const;
 		void                           set_options(bool gui);
-
+		
+		[[nodiscard]] static bool sort_front_to_back(entity_t a, entity_t b);
+		[[nodiscard]] static bool sort_back_to_front(entity_t a, entity_t b);		
 		inline static auto light_projection{math::orthographic(-225.0, 225.0, -225.0, 200.0, 0, 225.0)};
 
 	private:
 		inline static constexpr uint32_t ssao_kernel_size{32};
-		
-		entity_t                                       m_camera{};
+
+		camera_t* m_camera{};
 		std::shared_ptr<point_light_renderer_t>        point_light_renderer{};
 		std::shared_ptr<opaque_shadow_renderer_t>      opaque_shadow_renderer{};
 		std::shared_ptr<transparent_shadow_renderer_t> transparent_shadow_renderer{};

@@ -30,7 +30,7 @@ int main(int /*argc*/, char* /*argv*/[])
 	auto scene_node = engine.get_component<scene_node_t>(root_node);
 	scene_node.set_scale(0.1F); //testing
 	auto delta_time = 1 / 60.0F;
-	renderer.bake_probes();
+	//renderer.bake_probes();
 
 	while (!window_manager.should_close())
 	{

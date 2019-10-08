@@ -1,6 +1,6 @@
 #include "transforms.hpp"
 #include "camera.hpp"
-
+#include "vector_math.hpp"
 
 #include "material_library.hpp"
 
@@ -26,25 +26,15 @@ namespace aech::graphics
 		m_render_cache->set_depth_test(true);
 		m_render_cache->set_depth_func(depth_func::lequal);
 		m_render_cache->set_blend(false);
-		
-		//glEnable(GL_DEPTH_TEST);
-		//glDepthFunc(GL_LEQUAL);
 		m_render_cache->set_shader(skybox_mf.material()->shader());
-
-		//skybox_mf.material()->shader()->use();
 		skybox_mf.material()->shader()->set_uniform("view",
 		                                            math::get_view_matrix(*m_camera->transform()));
 		skybox_mf.material()->shader()->set_uniform("projection", m_camera->projection());
 		skybox_mf.material()->set_uniforms();
 		m_render_cache->set_cull(false);
-
-		//glDisable(GL_CULL_FACE);
 		skybox_mf.mesh()->draw();
 		m_render_cache->set_cull(true);
-
-		//glEnable(GL_CULL_FACE);
 	}
-
 
 	opaque_renderer_t::opaque_renderer_t(render_cache_t* render_cache, camera_t* camera) :
 		m_camera{camera},
@@ -55,10 +45,18 @@ namespace aech::graphics
 	void opaque_renderer_t::update()
 	{
 		setup_g_buffer();
-		for (auto entity : entities)
+
+		// sort front to back (roughly) to take advantage of early z testing
+		std::set<entity_t, decltype(&renderer.sort_front_to_back)> entities_sorted{&renderer.sort_front_to_back};
+		for (auto entity : m_entities)
 		{
-			draw_entity(entity);
+			auto &scene_node = engine.get_component<scene_node_t>(entity);
+			if (!m_camera->sees(scene_node)) continue; // view frustum culling
+			entities_sorted.insert(entity);
 		}
+
+		for (auto entity: entities_sorted)
+			draw_entity(entity);
 	}
 
 	void opaque_renderer_t::setup_g_buffer() const
@@ -71,13 +69,6 @@ namespace aech::graphics
 		m_render_cache->set_blend(false);
 		m_render_cache->set_cull_face(cull_face::back);
 		m_render_cache->set_depth_func(depth_func::lequal);
-		//glViewport(0, 0, window_manager.width(), window_manager.height());
-		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		//glEnable(GL_CULL_FACE);
-		//glEnable(GL_DEPTH_TEST);
-		//glDisable(GL_BLEND);
-		//glCullFace(GL_BACK);
-		//glDepthFunc(GL_LEQUAL);
 
 		GLenum attachments[] = {GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3};
 		glDrawBuffers(4, attachments);
@@ -87,11 +78,7 @@ namespace aech::graphics
 	{
 		auto  view       = math::get_view_matrix(*m_camera->transform());
 		auto& scene_node = engine.get_component<scene_node_t>(entity);
-
 		auto& mesh_filter = engine.get_component<mesh_filter_t>(entity);
-		// view frustum culling
-		if (!m_camera->sees(scene_node))
-			return;
 		auto shader     = mesh_filter.material()->shader();
 		auto projection = m_camera->projection();
 
