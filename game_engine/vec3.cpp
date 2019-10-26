@@ -53,6 +53,15 @@ namespace aech::math
 		return *this;
 	}
 
+
+	vec3_t& vec3_t::operator/=(float rhs)
+	{
+		x/= rhs;
+		y /= rhs;
+		z /= rhs;
+		return *this;
+	}
+
 	float& vec3_t::operator[](size_t index)
 	{
 		switch(index)
@@ -86,5 +95,11 @@ namespace aech::math
 	vec3_t operator*(float lhs, vec3_t rhs)
 	{
 		return rhs *= lhs;
+	}
+
+
+	vec3_t operator/(vec3_t lhs, float rhs)
+	{
+		return lhs /= rhs;
 	}
 } // namespace aech::math

@@ -554,5 +554,35 @@
     <None Include="tonemap_fragment.glsl">
       <Filter>Source Files\shaders</Filter>
     </None>
+    <None Include="basic_vertex.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="basic_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\post_processing_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\probe_capture_transparent_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\ssao_blur_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\ssao_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\tonemap_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\g_buffer_transparent_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\basic_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\basic_vertex.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

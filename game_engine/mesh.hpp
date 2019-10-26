@@ -31,7 +31,7 @@ namespace aech::graphics
 			std::vector<math::vec3_t> bitangents = {}
 		);
 		void draw() const;
-		bounding_box_t calculate_aabb() const;
+		[[nodiscard]] bounding_box_t calculate_aabb() const;
 		
 	protected:
 		void commit(bool interleave = true);

@@ -7,9 +7,22 @@ void aech::graphics::material_library::generate_default_materials()
 	auto default_shader = &resource_manager::load_shader("default",
 	                                                     "shaders/g_buffer_vertex.glsl",
 	                                                     "shaders/g_buffer_fragment.glsl");
-
 	auto& default_material       = default_materials["default"];
 	default_materials["default"] = {default_shader};
+	default_materials["default"].set_texture("texture_albedo", resource_manager::load_texture("checkerboard.png", "textures_pbr/default/checkerboard.png"), 0);
+	default_materials["default"].set_texture("texture_normal", resource_manager::load_texture("norm.png", "textures_pbr/default/norm.png", false), 1);
+	default_materials["default"].set_texture("texture_metallic", resource_manager::load_texture("black.png", "textures_pbr/default/black.png"), 2);
+	default_materials["default"].set_texture("texture_roughness", resource_manager::load_texture("checkerboard.png", "textures_pbr/default/checkerboard.png"), 3);
+
+
+	auto basic_shader = &resource_manager::load_shader("basic", 
+		"shaders/basic_vertex.glsl",
+		"shaders/basic_fragment.glsl"
+	);
+	
+	auto &basic_material = default_materials["basic"];
+	basic_material = {basic_shader};
+	basic_material.set_uniform("colour", math::vec4_t{236.0F/255.0F, 64.0F/255.0F, 122.0F/255.0F, 1.0F});
 
 	auto directional = &resource_manager::load_shader("directional",
 	                                                  "shaders/directional_vertex.glsl",

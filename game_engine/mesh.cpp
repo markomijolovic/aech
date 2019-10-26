@@ -5,6 +5,7 @@
 
 namespace aech::graphics
 {
+
 	mesh_t::mesh_t(
 		std::vector<math::vec3_t> positions,
 		std::vector<math::vec3_t> normals,

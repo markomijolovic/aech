@@ -50,25 +50,28 @@ namespace aech::graphics
 
 		post_process_shader = &resource_manager::shaders["post_process"];
 
-		auto m_camera_entity = engine.create_entity();
-		engine.add_component(m_camera_entity, transform_t{{0.0F, 0.0F, 0.0F}});
-		engine.add_component(m_camera_entity,
-		                     camera_t{
-			                     math::perspective(90.0F, 1280.0F / 720, 0.01F, 400.00F),
-			                     &engine.get_component<transform_t>(m_camera_entity),
-			                     {}
-		                     });
-
-		m_camera = &engine.get_component<camera_t>(m_camera_entity);
-
 		auto dirlight = engine.create_entity();
 		engine.add_component(dirlight, transform_t{{0, 175.0, 0}, {-80, 10, -10}});
 		engine.add_component(dirlight, directional_light_t{{1, 1, 1}, 5, &engine.get_component<transform_t>(dirlight)});
 
 		auto dir    = &engine.get_component<directional_light_t>(dirlight);
 
-		input_manager.set_camera(m_camera);
+		auto m_camera_entity = engine.create_entity();
+		engine.add_component(m_camera_entity, transform_t{{0.0F, 0.0F, -10.0F}});
+		auto ptr_camera_transform = &engine.get_component<transform_t>(m_camera_entity);
+		
+		engine.add_component(m_camera_entity, scene_node_t {
+			ptr_camera_transform,
+		});
+		
+		engine.add_component(m_camera_entity,
+		                     camera_t{
+			                     math::perspective(90.0F, 1280.0F / 720, 0.01F, 400.00F),
+			                     ptr_camera_transform,
+		                     });
 
+		m_camera = &engine.get_component<camera_t>(m_camera_entity);
+		
 		light_probe_renderer = engine.register_system<light_probe_renderer_t>(render_cache(), m_camera);
 		{
 			// for now, testing
@@ -247,7 +250,36 @@ namespace aech::graphics
 		//light_probe_renderer->add_probe(light_probe_t{{-40.0, 105, -5.0}, 40.0});
 		//light_probe_renderer->add_probe(light_probe_t{{-80.0, 105, -5.0}, 40.0});
 
+		auto player_object = engine.create_entity();
+		engine.add_component(player_object, transform_t{});
+		auto ptr_player_transform = &engine.get_component<transform_t>(player_object);
+		
+		engine.add_component(player_object, scene_node_t {
+			ptr_player_transform
+		});
 
+		auto ptr_player_scene_node = &engine.get_component<scene_node_t>(player_object);
+		ptr_player_scene_node->set_scale(10.0F);
+		ptr_player_scene_node->set_position({0.0F, 5.0F, -1.0F});
+		ptr_player_scene_node->set_aabb(mesh_library::default_meshes["cube"].get()->calculate_aabb());
+		
+		engine.add_component(player_object,
+			mesh_filter_t
+			{
+				mesh_library::default_meshes["cube"].get(),
+				&material_library::default_materials["basic"]
+			}
+		);
+
+		engine.add_component(player_object,
+			potential_occluder_t{}
+		);
+
+		engine.add_component(player_object, opaque_t{});
+
+		input_manager.set_camera(m_camera);
+
+		
 		// TODO(Marko): refactor this
 
 		const static auto capture_projection = math::perspective(90, 1, 0.1F, 10.0F);
@@ -350,7 +382,7 @@ namespace aech::graphics
 		auto centroid_b = math::vec3_t{(aabb_b.min_coords + aabb_b.max_coords)/2.0F};
 		
 		return math::distance_squared(centroid_a, renderer.m_camera->transform()->position)
-			<= math::distance_squared(centroid_b, renderer.m_camera->transform()->position);
+			< math::distance_squared(centroid_b, renderer.m_camera->transform()->position);
 	}
 
 
@@ -365,7 +397,7 @@ namespace aech::graphics
 		auto centroid_b = math::vec3_t{(aabb_b.min_coords + aabb_b.max_coords)/2.0F};
 		
 		return math::distance_squared(centroid_a, renderer.m_camera->transform()->position)
-			>= math::distance_squared(centroid_b, renderer.m_camera->transform()->position);
+			> math::distance_squared(centroid_b, renderer.m_camera->transform()->position);
 	}
 
 	void renderer_t::set_options(bool gui)
