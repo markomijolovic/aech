@@ -23,6 +23,7 @@
     <ProjectGuid>{6D6CBCC6-0228-48B9-9C87-F699ACDBED91}</ProjectGuid>
     <RootNamespace>gameengine</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>aech</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
