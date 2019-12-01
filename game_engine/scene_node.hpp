@@ -29,6 +29,7 @@ namespace aech::graphics
 		void                       set_scale(const math::vec3_t& scale);
 		void                       set_scale(float scale);
 		void parent_changed() const;
+		void move(const math::vec3_t& offfset);
 
 		// make array happy
 		scene_node_t() = default;

@@ -106,6 +106,18 @@
     <Filter Include="Source Files\graphics\lighting">
       <UniqueIdentifier>{aa589a5e-39e7-4aee-9558-ca93e5dbf4d1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\physics">
+      <UniqueIdentifier>{7516bb51-0348-4422-ad14-c5ff577b0907}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\physics\components">
+      <UniqueIdentifier>{d9d80bd6-cb02-4647-ad58-7937aac32517}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\physics">
+      <UniqueIdentifier>{8c4cc927-2a2c-4400-8e93-d42e8c90c161}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\physics\components">
+      <UniqueIdentifier>{dca24833-7d4e-4fbb-bee8-9c3002463af4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine.hpp">
@@ -291,6 +303,12 @@
     <ClInclude Include="vector_math.hpp">
       <Filter>Header Files\math</Filter>
     </ClInclude>
+    <ClInclude Include="rigidbody.hpp">
+      <Filter>Header Files\physics\components</Filter>
+    </ClInclude>
+    <ClInclude Include="physics_system.hpp">
+      <Filter>Header Files\physics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="component_manager.cpp">
@@ -448,6 +466,12 @@
     </ClCompile>
     <ClCompile Include="directional_light.cpp">
       <Filter>Source Files\graphics\lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="physics_system.cpp">
+      <Filter>Source Files\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="rigidbody.cpp">
+      <Filter>Source Files\physics\components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

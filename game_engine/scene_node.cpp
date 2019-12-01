@@ -29,6 +29,13 @@ namespace aech::graphics
 			child->parent_changed();
 	}
 
+
+	void scene_node_t::move(const math::vec3_t& offset)
+	{
+		m_transform->position += offset;
+		m_dirty = true;
+	}
+
 	void scene_node_t::set_rotation(const math::vec3_t& rotation)
 	{
 		m_transform->rotation = rotation;
