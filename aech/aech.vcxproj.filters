@@ -1,0 +1,613 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\math">
+      <UniqueIdentifier>{6056a5c5-8c3e-4dee-8fe3-921552dbd2ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\math">
+      <UniqueIdentifier>{191fcfbb-aad5-43a5-b3fb-132d5d5fcca6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\graphics">
+      <UniqueIdentifier>{d3b833ab-fd0c-47f7-be7f-f7b85d37c3d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\graphics">
+      <UniqueIdentifier>{7a599fdb-b045-4d5d-bf33-017845b4569d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\graphics\mesh">
+      <UniqueIdentifier>{bcf67301-419c-44bf-9e8c-7387435b333a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\graphics\mesh">
+      <UniqueIdentifier>{dabad1dc-1ba9-400c-aa97-b031154ef108}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\includes">
+      <UniqueIdentifier>{8ee4e678-79cf-402a-a22e-b14cb08328eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\graphics\scene">
+      <UniqueIdentifier>{893156d2-e312-4c8a-a81d-e4b28ae2ece2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\graphics\scene">
+      <UniqueIdentifier>{1f201e33-2d10-4cd0-92c9-5bc6acb5b2e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\graphics\rendering">
+      <UniqueIdentifier>{3cce3837-8da6-4548-9fdb-d788d5fd072e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\graphics\rendering">
+      <UniqueIdentifier>{2e175eaf-e1a2-49e2-9581-a5789ff422ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\graphics\shading">
+      <UniqueIdentifier>{a027a706-3dca-488b-aee3-ecf2d70f67bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\graphics\shading">
+      <UniqueIdentifier>{e2faf528-daab-4851-9a9b-4748b68a62cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\resource management">
+      <UniqueIdentifier>{9f1b597a-d7b1-4d4e-bf99-46d0c5c13870}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\graphics\lighting">
+      <UniqueIdentifier>{e931a80f-983a-4dff-b597-8d4f7b5becf6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ecs core">
+      <UniqueIdentifier>{5a9d9b3c-f770-4c25-8fd7-221bcd9fa1f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ecs core">
+      <UniqueIdentifier>{c38fcd32-82d8-4674-baef-99a96ff77561}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\includes">
+      <UniqueIdentifier>{7274ebb9-6d5c-4ec5-b345-a5d2e5578613}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ecs core\event system">
+      <UniqueIdentifier>{61bbdbda-9665-4b3e-85af-99228d022a51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ecs core\event system">
+      <UniqueIdentifier>{bce679ae-c0e0-4a48-bf47-5ba450ada46e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\shaders">
+      <UniqueIdentifier>{bd499bcf-0e89-4f75-8184-c1ccc00f7587}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\driver">
+      <UniqueIdentifier>{cd1636ac-6076-4bcd-8567-791ab9042db2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\driver">
+      <UniqueIdentifier>{ac95f99f-c759-4d76-8a3a-9d27d69635cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\resource management">
+      <UniqueIdentifier>{b2b19feb-2cb1-472f-b8e8-31e23bb5e2dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\includes\Dear ImGUI">
+      <UniqueIdentifier>{964a54f9-a9bc-48a1-a389-6d974cf70c12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\includes\Dear ImGUI">
+      <UniqueIdentifier>{8a0eda69-8482-4f49-b951-769ffa97caa6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\graphics\rendering\GUI">
+      <UniqueIdentifier>{6b9df11e-aa45-4569-ac60-774dec992b00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\graphics\rendering\GUI">
+      <UniqueIdentifier>{20e14305-83e2-4cf7-acaa-d56ed3f1e3fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\input">
+      <UniqueIdentifier>{c6d8e743-b0ae-4835-ae35-f8b8fe295fa4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\input">
+      <UniqueIdentifier>{6a14c235-540c-4837-8d70-4fdf50ad3fab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\graphics\lighting">
+      <UniqueIdentifier>{aa589a5e-39e7-4aee-9558-ca93e5dbf4d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\physics">
+      <UniqueIdentifier>{7516bb51-0348-4422-ad14-c5ff577b0907}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\physics\components">
+      <UniqueIdentifier>{d9d80bd6-cb02-4647-ad58-7937aac32517}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\physics">
+      <UniqueIdentifier>{8c4cc927-2a2c-4400-8e93-d42e8c90c161}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\physics\components">
+      <UniqueIdentifier>{dca24833-7d4e-4fbb-bee8-9c3002463af4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="engine.hpp">
+      <Filter>Header Files\ecs core</Filter>
+    </ClInclude>
+    <ClInclude Include="vec2.hpp">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="vec3.hpp">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="vec4.hpp">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="mat4.hpp">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="transforms.hpp">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="mat3.hpp">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="mesh.hpp">
+      <Filter>Header Files\graphics\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="shader.hpp">
+      <Filter>Header Files\graphics\shading</Filter>
+    </ClInclude>
+    <ClInclude Include="texture.hpp">
+      <Filter>Header Files\graphics\shading</Filter>
+    </ClInclude>
+    <ClInclude Include="material.hpp">
+      <Filter>Header Files\graphics\shading</Filter>
+    </ClInclude>
+    <ClInclude Include="texture_cube.hpp">
+      <Filter>Header Files\graphics\shading</Filter>
+    </ClInclude>
+    <ClInclude Include="cube.hpp">
+      <Filter>Header Files\graphics\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="mesh_filter.hpp">
+      <Filter>Header Files\graphics\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="scene_node.hpp">
+      <Filter>Header Files\graphics\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="material_library.hpp">
+      <Filter>Header Files\graphics\shading</Filter>
+    </ClInclude>
+    <ClInclude Include="mesh_library.hpp">
+      <Filter>Header Files\graphics\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="sphere.hpp">
+      <Filter>Header Files\graphics\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="point_light_renderer.hpp">
+      <Filter>Header Files\graphics\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="directional_light_renderer.hpp">
+      <Filter>Header Files\graphics\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="quad.hpp">
+      <Filter>Header Files\graphics\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="renderer.hpp">
+      <Filter>Header Files\graphics\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="resource_manager.hpp">
+      <Filter>Header Files\resource management</Filter>
+    </ClInclude>
+    <ClInclude Include="event_manager.hpp">
+      <Filter>Header Files\ecs core\event system</Filter>
+    </ClInclude>
+    <ClInclude Include="event.hpp">
+      <Filter>Header Files\ecs core\event system</Filter>
+    </ClInclude>
+    <ClInclude Include="directional_light.hpp">
+      <Filter>Header Files\graphics\lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="point_light.hpp">
+      <Filter>Header Files\graphics\lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="shadow_caster.hpp">
+      <Filter>Header Files\graphics\lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="component_manager.hpp">
+      <Filter>Header Files\ecs core</Filter>
+    </ClInclude>
+    <ClInclude Include="entity_manager.hpp">
+      <Filter>Header Files\ecs core</Filter>
+    </ClInclude>
+    <ClInclude Include="system.hpp">
+      <Filter>Header Files\ecs core</Filter>
+    </ClInclude>
+    <ClInclude Include="system_manager.hpp">
+      <Filter>Header Files\ecs core</Filter>
+    </ClInclude>
+    <ClInclude Include="transform.hpp">
+      <Filter>Header Files\graphics\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="camera.hpp">
+      <Filter>Header Files\graphics\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="main.hpp">
+      <Filter>Header Files\driver</Filter>
+    </ClInclude>
+    <ClInclude Include="aech_types.hpp">
+      <Filter>Header Files\driver</Filter>
+    </ClInclude>
+    <ClInclude Include="framebuffer_library.hpp">
+      <Filter>Header Files\graphics\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="transparent_renderer.hpp">
+      <Filter>Header Files\graphics\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="opaque_renderer.hpp">
+      <Filter>Header Files\graphics\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="texture_types.hpp">
+      <Filter>Header Files\graphics\shading</Filter>
+    </ClInclude>
+    <ClInclude Include="framebuffer.hpp">
+      <Filter>Header Files\graphics\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="shading_tags.hpp">
+      <Filter>Header Files\graphics\shading</Filter>
+    </ClInclude>
+    <ClInclude Include="transparent_shadow_renderer.hpp">
+      <Filter>Header Files\graphics\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="opaque_shadow_renderer.hpp">
+      <Filter>Header Files\graphics\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="framebuffer_cube.hpp">
+      <Filter>Header Files\graphics\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="light_probe.hpp">
+      <Filter>Header Files\graphics\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="light_probe_renderer.hpp">
+      <Filter>Header Files\graphics\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_truetype.h">
+      <Filter>Header Files\includes\Dear ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imconfig.h">
+      <Filter>Header Files\includes\Dear ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui.h">
+      <Filter>Header Files\includes\Dear ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_internal.h">
+      <Filter>Header Files\includes\Dear ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_rectpack.h">
+      <Filter>Header Files\includes\Dear ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imstb_textedit.h">
+      <Filter>Header Files\includes\Dear ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_glfw.h">
+      <Filter>Header Files\graphics\rendering\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_impl_opengl3.h">
+      <Filter>Header Files\graphics\rendering\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="input_manager.hpp">
+      <Filter>Header Files\input</Filter>
+    </ClInclude>
+    <ClInclude Include="window_manager.hpp">
+      <Filter>Header Files\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="bounding_box.hpp">
+      <Filter>Header Files\graphics\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="camera_frustum.hpp">
+      <Filter>Header Files\graphics\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="render_cache.hpp">
+      <Filter>Header Files\graphics\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="vector_math.hpp">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="rigidbody.hpp">
+      <Filter>Header Files\physics\components</Filter>
+    </ClInclude>
+    <ClInclude Include="physics_system.hpp">
+      <Filter>Header Files\physics</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="component_manager.cpp">
+      <Filter>Source Files\ecs core</Filter>
+    </ClCompile>
+    <ClCompile Include="engine.cpp">
+      <Filter>Source Files\ecs core</Filter>
+    </ClCompile>
+    <ClCompile Include="entity_manager.cpp">
+      <Filter>Source Files\ecs core</Filter>
+    </ClCompile>
+    <ClCompile Include="system_manager.cpp">
+      <Filter>Source Files\ecs core</Filter>
+    </ClCompile>
+    <ClCompile Include="vec2.cpp">
+      <Filter>Source Files\math</Filter>
+    </ClCompile>
+    <ClCompile Include="vec3.cpp">
+      <Filter>Source Files\math</Filter>
+    </ClCompile>
+    <ClCompile Include="vec4.cpp">
+      <Filter>Source Files\math</Filter>
+    </ClCompile>
+    <ClCompile Include="mat4.cpp">
+      <Filter>Source Files\math</Filter>
+    </ClCompile>
+    <ClCompile Include="transforms.cpp">
+      <Filter>Source Files\math</Filter>
+    </ClCompile>
+    <ClCompile Include="mesh.cpp">
+      <Filter>Source Files\graphics\mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="shader.cpp">
+      <Filter>Source Files\graphics\shading</Filter>
+    </ClCompile>
+    <ClCompile Include="texture.cpp">
+      <Filter>Source Files\graphics\shading</Filter>
+    </ClCompile>
+    <ClCompile Include="material.cpp">
+      <Filter>Source Files\graphics\shading</Filter>
+    </ClCompile>
+    <ClCompile Include="cube.cpp">
+      <Filter>Source Files\graphics\mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="scene_node.cpp">
+      <Filter>Source Files\graphics\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="material_library.cpp">
+      <Filter>Source Files\graphics\shading</Filter>
+    </ClCompile>
+    <ClCompile Include="mesh_library.cpp">
+      <Filter>Source Files\graphics\mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="sphere.cpp">
+      <Filter>Source Files\graphics\mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="point_light_renderer.cpp">
+      <Filter>Source Files\graphics\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="directional_light_renderer.cpp">
+      <Filter>Source Files\graphics\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="quad.cpp">
+      <Filter>Source Files\graphics\mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="renderer.cpp">
+      <Filter>Source Files\graphics\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="stb_image.cpp">
+      <Filter>Source Files\includes</Filter>
+    </ClCompile>
+    <ClCompile Include="glad.cpp">
+      <Filter>Source Files\includes</Filter>
+    </ClCompile>
+    <ClCompile Include="event.cpp">
+      <Filter>Source Files\ecs core\event system</Filter>
+    </ClCompile>
+    <ClCompile Include="event_manager.cpp">
+      <Filter>Source Files\ecs core\event system</Filter>
+    </ClCompile>
+    <ClCompile Include="transform.cpp">
+      <Filter>Source Files\graphics\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files\driver</Filter>
+    </ClCompile>
+    <ClCompile Include="resource_manager.cpp">
+      <Filter>Source Files\resource management</Filter>
+    </ClCompile>
+    <ClCompile Include="framebuffer_library.cpp">
+      <Filter>Source Files\graphics\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="opaque_renderer.cpp">
+      <Filter>Source Files\graphics\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="transparent_renderer.cpp">
+      <Filter>Source Files\graphics\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="transparent_shadow_renderer.cpp">
+      <Filter>Source Files\graphics\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="opaque_shadow_renderer.cpp">
+      <Filter>Source Files\graphics\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="framebuffer_cube.cpp">
+      <Filter>Source Files\graphics\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="light_probe_renderer.cpp">
+      <Filter>Source Files\graphics\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="mesh_filter.cpp">
+      <Filter>Source Files\graphics\mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="light_probe.cpp">
+      <Filter>Source Files\graphics\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="texture_cube.cpp">
+      <Filter>Source Files\graphics\shading</Filter>
+    </ClCompile>
+    <ClCompile Include="framebuffer.cpp">
+      <Filter>Source Files\graphics\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui.cpp">
+      <Filter>Source Files\includes\Dear ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_demo.cpp">
+      <Filter>Source Files\includes\Dear ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_draw.cpp">
+      <Filter>Source Files\includes\Dear ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_widgets.cpp">
+      <Filter>Source Files\includes\Dear ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_glfw.cpp">
+      <Filter>Source Files\graphics\rendering\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui_impl_opengl3.cpp">
+      <Filter>Source Files\graphics\rendering\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="input_manager.cpp">
+      <Filter>Source Files\input</Filter>
+    </ClCompile>
+    <ClCompile Include="window_manager.cpp">
+      <Filter>Source Files\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="camera.cpp">
+      <Filter>Source Files\graphics\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="camera_frustum.cpp">
+      <Filter>Source Files\graphics\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="render_cache.cpp">
+      <Filter>Source Files\graphics\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="directional_light.cpp">
+      <Filter>Source Files\graphics\lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="physics_system.cpp">
+      <Filter>Source Files\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="rigidbody.cpp">
+      <Filter>Source Files\physics\components</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="component_array.hpp">
+      <Filter>Header Files\ecs core</Filter>
+    </None>
+    <None Include="shaders\ambient_irradiance_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\ambient_irradiance_vertex.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\background_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\background_vertex.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\pbr\brdf_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\pbr\cube_sample_vertex.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\directional_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\directional_vertex.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\pbr\equirectangular_to_cube_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\g_buffer_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\g_buffer_vertex.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\opaque_shadow_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\opaque_shadow_vertex.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\point_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\point_vertex.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\pbr\precompute_irradiance_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\pbr\prefilter_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\probe_capture_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\probe_capture_vertex.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\screen_quad_vertex.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\transparent_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\transparent_shadow_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\transparent_shadow_vertex.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\transparent_vertex.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\ambient_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\ambient_vertex.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\probe_capture_skybox_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\probe_capture_skybox_vertex.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\pbr\screen_quad_vertex.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\skybox_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\skybox_vertex.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="packages.config" />
+    <None Include="post_processing_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="tonemap_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="basic_vertex.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="basic_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\post_processing_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\probe_capture_transparent_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\ssao_blur_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\ssao_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\tonemap_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\g_buffer_transparent_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\basic_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\basic_vertex.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="systems_diagram.cd" />
+  </ItemGroup>
+</Project>
