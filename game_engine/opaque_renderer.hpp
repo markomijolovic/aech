@@ -23,7 +23,7 @@ namespace aech::graphics
 	private:
 		camera_t*      m_camera{};
 		framebuffer_t* m_render_target = &framebuffers["g_buffer"];
-		mesh_filter_t  skybox_mf       = mesh_filter_t{
+		mesh_filter_t  m_skybox_mf       = mesh_filter_t{
 			mesh_library::default_meshes["cube"].get(),
 			&material_library::default_materials["skybox"]
 		};

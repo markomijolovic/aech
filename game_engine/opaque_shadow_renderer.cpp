@@ -33,8 +33,8 @@ namespace aech::graphics
 		m_render_cache->clear(clear::color_and_depth_buffer_bit);
 		m_render_cache->set_cull(true);
 		m_render_cache->set_cull_face(cull_face::back);
-		m_render_cache->set_shader(material->shader());
-		material->set_uniforms();
+		m_render_cache->set_shader(m_material->shader());
+		m_material->set_uniforms();
 
 		std::set<entity_t, decltype(&renderer.sort_front_to_back)> entities_sorted{&renderer.sort_front_to_back};
 		for (auto entity : m_entities)
@@ -50,9 +50,9 @@ namespace aech::graphics
 			auto &scene_node = engine.get_component<scene_node_t>(entity);
 			auto light_view_matrix = math::get_view_matrix(*m_dirlight->transform());
 
-			material->shader()->set_uniform("projection", renderer.light_projection);
-			material->shader()->set_uniform("view", light_view_matrix);
-			material->shader()->set_uniform("model", scene_node.get_transform());
+			m_material->shader()->set_uniform("projection", renderer.light_projection);
+			m_material->shader()->set_uniform("view", light_view_matrix);
+			m_material->shader()->set_uniform("model", scene_node.get_transform());
 			mesh_filter.mesh()->draw();
 		}
 	}

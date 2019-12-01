@@ -44,21 +44,21 @@ namespace aech::graphics
 		camera_t*                  m_camera{};
 		render_cache_t*            m_render_cache{};
 		framebuffer_t*             m_render_target = &framebuffers["default"];
-		material_t*                prefilter_material{&material_library::default_materials["prefilter"]};
-		material_t*                cubemap_capture_material{&material_library::default_materials["capture"]};
-		material_t*                cubemap_capture_skybox_material{
+		material_t*                m_prefilter_material{&material_library::default_materials["prefilter"]};
+		material_t*                m_cubemap_capture_material{&material_library::default_materials["capture"]};
+		material_t*                m_cubemap_capture_skybox_material{
 			&material_library::default_materials["capture_skybox"]
 		};
-		material_t* cubemap_capture_transparent_material { &material_library::default_materials["capture_transparent"]};
-		material_t* irradiance_capture_material{&material_library::default_materials["irradiance"]};
-		material_t* brdf_material{&material_library::default_materials["brdf"]};
+		material_t* m_cubemap_capture_transparent_material { &material_library::default_materials["capture_transparent"]};
+		material_t* m_irradiance_capture_material{&material_library::default_materials["irradiance"]};
+		material_t* m_brdf_material{&material_library::default_materials["brdf"]};
 		material_t* m_ambient_material{&material_library::default_materials["ambient"]};
 
-		mesh_t* ndc_cube   = mesh_library::default_meshes["cube"].get();
-		mesh_t* ndc_quad   = mesh_library::default_meshes["quad"].get();
-		mesh_t* ndc_sphere = mesh_library::default_meshes["sphere"].get();
+		mesh_t* m_ndc_cube   = mesh_library::default_meshes["cube"].get();
+		mesh_t* m_ndc_quad   = mesh_library::default_meshes["quad"].get();
+		mesh_t* m_ndc_sphere = mesh_library::default_meshes["sphere"].get();
 
-		mesh_filter_t skybox_mf{
+		mesh_filter_t m_skybox_mf{
 			mesh_library::default_meshes["cube"].get(),
 			&material_library::default_materials["skybox"]
 		};

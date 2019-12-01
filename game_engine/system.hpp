@@ -6,8 +6,9 @@
 
 namespace aech::ecs
 {
-	struct system_t
+	class system_t
 	{
+	protected:
 		std::set<entity_t> m_entities{};
 	};
 } // namespace aech

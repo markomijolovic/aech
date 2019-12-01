@@ -26,13 +26,13 @@ namespace aech::graphics
 		m_render_cache->set_depth_test(true);
 		m_render_cache->set_depth_func(depth_func::lequal);
 		m_render_cache->set_blend(false);
-		m_render_cache->set_shader(skybox_mf.material()->shader());
-		skybox_mf.material()->shader()->set_uniform("view",
+		m_render_cache->set_shader(m_skybox_mf.material()->shader());
+		m_skybox_mf.material()->shader()->set_uniform("view",
 		                                            math::get_view_matrix(*m_camera->transform()));
-		skybox_mf.material()->shader()->set_uniform("projection", m_camera->projection());
-		skybox_mf.material()->set_uniforms();
+		m_skybox_mf.material()->shader()->set_uniform("projection", m_camera->projection());
+		m_skybox_mf.material()->set_uniforms();
 		m_render_cache->set_cull(false);
-		skybox_mf.mesh()->draw();
+		m_skybox_mf.mesh()->draw();
 		m_render_cache->set_cull(true);
 	}
 

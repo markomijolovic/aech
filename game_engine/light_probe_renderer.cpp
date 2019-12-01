@@ -54,7 +54,7 @@ void aech::graphics::light_probe_renderer_t::bake_probes()
 	brdf_fbo.bind();
 	m_render_cache->set_viewport(0, 0, brdf_fbo.width(), brdf_fbo.height());
 	//glViewport(0, 0, brdf_fbo.width(), brdf_fbo.height());
-	m_render_cache->set_shader(brdf_material->shader());
+	m_render_cache->set_shader(m_brdf_material->shader());
 
 	m_render_cache->set_depth_test(false);
 	m_render_cache->set_blend(false);
@@ -63,7 +63,7 @@ void aech::graphics::light_probe_renderer_t::bake_probes()
 	m_render_cache->clear(clear::color_and_depth_buffer_bit);
 
 	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	ndc_quad->draw();
+	m_ndc_quad->draw();
 	brdf_fbo.unbind();
 
 	std::clog << "Baking light probes" << std::endl;
@@ -126,11 +126,11 @@ void aech::graphics::light_probe_renderer_t::create_radiance_cubemap(size_t prob
 
 		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		auto& view = capture_views[i];
-		m_render_cache->set_shader(cubemap_capture_material->shader());
+		m_render_cache->set_shader(m_cubemap_capture_material->shader());
 
 		//cubemap_capture_material->shader()->use();
-		cubemap_capture_material->set_uniform("view", view);
-		cubemap_capture_material->set_uniform("projection", capture_projection);
+		m_cubemap_capture_material->set_uniform("view", view);
+		m_cubemap_capture_material->set_uniform("projection", capture_projection);
 		for (auto entity : m_entities)
 		{
 			if (engine.has_component<transparent_t>(entity))
@@ -143,19 +143,19 @@ void aech::graphics::light_probe_renderer_t::create_radiance_cubemap(size_t prob
 			auto& scene_node = engine.get_component<scene_node_t>(entity);
 			for (const auto& texture : mesh_filter.material()->get_textures())
 			{
-				cubemap_capture_material->set_texture(texture.first, texture.second.first, texture.second.second);
+				m_cubemap_capture_material->set_texture(texture.first, texture.second.first, texture.second.second);
 			}
 
 			//cubemap_capture_material->shader()->use();
-			cubemap_capture_material->shader()->set_uniform("model", scene_node.get_transform());
-			cubemap_capture_material->set_uniforms();
+			m_cubemap_capture_material->shader()->set_uniform("model", scene_node.get_transform());
+			m_cubemap_capture_material->set_uniforms();
 			mesh_filter.mesh()->draw();
 		}
 
 		// render transparent entities
-		m_render_cache->set_shader(cubemap_capture_transparent_material->shader());
-		cubemap_capture_transparent_material->set_uniform("view", view);
-		cubemap_capture_transparent_material->set_uniform("projection", capture_projection);
+		m_render_cache->set_shader(m_cubemap_capture_transparent_material->shader());
+		m_cubemap_capture_transparent_material->set_uniform("view", view);
+		m_cubemap_capture_transparent_material->set_uniform("projection", capture_projection);
 		m_render_cache->set_blend(true);
 		m_render_cache->set_blend(blend_func::src_alpha, blend_func::one_minus_src_alpha);
 		for (auto entity: transparent_entities)
@@ -165,12 +165,12 @@ void aech::graphics::light_probe_renderer_t::create_radiance_cubemap(size_t prob
 			auto& scene_node = engine.get_component<scene_node_t>(entity);
 			for (const auto& texture : mesh_filter.material()->get_textures())
 			{
-				cubemap_capture_transparent_material->set_texture(texture.first, texture.second.first, texture.second.second);
+				m_cubemap_capture_transparent_material->set_texture(texture.first, texture.second.first, texture.second.second);
 			}
 
 			//cubemap_capture_material->shader()->use();
-			cubemap_capture_transparent_material->shader()->set_uniform("model", scene_node.get_transform());
-			cubemap_capture_transparent_material->set_uniforms();
+			m_cubemap_capture_transparent_material->shader()->set_uniform("model", scene_node.get_transform());
+			m_cubemap_capture_transparent_material->set_uniforms();
 			mesh_filter.mesh()->draw();
 		}
 
@@ -178,15 +178,15 @@ void aech::graphics::light_probe_renderer_t::create_radiance_cubemap(size_t prob
 		m_render_cache->set_cull(false);
 
 		//glDisable(GL_CULL_FACE);
-		m_render_cache->set_shader(cubemap_capture_skybox_material->shader());
+		m_render_cache->set_shader(m_cubemap_capture_skybox_material->shader());
 
 		//cubemap_capture_skybox_material->shader()->use();
-		cubemap_capture_skybox_material->set_uniform("view", view);
-		cubemap_capture_skybox_material->set_uniform("projection", capture_projection);
-		cubemap_capture_skybox_material->
-			set_texture_cube("skybox", skybox_mf.material()->get_texture_cube("skybox"), 0);
-		cubemap_capture_skybox_material->set_uniforms();
-		skybox_mf.mesh()->draw();
+		m_cubemap_capture_skybox_material->set_uniform("view", view);
+		m_cubemap_capture_skybox_material->set_uniform("projection", capture_projection);
+		m_cubemap_capture_skybox_material->
+			set_texture_cube("skybox", m_skybox_mf.material()->get_texture_cube("skybox"), 0);
+		m_cubemap_capture_skybox_material->set_uniforms();
+		m_skybox_mf.mesh()->draw();
 		m_render_cache->set_cull(true);
 
 		//glEnable(GL_CULL_FACE);
@@ -228,10 +228,10 @@ void aech::graphics::light_probe_renderer_t::process_radiance_map(size_t probe_i
 
 	probe.set_irradiance(irradiance);
 
-	m_render_cache->set_shader(irradiance_capture_material->shader());
+	m_render_cache->set_shader(m_irradiance_capture_material->shader());
 
 	//irradiance_capture_material->shader()->use();
-	irradiance_capture_material->set_texture_cube("environment",
+	m_irradiance_capture_material->set_texture_cube("environment",
 	                                              &resource_manager::texture_cubes[
 		                                              "radiance" + std::to_string(probe_index)],
 	                                              0);
@@ -249,10 +249,10 @@ void aech::graphics::light_probe_renderer_t::process_radiance_map(size_t probe_i
 		m_render_cache->clear(clear::color_and_depth_buffer_bit);
 
 		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		irradiance_capture_material->shader()->set_uniform("projection", capture_projection);
-		irradiance_capture_material->shader()->set_uniform("view", capture_views[i]);
-		irradiance_capture_material->set_uniforms();
-		ndc_cube->draw();
+		m_irradiance_capture_material->shader()->set_uniform("projection", capture_projection);
+		m_irradiance_capture_material->shader()->set_uniform("view", capture_views[i]);
+		m_irradiance_capture_material->set_uniforms();
+		m_ndc_cube->draw();
 	}
 	fbo.texture()->generate_mips();
 	fbo.unbind();
@@ -273,13 +273,13 @@ void aech::graphics::light_probe_renderer_t::process_radiance_map(size_t probe_i
 
 	framebuffer_cube_t prefilter_fbo{probe.prefiltered(), 128, 128};
 	prefilter_fbo.bind();
-	m_render_cache->set_shader(prefilter_material->shader());
+	m_render_cache->set_shader(m_prefilter_material->shader());
 
 	//prefilter_material->shader()->use();
-	prefilter_material->set_texture_cube("environment_map",
+	m_prefilter_material->set_texture_cube("environment_map",
 	                                     &resource_manager::texture_cubes["radiance" + std::to_string(probe_index)],
 	                                     0);
-	prefilter_material->set_uniform("projection", capture_projection);
+	m_prefilter_material->set_uniform("projection", capture_projection);
 
 	const auto levels = static_cast<uint32_t>(floor(log2(128)) + 1);
 	for (uint32_t mip = 0; mip < levels; mip++)
@@ -290,16 +290,16 @@ void aech::graphics::light_probe_renderer_t::process_radiance_map(size_t probe_i
 
 		//glViewport(0, 0, width, height);
 		auto roughness = static_cast<float>(mip) / (levels - 1);
-		prefilter_material->set_uniform("roughness", roughness);
+		m_prefilter_material->set_uniform("roughness", roughness);
 		for (uint32_t i = 0; i < 6; i++)
 		{
-			prefilter_material->set_uniform("view", capture_views[i]);
-			prefilter_material->set_uniforms();
+			m_prefilter_material->set_uniform("view", capture_views[i]);
+			m_prefilter_material->set_uniforms();
 			prefilter_fbo.attach(i, mip);
 			m_render_cache->clear(clear::color_and_depth_buffer_bit);
 
 			//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-			ndc_cube->draw();
+			m_ndc_cube->draw();
 		}
 	}
 	prefilter_fbo.unbind();
@@ -349,6 +349,6 @@ void aech::graphics::light_probe_renderer_t::render_ambient_pass()
 		m_ambient_material->set_uniform("model", translate(probe.position()) * math::scale(probe.radius()));
 		m_ambient_material->set_uniform("probe_radius", probe.radius());
 		m_ambient_material->set_uniforms();
-		ndc_sphere->draw();
+		m_ndc_sphere->draw();
 	}
 }

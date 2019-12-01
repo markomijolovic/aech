@@ -347,6 +347,7 @@
       <SubType>
       </SubType>
     </None>
+    <None Include="systems_diagram.cd" />
     <None Include="component_array.hpp" />
     <None Include="packages.config" />
     <None Include="post_processing_fragment.glsl">

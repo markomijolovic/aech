@@ -608,5 +608,6 @@
     <None Include="shaders\basic_vertex.glsl">
       <Filter>Source Files\shaders</Filter>
     </None>
+    <None Include="systems_diagram.cd" />
   </ItemGroup>
 </Project>
