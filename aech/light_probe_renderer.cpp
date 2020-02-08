@@ -145,7 +145,7 @@ void aech::graphics::light_probe_renderer_t::create_radiance_cubemap(size_t prob
 			{
 				m_cubemap_capture_material->set_texture(texture.first, texture.second.first, texture.second.second);
 			}
-
+				
 			//cubemap_capture_material->shader()->use();
 			m_cubemap_capture_material->shader()->set_uniform("model", scene_node.get_transform());
 			m_cubemap_capture_material->set_uniforms();
@@ -338,17 +338,21 @@ void aech::graphics::light_probe_renderer_t::render_ambient_pass()
 	m_ambient_material->set_uniform("projection", m_camera->projection());
 	m_ambient_material->set_uniform("view", math::get_view_matrix(*m_camera->transform()));
 	m_ambient_material->set_uniform("camera_position", m_camera->transform()->position);
-	for (auto& probe : m_light_probes)
+	for (auto &probe: m_light_probes)
 	{
 		// view frustum culling of probes
-		if (!m_camera->sees(probe.position(), probe.radius()))
-			continue;
+		//if (!m_camera->sees(probe.position(), probe.radius()))
+			//continue;
 		m_ambient_material->set_uniform("probe_position", probe.position());
 		m_ambient_material->set_texture_cube("environment_irradiance", probe.irradiance(), 7);
 		m_ambient_material->set_texture_cube("environment_prefiltered", probe.prefiltered(), 8);
-		m_ambient_material->set_uniform("model", translate(probe.position()) * math::scale(probe.radius()));
+		//m_ambient_material->set_uniform("model", translate(probe.position()) * math::scale(probe.radius()));
+		m_ambient_material->set_uniform("model", probe.scene_node()->get_transform());
+		m_ambient_material->set_uniform("box_min", probe.scene_node()->bounding_box().min_coords);
+		m_ambient_material->set_uniform("box_max", probe.scene_node()->bounding_box().max_coords);
 		m_ambient_material->set_uniform("probe_radius", probe.radius());
 		m_ambient_material->set_uniforms();
-		m_ndc_sphere->draw();
+		//m_ndc_sphere->draw();
+		m_ndc_cube->draw();
 	}
 }

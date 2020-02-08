@@ -19,6 +19,8 @@ uniform sampler2D brdf_lut;
 
 uniform vec3 camera_position;
 uniform vec3 probe_position;
+uniform vec4 box_min;
+uniform vec4 box_max;
 uniform float probe_radius;
 
 const float pi = 3.14159265359;
@@ -67,13 +69,36 @@ void main()
 	vec3 halfway = normalize(light + view);
 	vec3 reflected = reflect(-view, normal);
 
+	// find intersection of reflected ray and probe sphere
+	//float b = dot(reflected, (world_position - probe_position));
+	//float c = dot(world_position - probe_position, world_position - probe_position) - probe_radius * probe_radius;
+
+	//if (b * b - c < 0) discard;	// ray misses the probe sphere
+
+	//float t0 = -b - sqrt(b * b - c);
+	//float t1 = -b + sqrt(b * b - c);
+
+	//vec3 new_point = world_position + max(t0, t1) * reflected;
+	//vec3 sample_vec = new_point - probe_position;
+
+	vec3 first_plane_intersect = (vec3(box_max) - world_position) / reflected;
+	vec3 second_plane_intersect = (vec3(box_min) - world_position) / reflected;
+
+	vec3 furthest = max(first_plane_intersect, second_plane_intersect);
+
+	float distance = min(min(furthest.x, furthest.y), furthest.z);
+
+	vec3 position = world_position + reflected * distance;
+
+	vec3 sample_vec = position - probe_position;
+
 	float attenuation = pow(max(1.0 - length(world_position - probe_position) / probe_radius, 0.0), 2.0);
 
 	vec3 f0 = mix(vec3(0.04), albedo, metallic);
 	vec3 f = schlicks_approximation(max(dot(halfway, view), 0.0), f0);
 
 	const float max_lod = 5;
-	vec3 prefiltered = textureLod(environment_prefiltered, reflected, roughness * max_lod).rgb;
+	vec3 prefiltered = textureLod(environment_prefiltered, sample_vec, roughness * max_lod).rgb;
 	vec2 brdf = texture(brdf_lut, vec2(max(dot(normal, view), 0.0), roughness)).rg;
 	vec3 specular = prefiltered * (f * brdf.x + brdf.y);
 

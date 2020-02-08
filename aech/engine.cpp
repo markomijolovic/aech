@@ -6,6 +6,7 @@
 #include "mesh_filter.hpp"
 #include "camera.hpp"
 #include "scene_node.hpp"
+#include "light_probe.hpp"
 
 namespace aech
 {
@@ -20,6 +21,7 @@ namespace aech
 		register_component<graphics::potential_occluder_t>();
 		register_component<graphics::opaque_t>();
 		register_component<graphics::transparent_t>();
+		register_component<graphics::light_probe_t>();
 	}
 
 	entity_t engine_t::create_entity()

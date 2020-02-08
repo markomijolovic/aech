@@ -35,7 +35,7 @@ namespace aech::graphics
 		float           last_x{};
 		float           last_y{};
 		uint32_t        screen_width  = 1920;
-		uint32_t        screen_height = 1080;
+		uint32_t        screen_height = 800;
 		std::bitset<32> m_buttons{};
 		GLFWwindow*     window{};
 	};

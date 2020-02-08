@@ -51,7 +51,7 @@ namespace aech::graphics
 		post_process_shader = &resource_manager::shaders["post_process"];
 
 		auto dirlight = engine.create_entity();
-		engine.add_component(dirlight, transform_t{{0, 175.0, 0}, {-80, 10, -10}});
+		engine.add_component(dirlight, transform_t{{0, 175.0, 0}, {-75, 10, -10}});
 		engine.add_component(dirlight, directional_light_t{{1, 1, 1}, 5, &engine.get_component<transform_t>(dirlight)});
 
 		auto dir    = &engine.get_component<directional_light_t>(dirlight);
@@ -66,7 +66,7 @@ namespace aech::graphics
 		
 		engine.add_component(m_camera_entity,
 		                     camera_t{
-			                     math::perspective(90.0F, 1280.0F / 720, 0.01F, 400.00F),
+			                     math::perspective(90.0F, 1920.0F / 800.0F, 0.01F, 400.0F),
 			                     ptr_camera_transform,
 		                     });
 
@@ -175,38 +175,59 @@ namespace aech::graphics
 		m_ssao_shader->set_uniform("texture_position", opaque_renderer->render_target()->colour_attachments()[0]);
 		m_ssao_shader->set_uniform("texture_normal", opaque_renderer->render_target()->colour_attachments()[1]);
 
-		// bottom centre
-		light_probe_renderer->add_probe(light_probe_t{{0, 15.0, -5.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{30.0, 15.0, -5.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{60.0, 15.0, -5.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{85.0, 15.0, -5.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{114.0, 15.0, -5.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{-30.0, 15.0, -5.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{-62.0, 15.0, -5.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{-95.0, 15.0, -5.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{-121.0, 15.0, -5.0}, 40.0});
+		auto probe1 = engine.create_entity();
+		engine.add_component(probe1, transform_t{ {0, 15.0 / 40.0, -5.0 / 40.0}, {}, {200.0, 40.0, 40.0} });;
+		engine.add_component(probe1, scene_node_t{&engine.get_component<transform_t>(probe1)});
+		engine.add_component(probe1, light_probe_t{ {0, 15.0, -5.0}, 75.0F, &engine.get_component<scene_node_t>(probe1) });
+		engine.get_component<scene_node_t>(probe1).set_aabb(mesh_library::default_meshes["cube"].get()->calculate_aabb());
+		light_probe_renderer->add_probe(engine.get_component<light_probe_t>(probe1));
 
-		// bottom left 
-		light_probe_renderer->add_probe(light_probe_t{{0, 15.0, 40.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{30.0, 15.0, 40.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{60.0, 15.0, 40.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{85.0, 15.0, 40.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{114.0, 15.0, 40.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{-30.0, 15.0, 40.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{-62.0, 15.0, 40.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{-95.0, 15.0, 40.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{-121.0, 15.0, 40.0}, 40.0});
+		auto probe2 = engine.create_entity();
+		engine.add_component(probe2, transform_t{ {0, 15.0/40.0, -5.0/40.0}, {}, {200.0, 40.0, 40.0} });;
+		engine.add_component(probe2, scene_node_t{ &engine.get_component<transform_t>(probe2) });
+		engine.add_component(probe2, light_probe_t{ {50, 15.0, -5.0}, 75.0F , &engine.get_component<scene_node_t>(probe2) });
+		engine.get_component<scene_node_t>(probe2).set_aabb(mesh_library::default_meshes["cube"].get()->calculate_aabb());
+		light_probe_renderer->add_probe(engine.get_component<light_probe_t>(probe2));
 
-		//bottom right
-		light_probe_renderer->add_probe(light_probe_t{{0, 15.0, -45.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{30.0, 15.0, -45.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{60.0, 15.0, -45.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{85.0, 15.0, -45.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{114.0, 15.0, -45.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{-30.0, 15.0, -45.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{-62.0, 15.0, -45.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{-95.0, 15.0, -45.0}, 40.0});
-		light_probe_renderer->add_probe(light_probe_t{{-121.0, 15.0, -45.0}, 40.0});
+		auto probe3 = engine.create_entity();
+		engine.add_component(probe3, transform_t{ {0, 15.0 / 40.0, -5.0 / 40.0}, {}, {200.0, 40.0, 40.0} });;
+		engine.add_component(probe3, scene_node_t{ &engine.get_component<transform_t>(probe3) });
+		engine.add_component(probe3, light_probe_t{ {-50, 15.0, -5.0}, 75.0F, &engine.get_component<scene_node_t>(probe3) });
+		engine.get_component<scene_node_t>(probe3).set_aabb(mesh_library::default_meshes["cube"].get()->calculate_aabb());
+		light_probe_renderer->add_probe(engine.get_component<light_probe_t>(probe3));
+			
+		//// bottom centre
+		//light_probe_renderer->add_probe(light_probe_t{{0, 15.0, -5.0}, 40.0});
+		//light_probe_renderer->add_probe(light_probe_t{{30.0, 15.0, -5.0}, 40.0});
+		//light_probe_renderer->add_probe(light_probe_t{{60.0, 15.0, -5.0}, 40.0});
+		//light_probe_renderer->add_probe(light_probe_t{{85.0, 15.0, -5.0}, 40.0});
+		//light_probe_renderer->add_probe(light_probe_t{{114.0, 15.0, -5.0}, 40.0});
+		//light_probe_renderer->add_probe(light_probe_t{{-30.0, 15.0, -5.0}, 40.0});
+		//light_probe_renderer->add_probe(light_probe_t{{-62.0, 15.0, -5.0}, 40.0});
+		//light_probe_renderer->add_probe(light_probe_t{{-95.0, 15.0, -5.0}, 40.0});
+		//light_probe_renderer->add_probe(light_probe_t{{-121.0, 15.0, -5.0}, 40.0});
+
+		//// bottom left 
+		//light_probe_renderer->add_probe(light_probe_t{{0, 15.0, 40.0}, 40.0});
+		//light_probe_renderer->add_probe(light_probe_t{{30.0, 15.0, 40.0}, 40.0});
+		//light_probe_renderer->add_probe(light_probe_t{{60.0, 15.0, 40.0}, 40.0});
+		//light_probe_renderer->add_probe(light_probe_t{{85.0, 15.0, 40.0}, 40.0});
+		//light_probe_renderer->add_probe(light_probe_t{{114.0, 15.0, 40.0}, 40.0});
+		//light_probe_renderer->add_probe(light_probe_t{{-30.0, 15.0, 40.0}, 40.0});
+		//light_probe_renderer->add_probe(light_probe_t{{-62.0, 15.0, 40.0}, 40.0});
+		//light_probe_renderer->add_probe(light_probe_t{{-95.0, 15.0, 40.0}, 40.0});
+		//light_probe_renderer->add_probe(light_probe_t{{-121.0, 15.0, 40.0}, 40.0});
+
+		////bottom right
+		//light_probe_renderer->add_probe(light_probe_t{{0, 15.0, -45.0}, 40.0});
+		//light_probe_renderer->add_probe(light_probe_t{{30.0, 15.0, -45.0}, 40.0});
+		//light_probe_renderer->add_probe(light_probe_t{{60.0, 15.0, -45.0}, 40.0});
+		//light_probe_renderer->add_probe(light_probe_t{{85.0, 15.0, -45.0}, 40.0});
+		//light_probe_renderer->add_probe(light_probe_t{{114.0, 15.0, -45.0}, 40.0});
+		//light_probe_renderer->add_probe(light_probe_t{{-30.0, 15.0, -45.0}, 40.0});
+		//light_probe_renderer->add_probe(light_probe_t{{-62.0, 15.0, -45.0}, 40.0});
+		//light_probe_renderer->add_probe(light_probe_t{{-95.0, 15.0, -45.0}, 40.0});
+		//light_probe_renderer->add_probe(light_probe_t{{-121.0, 15.0, -45.0}, 40.0});
 
 		//// middle centre
 		//light_probe_renderer->add_probe(light_probe_t{{0, 60.0, -5.0}, 40.0});
@@ -250,32 +271,32 @@ namespace aech::graphics
 		//light_probe_renderer->add_probe(light_probe_t{{-40.0, 105, -5.0}, 40.0});
 		//light_probe_renderer->add_probe(light_probe_t{{-80.0, 105, -5.0}, 40.0});
 
-		auto player_object = engine.create_entity();
-		engine.add_component(player_object, transform_t{});
-		auto ptr_player_transform = &engine.get_component<transform_t>(player_object);
-		
-		engine.add_component(player_object, scene_node_t {
-			ptr_player_transform
-		});
+		//auto player_object = engine.create_entity();
+		//engine.add_component(player_object, transform_t{});
+		//auto ptr_player_transform = &engine.get_component<transform_t>(player_object);
+		//
+		//engine.add_component(player_object, scene_node_t {
+		//	ptr_player_transform
+		//});
 
-		auto ptr_player_scene_node = &engine.get_component<scene_node_t>(player_object);
-		ptr_player_scene_node->set_scale(10.0F);
-		ptr_player_scene_node->set_position({0.0F, 5.0F, -1.0F});
-		ptr_player_scene_node->set_aabb(mesh_library::default_meshes["cube"].get()->calculate_aabb());
-		
-		engine.add_component(player_object,
-			mesh_filter_t
-			{
-				mesh_library::default_meshes["cube"].get(),
-				&material_library::default_materials["basic"]
-			}
-		);
+		//auto ptr_player_scene_node = &engine.get_component<scene_node_t>(player_object);
+		//ptr_player_scene_node->set_scale(10.0F);
+		//ptr_player_scene_node->set_position({0.0F, 10.0F, -1.0F});
+		//ptr_player_scene_node->set_aabb(mesh_library::default_meshes["cube"].get()->calculate_aabb());
+		//
+		//engine.add_component(player_object,
+		//	mesh_filter_t
+		//	{
+		//		mesh_library::default_meshes["cube"].get(),
+		//		&material_library::default_materials["basic"]
+		//	}
+		//);
 
-		engine.add_component(player_object,
-			potential_occluder_t{}
-		);
+		//engine.add_component(player_object,
+		//	potential_occluder_t{}
+		//);
 
-		engine.add_component(player_object, opaque_t{});
+		//engine.add_component(player_object, opaque_t{});
 
 		input_manager.set_camera(m_camera);
 

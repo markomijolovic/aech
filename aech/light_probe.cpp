@@ -1,9 +1,10 @@
 #include "light_probe.hpp"
 
 
-aech::graphics::light_probe_t::light_probe_t(math::vec3_t m_position, float m_radius) :
+aech::graphics::light_probe_t::light_probe_t(math::vec3_t m_position, float m_radius, scene_node_t *scene_node) :
 	m_position{m_position},
-	m_radius{m_radius}
+	m_radius{m_radius},
+	m_scene_node{scene_node}
 {
 }
 
@@ -25,6 +26,12 @@ aech::math::vec3_t aech::graphics::light_probe_t::position() const
 float aech::graphics::light_probe_t::radius() const
 {
 	return m_radius;
+}
+
+
+aech::graphics::scene_node_t* aech::graphics::light_probe_t::scene_node() const
+{
+	return m_scene_node;
 }
 
 void aech::graphics::light_probe_t::set_irradiance(texture_cube_t* const irradiance)
