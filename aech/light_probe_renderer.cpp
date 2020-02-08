@@ -341,8 +341,8 @@ void aech::graphics::light_probe_renderer_t::render_ambient_pass()
 	for (auto &probe: m_light_probes)
 	{
 		// view frustum culling of probes
-		//if (!m_camera->sees(probe.position(), probe.radius()))
-			//continue;
+		if (!m_camera->sees(probe.position(), probe.outer_radius()))
+			continue;
 		m_ambient_material->set_uniform("probe_position", probe.position());
 		m_ambient_material->set_texture_cube("environment_irradiance", probe.irradiance(), 7);
 		m_ambient_material->set_texture_cube("environment_prefiltered", probe.prefiltered(), 8);
@@ -350,7 +350,8 @@ void aech::graphics::light_probe_renderer_t::render_ambient_pass()
 		m_ambient_material->set_uniform("model", probe.scene_node()->get_transform());
 		m_ambient_material->set_uniform("box_min", probe.scene_node()->bounding_box().min_coords);
 		m_ambient_material->set_uniform("box_max", probe.scene_node()->bounding_box().max_coords);
-		m_ambient_material->set_uniform("probe_radius", probe.radius());
+		m_ambient_material->set_uniform("inner_radius", probe.inner_radius());
+		m_ambient_material->set_uniform("outer_radius", probe.outer_radius());
 		m_ambient_material->set_uniforms();
 		//m_ndc_sphere->draw();
 		m_ndc_cube->draw();

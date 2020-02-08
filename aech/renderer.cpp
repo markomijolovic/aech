@@ -178,21 +178,21 @@ namespace aech::graphics
 		auto probe1 = engine.create_entity();
 		engine.add_component(probe1, transform_t{ {0, 15.0 / 40.0, -5.0 / 40.0}, {}, {200.0, 40.0, 40.0} });;
 		engine.add_component(probe1, scene_node_t{&engine.get_component<transform_t>(probe1)});
-		engine.add_component(probe1, light_probe_t{ {0, 15.0, -5.0}, 75.0F, &engine.get_component<scene_node_t>(probe1) });
+		engine.add_component(probe1, light_probe_t{ {0, 15.0, -5.0}, 25.0F, 50.0F, &engine.get_component<scene_node_t>(probe1) });
 		engine.get_component<scene_node_t>(probe1).set_aabb(mesh_library::default_meshes["cube"].get()->calculate_aabb());
 		light_probe_renderer->add_probe(engine.get_component<light_probe_t>(probe1));
 
 		auto probe2 = engine.create_entity();
 		engine.add_component(probe2, transform_t{ {0, 15.0/40.0, -5.0/40.0}, {}, {200.0, 40.0, 40.0} });;
 		engine.add_component(probe2, scene_node_t{ &engine.get_component<transform_t>(probe2) });
-		engine.add_component(probe2, light_probe_t{ {50, 15.0, -5.0}, 75.0F , &engine.get_component<scene_node_t>(probe2) });
+		engine.add_component(probe2, light_probe_t{ {50, 15.0, -5.0}, 25.0F, 50.0F , &engine.get_component<scene_node_t>(probe2) });
 		engine.get_component<scene_node_t>(probe2).set_aabb(mesh_library::default_meshes["cube"].get()->calculate_aabb());
 		light_probe_renderer->add_probe(engine.get_component<light_probe_t>(probe2));
 
 		auto probe3 = engine.create_entity();
 		engine.add_component(probe3, transform_t{ {0, 15.0 / 40.0, -5.0 / 40.0}, {}, {200.0, 40.0, 40.0} });;
 		engine.add_component(probe3, scene_node_t{ &engine.get_component<transform_t>(probe3) });
-		engine.add_component(probe3, light_probe_t{ {-50, 15.0, -5.0}, 75.0F, &engine.get_component<scene_node_t>(probe3) });
+		engine.add_component(probe3, light_probe_t{ {-50, 15.0, -5.0}, 25.0F, 50.0F, &engine.get_component<scene_node_t>(probe3) });
 		engine.get_component<scene_node_t>(probe3).set_aabb(mesh_library::default_meshes["cube"].get()->calculate_aabb());
 		light_probe_renderer->add_probe(engine.get_component<light_probe_t>(probe3));
 			

@@ -21,7 +21,8 @@ uniform vec3 camera_position;
 uniform vec3 probe_position;
 uniform vec4 box_min;
 uniform vec4 box_max;
-uniform float probe_radius;
+uniform float inner_radius;
+uniform float outer_radius;
 
 const float pi = 3.14159265359;
 
@@ -69,17 +70,17 @@ void main()
 	vec3 halfway = normalize(light + view);
 	vec3 reflected = reflect(-view, normal);
 
-	// find intersection of reflected ray and probe sphere
-	//float b = dot(reflected, (world_position - probe_position));
-	//float c = dot(world_position - probe_position, world_position - probe_position) - probe_radius * probe_radius;
+	// TODO: discard when occluded
+	//vec3 frst_plane_intersect = (vec3(box_max) - camera_position) / (-view);
+	//vec3 scnd_plane_intersect = (vec3(box_min) - camera_position) / (-view);
 
-	//if (b * b - c < 0) discard;	// ray misses the probe sphere
+	//vec3 nearest = min(frst_plane_intersect, scnd_plane_intersect);
+	//float dst = min(min(nearest.x, nearest.y), nearest.z);
 
-	//float t0 = -b - sqrt(b * b - c);
-	//float t1 = -b + sqrt(b * b - c);
-
-	//vec3 new_point = world_position + max(t0, t1) * reflected;
-	//vec3 sample_vec = new_point - probe_position;
+	//if (dst > length(world_position - camera_position))
+	//{
+	//	discard;
+	//}
 
 	vec3 first_plane_intersect = (vec3(box_max) - world_position) / reflected;
 	vec3 second_plane_intersect = (vec3(box_min) - world_position) / reflected;
@@ -92,7 +93,7 @@ void main()
 
 	vec3 sample_vec = position - probe_position;
 
-	float attenuation = pow(max(1.0 - length(world_position - probe_position) / probe_radius, 0.0), 2.0);
+	float attenuation = pow(max(1.0 - max(0.0, (length(world_position - probe_position) - inner_radius) / (outer_radius-inner_radius)), 0.0), 2.0);
 
 	vec3 f0 = mix(vec3(0.04), albedo, metallic);
 	vec3 f = schlicks_approximation(max(dot(halfway, view), 0.0), f0);
