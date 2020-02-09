@@ -2,7 +2,6 @@
 #include "mat4.hpp"
 #include "camera_frustum.hpp"
 #include "transform.hpp"
-#include "mesh.hpp"
 #include "scene_node.hpp"
 
 namespace aech

@@ -255,12 +255,6 @@
     <ClInclude Include="framebuffer_cube.hpp">
       <Filter>Header Files\graphics\rendering</Filter>
     </ClInclude>
-    <ClInclude Include="light_probe.hpp">
-      <Filter>Header Files\graphics\rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="light_probe_renderer.hpp">
-      <Filter>Header Files\graphics\rendering</Filter>
-    </ClInclude>
     <ClInclude Include="imstb_truetype.h">
       <Filter>Header Files\includes\Dear ImGUI</Filter>
     </ClInclude>
@@ -308,6 +302,15 @@
     </ClInclude>
     <ClInclude Include="physics_system.hpp">
       <Filter>Header Files\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="reflection_probe.hpp">
+      <Filter>Header Files\graphics\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="gi_renderer.hpp">
+      <Filter>Header Files\graphics\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="light_probe.hpp">
+      <Filter>Header Files\graphics\rendering</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -416,14 +419,8 @@
     <ClCompile Include="framebuffer_cube.cpp">
       <Filter>Source Files\graphics\rendering</Filter>
     </ClCompile>
-    <ClCompile Include="light_probe_renderer.cpp">
-      <Filter>Source Files\graphics\rendering</Filter>
-    </ClCompile>
     <ClCompile Include="mesh_filter.cpp">
       <Filter>Source Files\graphics\mesh</Filter>
-    </ClCompile>
-    <ClCompile Include="light_probe.cpp">
-      <Filter>Source Files\graphics\rendering</Filter>
     </ClCompile>
     <ClCompile Include="texture_cube.cpp">
       <Filter>Source Files\graphics\shading</Filter>
@@ -473,16 +470,19 @@
     <ClCompile Include="rigidbody.cpp">
       <Filter>Source Files\physics\components</Filter>
     </ClCompile>
+    <ClCompile Include="reflection_probe.cpp">
+      <Filter>Source Files\graphics\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="gi_renderer.cpp">
+      <Filter>Source Files\graphics\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="light_probe.cpp">
+      <Filter>Source Files\graphics\rendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="component_array.hpp">
       <Filter>Header Files\ecs core</Filter>
-    </None>
-    <None Include="shaders\ambient_irradiance_fragment.glsl">
-      <Filter>Source Files\shaders</Filter>
-    </None>
-    <None Include="shaders\ambient_irradiance_vertex.glsl">
-      <Filter>Source Files\shaders</Filter>
     </None>
     <None Include="shaders\background_fragment.glsl">
       <Filter>Source Files\shaders</Filter>
@@ -609,5 +609,13 @@
       <Filter>Source Files\shaders</Filter>
     </None>
     <None Include="systems_diagram.cd" />
+    <None Include="shaders\ambient_diffuse_fragment.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\ambient_diffuse_vertex.glsl">
+      <Filter>Source Files\shaders</Filter>
+    </None>
+    <None Include="shaders\ambient_specular_vertex.glsl" />
+    <None Include="shaders\ambient_specular_fragment.glsl" />
   </ItemGroup>
 </Project>

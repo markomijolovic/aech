@@ -181,7 +181,11 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="light_probe_renderer.hpp">
+    <ClInclude Include="reflection_probe.hpp">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="gi_renderer.hpp">
       <SubType>
       </SubType>
     </ClInclude>
@@ -305,7 +309,8 @@
     <ClCompile Include="imgui_widgets.cpp" />
     <ClCompile Include="input_manager.cpp" />
     <ClCompile Include="light_probe.cpp" />
-    <ClCompile Include="light_probe_renderer.cpp" />
+    <ClCompile Include="reflection_probe.cpp" />
+    <ClCompile Include="gi_renderer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mat4.cpp" />
     <ClCompile Include="material.cpp" />
@@ -348,6 +353,8 @@
       <SubType>
       </SubType>
     </None>
+    <None Include="shaders\ambient_specular_fragment.glsl" />
+    <None Include="shaders\ambient_specular_vertex.glsl" />
     <None Include="systems_diagram.cd" />
     <None Include="component_array.hpp" />
     <None Include="packages.config" />
@@ -356,8 +363,8 @@
       </SubType>
     </None>
     <None Include="shaders\ambient_fragment.glsl" />
-    <None Include="shaders\ambient_irradiance_fragment.glsl" />
-    <None Include="shaders\ambient_irradiance_vertex.glsl" />
+    <None Include="shaders\ambient_diffuse_fragment.glsl" />
+    <None Include="shaders\ambient_diffuse_vertex.glsl" />
     <None Include="shaders\ambient_vertex.glsl" />
     <None Include="shaders\background_fragment.glsl" />
     <None Include="shaders\background_vertex.glsl" />

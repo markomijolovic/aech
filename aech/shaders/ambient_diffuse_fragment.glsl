@@ -14,13 +14,9 @@ uniform sampler2D texture_ssao;
 uniform bool ssao;
 
 uniform samplerCube environment_irradiance;
-uniform samplerCube environment_prefiltered;
-uniform sampler2D brdf_lut;
 
 uniform vec3 camera_position;
 uniform vec3 probe_position;
-uniform vec4 box_min;
-uniform vec4 box_max;
 uniform float inner_radius;
 uniform float outer_radius;
 
@@ -82,30 +78,14 @@ void main()
 	//	discard;
 	//}
 
-	vec3 first_plane_intersect = (vec3(box_max) - world_position) / reflected;
-	vec3 second_plane_intersect = (vec3(box_min) - world_position) / reflected;
-
-	vec3 furthest = max(first_plane_intersect, second_plane_intersect);
-
-	float distance = min(min(furthest.x, furthest.y), furthest.z);
-
-	vec3 position = world_position + reflected * distance;
-
-	vec3 sample_vec = position - probe_position;
-
 	float attenuation = pow(max(1.0 - max(0.0, (length(world_position - probe_position) - inner_radius) / (outer_radius-inner_radius)), 0.0), 2.0);
 
 	vec3 f0 = mix(vec3(0.04), albedo, metallic);
 	vec3 f = schlicks_approximation(max(dot(halfway, view), 0.0), f0);
 
-	const float max_lod = 5;
-	vec3 prefiltered = textureLod(environment_prefiltered, sample_vec, roughness * max_lod).rgb;
-	vec2 brdf = texture(brdf_lut, vec2(max(dot(normal, view), 0.0), roughness)).rg;
-	vec3 specular = prefiltered * (f * brdf.x + brdf.y);
-
 	vec3 irradiance = texture(environment_irradiance, normal).rgb;
 
-	vec3 colour = attenuation * (specular + irradiance * albedo * (vec3(1.0) - f)*(1 - metallic));
+	vec3 colour = attenuation * (irradiance * albedo * (vec3(1.0) - f)*(1 - metallic));
 	if (ssao) colour *= texture(texture_ssao, uv).r;
 	fragment_colour = vec4(colour, 1.0);
 }

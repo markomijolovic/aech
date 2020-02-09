@@ -94,10 +94,15 @@ void aech::graphics::material_library::generate_default_materials()
 	default_materials["capture_skybox"] = {probe_capture_skybox_shader};
 
 
-	auto ambient_shader = &resource_manager::load_shader("ambient",
-	                                                     "shaders/ambient_irradiance_vertex.glsl",
-	                                                     "shaders/ambient_irradiance_fragment.glsl");
-	default_materials["ambient"] = {ambient_shader};
+	auto ambient_diffuse = &resource_manager::load_shader("ambient_diffuse",
+	                                                     "shaders/ambient_diffuse_vertex.glsl",
+	                                                     "shaders/ambient_diffuse_fragment.glsl");
+	default_materials["ambient_diffuse"] = { ambient_diffuse };
+
+	auto ambient_specular = &resource_manager::load_shader("ambient_specular",
+		"shaders/ambient_specular_vertex.glsl",
+		"shaders/ambient_specular_fragment.glsl");
+	default_materials["ambient_specular"] = { ambient_specular };
 
 
 	auto skybox_shader = &resource_manager::load_shader("skybox",
