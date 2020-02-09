@@ -4,12 +4,11 @@
 
 aech::math::mat4_t aech::transform_t::get_transform_matrix() const
 {
-	auto transform_matrix = math::rotate(rotation.x, {1.0F, 0.0F, 0.0F});
-	transform_matrix *= math::rotate(rotation.y, {0.0F, 1.0F, 0.0F});
-	transform_matrix *= math::rotate(rotation.z, {0.0F, 0.0F, 1.0F});
-
+	auto transform_matrix = math::translate(position);
+	transform_matrix *= math::rotate(rotation.x, { 1.0F, 0.0F, 0.0F });
+	transform_matrix *= math::rotate(rotation.y, { 0.0F, 1.0F, 0.0F });
+	transform_matrix *= math::rotate(rotation.z, { 0.0F, 0.0F, 1.0F });
 	transform_matrix *= math::scale(scale);
-	transform_matrix *= translate(position);
 
 	return transform_matrix;
 }

@@ -72,7 +72,7 @@ namespace aech::graphics
 
 		m_camera = &engine.get_component<camera_t>(m_camera_entity);
 		
-		light_probe_renderer = engine.register_system<gi_renderer_t>(render_cache(), m_camera);
+		gi_renderer = engine.register_system<gi_renderer_t>(render_cache(), m_camera);
 		{
 			// for now, testing
 			signature_t signature{};
@@ -155,36 +155,36 @@ namespace aech::graphics
 		                                                                    render_target()->depth_and_stencil(),
 		                                                                    4);
 
-		light_probe_renderer->specular_material()->set_texture("texture_position",
+		gi_renderer->specular_material()->set_texture("texture_position",
 		                                                      &opaque_renderer->render_target()->colour_attachments()[0
 		                                                      ],
 		                                                      0);
-		light_probe_renderer->specular_material()->set_texture("texture_normal",
+		gi_renderer->specular_material()->set_texture("texture_normal",
 		                                                      &opaque_renderer->render_target()->colour_attachments()[1
 		                                                      ],
 		                                                      1);
-		light_probe_renderer->specular_material()->set_texture("texture_albedo",
+		gi_renderer->specular_material()->set_texture("texture_albedo",
 		                                                      &opaque_renderer->render_target()->colour_attachments()[2
 		                                                      ],
 		                                                      2);
-		light_probe_renderer->specular_material()->set_texture("texture_metallic_roughness_ao",
+		gi_renderer->specular_material()->set_texture("texture_metallic_roughness_ao",
 		                                                      &opaque_renderer->render_target()->colour_attachments()[3
 		                                                      ],
 		                                                      3);
 
-		light_probe_renderer->diffuse_material()->set_texture("texture_position",
+		gi_renderer->diffuse_material()->set_texture("texture_position",
 			&opaque_renderer->render_target()->colour_attachments()[0
 			],
 			0);
-		light_probe_renderer->diffuse_material()->set_texture("texture_normal",
+		gi_renderer->diffuse_material()->set_texture("texture_normal",
 			&opaque_renderer->render_target()->colour_attachments()[1
 			],
 			1);
-		light_probe_renderer->diffuse_material()->set_texture("texture_albedo",
+		gi_renderer->diffuse_material()->set_texture("texture_albedo",
 			&opaque_renderer->render_target()->colour_attachments()[2
 			],
 			2);
-		light_probe_renderer->diffuse_material()->set_texture("texture_metallic_roughness_ao",
+		gi_renderer->diffuse_material()->set_texture("texture_metallic_roughness_ao",
 			&opaque_renderer->render_target()->colour_attachments()[3
 			],
 			3);
@@ -192,47 +192,33 @@ namespace aech::graphics
 		m_ssao_shader->set_uniform("texture_position", opaque_renderer->render_target()->colour_attachments()[0]);
 		m_ssao_shader->set_uniform("texture_normal", opaque_renderer->render_target()->colour_attachments()[1]);
 
-		//auto probe1 = engine.create_entity();
-		//engine.add_component(probe1, transform_t{ {0, 15.0 / 40.0, -5.0 / 40.0}, {}, {200.0, 40.0, 40.0} });;
-		//engine.add_component(probe1, scene_node_t{&engine.get_component<transform_t>(probe1)});
-		//engine.add_component(probe1, light_probe_t{ {0, 15.0, -5.0}, 25.0F, 50.0F, &engine.get_component<scene_node_t>(probe1) });
-		//engine.get_component<scene_node_t>(probe1).set_aabb(mesh_library::default_meshes["cube"].get()->calculate_aabb());
-		//light_probe_renderer->add_probe(engine.get_component<light_probe_t>(probe1));
+		auto probe1 = engine.create_entity();
+		engine.add_component(probe1, transform_t{ {0, 10.0, -5 }, {}, {200.0, 40.0, 42.0} });;
+		engine.add_component(probe1, scene_node_t{&engine.get_component<transform_t>(probe1)});
+		engine.add_component(probe1, light_probe_t{ {0, 15.0, -4.0}, 25.0F, 50.0F, &engine.get_component<scene_node_t>(probe1) });
+		engine.get_component<scene_node_t>(probe1).set_aabb(mesh_library::default_meshes["cube"].get()->calculate_aabb());
+		gi_renderer->add_probe(engine.get_component<light_probe_t>(probe1));
 
-		//auto probe2 = engine.create_entity();
-		//engine.add_component(probe2, transform_t{ {0, 15.0/40.0, -5.0/40.0}, {}, {200.0, 40.0, 40.0} });;
-		//engine.add_component(probe2, scene_node_t{ &engine.get_component<transform_t>(probe2) });
-		//engine.add_component(probe2, light_probe_t{ {50, 15.0, -5.0}, 25.0F, 50.0F , &engine.get_component<scene_node_t>(probe2) });
-		//engine.get_component<scene_node_t>(probe2).set_aabb(mesh_library::default_meshes["cube"].get()->calculate_aabb());
-		//light_probe_renderer->add_probe(engine.get_component<light_probe_t>(probe2));
+		auto probe2 = engine.create_entity();
+		engine.add_component(probe2, transform_t{ {0, 10.0 , -5}, {}, {200.0, 40.0, 42.0} });;
+		engine.add_component(probe2, scene_node_t{ &engine.get_component<transform_t>(probe2) });
+		engine.add_component(probe2, light_probe_t{ {50, 15.0, -4.0}, 25.0F, 50.0F , &engine.get_component<scene_node_t>(probe2) });
+		engine.get_component<scene_node_t>(probe2).set_aabb(mesh_library::default_meshes["cube"].get()->calculate_aabb());
+		gi_renderer->add_probe(engine.get_component<light_probe_t>(probe2));
 
-		//auto probe3 = engine.create_entity();
-		//engine.add_component(probe3, transform_t{ {0, 15.0 / 40.0, -5.0 / 40.0}, {}, {200.0, 40.0, 40.0} });;
-		//engine.add_component(probe3, scene_node_t{ &engine.get_component<transform_t>(probe3) });
-		//engine.add_component(probe3, light_probe_t{ {-50, 15.0, -5.0}, 25.0F, 50.0F, &engine.get_component<scene_node_t>(probe3) });
-		//engine.get_component<scene_node_t>(probe3).set_aabb(mesh_library::default_meshes["cube"].get()->calculate_aabb());
-		//light_probe_renderer->add_probe(engine.get_component<light_probe_t>(probe3));
+		auto probe3 = engine.create_entity();
+		engine.add_component(probe3, transform_t{ {0, 10.0, -5}, {}, {200.0, 40.0, 42.0} });;
+		engine.add_component(probe3, scene_node_t{ &engine.get_component<transform_t>(probe3) });
+		engine.add_component(probe3, light_probe_t{ {-50, 15.0, -4.0}, 25.0F, 50.0F, &engine.get_component<scene_node_t>(probe3) });
+		engine.get_component<scene_node_t>(probe3).set_aabb(mesh_library::default_meshes["cube"].get()->calculate_aabb());
+		gi_renderer->add_probe(engine.get_component<light_probe_t>(probe3));
 
 		auto probe11 = engine.create_entity();
-		engine.add_component(probe11, transform_t{ {0, 15.0 / 40.0, -5.0 / 40.0}, {}, {200.0, 40.0, 40.0} });;
+		engine.add_component(probe11, transform_t{ {-2, 10.0 , -5}, {}, {194.0, 40.0, 42.0} });;
 		engine.add_component(probe11, scene_node_t{ &engine.get_component<transform_t>(probe11) });
-		engine.add_component(probe11, reflection_probe_t{ {0, 15.0, -5.0}, 25.0F, 50.0F, &engine.get_component<scene_node_t>(probe11) });
+		engine.add_component(probe11, reflection_probe_t{ {0, 15.0, -5}, &engine.get_component<scene_node_t>(probe11) });
 		engine.get_component<scene_node_t>(probe11).set_aabb(mesh_library::default_meshes["cube"].get()->calculate_aabb());
-		light_probe_renderer->add_probe(engine.get_component<reflection_probe_t>(probe11));
-
-		auto probe22 = engine.create_entity();
-		engine.add_component(probe22, transform_t{ {0, 15.0 / 40.0, -5.0 / 40.0}, {}, {200.0, 40.0, 40.0} });;
-		engine.add_component(probe22, scene_node_t{ &engine.get_component<transform_t>(probe22) });
-		engine.add_component(probe22, reflection_probe_t{ {50, 15.0, -5.0}, 25.0F, 50.0F , &engine.get_component<scene_node_t>(probe22) });
-		engine.get_component<scene_node_t>(probe22).set_aabb(mesh_library::default_meshes["cube"].get()->calculate_aabb());
-		light_probe_renderer->add_probe(engine.get_component<reflection_probe_t>(probe22));
-
-		auto probe33 = engine.create_entity();
-		engine.add_component(probe33, transform_t{ {0, 15.0 / 40.0, -5.0 / 40.0}, {}, {200.0, 40.0, 40.0} });;
-		engine.add_component(probe33, scene_node_t{ &engine.get_component<transform_t>(probe33) });
-		engine.add_component(probe33, reflection_probe_t{ {-50, 15.0, -5.0}, 25.0F, 50.0F, &engine.get_component<scene_node_t>(probe33) });
-		engine.get_component<scene_node_t>(probe33).set_aabb(mesh_library::default_meshes["cube"].get()->calculate_aabb());
-		light_probe_renderer->add_probe(engine.get_component<reflection_probe_t>(probe33));
+		gi_renderer->add_probe(engine.get_component<reflection_probe_t>(probe11));
 			
 		//// bottom centre
 		//light_probe_renderer->add_probe(light_probe_t{{0, 15.0, -5.0}, 40.0});
@@ -420,7 +406,7 @@ namespace aech::graphics
 
 	void renderer_t::bake_probes()
 	{
-		light_probe_renderer->bake_probes();
+		gi_renderer->bake_probes();
 	}
 
 
@@ -536,7 +522,10 @@ namespace aech::graphics
 		{
 			ImGui::Begin("options");
 
-			ImGui::Checkbox("environment mapping", &environment_mapping);
+			ImGui::Checkbox("diffuse gi", &gi_renderer->m_diffuse_gi);
+			ImGui::NewLine();
+
+			ImGui::Checkbox("specular gi", &gi_renderer->m_specular_gi);
 			ImGui::NewLine();
 			
 			ImGui::Checkbox("shadows", &m_shadows);
@@ -612,15 +601,7 @@ namespace aech::graphics
 		}
 
 		// 3. render ambient lighting
-		if (environment_mapping)
-		{
-			light_probe_renderer->render_ambient_pass();
-		}
-		else
-		{
-			light_probe_renderer->render_target()->bind();
-			m_render_cache.clear(clear::color_and_depth_buffer_bit);
-		}
+		gi_renderer->render_ambient_pass();
 
 		// 4. render direct lighting
 		m_directional_light_renderer->update();

@@ -40,7 +40,7 @@ namespace aech::graphics
 		std::shared_ptr<opaque_shadow_renderer_t>      opaque_shadow_renderer{};
 		std::shared_ptr<transparent_shadow_renderer_t> transparent_shadow_renderer{};
 		std::shared_ptr<transparent_renderer_t>        transparent_renderer{};
-		std::shared_ptr<gi_renderer_t>        light_probe_renderer{};
+		std::shared_ptr<gi_renderer_t>				   gi_renderer{};
 		std::shared_ptr<opaque_renderer_t>             opaque_renderer{};
 		std::unique_ptr<directional_light_renderer_t>  m_directional_light_renderer{};
 		std::vector<reflection_probe_t>                     probes{};
@@ -68,7 +68,6 @@ namespace aech::graphics
 		bool  m_shadows{true};
 		float m_poisson_sampling_distance{1.337F};
 		float m_ssao_hemisphere_sampling_radius{5.0F};
-		bool  environment_mapping{false};
 		bool  fxaa{true};
 		bool  m_ssao{true};
 		bool  m_options{};

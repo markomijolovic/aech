@@ -20,8 +20,6 @@ uniform vec3 camera_position;
 uniform vec3 probe_position;
 uniform vec4 box_min;
 uniform vec4 box_max;
-uniform float inner_radius;
-uniform float outer_radius;
 
 const float pi = 3.14159265359;
 
@@ -92,7 +90,7 @@ void main()
 
 	vec3 sample_vec = position - probe_position;
 
-	float attenuation = pow(max(1.0 - max(0.0, (length(world_position - probe_position) - inner_radius) / (outer_radius - inner_radius)), 0.0), 2.0);
+	//float attenuation = pow(max(1.0 - max(0.0, (length(world_position - probe_position) - inner_radius) / (outer_radius - inner_radius)), 0.0), 2.0);
 
 	vec3 f0 = mix(vec3(0.04), albedo, metallic);
 	vec3 f = schlicks_approximation(max(dot(halfway, view), 0.0), f0);
@@ -102,7 +100,8 @@ void main()
 	vec2 brdf = texture(brdf_lut, vec2(max(dot(normal, view), 0.0), roughness)).rg;
 	vec3 specular = prefiltered * (f * brdf.x + brdf.y);
 
-	vec3 colour = attenuation * specular;
+	//vec3 colour = attenuation * specular;
+	vec3 colour = specular;
 	if (ssao) colour *= texture(texture_ssao, uv).r;
 	fragment_colour = vec4(colour, 1.0);
 }

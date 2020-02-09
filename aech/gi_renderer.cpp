@@ -326,64 +326,68 @@ void aech::graphics::gi_renderer_t::render_ambient_pass()
 	m_render_cache->set_depth_test(false);
 	m_render_cache->set_blend(true);
 	m_render_cache->set_blend(blend_func::one, blend_func::one);
-	m_render_cache->set_shader(m_ambient_specular_material->shader());
-	m_ambient_specular_material->shader()->set_uniform("ssao", renderer.ssao());
-	if (renderer.ssao())
+	if (m_diffuse_gi)
 	{
-		renderer.ssao_texture()->bind(5);
-		m_ambient_specular_material->set_uniform("texture_ssao", 5);
-	}
-	m_ambient_specular_material->set_texture("brdf_lut", &framebuffers["brdf"].colour_attachments().front(), 6);
-	m_ambient_specular_material->set_uniform("camera_position", m_camera->transform()->position);
-	m_ambient_specular_material->set_uniform("projection", m_camera->projection());
-	m_ambient_specular_material->set_uniform("view", math::get_view_matrix(*m_camera->transform()));
-	for (auto& probe : m_reflection_probes)
-	{
-		// view frustum culling of probes
-		if (!m_camera->sees(probe.position(), probe.outer_radius()))
+		m_render_cache->set_shader(m_ambient_diffuse_material->shader());
+		if (renderer.ssao())
 		{
-			continue;
+			renderer.ssao_texture()->bind(5);
+			m_ambient_diffuse_material->set_uniform("texture_ssao", 5);
 		}
-		m_ambient_specular_material->set_uniform("probe_position", probe.position());
-		//m_ambient_material->set_texture_cube("environment_irradiance", probe.irradiance(), 7);
-		m_ambient_specular_material->set_texture_cube("environment_prefiltered", probe.prefiltered(), 8);
-		//m_ambient_material->set_uniform("model", translate(probe.position()) * math::scale(probe.radius()));
-		m_ambient_specular_material->set_uniform("model", probe.scene_node()->get_transform());
-		m_ambient_specular_material->set_uniform("box_min", probe.scene_node()->bounding_box().min_coords);
-		m_ambient_specular_material->set_uniform("box_max", probe.scene_node()->bounding_box().max_coords);
-		m_ambient_specular_material->set_uniform("inner_radius", probe.inner_radius());
-		m_ambient_specular_material->set_uniform("outer_radius", probe.outer_radius());
-		m_ambient_specular_material->set_uniforms();
-		//m_ndc_sphere->draw();
-		m_ndc_cube->draw();
-	}
-
-	m_render_cache->set_shader(m_ambient_diffuse_material->shader());
-	if (renderer.ssao())
-	{
-		renderer.ssao_texture()->bind(5);
-		m_ambient_diffuse_material->set_uniform("texture_ssao", 5);
-	}
-	m_ambient_diffuse_material->shader()->set_uniform("ssao", renderer.ssao());
-	m_ambient_diffuse_material->set_uniform("camera_position", m_camera->transform()->position);
-	m_ambient_diffuse_material->set_uniform("projection", m_camera->projection());
-	m_ambient_diffuse_material->set_uniform("view", math::get_view_matrix(*m_camera->transform()));
-	for (auto &probe : m_light_probes)
-	{
-		// view frustum culling of probes
-		if (!m_camera->sees(probe.position(), probe.outer_radius()))
+		m_ambient_diffuse_material->shader()->set_uniform("ssao", renderer.ssao());
+		m_ambient_diffuse_material->set_uniform("camera_position", m_camera->transform()->position);
+		m_ambient_diffuse_material->set_uniform("projection", m_camera->projection());
+		m_ambient_diffuse_material->set_uniform("view", math::get_view_matrix(*m_camera->transform()));
+		for (auto& probe : m_light_probes)
 		{
-			continue;
+			// view frustum culling of probes
+			if (!m_camera->sees(probe.position(), probe.outer_radius()))
+			{
+				continue;
+			}
+			m_ambient_diffuse_material->set_uniform("probe_position", probe.position());
+			//m_ambient_material->set_texture_cube("environment_irradiance", probe.irradiance(), 7);
+			m_ambient_diffuse_material->set_texture_cube("environment_irradiance", probe.irradiance(), 8);
+			//m_ambient_material->set_uniform("model", translate(probe.position()) * math::scale(probe.radius()));
+			m_ambient_diffuse_material->set_uniform("model", probe.scene_node()->get_transform());
+			m_ambient_diffuse_material->set_uniform("inner_radius", probe.inner_radius());
+			m_ambient_diffuse_material->set_uniform("outer_radius", probe.outer_radius());
+			m_ambient_diffuse_material->set_uniforms();
+			//m_ndc_sphere->draw();
+			m_ndc_cube->draw();
 		}
-		m_ambient_diffuse_material->set_uniform("probe_position", probe.position());
-		//m_ambient_material->set_texture_cube("environment_irradiance", probe.irradiance(), 7);
-		m_ambient_diffuse_material->set_texture_cube("environment_irradiance", probe.irradiance(), 8);
-		//m_ambient_material->set_uniform("model", translate(probe.position()) * math::scale(probe.radius()));
-		m_ambient_diffuse_material->set_uniform("model", probe.scene_node()->get_transform());
-		m_ambient_diffuse_material->set_uniform("inner_radius", probe.inner_radius());
-		m_ambient_diffuse_material->set_uniform("outer_radius", probe.outer_radius());
-		m_ambient_diffuse_material->set_uniforms();
-		//m_ndc_sphere->draw();
-		m_ndc_cube->draw();
+	}
+	
+	if (m_specular_gi)
+	{
+		m_render_cache->set_shader(m_ambient_specular_material->shader());
+		m_ambient_specular_material->shader()->set_uniform("ssao", renderer.ssao());
+		if (renderer.ssao())
+		{
+			renderer.ssao_texture()->bind(5);
+			m_ambient_specular_material->set_uniform("texture_ssao", 5);
+		}
+		m_ambient_specular_material->set_texture("brdf_lut", &framebuffers["brdf"].colour_attachments().front(), 6);
+		m_ambient_specular_material->set_uniform("camera_position", m_camera->transform()->position);
+		m_ambient_specular_material->set_uniform("projection", m_camera->projection());
+		m_ambient_specular_material->set_uniform("view", math::get_view_matrix(*m_camera->transform()));
+		for (auto& probe : m_reflection_probes)
+		{
+			// view frustum culling of probes
+			//if (!m_camera->sees(probe.position(), probe.outer_radius()))
+			//{
+			//	continue;
+			//}
+			m_ambient_specular_material->set_uniform("probe_position", probe.position());
+			//m_ambient_material->set_texture_cube("environment_irradiance", probe.irradiance(), 7);
+			m_ambient_specular_material->set_texture_cube("environment_prefiltered", probe.prefiltered(), 8);
+			//m_ambient_material->set_uniform("model", translate(probe.position()) * math::scale(probe.radius()));
+			m_ambient_specular_material->set_uniform("model", probe.scene_node()->get_transform());
+			m_ambient_specular_material->set_uniform("box_min", probe.scene_node()->bounding_box().min_coords);
+			m_ambient_specular_material->set_uniform("box_max", probe.scene_node()->bounding_box().max_coords);
+			m_ambient_specular_material->set_uniforms();
+			//m_ndc_sphere->draw();
+			m_ndc_cube->draw();
+		}
 	}
 }

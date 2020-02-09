@@ -46,6 +46,8 @@ namespace aech::graphics
 		void add_probe(light_probe_t&& probe);
 		void add_probe(const light_probe_t& probe);
 
+		bool m_diffuse_gi{};
+		bool m_specular_gi{};
 	private:
 		// used for specular GI
 		std::vector<reflection_probe_t> m_reflection_probes{};
