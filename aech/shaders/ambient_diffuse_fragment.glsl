@@ -66,17 +66,7 @@ void main()
 	vec3 halfway = normalize(light + view);
 	vec3 reflected = reflect(-view, normal);
 
-	// TODO: discard when occluded
-	//vec3 frst_plane_intersect = (vec3(box_max) - camera_position) / (-view);
-	//vec3 scnd_plane_intersect = (vec3(box_min) - camera_position) / (-view);
-
-	//vec3 nearest = min(frst_plane_intersect, scnd_plane_intersect);
-	//float dst = min(min(nearest.x, nearest.y), nearest.z);
-
-	//if (dst > length(world_position - camera_position))
-	//{
-	//	discard;
-	//}
+	// TODO: discard when occluded?
 
 	float attenuation = pow(max(1.0 - max(0.0, (length(world_position - probe_position) - inner_radius) / (outer_radius-inner_radius)), 0.0), 2.0);
 

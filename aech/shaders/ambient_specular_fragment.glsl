@@ -67,17 +67,12 @@ void main()
 	vec3 halfway = normalize(light + view);
 	vec3 reflected = reflect(-view, normal);
 
-	// TODO: discard when occluded
-	//vec3 frst_plane_intersect = (vec3(box_max) - camera_position) / (-view);
-	//vec3 scnd_plane_intersect = (vec3(box_min) - camera_position) / (-view);
+	// TODO: discard when occluded?
 
-	//vec3 nearest = min(frst_plane_intersect, scnd_plane_intersect);
-	//float dst = min(min(nearest.x, nearest.y), nearest.z);
-
-	//if (dst > length(world_position - camera_position))
-	//{
-	//	discard;
-	//}
+	if (!(box_min.x <= world_position.x && box_min.y <= world_position.y && box_min.z <= world_position.z && box_max.x >= world_position.x && box_max.y >= world_position.y && box_max.z >= world_position.z))
+	{
+		discard;
+	}
 
 	vec3 first_plane_intersect = (vec3(box_max) - world_position) / reflected;
 	vec3 second_plane_intersect = (vec3(box_min) - world_position) / reflected;
