@@ -30,7 +30,7 @@ namespace aech::graphics
 		
 		[[nodiscard]] static bool sort_front_to_back(entity_t a, entity_t b);
 		[[nodiscard]] static bool sort_back_to_front(entity_t a, entity_t b);		
-		inline static auto light_projection{math::orthographic(-225.0, 225.0, -225.0, 200.0, 0, 225.0)};
+		inline static auto light_projection{math::orthographic(-22.50, 22.50, -22.50, 20.00, 0, 22.50)};
 
 	private:
 		inline static constexpr uint32_t ssao_kernel_size{32};

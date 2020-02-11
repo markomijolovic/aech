@@ -51,13 +51,13 @@ namespace aech::graphics
 		post_process_shader = &resource_manager::shaders["post_process"];
 
 		auto dirlight = engine.create_entity();
-		engine.add_component(dirlight, transform_t{{0, 175.0, 0}, {-75, 10, -10}});
+		engine.add_component(dirlight, transform_t{{0, 17.50, 0}, {-75, 10, -10}});
 		engine.add_component(dirlight, directional_light_t{{1, 1, 1}, 5, &engine.get_component<transform_t>(dirlight)});
 
 		auto dir    = &engine.get_component<directional_light_t>(dirlight);
 
 		auto m_camera_entity = engine.create_entity();
-		engine.add_component(m_camera_entity, transform_t{{0.0F, 0.0F, -10.0F}});
+		engine.add_component(m_camera_entity, transform_t{{0.0F, 0.0F, -1.0F}});
 		auto ptr_camera_transform = &engine.get_component<transform_t>(m_camera_entity);
 		
 		engine.add_component(m_camera_entity, scene_node_t {
@@ -66,7 +66,7 @@ namespace aech::graphics
 		
 		engine.add_component(m_camera_entity,
 		                     camera_t{
-			                     math::perspective(90.0F, 1920.0F / 800.0F, 0.01F, 400.0F),
+			                     math::perspective(90.0F, 1920.0F / 800.0F, 0.01F, 1000.0F),
 			                     ptr_camera_transform,
 		                     });
 
@@ -193,30 +193,29 @@ namespace aech::graphics
 		m_ssao_shader->set_uniform("texture_normal", opaque_renderer->render_target()->colour_attachments()[1]);
 
 		auto probe1 = engine.create_entity();
-		engine.add_component(probe1, transform_t{ {0, 10.0, -5 }, {}, {200.0, 40.0, 42.0} });;
+		engine.add_component(probe1, transform_t{ {0, 1.00, -0.5 }, {}, {20.00, 4.00, 4.20} });;
 		engine.add_component(probe1, scene_node_t{&engine.get_component<transform_t>(probe1)});
-		engine.add_component(probe1, light_probe_t{ {0, 15.0, -4.0}, 25.0F, 50.0F, &engine.get_component<scene_node_t>(probe1) });
+		engine.add_component(probe1, light_probe_t{ {0, 1.50, -.40}, 2.50F, 5.00F, &engine.get_component<scene_node_t>(probe1) });
 		engine.get_component<scene_node_t>(probe1).set_aabb(mesh_library::default_meshes["cube"].get()->calculate_aabb());
 		gi_renderer->add_probe(engine.get_component<light_probe_t>(probe1));
 
 		auto probe2 = engine.create_entity();
-		engine.add_component(probe2, transform_t{ {0, 10.0 , -5}, {}, {200.0, 40.0, 42.0} });;
+		engine.add_component(probe2, transform_t{ {0, 1.00, -0.5 }, {}, {20.00, 4.00, 4.20} });;
 		engine.add_component(probe2, scene_node_t{ &engine.get_component<transform_t>(probe2) });
-		engine.add_component(probe2, light_probe_t{ {50, 15.0, -4.0}, 25.0F, 50.0F , &engine.get_component<scene_node_t>(probe2) });
+		engine.add_component(probe2, light_probe_t{ {5.0, 1.50, -.40}, 2.50F, 5.00F, &engine.get_component<scene_node_t>(probe2) });
 		engine.get_component<scene_node_t>(probe2).set_aabb(mesh_library::default_meshes["cube"].get()->calculate_aabb());
 		gi_renderer->add_probe(engine.get_component<light_probe_t>(probe2));
 
 		auto probe3 = engine.create_entity();
-		engine.add_component(probe3, transform_t{ {0, 10.0, -5}, {}, {200.0, 40.0, 42.0} });;
+		engine.add_component(probe3, transform_t{ {0, 1.00, -0.5 }, {}, {20.00, 4.00, 4.20} });;
 		engine.add_component(probe3, scene_node_t{ &engine.get_component<transform_t>(probe3) });
-		engine.add_component(probe3, light_probe_t{ {-50, 15.0, -4.0}, 25.0F, 50.0F, &engine.get_component<scene_node_t>(probe3) });
+		engine.add_component(probe3, light_probe_t{ {-5.0, 1.50, -.40}, 2.50F, 5.00F, &engine.get_component<scene_node_t>(probe3) });
 		engine.get_component<scene_node_t>(probe3).set_aabb(mesh_library::default_meshes["cube"].get()->calculate_aabb());
 		gi_renderer->add_probe(engine.get_component<light_probe_t>(probe3));
-
 		auto probe11 = engine.create_entity();
-		engine.add_component(probe11, transform_t{ {-2, 10.0 , -5}, {}, {194.0, 40.0, 42.0} });;
+		engine.add_component(probe11, transform_t{ {-.2, 1.00 , -.5}, {}, {19.40, 4.00, 4.20} });;
 		engine.add_component(probe11, scene_node_t{ &engine.get_component<transform_t>(probe11) });
-		engine.add_component(probe11, reflection_probe_t{ {0, 15.0, -5}, &engine.get_component<scene_node_t>(probe11) });
+		engine.add_component(probe11, reflection_probe_t{ {0, 1.50, -.5}, &engine.get_component<scene_node_t>(probe11) });
 		engine.get_component<scene_node_t>(probe11).set_aabb(mesh_library::default_meshes["cube"].get()->calculate_aabb());
 		gi_renderer->add_probe(engine.get_component<reflection_probe_t>(probe11));
 			

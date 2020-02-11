@@ -19,7 +19,7 @@ namespace aech
 		void set_camera(camera_t* camera);
 
 	private:
-		inline static float movement_speed{100.0F};
+		inline static float movement_speed{10.0F};
 		inline static float mouse_sens{0.1f};
 		bool                holding_o{};
 
