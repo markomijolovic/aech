@@ -90,24 +90,20 @@ void aech::graphics::gi_renderer_t::bake_probes()
 		auto pos = m_reflection_probes[i].position();
 		create_radiance_cubemap(pos, i);
 		create_preprocessed_environment_map(i);
-		//process_radiance_map(i);
 	}
 
 	std::clog << "100.00%" << std::endl;
 
+	// create irradiance maps for light probes
 	std::clog << "Baking light probes" << std::endl;
-
-	// create preprocessed environment maps for reflection probes
-	std::clog << "Baking reflection probes" << std::endl;
 	for (size_t i{}; i < m_light_probes.size(); i++)
 	{
 		std::clog << std::setw(6) << std::fixed << std::setprecision(2) << static_cast<float>(i) / m_light_probes.size()
 			*
 			100 << "%" << std::endl;
 		auto pos = m_light_probes[i].position();
-		create_radiance_cubemap(pos, i);
+		create_radiance_cubemap(pos, i + m_reflection_probes.size());
 		create_irradiance_cubemap(i);
-		//process_radiance_map(i);
 	}
 
 	std::clog << "100.00%" << std::endl;
@@ -115,7 +111,7 @@ void aech::graphics::gi_renderer_t::bake_probes()
 
 void aech::graphics::gi_renderer_t::create_radiance_cubemap(math::vec3_t position, size_t probe_index)
 {
-	const static auto capture_projection = math::perspective(90, 1, 0.01F, 400.0F);
+	const static auto capture_projection = math::perspective(90, 1, 0.01F, 1000.0F);
 	m_render_cache->set_depth_test(true);
 
 	//glEnable(GL_DEPTH_TEST);
@@ -276,6 +272,7 @@ void aech::graphics::gi_renderer_t::create_preprocessed_environment_map(size_t p
 	}
 
 	aech::graphics::framebuffer_cube_t::unbind();
+	resource_manager::texture_cubes["radiance" + std::to_string(probe_index)].~texture_cube_t();
 }
 
 void aech::graphics::gi_renderer_t::create_irradiance_cubemap(size_t probe_index)
@@ -296,7 +293,7 @@ void aech::graphics::gi_renderer_t::create_irradiance_cubemap(size_t probe_index
 	m_render_cache->set_shader(m_irradiance_capture_material->shader());
 	m_irradiance_capture_material->set_texture_cube("environment",
 	                                                &resource_manager::texture_cubes[
-		                                                "radiance" + std::to_string(probe_index)],
+		                                                "radiance" + std::to_string(probe_index + m_reflection_probes.size())],
 	                                                0);
 
 	framebuffer_cube_t fbo{probe.irradiance(), 32, 32};
@@ -313,6 +310,7 @@ void aech::graphics::gi_renderer_t::create_irradiance_cubemap(size_t probe_index
 	}
 	fbo.texture()->generate_mips();
 	aech::graphics::framebuffer_cube_t::unbind();
+	resource_manager::texture_cubes["radiance" + std::to_string(probe_index + m_reflection_probes.size())].~texture_cube_t();
 }
 
 void aech::graphics::gi_renderer_t::render_ambient_pass()
@@ -334,6 +332,7 @@ void aech::graphics::gi_renderer_t::render_ambient_pass()
 			renderer.ssao_texture()->bind(5);
 			m_ambient_diffuse_material->set_uniform("texture_ssao", 5);
 		}
+		m_ambient_diffuse_material->set_uniform("dot_product_weight", m_dot_product_weight);
 		m_ambient_diffuse_material->shader()->set_uniform("ssao", renderer.ssao());
 		m_ambient_diffuse_material->set_uniform("camera_position", m_camera->transform()->position);
 		m_ambient_diffuse_material->set_uniform("projection", m_camera->projection());
@@ -352,6 +351,8 @@ void aech::graphics::gi_renderer_t::render_ambient_pass()
 			m_ambient_diffuse_material->set_uniform("model", probe.scene_node()->get_transform());
 			m_ambient_diffuse_material->set_uniform("inner_radius", probe.inner_radius());
 			m_ambient_diffuse_material->set_uniform("outer_radius", probe.outer_radius());
+			m_ambient_diffuse_material->set_uniform("box_min", probe.scene_node()->bounding_box().min_coords);
+			m_ambient_diffuse_material->set_uniform("box_max", probe.scene_node()->bounding_box().max_coords);
 			m_ambient_diffuse_material->set_uniforms();
 			//m_ndc_sphere->draw();
 			m_ndc_cube->draw();

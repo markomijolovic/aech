@@ -1,5 +1,24 @@
 #include "framebuffer_cube.hpp"
 
+
+aech::graphics::framebuffer_cube_t::~framebuffer_cube_t()
+{
+	glDeleteRenderbuffers(1, &rbo_id);
+	glDeleteFramebuffers(1, &id);
+}
+
+
+aech::graphics::framebuffer_cube_t& aech::graphics::framebuffer_cube_t::operator=(framebuffer_cube_t&& rhs)
+{
+	std::swap(rbo_id, rhs.rbo_id);;
+	std::swap(id, rhs.id);;
+	m_width = rhs.m_width;
+	m_height = rhs.m_height;
+	m_texture = rhs.m_texture;
+
+	return *this;
+}
+
 aech::graphics::framebuffer_cube_t::framebuffer_cube_t(texture_cube_t* texture, uint32_t width, uint32_t height) :
 	m_texture{texture},
 	m_width{width},

@@ -14,6 +14,8 @@ namespace aech::graphics
 			uint32_t        width,
 			uint32_t        height
 		);
+		framebuffer_cube_t& operator=(framebuffer_cube_t&& framebuffer);
+		~framebuffer_cube_t();
 
 		void        attach(uint32_t i, uint32_t miplevel = 0) const;
 		void        bind() const;

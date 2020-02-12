@@ -28,6 +28,24 @@ namespace aech::graphics
 		return m_depth_and_stencil_texture.get();
 	}
 
+
+	framebuffer_t& framebuffer_t::operator=(framebuffer_t&& rhs)
+	{
+		std::swap(m_id, rhs.m_id);;
+		m_width = rhs.m_width;
+		m_height = rhs.m_height;
+		m_depth_and_stencil_texture = std::move(rhs.m_depth_and_stencil_texture);
+		m_colour_attachments = std::move(rhs.m_colour_attachments);
+		m_mipmap = rhs.m_mipmap;
+
+		return *this;
+	}
+
+	framebuffer_t::~framebuffer_t()
+	{
+		glDeleteFramebuffers(1, &m_id);
+	}
+
 	framebuffer_t::framebuffer_t(uint32_t                             width,
 	                             uint32_t                             height,
 	                             uint32_t                             num_colour_attachments,

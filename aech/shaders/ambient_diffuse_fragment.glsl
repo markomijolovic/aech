@@ -12,6 +12,7 @@ uniform sampler2D texture_metallic_roughness_ao;
 uniform sampler2D texture_ssao;
 
 uniform bool ssao;
+uniform bool dot_product_weight;
 
 uniform samplerCube environment_irradiance;
 
@@ -19,6 +20,8 @@ uniform vec3 camera_position;
 uniform vec3 probe_position;
 uniform float inner_radius;
 uniform float outer_radius;
+uniform vec4 box_min;
+uniform vec4 box_max;
 
 const float pi = 3.14159265359;
 
@@ -48,6 +51,17 @@ vec3 schlicks_approximation(float cos_angle, vec3 f0)
 	return f0 + (1.0 - f0) * pow(1 - cos_angle, 5.0);
 }
 
+float trilinear(vec3 p, vec3 x)
+{
+	float weight = 1;
+
+	weight *= (max(0, 1 - abs(p.x - x.x) / 2));
+	weight *= (max(0, 1 - abs(p.y - x.y) / 2));
+	weight *= (max(0, 1 - abs(p.z - x.z) / 2));
+
+	return weight;
+}
+
 void main()
 {
 	vec2 uv = (screen_position.xy / screen_position.w) * 0.5 + 0.5;
@@ -66,16 +80,21 @@ void main()
 	vec3 halfway = normalize(light + view);
 	vec3 reflected = reflect(-view, normal);
 
-	// TODO: discard when occluded?
+	vec3 dir = normalize(probe_position - world_position);
 
-	float attenuation = pow(max(1.0 - max(0.0, (length(world_position - probe_position) - inner_radius) / (outer_radius-inner_radius)), 0.0), 2.0);
+	float weight = 1;
+	if (dot_product_weight)
+	{
+		weight = (dot(dir, normal) + 1) * 0.5;
+	}
+	weight *= trilinear(probe_position, world_position);
 
 	vec3 f0 = mix(vec3(0.04), albedo, metallic);
 	vec3 f = schlicks_approximation(max(dot(halfway, view), 0.0), f0);
 
 	vec3 irradiance = texture(environment_irradiance, normal).rgb;
 
-	vec3 colour = attenuation * (irradiance * albedo * (vec3(1.0) - f)*(1 - metallic));
+	vec3 colour = weight * (irradiance * albedo * (vec3(1.0) - f)*(1 - metallic));
 	if (ssao) colour *= texture(texture_ssao, uv).r;
 	fragment_colour = vec4(colour, 1.0);
 }

@@ -22,6 +22,8 @@ namespace aech::graphics
 			texture_types::format                format,
 			texture_types::type                  type
 		);
+		framebuffer_t& operator=(framebuffer_t&& rhs);
+		~framebuffer_t();
 
 		[[nodiscard]] uint32_t                      id() const;
 		[[nodiscard]] uint32_t                      width() const;

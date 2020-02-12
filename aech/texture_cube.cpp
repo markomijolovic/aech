@@ -38,7 +38,6 @@ namespace aech::graphics
 		unbind();
 	}
 
-
 	uint32_t texture_cube_t::id() const
 	{
 		return m_id;

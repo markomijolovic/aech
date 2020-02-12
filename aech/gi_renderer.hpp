@@ -48,6 +48,7 @@ namespace aech::graphics
 
 		bool m_diffuse_gi{};
 		bool m_specular_gi{};
+		bool m_dot_product_weight{true};
 	private:
 		// used for specular GI
 		std::vector<reflection_probe_t> m_reflection_probes{};

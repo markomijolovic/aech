@@ -19,7 +19,7 @@ namespace aech::graphics
 		               bool                                 mipmap = true,
 		               texture_types::filtering             min    = texture_types::filtering::linear,
 		               texture_types::filtering             mag    = texture_types::filtering::linear);
-
+		
 		[[nodiscard]] uint32_t id() const;
 		void                   generate_face(uint32_t index, void* data) const;
 		void                   generate_mips() const;
