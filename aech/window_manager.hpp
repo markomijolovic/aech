@@ -13,8 +13,8 @@ namespace aech::graphics
 		~window_manager_t();
 
 		bool should_close() const;
-		void begin_frame();
-		void end_frame();
+		static void begin_frame();
+		void end_frame() const;
 
 		std::bitset<32> buttons() const;
 		bool            first_mouse() const;

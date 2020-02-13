@@ -13,5 +13,5 @@ namespace aech
 	{
 		inline window_manager_t window_manager{};
 		inline renderer_t       renderer{};
-	}
-}
+	} // namespace graphics
+}     // namespace aech

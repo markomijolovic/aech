@@ -41,7 +41,10 @@ namespace aech::math
 
 	vec4_t& vec4_t::operator*=(float rhs)
 	{
-		x *= rhs; y *= rhs; z *= rhs; w*= rhs;
+		x *= rhs;
+		y *= rhs;
+		z *= rhs;
+		w *= rhs;
 		return *this;
 	}
 
@@ -59,7 +62,10 @@ namespace aech::math
 
 	vec4_t& vec4_t::operator/=(float rhs)
 	{
-		x /= rhs; y/=rhs; z /= rhs; w/= rhs;
+		x /= rhs;
+		y /= rhs;
+		z /= rhs;
+		w /= rhs;
 		return *this;
 	}
 
@@ -85,25 +91,35 @@ namespace aech::math
 
 	float& vec4_t::operator[](size_t index)
 	{
-		switch(index)
+		switch (index)
 		{
-		case 0: return x; 
-		case 1: return y; 
-		case 2: return z; 
-		case 3: return w; 
-		default: throw std::runtime_error {"Index out of bounds for vec4_t's operator[]"};
+			case 0:
+				return x;
+			case 1:
+				return y;
+			case 2:
+				return z;
+			case 3:
+				return w;
+			default:
+				throw std::runtime_error{"Index out of bounds for vec4_t's operator[]"};
 		}
 	}
 
 	const float& vec4_t::operator[](size_t index) const
 	{
-		switch(index)
+		switch (index)
 		{
-		case 0: return x;
-		case 1: return y;
-		case 2: return z;
-		case 3: return w; 
-		default: throw std::runtime_error {"Index out of bounds for vec4_t's operator[]"};
+			case 0:
+				return x;
+			case 1:
+				return y;
+			case 2:
+				return z;
+			case 3:
+				return w;
+			default:
+				throw std::runtime_error{"Index out of bounds for vec4_t's operator[]"};
 		}
 	}
 } // namespace aech::math

@@ -1,9 +1,14 @@
 #include "glad/glad.h"
-#include "window_manager.hpp"
 #include "imgui.h"
+
 #include "imgui_impl_glfw.h"
+
 #include "imgui_impl_opengl3.h"
+
 #include "main.hpp"
+
+#include "window_manager.hpp"
+
 #include <chrono>
 
 static void key_callback(GLFWwindow* window, int key, int scan_code, int action, int mode);
@@ -21,7 +26,7 @@ uint32_t aech::graphics::window_manager_t::height() const
 
 bool aech::graphics::window_manager_t::should_close() const
 {
-	return glfwWindowShouldClose(window);
+	return glfwWindowShouldClose(window) != 0;
 }
 
 aech::graphics::window_manager_t::~window_manager_t()
@@ -39,14 +44,14 @@ void aech::graphics::window_manager_t::begin_frame()
 	glfwPollEvents();
 }
 
-void aech::graphics::window_manager_t::end_frame()
+void aech::graphics::window_manager_t::end_frame() const
 {
 	glfwSwapBuffers(window);
 }
 
 aech::graphics::window_manager_t::window_manager_t()
 {
-	if (!glfwInit())
+	if (glfwInit() == 0)
 	{
 		throw std::exception{};
 	}
@@ -57,7 +62,7 @@ aech::graphics::window_manager_t::window_manager_t()
 	glfwWindowHint(GLFW_RESIZABLE, 0);
 
 	window = glfwCreateWindow(screen_width, screen_height, "aech", nullptr, nullptr);
-	if (!window)
+	if (window == nullptr)
 	{
 		throw std::exception{};
 	}
@@ -66,7 +71,7 @@ aech::graphics::window_manager_t::window_manager_t()
 	// disable vsync
 	glfwSwapInterval(0);
 
-	if (!gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress)))
+	if (gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress)) == 0)
 	{
 		throw std::exception{};
 	}
@@ -89,7 +94,7 @@ aech::graphics::window_manager_t::window_manager_t()
 	ImGui_ImplOpenGL3_Init("#version 450");
 }
 
-static void key_callback(GLFWwindow* window, int key, int scan_code, int action, int mode)
+static void key_callback(GLFWwindow* window, int key, int /*scan_code*/, int action, int /*mode*/)
 {
 	using namespace aech;
 	using namespace graphics;
@@ -203,7 +208,7 @@ static void key_callback(GLFWwindow* window, int key, int scan_code, int action,
 	}
 }
 
-static void mouse_callback(GLFWwindow* window, double x_pos, double y_pos)
+static void mouse_callback(GLFWwindow* /*window*/, double x_pos, double y_pos)
 {
 	using namespace aech;
 	using namespace graphics;

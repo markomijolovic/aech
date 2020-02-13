@@ -1,10 +1,11 @@
 #include "sphere.hpp"
 #include "aech_types.hpp"
-#include <unordered_map>
 #include "main.hpp"
 
+#include <unordered_map>
 
-// TODO: figure out how to calculate tangents and bitangents
+
+// TODO(Marko): figure out how to calculate tangents and bitangents
 aech::graphics::sphere_t::sphere_t(const uint32_t sectors, const uint32_t stacks)
 {
 	const auto sector_step = 2 * pi / sectors;
@@ -21,13 +22,13 @@ aech::graphics::sphere_t::sphere_t(const uint32_t sectors, const uint32_t stacks
 		{
 			// from 0 to 2pi
 			const auto sector_angle = j * sector_step;
-			auto x = xy * cosf(sector_angle);
-			auto y = xy * sinf(sector_angle);
+			auto       x            = xy * cosf(sector_angle);
+			auto       y            = xy * sinf(sector_angle);
 
 			auto s = static_cast<float>(j) / sectors;
 			auto t = static_cast<float>(i) / stacks;
 			m_uvs.emplace_back(s, t);
-			
+
 			auto nx = x;
 			auto ny = y;
 			auto nz = z;

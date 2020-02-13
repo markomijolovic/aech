@@ -1,13 +1,21 @@
 #include "engine.hpp"
-#include "shading_tags.hpp"
-#include "shadow_caster.hpp"
-#include "point_light.hpp"
-#include "directional_light.hpp"
-#include "mesh_filter.hpp"
 #include "camera.hpp"
-#include "scene_node.hpp"
+
+#include "directional_light.hpp"
+
 #include "light_probe.hpp"
+
+#include "mesh_filter.hpp"
+
+#include "point_light.hpp"
+
 #include "reflection_probe.hpp"
+
+#include "scene_node.hpp"
+#include "shading_tags.hpp"
+
+#include "shadow_caster.hpp"
+
 
 namespace aech
 {

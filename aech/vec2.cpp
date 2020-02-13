@@ -19,21 +19,27 @@ namespace aech::math
 
 	float& vec2_t::operator[](size_t index)
 	{
-		switch(index)
+		switch (index)
 		{
-		case 0: return x; 
-		case 1: return y; 
-		default: throw std::runtime_error{"Index out of bound on vec2_t's operator[]"};
+			case 0:
+				return x;
+			case 1:
+				return y;
+			default:
+				throw std::runtime_error{"Index out of bound on vec2_t's operator[]"};
 		}
 	}
 
 	const float& vec2_t::operator[](size_t index) const
 	{
-		switch(index)
+		switch (index)
 		{
-		case 0: return x; 
-		case 1: return y; 
-		default: throw std::runtime_error{"Index out of bound on vec2_t's operator[]"};
+			case 0:
+				return x;
+			case 1:
+				return y;
+			default:
+				throw std::runtime_error{"Index out of bound on vec2_t's operator[]"};
 		}
 	}
 

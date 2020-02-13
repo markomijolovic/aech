@@ -17,7 +17,7 @@ namespace aech::graphics
 	{
 	public:
 		void init();
-		void bake_probes();
+		void bake_probes() const;
 		void update();
 
 		[[nodiscard]] render_cache_t*  render_cache();

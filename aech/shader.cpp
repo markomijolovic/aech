@@ -1,6 +1,8 @@
 #include "shader.hpp"
-#include <iostream>
 #include "glad/glad.h"
+
+#include <iostream>
+
 
 namespace aech::graphics
 {
@@ -10,14 +12,14 @@ namespace aech::graphics
 		const std::string& geometry_source
 	)
 	{
-		auto s_vertex    = glCreateShader(GL_VERTEX_SHADER);
-		auto vertex_data = vertex_source.c_str();
+		const auto s_vertex    = glCreateShader(GL_VERTEX_SHADER);
+		auto       vertex_data = vertex_source.c_str();
 		glShaderSource(s_vertex, 1, &vertex_data, nullptr);
 		glCompileShader(s_vertex);
 		check_compile_errors(s_vertex, "vertex");
 
-		auto s_fragment    = glCreateShader(GL_FRAGMENT_SHADER);
-		auto fragment_data = fragment_source.c_str();
+		const auto s_fragment    = glCreateShader(GL_FRAGMENT_SHADER);
+		auto       fragment_data = fragment_source.c_str();
 		glShaderSource(s_fragment, 1, &fragment_data, nullptr);
 		glCompileShader(s_fragment);
 		check_compile_errors(s_fragment, "fragment");

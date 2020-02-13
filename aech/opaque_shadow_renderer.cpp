@@ -8,8 +8,6 @@
 
 #include "transforms.hpp"
 
-#include "glad/glad.h"
-
 #include "main.hpp"
 
 namespace aech::graphics
@@ -36,21 +34,24 @@ namespace aech::graphics
 		m_render_cache->set_shader(m_material->shader());
 		m_material->set_uniforms();
 
-		std::set<entity_t, decltype(&renderer.sort_front_to_back)> entities_sorted{&renderer.sort_front_to_back};
+		std::set<entity_t, decltype(&aech::graphics::renderer_t::sort_front_to_back)> entities_sorted{
+			&aech::graphics::
+			renderer_t::sort_front_to_back
+		};
 		for (auto entity : m_entities)
 		{
-			auto &scene_node = engine.get_component<scene_node_t>(entity);
+			auto& scene_node = engine.get_component<scene_node_t>(entity);
 			entities_sorted.insert(entity);
 		}
 
-		for (auto entity: entities_sorted)
+		for (auto entity : entities_sorted)
 		{
-			auto& transform   = engine.get_component<transform_t>(entity);
-			auto& mesh_filter = engine.get_component<mesh_filter_t>(entity);
-			auto &scene_node = engine.get_component<scene_node_t>(entity);
-			auto light_view_matrix = math::get_view_matrix(*m_dirlight->transform());
+			auto& transform         = engine.get_component<transform_t>(entity);
+			auto& mesh_filter       = engine.get_component<mesh_filter_t>(entity);
+			auto& scene_node        = engine.get_component<scene_node_t>(entity);
+			auto  light_view_matrix = math::get_view_matrix(*m_dirlight->transform());
 
-			m_material->shader()->set_uniform("projection", renderer.light_projection);
+			m_material->shader()->set_uniform("projection", aech::graphics::renderer_t::light_projection);
 			m_material->shader()->set_uniform("view", light_view_matrix);
 			m_material->shader()->set_uniform("model", scene_node.get_transform());
 			mesh_filter.mesh()->draw();

@@ -16,9 +16,13 @@ void aech::graphics::render_cache_t::set_depth_test(bool enable)
 	if (m_depth_test != enable)
 	{
 		if (m_depth_test = enable)
+		{
 			glEnable(GL_DEPTH_TEST);
+		}
 		else
+		{
 			glDisable(GL_DEPTH_TEST);
+		}
 	}
 }
 
@@ -36,9 +40,13 @@ void aech::graphics::render_cache_t::set_blend(bool enable)
 	if (m_blend != enable)
 	{
 		if (m_blend = enable)
+		{
 			glEnable(GL_BLEND);
+		}
 		else
+		{
 			glDisable(GL_BLEND);
+		}
 	}
 }
 
@@ -57,9 +65,13 @@ void aech::graphics::render_cache_t::set_cull(bool enable)
 	if (m_cull != enable)
 	{
 		if (m_cull = enable)
+		{
 			glEnable(GL_CULL_FACE);
+		}
 		else
+		{
 			glDisable(GL_CULL_FACE);
+		}
 	}
 }
 
@@ -74,7 +86,7 @@ void aech::graphics::render_cache_t::set_cull_face(cull_face face)
 
 void aech::graphics::render_cache_t::set_shader(shader_t* shader)
 {
-	if (!m_shader || *m_shader != *shader)
+	if ((m_shader == nullptr) || *m_shader != *shader)
 	{
 		m_shader = shader;
 		m_shader->use();

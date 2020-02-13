@@ -1,6 +1,8 @@
 #include "framebuffer_library.hpp"
-#include "resource_manager.hpp"
 #include "main.hpp"
+
+#include "resource_manager.hpp"
+
 
 void aech::graphics::generate_default_framebuffers()
 {
@@ -58,7 +60,7 @@ void aech::graphics::generate_default_framebuffers()
 
 	shadow_map_texture->bind();
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_REF_TO_TEXTURE);
-	shadow_map_texture->unbind();
+	aech::graphics::texture_t::unbind();
 
 	framebuffers["brdf"] = {
 		512,
@@ -80,8 +82,8 @@ void aech::graphics::generate_default_framebuffers()
 		texture_types::type::ubyte
 	};
 
-	auto environment_texture = &resource_manager::texture_cubes["environment"];
-	*environment_texture     = texture_cube_t{
+	const auto environment_texture = &resource_manager::texture_cubes["environment"];
+	*environment_texture           = texture_cube_t{
 		1024,
 		1024,
 		texture_types::sized_internal_format::rgb16f,

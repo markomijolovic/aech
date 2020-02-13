@@ -23,10 +23,13 @@ void aech::graphics::transparent_shadow_renderer_t::update()
 	m_render_cache->set_cull_face(cull_face::back);
 	m_render_cache->set_shader(m_material->shader());
 
-	std::set<entity_t, decltype(&renderer.sort_back_to_front)> entities_sorted{&renderer.sort_back_to_front};
-	for (auto entity: m_entities)
+	std::set<entity_t, decltype(&aech::graphics::renderer_t::sort_back_to_front)> entities_sorted{
+		&aech::graphics::
+		renderer_t::sort_back_to_front
+	};
+	for (auto entity : m_entities)
 	{
-		auto &scene_node = engine.get_component<scene_node_t>(entity);
+		auto& scene_node = engine.get_component<scene_node_t>(entity);
 		entities_sorted.insert(entity);
 	}
 
@@ -34,9 +37,9 @@ void aech::graphics::transparent_shadow_renderer_t::update()
 	{
 		auto& transform   = engine.get_component<transform_t>(entity);
 		auto& mesh_filter = engine.get_component<mesh_filter_t>(entity);
-		auto &scene_node = engine.get_component<scene_node_t>(entity);
+		auto& scene_node  = engine.get_component<scene_node_t>(entity);
 
-		m_material->shader()->set_uniform("projection", renderer.light_projection);
+		m_material->shader()->set_uniform("projection", aech::graphics::renderer_t::light_projection);
 		m_material->shader()->set_uniform("view", light_view_matrix);
 		m_material->shader()->set_uniform("model", scene_node.get_transform());
 		m_material->set_texture("texture_albedo", mesh_filter.material()->get_texture("texture_albedo"), 0);

@@ -1,7 +1,8 @@
 #include "transforms.hpp"
-#include <cmath>
-#include "aech_types.hpp"
 #include "transform.hpp"
+
+#include <cmath>
+
 
 namespace aech::math
 {
@@ -35,10 +36,10 @@ namespace aech::math
 
 	mat4_t rotate(float angle, const vec3_t& axis_)
 	{
-		auto  axis = normalize(axis_);
-		float s    = std::sin(angle);
-		float c    = std::cos(angle);
-		float oc   = 1.0F - c;
+		const auto axis = normalize(axis_);
+		const auto s    = std::sin(angle);
+		const auto c    = std::cos(angle);
+		const auto oc   = 1.0F - c;
 
 		return mat4_t{
 			oc * axis.x * axis.x + c,
@@ -64,10 +65,10 @@ namespace aech::math
 	{
 		mat4_t mat_pitch{};
 		mat4_t mat_yaw{};
-		mat_pitch   = rotate(radians(-transform.rotation.x), {1, 0, 0});
-		mat_yaw     = rotate(radians(-transform.rotation.y), {0, 1, 0});
-		auto rotate = mat_pitch * mat_yaw;
-		auto trans  = translate(-transform.position.x, -transform.position.y, -transform.position.z);
+		mat_pitch         = rotate(radians(-transform.rotation.x), {1, 0, 0});
+		mat_yaw           = rotate(radians(-transform.rotation.y), {0, 1, 0});
+		const auto rotate = mat_pitch * mat_yaw;
+		const auto trans  = translate(-transform.position.x, -transform.position.y, -transform.position.z);
 		return rotate * trans;
 	}
 
@@ -91,11 +92,11 @@ namespace aech::math
 
 	mat4_t look_at(const vec3_t& eye, const vec3_t& centre, const vec3_t& up)
 	{
-		auto w          = normalize(eye - centre);
-		auto u          = normalize(cross(up, w));
-		auto v          = normalize(cross(w, u));
-		auto first_mat  = mat4_t{u.x, u.y, u.z, 0, v.x, v.y, v.z, 0, w.x, w.y, w.z, 0, 0, 0, 0, 1};
-		auto second_mat = mat4_t{
+		const auto w          = normalize(eye - centre);
+		const auto u          = normalize(cross(up, w));
+		const auto v          = normalize(cross(w, u));
+		const auto first_mat  = mat4_t{u.x, u.y, u.z, 0, v.x, v.y, v.z, 0, w.x, w.y, w.z, 0, 0, 0, 0, 1};
+		const auto second_mat = mat4_t{
 			1,
 			0,
 			0,
@@ -118,10 +119,10 @@ namespace aech::math
 
 	mat4_t perspective(float fov_y, float aspect, float z_near, float z_far)
 	{
-		auto theta = radians(fov_y / 2);
-		auto d     = cos(theta) / sin(theta);
-		auto a     = -(z_far + z_near) / (z_far - z_near);
-		auto b     = -(2 * z_far * z_near) / (z_far - z_near);
+		const auto theta = radians(fov_y / 2);
+		const auto d     = cos(theta) / sin(theta);
+		const auto a     = -(z_far + z_near) / (z_far - z_near);
+		const auto b     = -(2 * z_far * z_near) / (z_far - z_near);
 		return mat4_t
 		{
 			static_cast<float>(d / aspect),

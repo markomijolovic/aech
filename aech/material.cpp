@@ -109,4 +109,4 @@ namespace aech::graphics
 			} // namespace aech::graphics
 		}
 	}
-}
+} // namespace aech::graphics

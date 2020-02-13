@@ -8,10 +8,10 @@ namespace aech::physics
 	class rigidbody_t
 	{
 	public:
-		float mass();
-		bool gravity();
-		bool kinematic();
-		math::vec3_t velocity();
+		float mass() const;
+		bool gravity() const;
+		bool kinematic() const;
+		math::vec3_t velocity() const;
 		void add_velocity(const math::vec3_t& vel);
 		
 	private:		

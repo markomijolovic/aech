@@ -299,7 +299,7 @@ namespace aech::resource_manager
 
 	entity_t process_node(const aiNode* node, const aiScene* scene)
 	{
-		// TODO: potential to optimize calculation of aabb
+		// TODO(Marko): potential to optimize calculation of aabb
 		const auto entity = engine.create_entity();
 		engine.add_component(entity,
 		                     transform_t{}
@@ -314,17 +314,17 @@ namespace aech::resource_manager
 		if (node->mNumMeshes == 1)
 		{
 			engine.add_component(entity,
-		                     potential_occluder_t{}
-		                    );
-			const auto a_mesh      = scene->mMeshes[node->mMeshes[0]];
-			const auto mesh        = parse_mesh(a_mesh, scene);
-			const auto a_material  = scene->mMaterials[a_mesh->mMaterialIndex];
-			const auto material    = parse_material(scene, a_material);
+			                     potential_occluder_t{}
+			                    );
+			const auto    a_mesh     = scene->mMeshes[node->mMeshes[0]];
+			const auto    mesh       = parse_mesh(a_mesh, scene);
+			const auto    a_material = scene->mMaterials[a_mesh->mMaterialIndex];
+			const auto    material   = parse_material(scene, a_material);
 			mesh_filter_t mesh_filter{mesh, material};
 			engine.add_component(entity,
 			                     mesh_filter
 			                    );
-			
+
 			scene_node->set_aabb(mesh->calculate_aabb());
 			if (mesh_filter.material()->type() == material_t::material_type::opaque)
 			{
@@ -338,12 +338,12 @@ namespace aech::resource_manager
 		else
 		{
 			for (size_t i = 0; i < node->mNumMeshes; i++)
-		{
-				const auto a_mesh      = scene->mMeshes[node->mMeshes[i]];
-				const auto mesh        = parse_mesh(a_mesh, scene);
-				const auto a_material  = scene->mMaterials[a_mesh->mMaterialIndex];
-				const auto material    = parse_material(scene, a_material);
-		
+			{
+				const auto a_mesh     = scene->mMeshes[node->mMeshes[i]];
+				const auto mesh       = parse_mesh(a_mesh, scene);
+				const auto a_material = scene->mMaterials[a_mesh->mMaterialIndex];
+				const auto material   = parse_material(scene, a_material);
+
 				const auto child_entity = engine.create_entity();
 				engine.add_component(child_entity,
 				                     transform_t{}
@@ -374,12 +374,11 @@ namespace aech::resource_manager
 				const auto child_scene_node  = &engine.get_component<scene_node_t>(child_entity);
 				auto&      child_mesh_filter = engine.get_component<mesh_filter_t>(child_entity);
 				child_scene_node->set_aabb(mesh->calculate_aabb());
-				// TODO: potential to calculate bounding volume hierarchy here
+				// TODO(Marko): potential to calculate bounding volume hierarchy here
 				scene_node->add_child(child_scene_node);
 			}
 		}
 
-		
 
 		for (size_t i = 0; i < node->mNumChildren; i++)
 		{
@@ -407,7 +406,7 @@ namespace aech::resource_manager
 		}
 
 		engine.set_root_node(process_node(scene->mRootNode, scene));
-		
+
 		return engine.root_node();
 	}
 
@@ -419,7 +418,7 @@ namespace aech::resource_manager
 			return &meshes[mesh];
 		}
 
-		auto ret_val = &meshes[mesh];
+		const auto ret_val = &meshes[mesh];
 
 		std::vector<math::vec3_t> positions(mesh->mNumVertices);
 		std::vector<math::vec3_t> normals(mesh->mNumVertices);
@@ -521,7 +520,7 @@ namespace aech::resource_manager
 
 		aiString file{};
 		a_material->GetTexture(aiTextureType_DIFFUSE, 0, &file);
-		auto path = std::string{file.C_Str()};
+		const auto path = std::string{file.C_Str()};
 		if (path.find("_alpha") != std::string::npos)
 		{
 			*ret_val = material_library::create_material("transparent");
@@ -535,9 +534,9 @@ namespace aech::resource_manager
 		{
 			aiString file{};
 			a_material->GetTexture(aiTextureType_DIFFUSE, 0, &file);
-			auto file_name = std::string{file.C_Str()};
+			const auto file_name = std::string{file.C_Str()};
 
-			auto texture = load_texture(file_name, file_name);
+			const auto texture = load_texture(file_name, file_name);
 			ret_val->set_texture("texture_albedo", texture, 0);
 		}
 
@@ -546,9 +545,9 @@ namespace aech::resource_manager
 		{
 			aiString file{};
 			a_material->GetTexture(aiTextureType_HEIGHT, 0, &file);
-			auto file_name = std::string{file.C_Str()};
+			const auto file_name = std::string{file.C_Str()};
 
-			auto texture = load_texture(file_name, file_name, false);
+			const auto texture = load_texture(file_name, file_name, false);
 			ret_val->set_texture("texture_normal", texture, 1);
 		}
 
@@ -556,9 +555,9 @@ namespace aech::resource_manager
 		{
 			aiString file{};
 			a_material->GetTexture(aiTextureType_SPECULAR, 0, &file);
-			auto file_name = std::string{file.C_Str()};
+			const auto file_name = std::string{file.C_Str()};
 
-			auto texture = load_texture(file_name, file_name, false);
+			const auto texture = load_texture(file_name, file_name, false);
 			ret_val->set_texture("texture_metallic", texture, 2);
 		}
 
@@ -566,9 +565,9 @@ namespace aech::resource_manager
 		{
 			aiString file{};
 			a_material->GetTexture(aiTextureType_SHININESS, 0, &file);
-			auto file_name = std::string{file.C_Str()};
+			const auto file_name = std::string{file.C_Str()};
 
-			auto texture = load_texture(file_name, file_name, false);
+			const auto texture = load_texture(file_name, file_name, false);
 			ret_val->set_texture("texture_roughness", texture, 3);
 		}
 
@@ -576,9 +575,9 @@ namespace aech::resource_manager
 		{
 			aiString file{};
 			a_material->GetTexture(aiTextureType_AMBIENT, 0, &file);
-			auto file_name = std::string{file.C_Str()};
+			const auto file_name = std::string{file.C_Str()};
 
-			auto texture = load_texture(file_name, file_name, false);
+			const auto texture = load_texture(file_name, file_name, false);
 			ret_val->set_texture("texture_ao", texture, 4);
 		}
 

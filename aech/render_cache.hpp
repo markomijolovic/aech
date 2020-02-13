@@ -48,7 +48,7 @@ namespace aech::graphics
 		void set_cull_face(cull_face face);
 		void set_shader(shader_t* shader);
 		void set_viewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height);
-		void clear(clear bit);
+		static void clear(clear bit);
 
 	private:
 		bool       m_depth_test{true};

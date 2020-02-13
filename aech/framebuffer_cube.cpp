@@ -10,10 +10,10 @@ aech::graphics::framebuffer_cube_t::~framebuffer_cube_t()
 
 aech::graphics::framebuffer_cube_t& aech::graphics::framebuffer_cube_t::operator=(framebuffer_cube_t&& rhs)
 {
-	std::swap(rbo_id, rhs.rbo_id);;
-	std::swap(id, rhs.id);;
-	m_width = rhs.m_width;
-	m_height = rhs.m_height;
+	std::swap(rbo_id, rhs.rbo_id);
+	std::swap(id, rhs.id);
+	m_width   = rhs.m_width;
+	m_height  = rhs.m_height;
 	m_texture = rhs.m_texture;
 
 	return *this;

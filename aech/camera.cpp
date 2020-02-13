@@ -68,6 +68,6 @@ void aech::camera_t::rotate_y(float amount)
 
 void aech::camera_t::recalculate_frustum()
 {
-	auto pv = m_projection * math::get_view_matrix(*m_transform);
+	const auto pv = m_projection * math::get_view_matrix(*m_transform);
 	m_frustum.recalculate(pv);
 }

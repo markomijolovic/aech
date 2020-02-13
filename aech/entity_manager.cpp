@@ -10,7 +10,7 @@ aech::ecs::entity_manager_t::entity_manager_t()
 
 aech::entity_t aech::ecs::entity_manager_t::create_entity()
 {
-	auto id = m_available_entities.front();
+	const auto id = m_available_entities.front();
 
 	m_available_entities.pop();
 	m_living_entities_count++;

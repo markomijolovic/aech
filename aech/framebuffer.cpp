@@ -31,12 +31,12 @@ namespace aech::graphics
 
 	framebuffer_t& framebuffer_t::operator=(framebuffer_t&& rhs)
 	{
-		std::swap(m_id, rhs.m_id);;
-		m_width = rhs.m_width;
-		m_height = rhs.m_height;
+		std::swap(m_id, rhs.m_id);
+		m_width                     = rhs.m_width;
+		m_height                    = rhs.m_height;
 		m_depth_and_stencil_texture = std::move(rhs.m_depth_and_stencil_texture);
-		m_colour_attachments = std::move(rhs.m_colour_attachments);
-		m_mipmap = rhs.m_mipmap;
+		m_colour_attachments        = std::move(rhs.m_colour_attachments);
+		m_mipmap                    = rhs.m_mipmap;
 
 		return *this;
 	}

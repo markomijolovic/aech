@@ -1,6 +1,5 @@
 #include "transforms.hpp"
 #include "camera.hpp"
-#include "vector_math.hpp"
 
 #include "material_library.hpp"
 
@@ -11,8 +10,9 @@
 
 #include "scene_node.hpp"
 
-#include "transform.hpp"
+#include "renderer.hpp"
 #include "main.hpp"
+
 
 namespace aech::graphics
 {
@@ -28,7 +28,7 @@ namespace aech::graphics
 		m_render_cache->set_blend(false);
 		m_render_cache->set_shader(m_skybox_mf.material()->shader());
 		m_skybox_mf.material()->shader()->set_uniform("view",
-		                                            math::get_view_matrix(*m_camera->transform()));
+		                                              math::get_view_matrix(*m_camera->transform()));
 		m_skybox_mf.material()->shader()->set_uniform("projection", m_camera->projection());
 		m_skybox_mf.material()->set_uniforms();
 		m_render_cache->set_cull(false);
@@ -47,16 +47,24 @@ namespace aech::graphics
 		setup_g_buffer();
 
 		// sort front to back (roughly) to take advantage of early z testing
-		std::set<entity_t, decltype(&renderer.sort_front_to_back)> entities_sorted{&renderer.sort_front_to_back};
+		std::set<entity_t, decltype(&aech::graphics::renderer_t::sort_front_to_back)> entities_sorted{
+			&aech::graphics::
+			renderer_t::sort_front_to_back
+		};
 		for (auto entity : m_entities)
 		{
-			auto &scene_node = engine.get_component<scene_node_t>(entity);
-			if (!m_camera->sees(scene_node)) continue; // view frustum culling
+			auto& scene_node = engine.get_component<scene_node_t>(entity);
+			if (!m_camera->sees(scene_node))
+			{
+				continue; // view frustum culling
+			}
 			entities_sorted.insert(entity);
 		}
 
-		for (auto entity: entities_sorted)
+		for (auto entity : entities_sorted)
+		{
 			draw_entity(entity);
+		}
 	}
 
 	void opaque_renderer_t::setup_g_buffer() const
@@ -76,11 +84,11 @@ namespace aech::graphics
 
 	void opaque_renderer_t::draw_entity(entity_t entity) const
 	{
-		auto  view       = math::get_view_matrix(*m_camera->transform());
-		auto& scene_node = engine.get_component<scene_node_t>(entity);
-		auto& mesh_filter = engine.get_component<mesh_filter_t>(entity);
-		auto shader     = mesh_filter.material()->shader();
-		auto projection = m_camera->projection();
+		auto       view        = math::get_view_matrix(*m_camera->transform());
+		auto&      scene_node  = engine.get_component<scene_node_t>(entity);
+		auto&      mesh_filter = engine.get_component<mesh_filter_t>(entity);
+		const auto shader      = mesh_filter.material()->shader();
+		auto       projection  = m_camera->projection();
 
 		m_render_cache->set_shader(shader);
 		mesh_filter.material()->set_uniforms();

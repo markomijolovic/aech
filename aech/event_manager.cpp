@@ -10,7 +10,7 @@ namespace aech::events
 
 	void event_manager_t::send_event(event_t& event)
 	{
-		auto type = event.type();
+		const auto type = event.type();
 		for (const auto& listener : listeners[type])
 		{
 			listener(event);

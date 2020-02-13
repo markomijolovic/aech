@@ -1,8 +1,10 @@
 #include "mat4.hpp"
 
-#include "scene_node.hpp"
-#include "transform.hpp"
 #include "main.hpp"
+
+#include "scene_node.hpp"
+
+#include "transform.hpp"
 
 
 namespace aech::graphics
@@ -16,42 +18,46 @@ namespace aech::graphics
 	void scene_node_t::set_position(const math::vec3_t& position)
 	{
 		m_transform->position = position;
-		m_dirty = true;
-		for (auto &child: m_children)
+		m_dirty               = true;
+		for (auto& child : m_children)
+		{
 			child->parent_changed();
+		}
 	}
 
 
 	void scene_node_t::parent_changed() const
 	{
 		m_dirty = true;
-		for (auto &child: m_children)
+		for (auto& child : m_children)
+		{
 			child->parent_changed();
+		}
 	}
 
 
-	void scene_node_t::move(const math::vec3_t& offset)
+	void scene_node_t::move(const math::vec3_t& offset) const
 	{
 		m_transform->position += offset;
 		m_dirty = true;
 	}
 
-	void scene_node_t::set_rotation(const math::vec3_t& rotation)
+	void scene_node_t::set_rotation(const math::vec3_t& rotation) const
 	{
 		m_transform->rotation = rotation;
-		m_dirty = true;
+		m_dirty               = true;
 	}
 
-	void scene_node_t::set_scale(const math::vec3_t& scale)
+	void scene_node_t::set_scale(const math::vec3_t& scale) const
 	{
 		m_transform->scale = scale;
-		m_dirty = true;
+		m_dirty            = true;
 	}
 
-	void scene_node_t::set_scale(float scale) 
+	void scene_node_t::set_scale(float scale) const
 	{
 		m_transform->scale = {scale, scale, scale};
-		m_dirty = true;
+		m_dirty            = true;
 	}
 
 	math::vec3_t scene_node_t::get_local_position() const
@@ -72,14 +78,17 @@ namespace aech::graphics
 	math::vec3_t scene_node_t::get_world_position() const
 	{
 		const auto transform_matrix = get_transform();
-		auto       pos              = transform_matrix * math::vec4_t{m_transform->position, 1.0F};
+		const auto pos              = transform_matrix * math::vec4_t{m_transform->position, 1.0F};
 		return math::vec3_t{pos};
 	}
 
 	math::mat4_t scene_node_t::get_transform() const
 	{
-		if (!m_dirty) return m_transform_matrix;
-		
+		if (!m_dirty)
+		{
+			return m_transform_matrix;
+		}
+
 		m_transform_matrix = m_transform->get_transform_matrix();
 
 		if (m_parent != nullptr)
@@ -88,7 +97,7 @@ namespace aech::graphics
 		}
 
 		m_dirty = false;
-		
+
 		return m_transform_matrix;
 	}
 
@@ -101,10 +110,10 @@ namespace aech::graphics
 
 	bounding_box_t scene_node_t::bounding_box() const
 	{
-		// TODO: how to transform aabb?
+		// TODO(Marko): how to transform aabb?
 
-		auto transform_matrix = get_transform();
-		return 
+		const auto transform_matrix = get_transform();
+		return
 		{
 			transform_matrix * m_aabb.min_coords,
 			transform_matrix * m_aabb.max_coords

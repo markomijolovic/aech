@@ -56,7 +56,7 @@ namespace aech::math
 
 	vec3_t& vec3_t::operator/=(float rhs)
 	{
-		x/= rhs;
+		x /= rhs;
 		y /= rhs;
 		z /= rhs;
 		return *this;
@@ -64,23 +64,31 @@ namespace aech::math
 
 	float& vec3_t::operator[](size_t index)
 	{
-		switch(index)
+		switch (index)
 		{
-		case 0: return x; 
-		case 1: return y; 
-		case 2: return z; 
-		default: throw std::runtime_error {"Index out of bounds for vec3_t's operator[]"};
+			case 0:
+				return x;
+			case 1:
+				return y;
+			case 2:
+				return z;
+			default:
+				throw std::runtime_error{"Index out of bounds for vec3_t's operator[]"};
 		}
 	}
 
 	const float& vec3_t::operator[](size_t index) const
 	{
-		switch(index)
+		switch (index)
 		{
-		case 0: return x; 
-		case 1: return y; 
-		case 2: return z; 
-		default: throw std::runtime_error {"Index out of bounds for vec3_t's operator[]"};
+			case 0:
+				return x;
+			case 1:
+				return y;
+			case 2:
+				return z;
+			default:
+				throw std::runtime_error{"Index out of bounds for vec3_t's operator[]"};
 		}
 	}
 
@@ -88,8 +96,6 @@ namespace aech::math
 	{
 		return lhs *= rhs;
 	}
-
-	
 
 
 	vec3_t operator*(float lhs, vec3_t rhs)
