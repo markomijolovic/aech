@@ -33,19 +33,28 @@ namespace aech::graphics
 			using Type = std::remove_cvref_t<T>;
 			if constexpr (std::is_same_v<Type, math::mat4_t>)
 			{
-				glUniformMatrix4fv(glGetUniformLocation(id, name.c_str()), 1, true, const_cast<GLfloat *>(reinterpret_cast<const GLfloat *>(&value[0])));
+				glUniformMatrix4fv(glGetUniformLocation(id, name.c_str()),
+				                   1,
+				                   true,
+				                   const_cast<GLfloat*>(reinterpret_cast<const GLfloat*>(&value[0])));
 			}
 			else if constexpr (std::is_same_v<Type, math::vec2_t>)
 			{
-				glUniform2fv(glGetUniformLocation(id, name.c_str()), 1, const_cast<GLfloat*>(reinterpret_cast<const GLfloat*>(&value)));
+				glUniform2fv(glGetUniformLocation(id, name.c_str()),
+				             1,
+				             const_cast<GLfloat*>(reinterpret_cast<const GLfloat*>(&value)));
 			}
 			else if constexpr (std::is_same_v<Type, math::vec3_t>)
 			{
-				glUniform3fv(glGetUniformLocation(id, name.c_str()), 1, const_cast<GLfloat*>(reinterpret_cast<const GLfloat*>(&value)));
+				glUniform3fv(glGetUniformLocation(id, name.c_str()),
+				             1,
+				             const_cast<GLfloat*>(reinterpret_cast<const GLfloat*>(&value)));
 			}
 			else if constexpr (std::is_same_v<Type, math::vec4_t>)
 			{
-				glUniform4fv(glGetUniformLocation(id, name.c_str()), 1, const_cast<GLfloat*>(reinterpret_cast<const GLfloat*>(&value)));
+				glUniform4fv(glGetUniformLocation(id, name.c_str()),
+				             1,
+				             const_cast<GLfloat*>(reinterpret_cast<const GLfloat*>(&value)));
 			}
 			else if constexpr (std::is_same_v<Type, bool>)
 			{

@@ -4,7 +4,7 @@
 
 namespace aech::graphics
 {
-	// TODO: should you be able to allocate a framebuffer on the stack
+	// TODO(Marko): should you be able to allocate a framebuffer on the stack
 	class framebuffer_cube_t
 	{
 	public:

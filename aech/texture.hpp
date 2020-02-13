@@ -27,7 +27,7 @@ namespace aech::graphics
 		texture_t(texture_t&& rhs) noexcept;
 		texture_t& operator=(texture_t&& rhs) noexcept;
 		~texture_t();
-		
+
 		[[nodiscard]] uint32_t id() const;
 		void                   bind(int32_t unit = -1) const;
 		static void            unbind();
@@ -45,7 +45,7 @@ namespace aech::graphics
 		texture_types::sampling              m_wrap_s                = texture_types::sampling::repeat;
 		texture_types::sampling              m_wrap_t                = texture_types::sampling::repeat;
 		bool                                 m_mipmap                = true;
-		// TODO: remove this attribute
-		void*                                m_data                  = nullptr;
+		// TODO(Marko): remove this attribute
+		void* m_data = nullptr;
 	};
 } // namespace aech::graphics

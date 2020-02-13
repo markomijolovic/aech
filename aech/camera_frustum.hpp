@@ -1,8 +1,12 @@
 ﻿#pragma once
-#include <array>
-#include "vec4.hpp"
 #include "bounding_box.hpp"
+
 #include "mat4.hpp"
+
+#include "vec4.hpp"
+
+#include <array>
+
 
 namespace aech
 {
@@ -22,4 +26,4 @@ namespace aech
 		// in the plane equation a*x + b*y + c*z + d = 0
 		std::array<math::vec4_t, 6> planes{};
 	};
-}
+} // namespace aech

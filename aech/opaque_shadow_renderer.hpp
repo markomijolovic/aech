@@ -7,10 +7,12 @@
 
 #include "resource_manager.hpp"
 
-#include "system.hpp"
-#include "render_cache.hpp"
-#include "directional_light_renderer.hpp"
 #include "directional_light.hpp"
+
+#include "directional_light_renderer.hpp"
+#include "render_cache.hpp"
+
+#include "system.hpp"
 
 
 namespace aech::graphics
@@ -26,6 +28,6 @@ namespace aech::graphics
 		directional_light_t* m_dirlight{};
 		render_cache_t*      m_render_cache{};
 		framebuffer_t*       m_render_target = &framebuffers["shadow_map"];
-		material_t*          m_material        = &material_library::default_materials["opaque_shadow"];
+		material_t*          m_material      = &material_library::default_materials["opaque_shadow"];
 	};
 } // namespace aech::graphics

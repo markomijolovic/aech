@@ -1,11 +1,17 @@
 #pragma once
-#include "framebuffer_library.hpp"
-#include "mesh_library.hpp"
-#include "mesh_filter.hpp"
-#include "material_library.hpp"
-#include "system.hpp"
-#include "render_cache.hpp"
 #include "camera.hpp"
+
+#include "framebuffer_library.hpp"
+
+#include "material_library.hpp"
+
+#include "mesh_filter.hpp"
+
+#include "mesh_library.hpp"
+
+#include "render_cache.hpp"
+#include "system.hpp"
+
 
 namespace aech::graphics
 {
@@ -23,7 +29,7 @@ namespace aech::graphics
 	private:
 		camera_t*      m_camera{};
 		framebuffer_t* m_render_target = &framebuffers["g_buffer"];
-		mesh_filter_t  m_skybox_mf       = mesh_filter_t{
+		mesh_filter_t  m_skybox_mf     = mesh_filter_t{
 			mesh_library::default_meshes["cube"].get(),
 			&material_library::default_materials["skybox"]
 		};

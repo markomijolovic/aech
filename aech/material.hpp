@@ -21,9 +21,9 @@ namespace aech::graphics
 
 		// make unordered_map happy
 		material_t() = default;
-		material_t(shader_t* m_shader, material_type m_type = material_type::opaque);
-		shader_t*     shader() const;
-		material_type type() const;
+		explicit                    material_t(shader_t* m_shader, material_type m_type = material_type::opaque);
+		[[nodiscard]] shader_t*     shader() const;
+		[[nodiscard]] material_type type() const;
 
 		// stores the uniform value in the material
 		// note that this does not actually set it in the shader
@@ -53,12 +53,13 @@ namespace aech::graphics
 			uint32_t              unit);
 		const texture_cube_t* get_texture_cube(
 			const std::string& name);
-		const std::unordered_map<std::string, std::pair<const texture_t*, uint32_t>>& get_textures() const;
+		[[nodiscard]] const std::unordered_map<std::string, std::pair<const texture_t*, uint32_t>>&
+		get_textures() const;
 	private:
 		shader_t*                                                                   m_shader{};
 		material_type                                                               m_type = material_type::opaque;
 		std::unordered_map<std::string, std::any>                                   m_uniforms{};
-		std::unordered_map<std::string, std::pair<const texture_t *, uint32_t>>     m_textures{};
+		std::unordered_map<std::string, std::pair<const texture_t*, uint32_t>>      m_textures{};
 		std::unordered_map<std::string, std::pair<const texture_cube_t*, uint32_t>> m_texture_cubes{};
 	};
 } // namespace aech::graphics

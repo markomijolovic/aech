@@ -23,4 +23,4 @@ namespace aech::graphics
 			1.0F
 		};
 	};
-}
+} // namespace aech::graphics

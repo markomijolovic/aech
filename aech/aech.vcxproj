@@ -222,7 +222,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="mat3.hpp" />
     <ClInclude Include="mat4.hpp" />
     <ClInclude Include="material.hpp" />
     <ClInclude Include="material_library.hpp" />

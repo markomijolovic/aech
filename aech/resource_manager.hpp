@@ -3,8 +3,6 @@
 
 #include "mesh.hpp"
 
-#include "scene_node.hpp"
-
 #include "shader.hpp"
 
 #include "texture.hpp"
@@ -16,6 +14,7 @@
 #include <string>
 
 #include <unordered_map>
+#include "material.hpp"
 
 
 struct aiMesh;

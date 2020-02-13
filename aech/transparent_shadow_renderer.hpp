@@ -5,10 +5,13 @@
 
 #include "material_library.hpp"
 
-#include "resource_manager.hpp"
-#include "system.hpp"
-#include "directional_light_renderer.hpp"
 #include "directional_light.hpp"
+
+#include "directional_light_renderer.hpp"
+
+#include "resource_manager.hpp"
+
+#include "system.hpp"
 
 
 namespace aech::graphics

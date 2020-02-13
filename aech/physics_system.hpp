@@ -11,4 +11,4 @@ namespace aech::physics
 	private:
 		void update(float delta_time);
 	};
-}
+} // namespace aech::physics

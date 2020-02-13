@@ -1,8 +1,12 @@
 #pragma once
-#include "mat4.hpp"
 #include "camera_frustum.hpp"
-#include "transform.hpp"
+
+#include "mat4.hpp"
+
 #include "scene_node.hpp"
+
+#include "transform.hpp"
+
 
 namespace aech
 {
@@ -16,7 +20,7 @@ namespace aech
 		void                    rotate_y(float amount);
 		void                    translate(const math::vec3_t& amount);
 		// does this camera "see" this mesh?
-		bool sees(const graphics::scene_node_t& scene_node);
+		bool                       sees(const graphics::scene_node_t& scene_node);
 		bool                       sees(const math::vec3_t& centre, float radius);
 		[[nodiscard]] math::mat4_t view_matrix() const;
 		[[nodiscard]] math::mat4_t projection() const;

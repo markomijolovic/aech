@@ -1,7 +1,9 @@
 #pragma once
-#include "system.hpp"
-#include "directional_light_renderer.hpp"
 #include "camera.hpp"
+
+#include "directional_light_renderer.hpp"
+#include "system.hpp"
+
 
 namespace aech::graphics
 {

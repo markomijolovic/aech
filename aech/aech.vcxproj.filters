@@ -138,9 +138,6 @@
     <ClInclude Include="transforms.hpp">
       <Filter>Header Files\math</Filter>
     </ClInclude>
-    <ClInclude Include="mat3.hpp">
-      <Filter>Header Files\math</Filter>
-    </ClInclude>
     <ClInclude Include="mesh.hpp">
       <Filter>Header Files\graphics\mesh</Filter>
     </ClInclude>

@@ -4,9 +4,11 @@
 
 #include "vec3.hpp"
 
-#include <vector>
-#include <glad/glad.h>
 #include "bounding_box.hpp"
+
+#include <glad/glad.h>
+#include <vector>
+
 
 namespace aech::graphics
 {
@@ -30,9 +32,9 @@ namespace aech::graphics
 			std::vector<math::vec3_t> tangents   = {},
 			std::vector<math::vec3_t> bitangents = {}
 		);
-		void draw() const;
+		void                         draw() const;
 		[[nodiscard]] bounding_box_t calculate_aabb() const;
-		
+
 	protected:
 		void commit(bool interleave = true);
 

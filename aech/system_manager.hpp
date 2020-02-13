@@ -5,8 +5,9 @@
 
 #include <memory>
 
-#include <unordered_map>
 #include <typeindex>
+
+#include <unordered_map>
 
 
 namespace aech::ecs
@@ -17,11 +18,11 @@ namespace aech::ecs
 		template <typename T, typename... Args>
 		std::shared_ptr<T> register_system(Args&&...args)
 		{
-			const auto &type_info = typeid(std::remove_reference_t<T>);
-			const auto &type_index = std::type_index{type_info};
-	
+			const auto& type_info  = typeid(std::remove_reference_t<T>);
+			const auto& type_index = std::type_index{type_info};
+
 			auto system = std::make_shared<T>(std::forward<Args>(args)...);
-			
+
 			m_systems.insert({type_index, system});
 
 			return system;
@@ -30,9 +31,9 @@ namespace aech::ecs
 		template <typename T>
 		void set_signature(signature_t signature)
 		{
-			const auto &type_info = typeid(std::remove_reference_t<T>);
-			const auto &type_index = std::type_index{type_info};
-			
+			const auto& type_info  = typeid(std::remove_reference_t<T>);
+			const auto& type_index = std::type_index{type_info};
+
 			m_signatures.insert({type_index, signature});
 		}
 

@@ -10,9 +10,11 @@
 
 #include "mesh_library.hpp"
 
-#include "system.hpp"
-#include "render_cache.hpp"
 #include "directional_light.hpp"
+
+#include "render_cache.hpp"
+#include "system.hpp"
+
 
 namespace aech::graphics
 {

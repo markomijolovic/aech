@@ -1,7 +1,10 @@
 #pragma once
-#include <glad/glad.h>
 #include "shader.hpp"
+
 #include <array>
+
+#include <glad/glad.h>
+
 
 namespace aech::graphics
 {
@@ -40,14 +43,14 @@ namespace aech::graphics
 	public:
 		render_cache_t();
 
-		void set_depth_test(bool enable);
-		void set_depth_func(depth_func func);
-		void set_blend(bool enable);
-		void set_blend(blend_func source, blend_func dest);
-		void set_cull(bool enable);
-		void set_cull_face(cull_face face);
-		void set_shader(shader_t* shader);
-		void set_viewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height);
+		void        set_depth_test(bool enable);
+		void        set_depth_func(depth_func func);
+		void        set_blend(bool enable);
+		void        set_blend(blend_func source, blend_func dest);
+		void        set_cull(bool enable);
+		void        set_cull_face(cull_face face);
+		void        set_shader(shader_t* shader);
+		void        set_viewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height);
 		static void clear(clear bit);
 
 	private:
@@ -62,4 +65,4 @@ namespace aech::graphics
 
 		std::array<uint32_t, 4> viewport_dimensions{};
 	};
-}
+} // namespace aech::graphics

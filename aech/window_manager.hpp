@@ -2,7 +2,6 @@
 #include "aech_types.hpp"
 
 #include "GLFW/glfw3.h"
-#include <chrono>
 
 namespace aech::graphics
 {
@@ -12,14 +11,14 @@ namespace aech::graphics
 		window_manager_t();
 		~window_manager_t();
 
-		bool should_close() const;
-		static void begin_frame();
-		void end_frame() const;
+		[[nodiscard]] bool should_close() const;
+		static void        begin_frame();
+		void               end_frame() const;
 
-		std::bitset<32> buttons() const;
-		bool            first_mouse() const;
-		float           x() const;
-		float           y() const;
+		[[nodiscard]] std::bitset<32> buttons() const;
+		[[nodiscard]] bool            first_mouse() const;
+		[[nodiscard]] float           x() const;
+		[[nodiscard]] float           y() const;
 
 		void set_button(input_buttons button);
 		void reset_button(input_buttons button);
@@ -27,8 +26,8 @@ namespace aech::graphics
 		void set_x(float x);
 		void set_y(float y);
 
-		uint32_t width() const;
-		uint32_t height() const;
+		[[nodiscard]] uint32_t width() const;
+		[[nodiscard]] uint32_t height() const;
 
 	private:
 		bool            m_first_mouse{true};
@@ -39,4 +38,4 @@ namespace aech::graphics
 		std::bitset<32> m_buttons{};
 		GLFWwindow*     window{};
 	};
-}
+} // namespace aech::graphics

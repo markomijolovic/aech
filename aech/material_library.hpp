@@ -10,5 +10,5 @@ namespace aech::graphics
 
 		void       generate_default_materials();
 		material_t create_material(const std::string& from);
-	} // namespace material_library;
+	} // namespace material_library
 }     // namespace aech::graphics

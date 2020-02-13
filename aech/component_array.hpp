@@ -35,7 +35,7 @@ namespace aech::ecs
 			auto index_of_last       = m_size - 1;
 			m_component_array[index] = std::move(m_component_array[index_of_last]);
 
-			auto entity_of_last               = m_index_to_entity[index_of_last];
+			const auto entity_of_last         = m_index_to_entity[index_of_last];
 			m_entity_to_index[entity_of_last] = index;
 			m_index_to_entity[index]          = entity_of_last;
 
@@ -52,7 +52,7 @@ namespace aech::ecs
 
 		void entity_destroyed(entity_t entity) override
 		{
-			auto it = m_entity_to_index.find(entity);
+			const auto it = m_entity_to_index.find(entity);
 			if (it != std::end(m_entity_to_index))
 			{
 				remove_data(entity);
