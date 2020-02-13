@@ -192,11 +192,11 @@ namespace aech::graphics
 		m_ssao_shader->set_uniform("texture_position", opaque_renderer->render_target()->colour_attachments()[0]);
 		m_ssao_shader->set_uniform("texture_normal", opaque_renderer->render_target()->colour_attachments()[1]);
 
-		for (float x = -2; x<= 0; x+=2)
+		for (float x = -2; x<= 2; x+=2)
 		{
-			for (float y = 1; y <=3 ; y+=2)
+			for (float y = 1; y <=13 ; y+=2)
 			{
-				for (float z = -14; z <= 14; z+=2)
+				for (float z = -5.4; z <= 6; z+=2)
 				{
 					auto probe1 = engine.create_entity();
 					engine.add_component(probe1, transform_t{ {x, y, z }, {}, {4, 4,4} });;

@@ -66,6 +66,42 @@ namespace aech::graphics
 	}
 
 
+	texture_t::texture_t(texture_t&& rhs) noexcept :
+		m_id {rhs.m_id},
+		m_width{ rhs.m_width },
+		m_height{ rhs.m_height },
+		m_sized_internal_format{ rhs.m_sized_internal_format },
+		m_format{ rhs.m_format },
+		m_type{ rhs.m_type },
+		m_filtering_mag{ rhs.m_filtering_mag },
+		m_filtering_min{ rhs.m_filtering_min },
+		m_mipmap{ rhs.m_mipmap },
+		m_data{ rhs.m_data }
+	{
+		rhs.m_id = 0;
+	}
+
+	texture_t& texture_t::operator=(texture_t&& rhs) noexcept
+	{
+		std::swap(m_id, rhs.m_id);
+		m_width = rhs.m_width;
+		m_height = rhs.m_height;
+		m_sized_internal_format = rhs.m_sized_internal_format;
+		m_format = rhs.m_format;
+		m_type = rhs.m_type;
+		m_filtering_mag = rhs.m_filtering_mag;
+		m_filtering_min = rhs.m_filtering_min;
+		m_mipmap = rhs.m_mipmap;
+		m_data = rhs.m_data;
+
+		return *this;
+	}
+
+	texture_t::~texture_t()
+	{
+		glDeleteTextures(1, &m_id);
+	}
+
 	uint32_t texture_t::id() const
 	{
 		return m_id;

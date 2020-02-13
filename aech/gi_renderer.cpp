@@ -272,7 +272,7 @@ void aech::graphics::gi_renderer_t::create_preprocessed_environment_map(size_t p
 	}
 
 	aech::graphics::framebuffer_cube_t::unbind();
-	resource_manager::texture_cubes["radiance" + std::to_string(probe_index)].~texture_cube_t();
+	resource_manager::texture_cubes.erase("radiance" + std::to_string(probe_index));
 }
 
 void aech::graphics::gi_renderer_t::create_irradiance_cubemap(size_t probe_index)
@@ -310,7 +310,7 @@ void aech::graphics::gi_renderer_t::create_irradiance_cubemap(size_t probe_index
 	}
 	fbo.texture()->generate_mips();
 	aech::graphics::framebuffer_cube_t::unbind();
-	resource_manager::texture_cubes["radiance" + std::to_string(probe_index + m_reflection_probes.size())].~texture_cube_t();
+	resource_manager::texture_cubes.erase("radiance" + std::to_string(probe_index + m_reflection_probes.size()));
 }
 
 void aech::graphics::gi_renderer_t::render_ambient_pass()

@@ -97,6 +97,7 @@ void main()
 
 	//vec3 colour = attenuation * specular;
 	vec3 colour = specular;
+	// TODO: specular occlusion
 	if (ssao) colour *= texture(texture_ssao, uv).r;
 	fragment_colour = vec4(colour, 1.0);
 }

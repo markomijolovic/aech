@@ -19,6 +19,9 @@ namespace aech::graphics
 		               bool                                 mipmap = true,
 		               texture_types::filtering             min    = texture_types::filtering::linear,
 		               texture_types::filtering             mag    = texture_types::filtering::linear);
+		texture_cube_t& operator=(texture_cube_t&& rhs) noexcept;
+		texture_cube_t(texture_cube_t&& rhs) noexcept;
+		~texture_cube_t();
 		
 		[[nodiscard]] uint32_t id() const;
 		void                   generate_face(uint32_t index, void* data) const;
