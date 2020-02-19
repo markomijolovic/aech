@@ -568,7 +568,6 @@
     <None Include="shaders\skybox_vertex.glsl">
       <Filter>Source Files\shaders</Filter>
     </None>
-    <None Include="packages.config" />
     <None Include="post_processing_fragment.glsl">
       <Filter>Source Files\shaders</Filter>
     </None>
@@ -618,5 +617,6 @@
     <None Include="shaders\ambient_specular_vertex.glsl">
       <Filter>Source Files\shaders</Filter>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

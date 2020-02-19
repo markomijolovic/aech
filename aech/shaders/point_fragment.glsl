@@ -1,4 +1,4 @@
-#version 450 core
+#version 460 core
 
 in vec3 fragment_world_position;
 in vec4 screen_position;

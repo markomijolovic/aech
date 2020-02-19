@@ -21,7 +21,7 @@ namespace aech::graphics
 
 		// make unordered_map happy
 		material_t() = default;
-		explicit                    material_t(shader_t* m_shader, material_type m_type = material_type::opaque);
+		                    material_t(shader_t* m_shader, material_type m_type = material_type::opaque);
 		[[nodiscard]] shader_t*     shader() const;
 		[[nodiscard]] material_type type() const;
 

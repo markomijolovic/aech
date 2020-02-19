@@ -48,8 +48,8 @@ namespace aech::graphics
 		void add_probe(light_probe_t&& probe);
 		void add_probe(const light_probe_t& probe);
 
-		bool m_diffuse_gi{};
-		bool m_specular_gi{};
+		bool m_diffuse_gi{true};
+		bool m_specular_gi{true};
 		bool m_dot_product_weight{true};
 	private:
 		// used for specular GI
