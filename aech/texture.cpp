@@ -30,22 +30,28 @@ namespace aech::graphics
 
 		const auto levels = m_mipmap ? static_cast<uint32_t>(floor(log2(std::max(m_width, m_height)))) + 1 : 1U;
 		glTexStorage2D(static_cast<GLenum>(texture_types::target::twod),
-		               levels,
-		               static_cast<GLenum>(m_sized_internal_format),
-		               m_width,
-		               m_height);
+			levels,
+			static_cast<GLenum>(m_sized_internal_format),
+			m_width,
+			m_height);
 		glTexParameteri(static_cast<GLenum>(texture_types::target::twod),
-		                GL_TEXTURE_MIN_FILTER,
-		                static_cast<GLenum>(m_filtering_min));
+			GL_TEXTURE_MIN_FILTER,
+			static_cast<GLenum>(m_filtering_min));
 		glTexParameteri(static_cast<GLenum>(texture_types::target::twod),
-		                GL_TEXTURE_MAG_FILTER,
-		                static_cast<GLenum>(m_filtering_mag));
+			GL_TEXTURE_MAG_FILTER,
+			static_cast<GLenum>(m_filtering_mag));
 		glTexParameteri(static_cast<GLenum>(texture_types::target::twod),
-		                GL_TEXTURE_WRAP_S,
-		                static_cast<GLenum>(m_wrap_s));
+			GL_TEXTURE_WRAP_S,
+			static_cast<GLenum>(m_wrap_s));
 		glTexParameteri(static_cast<GLenum>(texture_types::target::twod),
-		                GL_TEXTURE_WRAP_T,
-		                static_cast<GLenum>(m_wrap_t));
+			GL_TEXTURE_WRAP_T,
+			static_cast<GLenum>(m_wrap_t));
+
+		// TODO: refactor this
+		float aniso{};
+		glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY, &aniso);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY, aniso);
+
 		if (m_data != nullptr)
 		{
 			glTexSubImage2D(static_cast<GLenum>(texture_types::target::twod),
