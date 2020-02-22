@@ -14,7 +14,7 @@ uniform mat4 view;
 uniform mat4 projection;
 uniform float radius;
 
-const vec2 noise_scale = resolution/4.0F;
+vec2 noise_scale = resolution/4.0F;
 
 void main()
 {
