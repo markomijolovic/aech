@@ -8,6 +8,7 @@
 
 namespace aech
 {
+	// a class that is responsible for managing the input from the user
 	class input_manager_t
 	{
 	public:
@@ -19,12 +20,12 @@ namespace aech
 		void set_camera(camera_t* camera);
 
 	private:
-		inline static float movement_speed{10.0F};
-		inline static float mouse_sens{0.1f};
-		bool                holding_o{};
+		inline static float m_movement_speed{10.0F};
+		inline static float m_mouse_sens{0.1f};
+		bool m_holding_o{};
 
-		camera_t*               m_camera{};
-		std::bitset<32>         m_buttons{};
-		std::pair<float, float> offset{};
+		camera_t* m_camera{};
+		std::bitset<32> m_buttons{};
+		std::pair<float, float> m_offset{};
 	};
 }

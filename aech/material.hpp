@@ -10,6 +10,7 @@ namespace aech::graphics
 	class texture_cube_t;
 	class shader_t;
 
+	// a class that represents a material
 	class material_t
 	{
 	public:
@@ -21,8 +22,10 @@ namespace aech::graphics
 
 		// make unordered_map happy
 		material_t() = default;
-		                    material_t(shader_t* m_shader, material_type m_type = material_type::opaque);
-		[[nodiscard]] shader_t*     shader() const;
+
+		// construct from the given shader object
+		material_t(shader_t* m_shader, material_type m_type = material_type::opaque);
+		[[nodiscard]] shader_t* shader() const;
 		[[nodiscard]] material_type type() const;
 
 		// stores the uniform value in the material
@@ -43,23 +46,23 @@ namespace aech::graphics
 		void set_uniforms() const;
 		void set_texture(
 			const std::string& name,
-			const texture_t*   texture,
-			uint32_t           unit);
+			const texture_t* texture,
+			uint32_t unit);
 		const texture_t* get_texture(
 			const std::string& name);
 		void set_texture_cube(
-			const std::string&    name,
+			const std::string& name,
 			const texture_cube_t* texture,
-			uint32_t              unit);
+			uint32_t unit);
 		const texture_cube_t* get_texture_cube(
 			const std::string& name);
 		[[nodiscard]] const std::unordered_map<std::string, std::pair<const texture_t*, uint32_t>>&
 		get_textures() const;
 	private:
-		shader_t*                                                                   m_shader{};
-		material_type                                                               m_type = material_type::opaque;
-		std::unordered_map<std::string, std::any>                                   m_uniforms{};
-		std::unordered_map<std::string, std::pair<const texture_t*, uint32_t>>      m_textures{};
+		shader_t* m_shader{};
+		material_type m_type = material_type::opaque;
+		std::unordered_map<std::string, std::any> m_uniforms{};
+		std::unordered_map<std::string, std::pair<const texture_t*, uint32_t>> m_textures{};
 		std::unordered_map<std::string, std::pair<const texture_cube_t*, uint32_t>> m_texture_cubes{};
 	};
 } // namespace aech::graphics

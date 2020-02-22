@@ -5,20 +5,24 @@
 
 namespace aech::graphics
 {
+	// a class that manages the application window
 	class window_manager_t
 	{
 	public:
+		// initializes GLFW and ImGui
 		window_manager_t();
+
+		// shuts GLFW and ImGui down
 		~window_manager_t();
 
 		[[nodiscard]] bool should_close() const;
-		static void        begin_frame();
-		void               end_frame() const;
+		void begin_frame() const;
+		void end_frame() const;
 
 		[[nodiscard]] std::bitset<32> buttons() const;
-		[[nodiscard]] bool            first_mouse() const;
-		[[nodiscard]] float           x() const;
-		[[nodiscard]] float           y() const;
+		[[nodiscard]] bool first_mouse() const;
+		[[nodiscard]] float x() const;
+		[[nodiscard]] float y() const;
 
 		void set_button(input_buttons button);
 		void reset_button(input_buttons button);
@@ -30,12 +34,15 @@ namespace aech::graphics
 		[[nodiscard]] uint32_t height() const;
 
 	private:
-		bool            m_first_mouse{true};
-		float           last_x{};
-		float           last_y{};
-		uint32_t        screen_width  = 1920;
-		uint32_t        screen_height = 800;
+		bool m_first_mouse{true};
+		float m_last_x{};
+		float m_last_y{};
+
+		// 2.4 aspect ratio
+		uint32_t m_screen_width = 1920;
+		uint32_t m_screen_height = 800;
+
 		std::bitset<32> m_buttons{};
-		GLFWwindow*     window{};
+		GLFWwindow* m_window{};
 	};
 } // namespace aech::graphics

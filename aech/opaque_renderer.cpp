@@ -51,7 +51,7 @@ namespace aech::graphics
 			&aech::graphics::
 			renderer_t::sort_front_to_back
 		};
-		for (auto entity : m_entities)
+		for (auto entity : entities)
 		{
 			auto& scene_node = engine.get_component<scene_node_t>(entity);
 			if (!m_camera->sees(scene_node))

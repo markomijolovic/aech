@@ -14,7 +14,7 @@ namespace aech::graphics
 		void update();
 
 	private:
-		camera_t*       m_camera{};
+		camera_t* m_camera{};
 		render_cache_t* m_render_cache{};
 	};
 } // namespace aech::graphics

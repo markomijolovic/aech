@@ -14,31 +14,31 @@ namespace aech::graphics
 		// make unordered_map happy
 		framebuffer_t() = default;
 		framebuffer_t(
-			uint32_t                             width,
-			uint32_t                             height,
-			uint32_t                             num_colour_attachments,
-			bool                                 depth,
+			uint32_t width,
+			uint32_t height,
+			uint32_t num_colour_attachments,
+			bool depth,
 			texture_types::sized_internal_format sized_internal_format,
-			texture_types::format                format,
-			texture_types::type                  type
+			texture_types::format format,
+			texture_types::type type
 		);
 		framebuffer_t& operator=(framebuffer_t&& rhs);
 		~framebuffer_t();
 
-		[[nodiscard]] uint32_t                      id() const;
-		[[nodiscard]] uint32_t                      width() const;
-		[[nodiscard]] uint32_t                      height() const;
-		void                                        bind() const;
-		static void                                 unbind();
+		[[nodiscard]] uint32_t id() const;
+		[[nodiscard]] uint32_t width() const;
+		[[nodiscard]] uint32_t height() const;
+		void bind() const;
+		static void unbind();
 		[[nodiscard]] const std::vector<texture_t>& colour_attachments() const;
-		[[nodiscard]] const texture_t*              depth_and_stencil() const;
+		[[nodiscard]] const texture_t* depth_and_stencil() const;
 
 	private:
-		uint32_t                   m_id{};
-		uint32_t                   m_width{};
-		uint32_t                   m_height{};
+		uint32_t m_id{};
+		uint32_t m_width{};
+		uint32_t m_height{};
 		std::unique_ptr<texture_t> m_depth_and_stencil_texture{};
-		std::vector<texture_t>     m_colour_attachments{};
-		bool                       m_mipmap{};
+		std::vector<texture_t> m_colour_attachments{};
+		bool m_mipmap{};
 	};
 } // namespace aech::graphics

@@ -55,9 +55,6 @@
     <Filter Include="Header Files\resource management">
       <UniqueIdentifier>{9f1b597a-d7b1-4d4e-bf99-46d0c5c13870}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\graphics\lighting">
-      <UniqueIdentifier>{e931a80f-983a-4dff-b597-8d4f7b5becf6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\ecs core">
       <UniqueIdentifier>{5a9d9b3c-f770-4c25-8fd7-221bcd9fa1f0}</UniqueIdentifier>
     </Filter>
@@ -117,6 +114,9 @@
     </Filter>
     <Filter Include="Source Files\physics\components">
       <UniqueIdentifier>{dca24833-7d4e-4fbb-bee8-9c3002463af4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\graphics\lighting">
+      <UniqueIdentifier>{e931a80f-983a-4dff-b597-8d4f7b5becf6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

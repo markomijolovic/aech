@@ -151,7 +151,7 @@ void aech::graphics::gi_renderer_t::create_radiance_cubemap(math::vec3_t positio
 		m_render_cache->set_shader(m_cubemap_capture_material->shader());
 		m_cubemap_capture_material->set_uniform("view", view);
 		m_cubemap_capture_material->set_uniform("projection", capture_projection);
-		for (auto entity : m_entities)
+		for (auto entity : entities)
 		{
 			if (engine.has_component<transparent_t>(entity))
 			{

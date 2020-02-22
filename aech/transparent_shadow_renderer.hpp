@@ -23,9 +23,9 @@ namespace aech::graphics
 		void update();
 
 	private:
-		material_t*          m_material   = &material_library::default_materials["transparent_shadow"];
-		framebuffer_t*       m_shadow_map = &framebuffers["shadow_map"];
+		material_t* m_material = &material_library::default_materials["transparent_shadow"];
+		framebuffer_t* m_shadow_map = &framebuffers["shadow_map"];
 		directional_light_t* m_dirlight{};
-		render_cache_t*      m_render_cache{};
+		render_cache_t* m_render_cache{};
 	};
 } // namespace aech::graphics

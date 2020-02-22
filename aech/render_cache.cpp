@@ -101,9 +101,9 @@ void aech::graphics::render_cache_t::clear(graphics::clear bit)
 
 void aech::graphics::render_cache_t::set_viewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height)
 {
-	if (viewport_dimensions != std::array{x, y, width, height})
+	if (m_viewport_dimensions != std::array{x, y, width, height})
 	{
-		viewport_dimensions = {x, y, width, height};
+		m_viewport_dimensions = {x, y, width, height};
 		glViewport(x, y, width, height);
 	}
 }

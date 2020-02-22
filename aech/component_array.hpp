@@ -7,7 +7,7 @@ namespace aech::ecs
 	class component_array_i
 	{
 	public:
-		virtual      ~component_array_i() = default;
+		virtual ~component_array_i() = default;
 		virtual void entity_destroyed(entity_t entity) = 0;
 	};
 
@@ -17,10 +17,10 @@ namespace aech::ecs
 	public:
 		void insert_data(entity_t entity, T&& component)
 		{
-			auto index                = m_size;
+			auto index = m_size;
 			m_entity_to_index[entity] = index;
-			m_index_to_entity[index]  = entity;
-			m_component_array[index]  = std::forward<T>(component);
+			m_index_to_entity[index] = entity;
+			m_component_array[index] = std::forward<T>(component);
 			m_size++;
 		}
 
@@ -31,13 +31,13 @@ namespace aech::ecs
 
 		void remove_data(entity_t entity)
 		{
-			auto index               = m_entity_to_index[entity];
-			auto index_of_last       = m_size - 1;
+			auto index = m_entity_to_index[entity];
+			auto index_of_last = m_size - 1;
 			m_component_array[index] = std::move(m_component_array[index_of_last]);
 
-			const auto entity_of_last         = m_index_to_entity[index_of_last];
+			const auto entity_of_last = m_index_to_entity[index_of_last];
 			m_entity_to_index[entity_of_last] = index;
-			m_index_to_entity[index]          = entity_of_last;
+			m_index_to_entity[index] = entity_of_last;
 
 			m_entity_to_index.erase(entity);
 			m_index_to_entity.erase(index_of_last);
@@ -62,14 +62,10 @@ namespace aech::ecs
 	private:
 		std::array<std::remove_reference_t<T>, max_entities> m_component_array{};
 
-		/**
-		 * maps entity ID to array index
-		 */
+		// maps entity ID to array index
 		std::unordered_map<entity_t, size_t> m_entity_to_index{};
 
-		/**
-		 * maps array index to entity ID
-		 */
+		// maps array index to entity ID
 		std::unordered_map<size_t, entity_t> m_index_to_entity{};
 
 		size_t m_size{};

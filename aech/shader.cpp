@@ -34,17 +34,17 @@ namespace aech::graphics
 			check_compile_errors(s_geometry, "geometry");
 		}
 
-		id = glCreateProgram();
-		glAttachShader(id, s_vertex);
-		glAttachShader(id, s_fragment);
+		m_id = glCreateProgram();
+		glAttachShader(m_id, s_vertex);
+		glAttachShader(m_id, s_fragment);
 
 		if (!geometry_source.empty())
 		{
-			glAttachShader(id, s_vertex);
+			glAttachShader(m_id, s_vertex);
 		}
 
-		glLinkProgram(id);
-		check_compile_errors(id, "program");
+		glLinkProgram(m_id);
+		check_compile_errors(m_id, "program");
 
 		glDeleteShader(s_vertex);
 		glDeleteShader(s_fragment);
@@ -57,7 +57,7 @@ namespace aech::graphics
 
 	bool shader_t::operator==(const shader_t& rhs) const
 	{
-		return id == rhs.id;
+		return m_id == rhs.m_id;
 	}
 
 
@@ -68,7 +68,7 @@ namespace aech::graphics
 
 	void shader_t::use() const
 	{
-		glUseProgram(id);
+		glUseProgram(m_id);
 	}
 
 

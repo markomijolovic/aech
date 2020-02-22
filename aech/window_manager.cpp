@@ -16,17 +16,17 @@ static void mouse_callback(GLFWwindow* window, double x_pos, double y_pos);
 
 uint32_t aech::graphics::window_manager_t::width() const
 {
-	return screen_width;
+	return m_screen_width;
 }
 
 uint32_t aech::graphics::window_manager_t::height() const
 {
-	return screen_height;
+	return m_screen_height;
 }
 
 bool aech::graphics::window_manager_t::should_close() const
 {
-	return glfwWindowShouldClose(window) != 0;
+	return glfwWindowShouldClose(m_window) != 0;
 }
 
 aech::graphics::window_manager_t::~window_manager_t()
@@ -34,19 +34,19 @@ aech::graphics::window_manager_t::~window_manager_t()
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplGlfw_Shutdown();
 
-	glfwDestroyWindow(window);
+	glfwDestroyWindow(m_window);
 	glfwTerminate();
 }
 
 
-void aech::graphics::window_manager_t::begin_frame()
+void aech::graphics::window_manager_t::begin_frame() const
 {
 	glfwPollEvents();
 }
 
 void aech::graphics::window_manager_t::end_frame() const
 {
-	glfwSwapBuffers(window);
+	glfwSwapBuffers(m_window);
 }
 
 aech::graphics::window_manager_t::window_manager_t()
@@ -61,13 +61,13 @@ aech::graphics::window_manager_t::window_manager_t()
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_RESIZABLE, 0);
 
-	window = glfwCreateWindow(screen_width, screen_height, "aech", nullptr, nullptr);
-	if (window == nullptr)
+	m_window = glfwCreateWindow(m_screen_width, m_screen_height, "aech", nullptr, nullptr);
+	if (m_window == nullptr)
 	{
 		throw std::exception{};
 	}
 
-	glfwMakeContextCurrent(window);
+	glfwMakeContextCurrent(m_window);
 	// disable vsync
 	glfwSwapInterval(0);
 
@@ -76,12 +76,12 @@ aech::graphics::window_manager_t::window_manager_t()
 		throw std::exception{};
 	}
 
-	glfwSetKeyCallback(window, &key_callback);
-	glfwSetCursorPosCallback(window, mouse_callback);
-	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetKeyCallback(m_window, &key_callback);
+	glfwSetCursorPosCallback(m_window, mouse_callback);
+	glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
-	glViewport(0, 0, screen_width, screen_height);
+	glViewport(0, 0, m_screen_width, m_screen_height);
 	glClearColor(0.0F, 0.0F, 0.0F, 1.0F);
 
 	// init dear imgui
@@ -90,7 +90,7 @@ aech::graphics::window_manager_t::window_manager_t()
 	ImGui::StyleColorsLight();
 	auto& io = ImGui::GetIO();
 
-	ImGui_ImplGlfw_InitForOpenGL(window, true);
+	ImGui_ImplGlfw_InitForOpenGL(m_window, true);
 	ImGui_ImplOpenGL3_Init("#version 450");
 }
 
@@ -111,46 +111,46 @@ static void key_callback(GLFWwindow* window, int key, int /*scan_code*/, int act
 
 		switch (key)
 		{
-			case GLFW_KEY_W:
+		case GLFW_KEY_W:
 
-				window_manager.set_button(input_buttons::w);
-				button_pressed = true;
-				break;
-			case GLFW_KEY_A:
-				window_manager.set_button(input_buttons::a);
-				button_pressed = true;
-				break;
-			case GLFW_KEY_S:
-				window_manager.set_button(input_buttons::s);
-				button_pressed = true;
-				break;
-			case GLFW_KEY_D:
-				window_manager.set_button(input_buttons::d);
-				button_pressed = true;
-				break;
-			case GLFW_KEY_Q:
-				window_manager.set_button(input_buttons::q);
-				button_pressed = true;
-				break;
-			case GLFW_KEY_E:
-				window_manager.set_button(input_buttons::e);
-				button_pressed = true;
-				break;
-			case GLFW_KEY_O:
-				window_manager.set_button(input_buttons::o);
-				if (!renderer.options())
-				{
-					glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-				}
-				else
-				{
-					glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-				}
-				button_pressed = true;
-				break;
-			default:
-				// do nothing
-				break;
+			window_manager.set_button(input_buttons::w);
+			button_pressed = true;
+			break;
+		case GLFW_KEY_A:
+			window_manager.set_button(input_buttons::a);
+			button_pressed = true;
+			break;
+		case GLFW_KEY_S:
+			window_manager.set_button(input_buttons::s);
+			button_pressed = true;
+			break;
+		case GLFW_KEY_D:
+			window_manager.set_button(input_buttons::d);
+			button_pressed = true;
+			break;
+		case GLFW_KEY_Q:
+			window_manager.set_button(input_buttons::q);
+			button_pressed = true;
+			break;
+		case GLFW_KEY_E:
+			window_manager.set_button(input_buttons::e);
+			button_pressed = true;
+			break;
+		case GLFW_KEY_O:
+			window_manager.set_button(input_buttons::o);
+			if (!renderer.options())
+			{
+				glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+			}
+			else
+			{
+				glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+			}
+			button_pressed = true;
+			break;
+		default:
+			// do nothing
+			break;
 		}
 
 		if (button_pressed)
@@ -166,37 +166,37 @@ static void key_callback(GLFWwindow* window, int key, int /*scan_code*/, int act
 
 		switch (key)
 		{
-			case GLFW_KEY_W:
-				window_manager.reset_button(input_buttons::w);
-				button_released = true;
-				break;
-			case GLFW_KEY_A:
-				window_manager.reset_button(input_buttons::a);
-				button_released = true;
-				break;
-			case GLFW_KEY_S:
-				window_manager.reset_button(input_buttons::s);
-				button_released = true;
-				break;
-			case GLFW_KEY_D:
-				window_manager.reset_button(input_buttons::d);
-				button_released = true;
-				break;
-			case GLFW_KEY_Q:
-				window_manager.reset_button(input_buttons::q);
-				button_released = true;
-				break;
-			case GLFW_KEY_E:
-				window_manager.reset_button(input_buttons::e);
-				button_released = true;
-				break;
-			case GLFW_KEY_O:
-				window_manager.reset_button(input_buttons::o);
-				button_released = true;
-				break;
-			default:
-				// do nothing
-				break;
+		case GLFW_KEY_W:
+			window_manager.reset_button(input_buttons::w);
+			button_released = true;
+			break;
+		case GLFW_KEY_A:
+			window_manager.reset_button(input_buttons::a);
+			button_released = true;
+			break;
+		case GLFW_KEY_S:
+			window_manager.reset_button(input_buttons::s);
+			button_released = true;
+			break;
+		case GLFW_KEY_D:
+			window_manager.reset_button(input_buttons::d);
+			button_released = true;
+			break;
+		case GLFW_KEY_Q:
+			window_manager.reset_button(input_buttons::q);
+			button_released = true;
+			break;
+		case GLFW_KEY_E:
+			window_manager.reset_button(input_buttons::e);
+			button_released = true;
+			break;
+		case GLFW_KEY_O:
+			window_manager.reset_button(input_buttons::o);
+			button_released = true;
+			break;
+		default:
+			// do nothing
+			break;
 		}
 
 		if (button_released)
@@ -226,7 +226,7 @@ static void mouse_callback(GLFWwindow* /*window*/, double x_pos, double y_pos)
 	window_manager.set_y(static_cast<float>(y_pos));
 
 	std::pair<float, float> param = {x_offset, y_offset};
-	events::event_t         event{events::window::mouse};
+	events::event_t event{events::window::mouse};
 	event.set_param(events::window::params::mouse, param);
 	engine.send_event(event);
 }
@@ -239,12 +239,12 @@ void aech::graphics::window_manager_t::set_button(input_buttons button)
 
 void aech::graphics::window_manager_t::set_x(float x)
 {
-	last_x = x;
+	m_last_x = x;
 }
 
 void aech::graphics::window_manager_t::set_y(float y)
 {
-	last_y = y;
+	m_last_y = y;
 }
 
 std::bitset<32> aech::graphics::window_manager_t::buttons() const
@@ -254,12 +254,12 @@ std::bitset<32> aech::graphics::window_manager_t::buttons() const
 
 float aech::graphics::window_manager_t::x() const
 {
-	return last_x;
+	return m_last_x;
 }
 
 float aech::graphics::window_manager_t::y() const
 {
-	return last_y;
+	return m_last_y;
 }
 
 bool aech::graphics::window_manager_t::first_mouse() const

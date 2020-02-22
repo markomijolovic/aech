@@ -6,6 +6,7 @@
 
 namespace aech::graphics
 {
+	// directional light component
 	class directional_light_t
 	{
 	public:

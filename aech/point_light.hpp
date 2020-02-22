@@ -3,6 +3,7 @@
 
 namespace aech::graphics
 {
+	// point light component
 	struct point_light_t
 	{
 		math::vec3_t colour{1.0F, 1.0F, 1.0F};

@@ -16,11 +16,21 @@ namespace aech
 	using std::uint32_t;
 	using std::uint64_t;
 
+	// entity is just an ID
 	using entity_t = std::uint32_t;
+
+	// represents an invalid entity
 	inline constexpr entity_t invalid_entity_id = std::numeric_limits<entity_t>::max();
+
 	using component_type_t = std::uint8_t;
-	inline constexpr entity_t         max_entities   = 20000;
+
+	// maximum number of entities alive at one point in time
+	inline constexpr entity_t max_entities = 20000;
+
+	// maximum number of components in the engine
 	inline constexpr component_type_t max_components = 32;
+
+	// used to identify which components a system is interested in
 	using signature_t = std::bitset<max_components>;
 
 	inline constexpr float pi = 3.1415926535897932384626433832795029F;
@@ -52,7 +62,7 @@ namespace aech
 	namespace events::window
 	{
 		constexpr event_id_t keyboard = "Events::Window::KEYBOARD"_hash;
-		constexpr event_id_t mouse    = "Events::Window::MOUSE"_hash;
+		constexpr event_id_t mouse = "Events::Window::MOUSE"_hash;
 	} // namespace events::window
 
 	namespace events::window::params
@@ -60,4 +70,4 @@ namespace aech
 		constexpr param_id_t keyboard = "Events::Window::Params::KEYBOARD"_hash;
 		constexpr param_id_t mouse{"Events::Window::Params::MOUSE"_hash};
 	} // namespace events::window::params
-}     // namespace aech
+} // namespace aech

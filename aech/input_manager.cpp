@@ -6,14 +6,14 @@
 
 void aech::input_manager_t::update(float dt)
 {
-	if (!holding_o && m_buttons.test(static_cast<size_t>(input_buttons::o)))
+	if (!m_holding_o && m_buttons.test(static_cast<size_t>(input_buttons::o)))
 	{
 		graphics::renderer.set_options(!graphics::renderer.options());
-		holding_o = true;
+		m_holding_o = true;
 	}
 	else if (!m_buttons.test(static_cast<size_t>(input_buttons::o)))
 	{
-		holding_o = false;
+		m_holding_o = false;
 	}
 
 	if (graphics::renderer.options())
@@ -29,42 +29,42 @@ void aech::input_manager_t::update(float dt)
 	math::vec3_t trans{};
 	if (m_buttons.test(static_cast<size_t>(input_buttons::w)))
 	{
-		trans += forward * dt * movement_speed;
+		trans += forward * dt * m_movement_speed;
 	}
 	if (m_buttons.test(static_cast<size_t>(input_buttons::s)))
 	{
-		trans -= forward * dt * movement_speed;
+		trans -= forward * dt * m_movement_speed;
 	}
 
 	if (m_buttons.test(static_cast<size_t>(input_buttons::q)))
 	{
-		trans += up * dt * movement_speed;
+		trans += up * dt * m_movement_speed;
 	}
 	if (m_buttons.test(static_cast<size_t>(input_buttons::e)))
 	{
-		trans -= up * dt * movement_speed;
+		trans -= up * dt * m_movement_speed;
 	}
 
 	if (m_buttons.test(static_cast<size_t>(input_buttons::a)))
 	{
-		trans -= right * dt * movement_speed;
+		trans -= right * dt * m_movement_speed;
 	}
 	if (m_buttons.test(static_cast<size_t>(input_buttons::d)))
 	{
-		trans += right * dt * movement_speed;
+		trans += right * dt * m_movement_speed;
 	}
 	m_camera->translate(trans);
 
-	if (offset.first != 0.0F)
+	if (m_offset.first != 0.0F)
 	{
-		m_camera->rotate_y(-offset.first * mouse_sens);
-		offset.first = 0;
+		m_camera->rotate_y(-m_offset.first * m_mouse_sens);
+		m_offset.first = 0;
 	}
 
-	if (offset.second != 0.0F)
+	if (m_offset.second != 0.0F)
 	{
-		m_camera->rotate_x(offset.second * mouse_sens);
-		offset.second = 0;
+		m_camera->rotate_x(m_offset.second * m_mouse_sens);
+		m_offset.second = 0;
 	}
 }
 
@@ -79,7 +79,7 @@ aech::input_manager_t::input_manager_t()
 
 void aech::input_manager_t::mouse_listener(events::event_t& event)
 {
-	offset = event.get_param<std::pair<float, float>>(events::window::params::mouse);
+	m_offset = event.get_param<std::pair<float, float>>(events::window::params::mouse);
 }
 
 void aech::input_manager_t::keyboard_listener(events::event_t& event)

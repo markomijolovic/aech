@@ -39,8 +39,8 @@ namespace aech::graphics
 		void bake_probes();
 		void render_ambient_pass();
 
-		[[nodiscard]] material_t*    specular_material() const;
-		[[nodiscard]] material_t*    diffuse_material() const;
+		[[nodiscard]] material_t* specular_material() const;
+		[[nodiscard]] material_t* diffuse_material() const;
 		[[nodiscard]] framebuffer_t* render_target() const;
 
 		void add_probe(reflection_probe_t&& probe);
@@ -58,12 +58,12 @@ namespace aech::graphics
 		// used for diffuse GI
 		std::vector<light_probe_t> m_light_probes{};
 
-		camera_t*       m_camera{};
+		camera_t* m_camera{};
 		render_cache_t* m_render_cache{};
-		framebuffer_t*  m_render_target = &framebuffers["default"];
-		material_t*     m_prefilter_material{&material_library::default_materials["prefilter"]};
-		material_t*     m_cubemap_capture_material{&material_library::default_materials["capture"]};
-		material_t*     m_cubemap_capture_skybox_material{
+		framebuffer_t* m_render_target = &framebuffers["default"];
+		material_t* m_prefilter_material{&material_library::default_materials["prefilter"]};
+		material_t* m_cubemap_capture_material{&material_library::default_materials["capture"]};
+		material_t* m_cubemap_capture_skybox_material{
 			&material_library::default_materials["capture_skybox"]
 		};
 		material_t* m_cubemap_capture_transparent_material{&material_library::default_materials["capture_transparent"]};
@@ -72,8 +72,8 @@ namespace aech::graphics
 		material_t* m_ambient_specular_material{&material_library::default_materials["ambient_specular"]};
 		material_t* m_ambient_diffuse_material{&material_library::default_materials["ambient_diffuse"]};
 
-		mesh_t* m_ndc_cube   = mesh_library::default_meshes["cube"].get();
-		mesh_t* m_ndc_quad   = mesh_library::default_meshes["quad"].get();
+		mesh_t* m_ndc_cube = mesh_library::default_meshes["cube"].get();
+		mesh_t* m_ndc_quad = mesh_library::default_meshes["quad"].get();
 		mesh_t* m_ndc_sphere = mesh_library::default_meshes["sphere"].get();
 
 		mesh_filter_t m_skybox_mf{

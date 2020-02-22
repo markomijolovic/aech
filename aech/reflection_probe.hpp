@@ -16,14 +16,14 @@ namespace aech::graphics
 		reflection_probe_t() = default;
 
 		[[nodiscard]] texture_cube_t* prefiltered() const;
-		[[nodiscard]] math::vec3_t    position() const;
-		[[nodiscard]] scene_node_t*   scene_node() const;
+		[[nodiscard]] math::vec3_t position() const;
+		[[nodiscard]] scene_node_t* scene_node() const;
 
 
 		void set_prefiltered(texture_cube_t* prefiltered);
 	private:
 		texture_cube_t* m_prefiltered{};
-		scene_node_t*   m_scene_node{};
-		math::vec3_t    m_position{};
+		scene_node_t* m_scene_node{};
+		math::vec3_t m_position{};
 	};
 } // namespace aech::graphics

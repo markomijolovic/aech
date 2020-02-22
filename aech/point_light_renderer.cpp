@@ -24,7 +24,7 @@ aech::graphics::point_light_renderer_t::point_light_renderer_t(render_cache_t* r
 
 void aech::graphics::point_light_renderer_t::update()
 {
-	for (auto light : m_entities)
+	for (auto light : entities)
 	{
 		auto& transform   = engine.get_component<transform_t>(light);
 		auto& mesh_filter = engine.get_component<mesh_filter_t>(light);

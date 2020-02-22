@@ -6,9 +6,9 @@
 
 namespace aech::ecs
 {
-	class system_t
+	// a class that holds the entities it is interested in
+	struct system_t
 	{
-	public:
-		std::set<entity_t> m_entities{};
+		std::set<entity_t> entities{};
 	};
 } // namespace aech

@@ -47,7 +47,7 @@ void aech::graphics::transparent_renderer_t::update()
 		&aech::graphics::renderer_t::
 		sort_back_to_front
 	};
-	for (auto entity : m_entities)
+	for (auto entity : entities)
 	{
 		auto& scene_node = engine.get_component<scene_node_t>(entity);
 		if (!m_camera->sees(scene_node))

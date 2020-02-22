@@ -6,6 +6,7 @@
 
 namespace aech
 {
+	// transform component
 	struct transform_t
 	{
 		math::vec3_t position{};

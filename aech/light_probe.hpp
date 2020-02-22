@@ -18,9 +18,9 @@ namespace aech::graphics
 		// TODO(Marko): store irradiance as spherical harmonics
 		[[nodiscard]] texture_cube_t* irradiance() const;
 		//[[nodiscard]] texture_cube_t* prefiltered() const;
-		[[nodiscard]] math::vec3_t  position() const;
-		[[nodiscard]] float         inner_radius() const;
-		[[nodiscard]] float         outer_radius() const;
+		[[nodiscard]] math::vec3_t position() const;
+		[[nodiscard]] float inner_radius() const;
+		[[nodiscard]] float outer_radius() const;
 		[[nodiscard]] scene_node_t* scene_node() const;
 
 		void set_irradiance(texture_cube_t* irradiance);
@@ -29,8 +29,8 @@ namespace aech::graphics
 		texture_cube_t* m_irradiance{};
 		//texture_cube_t* m_prefiltered{};
 		scene_node_t* m_scene_node{};
-		math::vec3_t  m_position{};
-		float         m_inner_radius{};
-		float         m_outer_radius{};
+		math::vec3_t m_position{};
+		float m_inner_radius{};
+		float m_outer_radius{};
 	};
 } // namespace aech::graphics

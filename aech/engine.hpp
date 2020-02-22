@@ -10,14 +10,15 @@
 
 namespace aech
 {
+	// a class that bundles the functionality provided by the ECS architecture together
 	class engine_t
 	{
 	public:
-		void                   init();
+		void init();
 		[[nodiscard]] entity_t create_entity();
 		[[nodiscard]] entity_t root_node() const;
-		void                   destroy_entity(entity_t entity);
-		void                   set_root_node(entity_t root_node);
+		void destroy_entity(entity_t entity);
+		void set_root_node(entity_t root_node);
 
 		template <typename T>
 		void register_component()
@@ -83,10 +84,10 @@ namespace aech
 		void send_event(events::event_t& event);
 
 	private:
-		entity_t                 m_root_node{};
+		entity_t m_root_node{};
 		ecs::component_manager_t m_component_manager{};
-		ecs::entity_manager_t    m_entity_manager{};
-		ecs::system_manager_t    m_system_manager{};
-		events::event_manager_t  m_event_manager{};
+		ecs::entity_manager_t m_entity_manager{};
+		ecs::system_manager_t m_system_manager{};
+		events::event_manager_t m_event_manager{};
 	};
 } // namespace aech
