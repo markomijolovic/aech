@@ -274,6 +274,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="vec.hpp" />
     <ClInclude Include="vec2.hpp" />
     <ClInclude Include="vec3.hpp" />
     <ClInclude Include="vec4.hpp" />
@@ -338,9 +339,6 @@
     <ClCompile Include="transforms.cpp" />
     <ClCompile Include="transparent_renderer.cpp" />
     <ClCompile Include="transparent_shadow_renderer.cpp" />
-    <ClCompile Include="vec2.cpp" />
-    <ClCompile Include="vec3.cpp" />
-    <ClCompile Include="vec4.cpp" />
     <ClCompile Include="window_manager.cpp" />
   </ItemGroup>
   <ItemGroup>

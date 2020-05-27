@@ -374,8 +374,8 @@ namespace aech::graphics
 		const auto centroid_a = math::vec3_t{(aabb_a.min_coords + aabb_a.max_coords) / 2.0F};
 		const auto centroid_b = math::vec3_t{(aabb_b.min_coords + aabb_b.max_coords) / 2.0F};
 
-		return distance_squared(centroid_a, renderer.m_camera->transform()->position)
-		       < distance_squared(centroid_b, renderer.m_camera->transform()->position);
+		return distance(centroid_a, renderer.m_camera->transform()->position)
+		       < distance(centroid_b, renderer.m_camera->transform()->position);
 	}
 
 
@@ -389,8 +389,8 @@ namespace aech::graphics
 		const auto centroid_a = math::vec3_t{(aabb_a.min_coords + aabb_a.max_coords) / 2.0F};
 		const auto centroid_b = math::vec3_t{(aabb_b.min_coords + aabb_b.max_coords) / 2.0F};
 
-		return distance_squared(centroid_a, renderer.m_camera->transform()->position)
-		       > distance_squared(centroid_b, renderer.m_camera->transform()->position);
+		return distance(centroid_a, renderer.m_camera->transform()->position)
+		       > distance(centroid_b, renderer.m_camera->transform()->position);
 	}
 
 	void renderer_t::set_options(bool gui)

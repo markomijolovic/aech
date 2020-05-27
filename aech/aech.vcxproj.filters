@@ -309,6 +309,9 @@
     <ClInclude Include="light_probe.hpp">
       <Filter>Header Files\graphics\rendering</Filter>
     </ClInclude>
+    <ClInclude Include="vec.hpp">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="component_manager.cpp">
@@ -322,15 +325,6 @@
     </ClCompile>
     <ClCompile Include="system_manager.cpp">
       <Filter>Source Files\ecs core</Filter>
-    </ClCompile>
-    <ClCompile Include="vec2.cpp">
-      <Filter>Source Files\math</Filter>
-    </ClCompile>
-    <ClCompile Include="vec3.cpp">
-      <Filter>Source Files\math</Filter>
-    </ClCompile>
-    <ClCompile Include="vec4.cpp">
-      <Filter>Source Files\math</Filter>
     </ClCompile>
     <ClCompile Include="mat4.cpp">
       <Filter>Source Files\math</Filter>

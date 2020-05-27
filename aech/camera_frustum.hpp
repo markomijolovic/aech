@@ -7,6 +7,8 @@
 
 #include <array>
 
+#include "vec3.hpp"
+
 
 namespace aech
 {

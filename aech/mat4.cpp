@@ -25,7 +25,8 @@ namespace aech::math
 
 	vec4_t mat4_t::operator*(const vec4_t& rhs) const
 	{
-		return {
+		return
+		{
 			rhs.x * m_data[0][0] + rhs.y * m_data[0][1] + rhs.z * m_data[0][2] + rhs.w * m_data[0][3],
 			rhs.x * m_data[1][0] + rhs.y * m_data[1][1] + rhs.z * m_data[1][2] + rhs.w * m_data[1][3],
 			rhs.x * m_data[2][0] + rhs.y * m_data[2][1] + rhs.z * m_data[2][2] + rhs.w * m_data[2][3],
@@ -92,13 +93,12 @@ namespace aech::math
 		}
 	}
 
-	vec4_t& mat4_t::operator[](size_t i)
+	float* mat4_t::operator[](size_t i)
 	{
 		return m_data[i];
 	}
 
-
-	const vec4_t& mat4_t::operator[](size_t i) const
+	const float* mat4_t::operator[](size_t i) const
 	{
 		return m_data[i];
 	}

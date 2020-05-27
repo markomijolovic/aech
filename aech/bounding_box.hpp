@@ -1,6 +1,9 @@
 #pragma once
-#include "vec3.hpp"
+
 #include <limits>
+
+#include "vec4.hpp"
+
 
 namespace aech::graphics
 {

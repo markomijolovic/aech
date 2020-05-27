@@ -1,44 +1,86 @@
 #pragma once
 
+#include "vec.hpp"
+
 namespace aech::math
 {
-	class vec3_t;
-
-	// four component vector
-	class vec4_t
+	// two component vector
+	template<typename ScalarType>
+	struct vec4_with_aliases_t : vec_t<ScalarType, 4>
 	{
-	public:
-		float x{};
-		float y{};
-		float z{};
-		float w{};
+		ScalarType& x{ vec_t<ScalarType, 4>::data[0] };
+		ScalarType& y{ vec_t<ScalarType, 4>::data[1] };
+		ScalarType& z{ vec_t<ScalarType, 4>::data[2] };
+		ScalarType& w{ vec_t<ScalarType, 4>::data[3] };
 
-		// initializes all components to 0
-		vec4_t() = default;
+		using vec_t<ScalarType, 4>::vec_t;
+		using vec_t<ScalarType, 4>::operator[];
 
-		// initialize first three components from the given three component vector
-		// initialize the last component with the given scalar
-		vec4_t(const vec3_t& vec3, float w);
+		vec4_with_aliases_t(const vec4_with_aliases_t& vec3)
+		{
+			vec_t<ScalarType, 4>::data = vec3.data;
+		}
 
-		// initialize from four scalars
-		vec4_t(float x, float y, float z, float w);
+		vec4_with_aliases_t& operator+=(const vec4_with_aliases_t& rhs)
+		{
+			vec_t<ScalarType, 4>::operator+=(rhs);
+			return *this;
+		}
 
-		// todo: optimize/remove this
-		float& operator[](size_t index);
+		vec4_with_aliases_t& operator-=(const vec4_with_aliases_t& rhs)
+		{
+			vec_t<ScalarType, 4>::operator-=(rhs);
+			return *this;
+		}
 
-		// todo: optimize/remove this
-		const float& operator[](size_t index) const;
+		vec4_with_aliases_t& operator*=(ScalarType rhs)
+		{
+			vec_t<ScalarType, 4>::operator*=(rhs);
+			return *this;
+		}
 
-		vec4_t& operator+=(const vec4_t& vec4);
-		vec4_t& operator-=(const vec4_t& vec4);
-		vec4_t& operator*=(float rhs);
-		vec4_t& operator/=(float rhs);
+		vec4_with_aliases_t& operator/=(ScalarType rhs)
+		{
+			vec_t<ScalarType, 4>::operator/=(rhs);
+			return *this;
+		}
+
+		vec4_with_aliases_t& operator=(const vec4_with_aliases_t& vec)
+		{
+			vec_t<ScalarType, 4>::operator=(vec);
+			return *this;
+		}
 	};
 
-	vec4_t operator*(vec4_t lhs, float rhs);
-	vec4_t operator*(float lhs, vec4_t rhs);
-	vec4_t operator+(vec4_t lhs, const vec4_t& rhs);
-	vec4_t operator-(vec4_t lhs, const vec4_t& rhs);
-	vec4_t operator/(vec4_t lhs, float rhs);
-	vec4_t operator/(float lhs, vec4_t rhs);
+	using vec4_t = vec4_with_aliases_t<float>;
+
+	template<typename ScalarType>
+	vec4_with_aliases_t<ScalarType> operator+(vec4_with_aliases_t<ScalarType> lhs, const vec4_with_aliases_t<ScalarType>& rhs)
+	{
+		return lhs += rhs;
+	}
+
+	template<typename ScalarType>
+	vec4_with_aliases_t<ScalarType> operator-(vec4_with_aliases_t<ScalarType> lhs, const vec4_with_aliases_t<ScalarType>& rhs)
+	{
+		return lhs -= rhs;
+	}
+
+	template<typename ScalarType>
+	vec4_with_aliases_t<ScalarType> operator*(vec4_with_aliases_t<ScalarType> lhs, ScalarType rhs)
+	{
+		return lhs *= rhs;
+	}
+
+	template<typename ScalarType>
+	vec4_with_aliases_t<ScalarType> operator/(vec4_with_aliases_t<ScalarType> lhs, ScalarType rhs)
+	{
+		return lhs /= rhs;
+	}
+
+	template<typename ScalarType>
+	vec4_with_aliases_t<ScalarType> operator*(ScalarType lhs, vec4_with_aliases_t<ScalarType> rhs)
+	{
+		return rhs *= lhs;
+	}
 } // namespace aech::math

@@ -66,7 +66,7 @@ void aech::graphics::gi_renderer_t::add_probe(const light_probe_t& probe)
 }
 
 void aech::graphics::gi_renderer_t::bake_probes()
-{
+{	
 	std::clog << "Rendering brdf LUT" << std::endl;
 	auto& brdf_fbo = framebuffers["brdf"];
 
