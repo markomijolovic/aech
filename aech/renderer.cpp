@@ -206,7 +206,7 @@ namespace aech::graphics
 		m_ssao_shader->set_uniform("texture_position", m_opaque_renderer->render_target()->colour_attachments()[0]);
 		m_ssao_shader->set_uniform("texture_normal", m_opaque_renderer->render_target()->colour_attachments()[1]);
 
-		for (float x = -2; x <= 2; x += 2)
+		for (float x = -12; x <= 12; x += 2)
 		{
 			for (float y = 1; y <= 13; y += 2)
 			{

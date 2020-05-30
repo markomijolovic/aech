@@ -25,8 +25,8 @@ void aech::graphics::generate_default_framebuffers()
 		texture_types::type::floating_point
 	};
 	framebuffers["shadow_map"] = {
-		4096,
-		4096,
+		8192,
+		8192,
 		1,
 		true,
 		texture_types::sized_internal_format::rgba16f,
