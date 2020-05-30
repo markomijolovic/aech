@@ -18,4 +18,4 @@ In the following subsections I will try to list all the systems and components t
 ### Systems
 ![Aech systems](/diagrams/systems_diagram.png)
 
-### Components
+### TODO: Components
