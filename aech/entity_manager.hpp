@@ -1,32 +1,28 @@
 #pragma once
-#include <array>
 
 #include "aech_types.hpp"
-
+#include <array>
 #include <queue>
 
+namespace aech::ecs {
+// a class that manages individual entity IDs
+class entity_manager_t {
+public:
+    entity_manager_t();
+    entity_t create_entity();
+    void destroy_entity(entity_t entity);
+    void set_signature(entity_t entity, signature_t signature);
+    signature_t get_signature(entity_t entity);
 
-namespace aech::ecs
-{
-	// a class that manages individual entity IDs
-	class entity_manager_t
-	{
-	public:
-		entity_manager_t();
-		entity_t create_entity();
-		void destroy_entity(entity_t entity);
-		void set_signature(entity_t entity, signature_t signature);
-		signature_t get_signature(entity_t entity);
+private:
+    std::queue<entity_t> m_available_entities {};
 
-	private:
-		std::queue<entity_t> m_available_entities{};
+    // an array of signatures
+    // index is an entity id
+    // value is that entity's signature -
+    // i.e. what components it has
+    std::array<signature_t, max_entities + 1> m_signatures {};
 
-		// an array of signatures
-		// index is an entity id
-		// value is that entity's signature - 
-		// i.e. what components it has
-		std::array<signature_t, max_entities + 1> m_signatures{};
-
-		uint32_t m_living_entities_count{};
-	};
+    uint32_t m_living_entities_count {};
+};
 } // namespace aech
