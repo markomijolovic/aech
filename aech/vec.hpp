@@ -10,57 +10,62 @@
 
 namespace aech::math
 {
-	template<typename ScalarType, size_t Dimension>
-	struct vec_t_storage
+	// hide storage details in an anonymous namespace
+	namespace
 	{
-		// default storage (no aliases)
-		std::array<ScalarType, Dimension> data;
-	};
-
-	template<typename ScalarType>
-	struct vec_t_storage<ScalarType, 2>
-	{
-		union
+		template<typename ScalarType, size_t Dimension>
+		struct vec_t_storage
 		{
-			std::array<ScalarType, 2> data{};
-			struct
+			// default storage (no aliases)
+			std::array<ScalarType, Dimension> data;
+		};
+
+		template<typename ScalarType>
+		struct vec_t_storage<ScalarType, 2>
+		{
+			union
 			{
-				ScalarType x;
-				ScalarType y;
+				std::array<ScalarType, 2> data{};
+				struct
+				{
+					ScalarType x;
+					ScalarType y;
+				};
 			};
 		};
-	};
 
-	template<typename ScalarType>
-	struct vec_t_storage<ScalarType, 3>
-	{
-		union
+		template<typename ScalarType>
+		struct vec_t_storage<ScalarType, 3>
 		{
-			std::array<ScalarType, 3> data{};
-			struct
+			union
 			{
-				ScalarType x;
-				ScalarType y;
-				ScalarType z;
+				std::array<ScalarType, 3> data{};
+				struct
+				{
+					ScalarType x;
+					ScalarType y;
+					ScalarType z;
+				};
 			};
 		};
-	};
 
-	template<typename ScalarType>
-	struct vec_t_storage<ScalarType, 4>
-	{
-		union
+		template<typename ScalarType>
+		struct vec_t_storage<ScalarType, 4>
 		{
-			std::array<ScalarType, 4> data{};
-			struct
+			union
 			{
-				ScalarType x;
-				ScalarType y;
-				ScalarType z;
-				ScalarType w;
+				std::array<ScalarType, 4> data{};
+				struct
+				{
+					ScalarType x;
+					ScalarType y;
+					ScalarType z;
+					ScalarType w;
+				};
 			};
 		};
-	};
+	}
+	
 
 	template<typename ScalarType, size_t Dimension>
 	struct vec_t : vec_t_storage<ScalarType, Dimension>
