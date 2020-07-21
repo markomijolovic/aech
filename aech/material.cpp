@@ -1,5 +1,5 @@
 #include "material.hpp"
-#include "mat4.hpp"
+#include "mat.hpp"
 
 #include "shader.hpp"
 

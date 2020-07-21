@@ -4,7 +4,7 @@
 #include "framebuffer_library.hpp"
 
 
-#include "mat4.hpp"
+#include "mat.hpp"
 
 #include "mesh_filter.hpp"
 

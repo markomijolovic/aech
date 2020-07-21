@@ -222,7 +222,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="mat4.hpp" />
+    <ClInclude Include="mat.hpp" />
     <ClInclude Include="material.hpp" />
     <ClInclude Include="material_library.hpp" />
     <ClInclude Include="mesh.hpp" />
@@ -309,7 +309,6 @@
     <ClCompile Include="reflection_probe.cpp" />
     <ClCompile Include="gi_renderer.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="mat4.cpp" />
     <ClCompile Include="material.cpp" />
     <ClCompile Include="material_library.cpp" />
     <ClCompile Include="mesh.cpp" />

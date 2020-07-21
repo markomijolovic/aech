@@ -1,6 +1,6 @@
 #pragma once
 
-#include "mat4.hpp"
+#include "mat.hpp"
 
 #include "scene_node.hpp"
 

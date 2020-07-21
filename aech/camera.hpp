@@ -1,7 +1,7 @@
 #pragma once
 #include "camera_frustum.hpp"
 
-#include "mat4.hpp"
+#include "mat.hpp"
 
 #include "scene_node.hpp"
 

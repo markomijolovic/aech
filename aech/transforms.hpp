@@ -1,7 +1,7 @@
 #pragma once
 #include "aech_types.hpp"
 
-#include "mat4.hpp"
+#include "mat.hpp"
 
 #include "transform.hpp"
 

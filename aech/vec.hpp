@@ -17,7 +17,7 @@ namespace aech::math
 		struct vec_t_storage
 		{
 			// default storage (no aliases)
-			std::array<ScalarType, Dimension> data;
+			std::array<ScalarType, Dimension> data{};
 		};
 
 		template<typename ScalarType>

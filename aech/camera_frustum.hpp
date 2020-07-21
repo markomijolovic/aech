@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "bounding_box.hpp"
 
-#include "mat4.hpp"
+#include "mat.hpp"
 
 #include <array>
 

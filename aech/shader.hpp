@@ -1,7 +1,7 @@
 #pragma once
 #include "glad/glad.h"
 
-#include "mat4.hpp"
+#include "mat.hpp"
 
 #include <string>
 

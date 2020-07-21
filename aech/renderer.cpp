@@ -1,5 +1,7 @@
 #include "renderer.hpp"
+
 #include "camera.hpp"
+
 #include "directional_light.hpp"
 
 #include "imgui.h"
@@ -206,7 +208,7 @@ namespace aech::graphics
 		m_ssao_shader->set_uniform("texture_position", m_opaque_renderer->render_target()->colour_attachments()[0]);
 		m_ssao_shader->set_uniform("texture_normal", m_opaque_renderer->render_target()->colour_attachments()[1]);
 
-		/*for (float x = -12; x <= 12; x += 2)
+		for (float x = -12; x <= 12; x += 2)
 		{
 			for (float y = 1; y <= 13; y += 2)
 			{
@@ -227,12 +229,12 @@ namespace aech::graphics
 					gi_renderer->add_probe(engine.get_component<light_probe_t>(probe1));
 				}
 			}
-		}*/
+		}
 
 		const auto probe11 = engine.create_entity();
-		engine.add_component(probe11, transform_t{{-.2, 1.00, -.5}, {}, {19.40, 4.00, 4.20}});
+		engine.add_component(probe11, transform_t{{-.2F, 1.00F, -.5F}, {}, {19.40F, 4.00F, 4.20F}});
 		engine.add_component(probe11, scene_node_t{&engine.get_component<transform_t>(probe11)});
-		engine.add_component(probe11, reflection_probe_t{{0, 1.50, -.5}, &engine.get_component<scene_node_t>(probe11)});
+		engine.add_component(probe11, reflection_probe_t{{0.F, 1.50F, -.5F}, &engine.get_component<scene_node_t>(probe11)});
 		engine.get_component<scene_node_t>(probe11).
 		       set_aabb(mesh_library::default_meshes["cube"].get()->calculate_aabb());
 		gi_renderer->add_probe(engine.get_component<reflection_probe_t>(probe11));
