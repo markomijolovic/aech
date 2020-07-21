@@ -7,13 +7,13 @@
 
 namespace aech::math {
 // computes the angle in radians from the provided angle which is assumed to be in degrees
-inline auto radians(float angle)
+constexpr inline auto radians(float angle) noexcept
 {
     return angle * (pi / 180.0F);
 }
 
 // linearly interpolates between a and b
-inline auto lerp(float a, float b, float t)
+constexpr inline auto lerp(float a, float b, float t) noexcept
 {
     return a + t * (b - a);
 }

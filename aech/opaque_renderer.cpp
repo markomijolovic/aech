@@ -60,15 +60,17 @@ void opaque_renderer_t::setup_g_buffer() const
 {
     m_render_target->bind();
     m_render_cache->set_viewport(0, 0, m_render_target->width(), m_render_target->height());
-    m_render_cache->clear(clear::color_and_depth_buffer_bit);
+    render_cache_t::clear(clear::color_and_depth_buffer_bit);
     m_render_cache->set_cull(true);
     m_render_cache->set_depth_test(true);
     m_render_cache->set_blend(false);
     m_render_cache->set_cull_face(cull_face::back);
     m_render_cache->set_depth_func(depth_func::lequal);
 
-    GLenum attachments[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3 };
-    glDrawBuffers(4, attachments);
+    std::array<GLenum, 4> attachments {
+        { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3 }
+    };
+    glDrawBuffers(4, &attachments[0]);
 }
 
 void opaque_renderer_t::draw_entity(entity_t entity) const

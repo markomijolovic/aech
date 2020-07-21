@@ -1,12 +1,12 @@
 #include "framebuffer_cube.hpp"
 
-aech::graphics::framebuffer_cube_t::~framebuffer_cube_t()
+aech::graphics::framebuffer_cube_t::~framebuffer_cube_t() noexcept
 {
     glDeleteRenderbuffers(1, &rbo_id);
     glDeleteFramebuffers(1, &id);
 }
 
-aech::graphics::framebuffer_cube_t& aech::graphics::framebuffer_cube_t::operator=(framebuffer_cube_t&& rhs)
+aech::graphics::framebuffer_cube_t& aech::graphics::framebuffer_cube_t::operator=(framebuffer_cube_t&& rhs) noexcept
 {
     std::swap(rbo_id, rhs.rbo_id);
     std::swap(id, rhs.id);

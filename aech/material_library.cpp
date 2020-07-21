@@ -7,7 +7,6 @@ void aech::graphics::material_library::generate_default_materials()
     const auto default_shader = &resource_manager::load_shader("default",
         "shaders/g_buffer_vertex.glsl",
         "shaders/g_buffer_fragment.glsl");
-    auto& default_material = default_materials["default"];
     default_materials["default"] = { default_shader };
     default_materials["default"].set_texture("texture_albedo",
         resource_manager::load_texture("checkerboard.png",

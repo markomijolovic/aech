@@ -23,7 +23,7 @@ public:
         void* data = nullptr);
     texture_t(texture_t&& rhs) noexcept;
     texture_t& operator=(texture_t&& rhs) noexcept;
-    ~texture_t();
+    ~texture_t() noexcept;
 
     [[nodiscard]] uint32_t id() const;
     void bind(int32_t unit = -1) const;

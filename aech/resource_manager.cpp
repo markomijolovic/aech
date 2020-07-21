@@ -185,7 +185,7 @@ texture_t* load_texture(const std::string& name,
             break;
         }
 
-        auto& texture = textures[name] = texture_t {
+        textures[name] = texture_t {
             static_cast<uint32_t>(width),
             static_cast<uint32_t>(height),
             sized_internal_format,
@@ -244,7 +244,7 @@ texture_t* load_hdr_texture(const std::string& name, const std::string& path)
             break;
         }
 
-        auto& texture = textures[name] = texture_t {
+        textures[name] = texture_t {
             static_cast<uint32_t>(width),
             static_cast<uint32_t>(height),
             sized_internal_format,
@@ -319,7 +319,6 @@ entity_t process_node(const aiNode* node, const aiScene* scene)
             }
 
             const auto child_scene_node = &engine.get_component<scene_node_t>(child_entity);
-            auto& child_mesh_filter = engine.get_component<mesh_filter_t>(child_entity);
             child_scene_node->set_aabb(mesh->calculate_aabb());
             // TODO(Marko): potential to calculate bounding volume hierarchy here
             scene_node->add_child(child_scene_node);
@@ -366,7 +365,7 @@ mesh_t* parse_mesh(aiMesh* mesh, const aiScene* /*scene*/)
     std::vector<math::vec3_t> tangents {};
     std::vector<math::vec3_t> bitangents {};
     std::vector<math::vec2_t> uvs {};
-    std::vector<uint32_t> indices(3 * mesh->mNumFaces);
+    std::vector<uint32_t> indices(3 * static_cast<size_t>(mesh->mNumFaces));
 
     if (mesh->HasTextureCoords(0)) {
         uvs.resize(mesh->mNumVertices);
@@ -458,7 +457,6 @@ material_t* parse_material(const aiScene* /*scene*/, aiMaterial* a_material)
     }
 
     if (a_material->GetTextureCount(aiTextureType_DIFFUSE) > 0) {
-        aiString file {};
         a_material->GetTexture(aiTextureType_DIFFUSE, 0, &file);
         const auto file_name = std::string { file.C_Str() };
 
@@ -467,7 +465,6 @@ material_t* parse_material(const aiScene* /*scene*/, aiMaterial* a_material)
     }
 
     if (a_material->GetTextureCount(aiTextureType_HEIGHT) > 0) {
-        aiString file {};
         a_material->GetTexture(aiTextureType_HEIGHT, 0, &file);
         const auto file_name = std::string { file.C_Str() };
 
@@ -476,7 +473,6 @@ material_t* parse_material(const aiScene* /*scene*/, aiMaterial* a_material)
     }
 
     if (a_material->GetTextureCount(aiTextureType_SPECULAR) > 0) {
-        aiString file {};
         a_material->GetTexture(aiTextureType_SPECULAR, 0, &file);
         const auto file_name = std::string { file.C_Str() };
 
@@ -485,7 +481,6 @@ material_t* parse_material(const aiScene* /*scene*/, aiMaterial* a_material)
     }
 
     if (a_material->GetTextureCount(aiTextureType_SHININESS) > 0) {
-        aiString file {};
         a_material->GetTexture(aiTextureType_SHININESS, 0, &file);
         const auto file_name = std::string { file.C_Str() };
 
@@ -494,7 +489,6 @@ material_t* parse_material(const aiScene* /*scene*/, aiMaterial* a_material)
     }
 
     if (a_material->GetTextureCount(aiTextureType_AMBIENT) > 0) {
-        aiString file {};
         a_material->GetTexture(aiTextureType_AMBIENT, 0, &file);
         const auto file_name = std::string { file.C_Str() };
 

@@ -179,7 +179,7 @@ void renderer_t::init()
 
     for (float x = -12; x <= 12; x += 2) {
         for (float y = 1; y <= 13; y += 2) {
-            for (float z = -5.4; z <= 6; z += 2) {
+            for (float z = -5.4F; z <= 6; z += 2) {
                 const auto probe1 = engine.create_entity();
                 engine.add_component(probe1, transform_t { { x, y, z }, {}, { 4, 4, 4 } });
                 engine.add_component(probe1, scene_node_t { &engine.get_component<transform_t>(probe1) });
@@ -264,7 +264,7 @@ void renderer_t::init()
 
     for (uint32_t i = 0; i < 6; i++) {
         fbo.attach(i);
-        m_render_cache.clear(clear::color_and_depth_buffer_bit);
+        render_cache_t::clear(clear::color_and_depth_buffer_bit);
         m_hdr_to_cubemap_shader->set_uniform("projection", capture_projection);
         m_hdr_to_cubemap_shader->set_uniform("view", capture_views[i]);
         m_ndc_cube->draw();
@@ -382,7 +382,7 @@ bool renderer_t::shadows() const
 void renderer_t::post_process()
 {
     post_process_fbo->bind();
-    m_render_cache.clear(clear::color_and_depth_buffer_bit);
+    render_cache_t::clear(clear::color_and_depth_buffer_bit);
     m_render_cache.set_depth_test(false);
     m_render_cache.set_shader(m_tonemap_shader);
     m_directional_light_renderer->render_target()->colour_attachments().front().bind(0);
@@ -391,7 +391,7 @@ void renderer_t::post_process()
     m_render_cache.set_depth_test(true);
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    m_render_cache.clear(clear::color_and_depth_buffer_bit);
+    render_cache_t::clear(clear::color_and_depth_buffer_bit);
     m_render_cache.set_depth_test(false);
     m_render_cache.set_shader(m_post_process_shader);
     post_process_fbo->colour_attachments().front().bind(0);
@@ -460,7 +460,7 @@ void renderer_t::render_ssao()
     m_render_cache.set_cull(false);
     m_render_cache.set_blend(false);
     m_render_cache.set_viewport(0, 0, m_ssao_fbo->width(), m_ssao_fbo->height());
-    m_render_cache.clear(clear::color_and_depth_buffer_bit);
+    render_cache_t::clear(clear::color_and_depth_buffer_bit);
 
     m_gbuffer->colour_attachments()[0].bind(0);
     m_gbuffer->colour_attachments()[1].bind(1);
@@ -481,7 +481,7 @@ void renderer_t::render_ssao()
     m_screen_quad->draw();
 
     m_ssao_blurred_fbo->bind();
-    m_render_cache.clear(clear::color_and_depth_buffer_bit);
+    render_cache_t::clear(clear::color_and_depth_buffer_bit);
     m_render_cache.set_shader(m_ssao_blur_shader);
     m_ssao_fbo->colour_attachments()[0].bind(0);
     m_ssao_blur_shader->set_uniform("ssao_input", 0);

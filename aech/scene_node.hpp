@@ -21,7 +21,7 @@ public:
     void set_scale(const math::vec3_t& scale) const;
     void set_scale(float scale) const;
     void parent_changed() const;
-    void move(const math::vec3_t& offfset) const;
+    void move(const math::vec3_t& offset) const;
 
     // make array happy
     scene_node_t() = default;

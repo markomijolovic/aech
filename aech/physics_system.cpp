@@ -6,7 +6,6 @@ void aech::physics::physics_system_t::update(float /*delta_time*/)
 {
     for (auto entity : entities) {
         auto& rigidbody = engine.get_component<rigidbody_t>(entity);
-        auto& scene_node = engine.get_component<graphics::scene_node_t>(entity);
 
         if (rigidbody.gravity()) {
         }

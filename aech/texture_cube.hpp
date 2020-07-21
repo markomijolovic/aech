@@ -20,7 +20,7 @@ public:
         texture_types::filtering mag = texture_types::filtering::linear);
     texture_cube_t& operator=(texture_cube_t&& rhs) noexcept;
     texture_cube_t(texture_cube_t&& rhs) noexcept;
-    ~texture_cube_t();
+    ~texture_cube_t() noexcept;
 
     [[nodiscard]] uint32_t id() const;
     void generate_face(uint32_t index, void* data) const;

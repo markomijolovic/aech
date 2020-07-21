@@ -26,7 +26,7 @@ const texture_t* framebuffer_t::depth_and_stencil() const
     return m_depth_and_stencil_texture.get();
 }
 
-framebuffer_t& framebuffer_t::operator=(framebuffer_t&& rhs)
+framebuffer_t& framebuffer_t::operator=(framebuffer_t&& rhs) noexcept
 {
     std::swap(m_id, rhs.m_id);
     m_width = rhs.m_width;
@@ -38,7 +38,7 @@ framebuffer_t& framebuffer_t::operator=(framebuffer_t&& rhs)
     return *this;
 }
 
-framebuffer_t::~framebuffer_t()
+framebuffer_t::~framebuffer_t() noexcept
 {
     glDeleteFramebuffers(1, &m_id);
 }

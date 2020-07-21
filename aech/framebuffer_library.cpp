@@ -52,7 +52,7 @@ void aech::graphics::generate_default_framebuffers()
         texture_types::type::floating_point
     };
 
-    auto shadow_map_texture = framebuffers["shadow_map"].depth_and_stencil();
+    const auto shadow_map_texture = framebuffers["shadow_map"].depth_and_stencil();
 
     shadow_map_texture->bind();
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_REF_TO_TEXTURE);

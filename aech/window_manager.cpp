@@ -79,7 +79,6 @@ aech::graphics::window_manager_t::window_manager_t()
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGui::StyleColorsLight();
-    auto& io = ImGui::GetIO();
 
     ImGui_ImplGlfw_InitForOpenGL(m_window, true);
     ImGui_ImplOpenGL3_Init("#version 450");

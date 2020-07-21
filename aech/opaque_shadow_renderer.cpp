@@ -32,12 +32,10 @@ void opaque_shadow_renderer_t::update()
             renderer_t::sort_front_to_back
     };
     for (auto entity : entities) {
-        auto& scene_node = engine.get_component<scene_node_t>(entity);
         entities_sorted.insert(entity);
     }
 
     for (auto entity : entities_sorted) {
-        auto& transform = engine.get_component<transform_t>(entity);
         auto& mesh_filter = engine.get_component<mesh_filter_t>(entity);
         auto& scene_node = engine.get_component<scene_node_t>(entity);
         auto light_view_matrix = math::get_view_matrix(*m_dirlight->transform());

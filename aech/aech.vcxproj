@@ -70,7 +70,13 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <EnableMicrosoftCodeAnalysis>true</EnableMicrosoftCodeAnalysis>
+    <EnableClangTidyCodeAnalysis>false</EnableClangTidyCodeAnalysis>
+    <ClangTidyChecks>modernize*,perf*,cppcore*,misc*,reada*</ClangTidyChecks>
+    <CodeAnalysisRuleSet>code_analysis.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -129,6 +135,7 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <AdditionalIncludeDirectories>include</AdditionalIncludeDirectories>
       <ShowIncludes>false</ShowIncludes>
+      <EnablePREfast>true</EnablePREfast>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

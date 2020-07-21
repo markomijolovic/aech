@@ -8,13 +8,13 @@ shader_t::shader_t(
     const std::string& geometry_source)
 {
     const auto s_vertex = glCreateShader(GL_VERTEX_SHADER);
-    auto vertex_data = vertex_source.c_str();
+    const auto vertex_data = vertex_source.c_str();
     glShaderSource(s_vertex, 1, &vertex_data, nullptr);
     glCompileShader(s_vertex);
     check_compile_errors(s_vertex, "vertex");
 
     const auto s_fragment = glCreateShader(GL_FRAGMENT_SHADER);
-    auto fragment_data = fragment_source.c_str();
+    const auto fragment_data = fragment_source.c_str();
     glShaderSource(s_fragment, 1, &fragment_data, nullptr);
     glCompileShader(s_fragment);
     check_compile_errors(s_fragment, "fragment");
@@ -22,7 +22,7 @@ shader_t::shader_t(
     uint32_t s_geometry;
     if (!geometry_source.empty()) {
         s_geometry = glCreateShader(GL_GEOMETRY_SHADER);
-        auto geometry_data = geometry_source.c_str();
+        const auto geometry_data = geometry_source.c_str();
         glShaderSource(s_geometry, 1, &geometry_data, nullptr);
         glCompileShader(s_geometry);
         check_compile_errors(s_geometry, "geometry");

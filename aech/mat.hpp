@@ -10,7 +10,7 @@ template <typename ScalarType, size_t Dimension>
 class mat_t {
 public:
     // initialize to identity matrix
-    mat_t()
+    mat_t() noexcept
     {
         for (size_t i = 0; i < Dimension; i++) {
             m_data[i][i] = ScalarType { 1 };

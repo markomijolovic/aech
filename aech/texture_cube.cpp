@@ -71,7 +71,7 @@ texture_cube_t::texture_cube_t(texture_cube_t&& rhs) noexcept
     rhs.m_id = 0;
 }
 
-texture_cube_t::~texture_cube_t()
+texture_cube_t::~texture_cube_t() noexcept
 {
     glDeleteTextures(1, &m_id);
 }

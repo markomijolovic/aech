@@ -19,8 +19,8 @@ class gi_renderer_t : public ecs::system_t {
 public:
     gi_renderer_t(render_cache_t* render_cache, camera_t* camera);
 
-    void create_preprocessed_environment_map(size_t size);
-    void create_irradiance_cubemap(size_t size);
+    void create_preprocessed_environment_map(size_t probe_index);
+    void create_irradiance_cubemap(size_t probe_index);
 
     void bake_probes();
     void render_ambient_pass();

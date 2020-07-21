@@ -24,12 +24,10 @@ void aech::graphics::transparent_shadow_renderer_t::update()
             renderer_t::sort_back_to_front
     };
     for (auto entity : entities) {
-        auto& scene_node = engine.get_component<scene_node_t>(entity);
         entities_sorted.insert(entity);
     }
 
     for (auto entity : entities_sorted) {
-        auto& transform = engine.get_component<transform_t>(entity);
         auto& mesh_filter = engine.get_component<mesh_filter_t>(entity);
         auto& scene_node = engine.get_component<scene_node_t>(entity);
 

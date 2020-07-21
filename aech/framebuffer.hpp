@@ -17,8 +17,11 @@ public:
         texture_types::sized_internal_format sized_internal_format,
         texture_types::format format,
         texture_types::type type);
-    framebuffer_t& operator=(framebuffer_t&& rhs);
-    ~framebuffer_t();
+    framebuffer_t(const framebuffer_t& rhs) = delete;
+    framebuffer_t(framebuffer_t&& rhs) = delete;
+    framebuffer_t& operator=(const framebuffer_t& rhs) = delete;
+    framebuffer_t& operator=(framebuffer_t&& rhs) noexcept;
+    ~framebuffer_t() noexcept;
 
     [[nodiscard]] uint32_t id() const;
     [[nodiscard]] uint32_t width() const;

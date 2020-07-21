@@ -11,7 +11,7 @@ namespace {
     template <typename ScalarType, size_t Dimension>
     struct vec_t_storage {
         // default storage (no aliases)
-        std::array<ScalarType, Dimension> data {};
+        std::array<ScalarType, Dimension> data { ScalarType {} };
     };
 
     template <typename ScalarType>

@@ -97,7 +97,7 @@ texture_t& texture_t::operator=(texture_t&& rhs) noexcept
     return *this;
 }
 
-texture_t::~texture_t()
+texture_t::~texture_t() noexcept
 {
     glDeleteTextures(1, &m_id);
 }

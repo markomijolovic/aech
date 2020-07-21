@@ -122,9 +122,9 @@ void aech::graphics::gi_renderer_t::create_radiance_cubemap(math::vec3_t positio
 
     for (uint32_t i = 0; i < 6; i++) {
         fbo.attach(i);
-        m_render_cache->clear(clear::color_and_depth_buffer_bit);
+        render_cache_t::clear(clear::color_and_depth_buffer_bit);
 
-        auto& view = capture_views[i];
+        const auto& view = capture_views[i];
         m_render_cache->set_shader(m_cubemap_capture_material->shader());
         m_cubemap_capture_material->set_uniform("view", view);
         m_cubemap_capture_material->set_uniform("projection", capture_projection);
@@ -133,7 +133,7 @@ void aech::graphics::gi_renderer_t::create_radiance_cubemap(math::vec3_t positio
                 transparent_entities.insert(entity);
                 continue;
             }
-            auto& transf = engine.get_component<transform_t>(entity);
+
             auto& mesh_filter = engine.get_component<mesh_filter_t>(entity);
             auto& scene_node = engine.get_component<scene_node_t>(entity);
             for (const auto& texture : mesh_filter.material()->get_textures()) {
@@ -152,7 +152,6 @@ void aech::graphics::gi_renderer_t::create_radiance_cubemap(math::vec3_t positio
         m_render_cache->set_blend(true);
         m_render_cache->set_blend(blend_func::src_alpha, blend_func::one_minus_src_alpha);
         for (auto entity : transparent_entities) {
-            auto& transf = engine.get_component<transform_t>(entity);
             auto& mesh_filter = engine.get_component<mesh_filter_t>(entity);
             auto& scene_node = engine.get_component<scene_node_t>(entity);
             for (const auto& texture : mesh_filter.material()->get_textures()) {
@@ -217,7 +216,7 @@ void aech::graphics::gi_renderer_t::create_preprocessed_environment_map(size_t p
             m_prefilter_material->set_uniform("view", capture_views[i]);
             m_prefilter_material->set_uniforms();
             prefilter_fbo.attach(i, mip);
-            m_render_cache->clear(clear::color_and_depth_buffer_bit);
+            render_cache_t::clear(clear::color_and_depth_buffer_bit);
 
             m_ndc_cube->draw();
         }
@@ -252,7 +251,7 @@ void aech::graphics::gi_renderer_t::create_irradiance_cubemap(size_t probe_index
     m_render_cache->set_viewport(0, 0, fbo.width(), fbo.height());
     for (uint32_t i = 0; i < 6; i++) {
         fbo.attach(i);
-        m_render_cache->clear(clear::color_and_depth_buffer_bit);
+        render_cache_t::clear(clear::color_and_depth_buffer_bit);
         m_irradiance_capture_material->shader()->set_uniform("projection", capture_projection);
         m_irradiance_capture_material->shader()->set_uniform("view", capture_views[i]);
         m_irradiance_capture_material->set_uniforms();
@@ -270,7 +269,7 @@ void aech::graphics::gi_renderer_t::render_ambient_pass()
 
     m_render_cache->set_cull(true);
     m_render_cache->set_cull_face(cull_face::front);
-    m_render_cache->clear(clear::color_and_depth_buffer_bit);
+    render_cache_t::clear(clear::color_and_depth_buffer_bit);
     m_render_cache->set_depth_test(false);
     m_render_cache->set_blend(true);
     m_render_cache->set_blend(blend_func::one, blend_func::one);

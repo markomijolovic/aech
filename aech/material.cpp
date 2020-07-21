@@ -57,17 +57,17 @@ void material_t::set_uniforms() const
 {
     m_shader->use();
 
-    for (auto& el : m_textures) {
+    for (const auto& el : m_textures) {
         el.second.first->bind(el.second.second);
         m_shader->set_uniform(el.first, el.second.second);
     }
 
-    for (auto& el : m_texture_cubes) {
+    for (const auto& el : m_texture_cubes) {
         el.second.first->bind(el.second.second);
         m_shader->set_uniform(el.first, el.second.second);
     }
 
-    for (auto& el : m_uniforms) {
+    for (const auto& el : m_uniforms) {
         if (el.second.type() == typeid(math::mat4_t)) {
             m_shader->set_uniform(el.first, std::any_cast<math::mat4_t>(el.second));
         } else if (el.second.type() == typeid(math::vec3_t)) {

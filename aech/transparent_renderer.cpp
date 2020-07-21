@@ -37,8 +37,10 @@ void aech::graphics::transparent_renderer_t::update()
     m_render_cache->set_cull(true);
     m_render_cache->set_cull_face(cull_face::back);
     m_render_cache->set_depth_func(depth_func::lequal);
-    GLenum attachments[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3 };
-    glDrawBuffers(4, attachments);
+    std::array<GLenum, 4> attachments {
+        { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3 }
+    };
+    glDrawBuffers(4, &attachments[0]);
 
     // sort back to front (roughly)
     std::set<entity_t, decltype(&aech::graphics::renderer_t::sort_back_to_front)> entities {

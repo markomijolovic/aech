@@ -68,7 +68,7 @@ bool aech::camera_frustum_t::intersects(const graphics::bounding_box_t& aabb) co
     };
 
     // test all vertices against all planes
-    for (auto& plane : planes) {
+    for (const auto& plane : planes) {
         int32_t count {};
         for (auto& vertex : vertices) {
             if (dot(vertex, plane) > 0) {

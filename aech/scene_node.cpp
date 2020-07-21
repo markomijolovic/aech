@@ -22,7 +22,7 @@ void scene_node_t::set_position(const math::vec3_t& position)
 void scene_node_t::parent_changed() const
 {
     m_dirty = true;
-    for (auto& child : m_children) {
+    for (const auto& child : m_children) {
         child->parent_changed();
     }
 }
