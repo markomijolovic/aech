@@ -123,15 +123,6 @@
     <ClInclude Include="engine.hpp">
       <Filter>Header Files\ecs core</Filter>
     </ClInclude>
-    <ClInclude Include="vec2.hpp">
-      <Filter>Header Files\math</Filter>
-    </ClInclude>
-    <ClInclude Include="vec3.hpp">
-      <Filter>Header Files\math</Filter>
-    </ClInclude>
-    <ClInclude Include="vec4.hpp">
-      <Filter>Header Files\math</Filter>
-    </ClInclude>
     <ClInclude Include="mat4.hpp">
       <Filter>Header Files\math</Filter>
     </ClInclude>
@@ -612,5 +603,6 @@
       <Filter>Source Files\shaders</Filter>
     </None>
     <None Include="packages.config" />
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>

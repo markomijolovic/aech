@@ -3,12 +3,7 @@
 
 #include "mat4.hpp"
 
-#include "vec4.hpp"
-
 #include <array>
-
-#include "vec3.hpp"
-
 
 namespace aech
 {

@@ -1,10 +1,10 @@
 #include "camera_frustum.hpp"
-#include "camera_frustum.hpp"
-#include "bounding_box.hpp"
-#include "cube.hpp"
-#include "vec3.hpp"
-#include "vector_math.hpp"
 
+#include "bounding_box.hpp"
+
+#include "cube.hpp"
+
+#include "vector_math.hpp"
 
 void aech::camera_frustum_t::recalculate(const math::mat4_t& pv)
 {

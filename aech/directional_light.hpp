@@ -1,8 +1,6 @@
 #pragma once
+
 #include "transform.hpp"
-
-#include "vec3.hpp"
-
 
 namespace aech::graphics
 {

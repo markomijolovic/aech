@@ -275,9 +275,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="vec.hpp" />
-    <ClInclude Include="vec2.hpp" />
-    <ClInclude Include="vec3.hpp" />
-    <ClInclude Include="vec4.hpp" />
     <ClInclude Include="vector_math.hpp">
       <SubType>
       </SubType>
@@ -350,6 +347,7 @@
       <SubType>
       </SubType>
     </None>
+    <None Include="cpp.hint" />
     <None Include="packages.config" />
     <None Include="shaders\ambient_specular_fragment.glsl" />
     <None Include="shaders\ambient_specular_vertex.glsl" />

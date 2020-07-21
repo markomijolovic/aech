@@ -1,8 +1,6 @@
 #pragma once
+
 #include "mat4.hpp"
-
-#include "vec3.hpp"
-
 
 namespace aech
 {

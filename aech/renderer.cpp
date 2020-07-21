@@ -206,7 +206,7 @@ namespace aech::graphics
 		m_ssao_shader->set_uniform("texture_position", m_opaque_renderer->render_target()->colour_attachments()[0]);
 		m_ssao_shader->set_uniform("texture_normal", m_opaque_renderer->render_target()->colour_attachments()[1]);
 
-		for (float x = -12; x <= 12; x += 2)
+		/*for (float x = -12; x <= 12; x += 2)
 		{
 			for (float y = 1; y <= 13; y += 2)
 			{
@@ -227,7 +227,7 @@ namespace aech::graphics
 					gi_renderer->add_probe(engine.get_component<light_probe_t>(probe1));
 				}
 			}
-		}
+		}*/
 
 		const auto probe11 = engine.create_entity();
 		engine.add_component(probe11, transform_t{{-.2, 1.00, -.5}, {}, {19.40, 4.00, 4.20}});

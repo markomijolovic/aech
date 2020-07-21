@@ -1,4 +1,5 @@
 #include "mat4.hpp"
+
 #include <cassert>
 
 namespace aech::math
@@ -93,12 +94,12 @@ namespace aech::math
 		}
 	}
 
-	float* mat4_t::operator[](size_t i)
+	vec4_t& mat4_t::operator[](size_t i)
 	{
 		return m_data[i];
 	}
 
-	const float* mat4_t::operator[](size_t i) const
+	const vec4_t& mat4_t::operator[](size_t i) const
 	{
 		return m_data[i];
 	}

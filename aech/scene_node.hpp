@@ -5,9 +5,6 @@
 
 #include "bounding_box.hpp"
 
-#include "vec3.hpp"
-
-
 namespace aech::graphics
 {
 	// a class that represents a node in the scene

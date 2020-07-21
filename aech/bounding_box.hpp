@@ -2,8 +2,7 @@
 
 #include <limits>
 
-#include "vec4.hpp"
-
+#include "vec.hpp"
 
 namespace aech::graphics
 {

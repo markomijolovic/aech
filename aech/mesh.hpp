@@ -1,14 +1,12 @@
 #pragma once
 
-#include "vec2.hpp"
-
-#include "vec3.hpp"
+#include "vec.hpp"
 
 #include "bounding_box.hpp"
 
 #include <glad/glad.h>
-#include <vector>
 
+#include <vector>
 
 namespace aech::graphics
 {

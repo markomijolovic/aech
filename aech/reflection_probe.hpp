@@ -2,10 +2,8 @@
 #include "mat4.hpp"
 
 #include "scene_node.hpp"
+
 #include "texture_cube.hpp"
-
-#include "vec3.hpp"
-
 
 namespace aech::graphics
 {

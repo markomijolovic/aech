@@ -1,5 +1,6 @@
 #pragma once
-#include "vec3.hpp"
+
+#include "vec.hpp"
 
 namespace aech::physics
 {
