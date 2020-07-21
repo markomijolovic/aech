@@ -325,7 +325,7 @@ void aech::graphics::gi_renderer_t::render_ambient_pass()
 		for (auto& probe : m_light_probes)
 		{
 			// view frustum culling of probes
-			if (!m_camera->sees(probe.position(), probe.outer_radius()))
+			if (!m_camera->sees(*probe.scene_node()))
 			{
 				continue;
 			}

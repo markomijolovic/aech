@@ -25,7 +25,7 @@ namespace aech::math
 		{
 			union
 			{
-				std::array<ScalarType, 2> data{};
+				std::array<ScalarType, 2> data{ ScalarType{} };
 				struct
 				{
 					ScalarType x;
@@ -39,7 +39,7 @@ namespace aech::math
 		{
 			union
 			{
-				std::array<ScalarType, 3> data{};
+				std::array<ScalarType, 3> data{ ScalarType{} };
 				struct
 				{
 					ScalarType x;
@@ -54,7 +54,7 @@ namespace aech::math
 		{
 			union
 			{
-				std::array<ScalarType, 4> data{};
+				std::array<ScalarType, 4> data{ ScalarType{} };
 				struct
 				{
 					ScalarType x;

@@ -35,25 +35,25 @@ namespace aech::graphics
 				glUniformMatrix4fv(glGetUniformLocation(m_id, name.c_str()),
 				                   1,
 				                   true,
-				                   const_cast<GLfloat*>(reinterpret_cast<const GLfloat*>(&value[0])));
+				                   const_cast<GLfloat*>(reinterpret_cast<const GLfloat*>(&(value[0].data))));
 			}
 			else if constexpr (std::is_same_v<Type, math::vec2_t>)
 			{
 				glUniform2fv(glGetUniformLocation(m_id, name.c_str()),
 				             1,
-				             const_cast<GLfloat*>(reinterpret_cast<const GLfloat*>(&value)));
+				             const_cast<GLfloat*>(reinterpret_cast<const GLfloat*>(&(value.data))));
 			}
 			else if constexpr (std::is_same_v<Type, math::vec3_t>)
 			{
 				glUniform3fv(glGetUniformLocation(m_id, name.c_str()),
 				             1,
-				             const_cast<GLfloat*>(reinterpret_cast<const GLfloat*>(&value)));
+				             const_cast<GLfloat*>(reinterpret_cast<const GLfloat*>(&(value.data))));
 			}
 			else if constexpr (std::is_same_v<Type, math::vec4_t>)
 			{
 				glUniform4fv(glGetUniformLocation(m_id, name.c_str()),
 				             1,
-				             const_cast<GLfloat*>(reinterpret_cast<const GLfloat*>(&value)));
+				             const_cast<GLfloat*>(reinterpret_cast<const GLfloat*>(&(value.data))));
 			}
 			else if constexpr (std::is_same_v<Type, bool>)
 			{
