@@ -1,4 +1,5 @@
 #include "transparent_renderer.hpp"
+
 #include "camera.hpp"
 #include "directional_light.hpp"
 #include "main.hpp"
@@ -7,26 +8,26 @@
 #include "shader.hpp"
 #include "transforms.hpp"
 
-aech::graphics::transparent_renderer_t::transparent_renderer_t(render_cache_t* render_cache,
-    camera_t* camera,
-    directional_light_t* dirlight)
-    : m_camera { camera }
-    , m_dirlight { dirlight }
-    , m_render_cache { render_cache }
+aech::graphics::transparent_renderer_t::transparent_renderer_t(render_cache_t *     render_cache,
+                                                               camera_t *           camera,
+                                                               directional_light_t *dirlight)
+    : m_camera{camera}
+    , m_dirlight{dirlight}
+    , m_render_cache{render_cache}
 {
 }
 
-aech::graphics::framebuffer_t* aech::graphics::transparent_renderer_t::render_target() const
+auto aech::graphics::transparent_renderer_t::render_target() const -> aech::graphics::framebuffer_t *
 {
     return m_render_target;
 }
 
-aech::graphics::mesh_filter_t aech::graphics::transparent_renderer_t::mesh_filter() const
+auto aech::graphics::transparent_renderer_t::mesh_filter() const -> aech::graphics::mesh_filter_t
 {
     return m_mesh_filter;
 }
 
-void aech::graphics::transparent_renderer_t::update()
+auto aech::graphics::transparent_renderer_t::update() const -> void
 {
     // setup g-buffer
     m_render_target->bind();
@@ -37,30 +38,28 @@ void aech::graphics::transparent_renderer_t::update()
     m_render_cache->set_cull(true);
     m_render_cache->set_cull_face(cull_face::back);
     m_render_cache->set_depth_func(depth_func::lequal);
-    std::array<GLenum, 4> attachments {
-        { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3 }
-    };
+    std::array<GLenum, 4> attachments{
+        {GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3}};
     glDrawBuffers(4, &attachments[0]);
 
     // sort back to front (roughly)
-    std::set<entity_t, decltype(&aech::graphics::renderer_t::sort_back_to_front)> entities {
-        &aech::graphics::renderer_t::
-            sort_back_to_front
-    };
-    for (auto entity : entities) {
-        auto& scene_node = engine.get_component<scene_node_t>(entity);
+    std::set<entity_t, decltype(&renderer_t::sort_back_to_front)> entities{
+        &renderer_t::
+            sort_back_to_front};
+    for (auto entity: entities) {
+        auto &scene_node = engine.get_component<scene_node_t>(entity);
         if (!m_camera->sees(scene_node)) {
             continue; // view frustum culling
         }
         entities.insert(entity);
     }
 
-    for (auto entity : entities) {
-        auto view = math::get_view_matrix(*m_camera->transform());
-        auto& scene_node = engine.get_component<scene_node_t>(entity);
-        auto& mesh_filter = engine.get_component<mesh_filter_t>(entity);
-        const auto shader = mesh_filter.material()->shader();
-        auto projection = m_camera->projection();
+    for (auto entity: entities) {
+        auto       view        = math::get_view_matrix(*m_camera->transform());
+        auto &     scene_node  = engine.get_component<scene_node_t>(entity);
+        auto &     mesh_filter = engine.get_component<mesh_filter_t>(entity);
+        const auto shader      = mesh_filter.material()->shader();
+        auto       projection  = m_camera->projection();
 
         m_render_cache->set_shader(shader);
         mesh_filter.material()->set_uniforms();

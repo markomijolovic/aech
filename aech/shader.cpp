@@ -1,27 +1,28 @@
 #include "shader.hpp"
+
 #include <iostream>
 
 namespace aech::graphics {
 shader_t::shader_t(
-    const std::string& vertex_source,
-    const std::string& fragment_source,
-    const std::string& geometry_source)
+    const std::string &vertex_source,
+    const std::string &fragment_source,
+    const std::string &geometry_source)
 {
-    const auto s_vertex = glCreateShader(GL_VERTEX_SHADER);
+    const auto s_vertex    = glCreateShader(GL_VERTEX_SHADER);
     const auto vertex_data = vertex_source.c_str();
     glShaderSource(s_vertex, 1, &vertex_data, nullptr);
     glCompileShader(s_vertex);
     check_compile_errors(s_vertex, "vertex");
 
-    const auto s_fragment = glCreateShader(GL_FRAGMENT_SHADER);
+    const auto s_fragment    = glCreateShader(GL_FRAGMENT_SHADER);
     const auto fragment_data = fragment_source.c_str();
     glShaderSource(s_fragment, 1, &fragment_data, nullptr);
     glCompileShader(s_fragment);
     check_compile_errors(s_fragment, "fragment");
 
-    uint32_t s_geometry;
+    std::uint32_t s_geometry;
     if (!geometry_source.empty()) {
-        s_geometry = glCreateShader(GL_GEOMETRY_SHADER);
+        s_geometry               = glCreateShader(GL_GEOMETRY_SHADER);
         const auto geometry_data = geometry_source.c_str();
         glShaderSource(s_geometry, 1, &geometry_data, nullptr);
         glCompileShader(s_geometry);
@@ -46,22 +47,22 @@ shader_t::shader_t(
     }
 }
 
-bool shader_t::operator==(const shader_t& rhs) const
+auto shader_t::operator==(const shader_t &rhs) const -> bool
 {
     return m_id == rhs.m_id;
 }
 
-bool shader_t::operator!=(const shader_t& rhs) const
+auto shader_t::operator!=(const shader_t &rhs) const -> bool
 {
     return !(*this == rhs);
 }
 
-void shader_t::use() const
+auto shader_t::use() const -> void
 {
     glUseProgram(m_id);
 }
 
-void shader_t::check_compile_errors(uint32_t id, const std::string& type)
+auto shader_t::check_compile_errors(std::uint32_t id, const std::string &type) -> void
 {
     GLint success;
     if (type == "program") {

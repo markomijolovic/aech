@@ -602,4 +602,7 @@
     <None Include="packages.config" />
     <None Include="cpp.hint" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include=".clang-format" />
+  </ItemGroup>
 </Project>

@@ -11,13 +11,13 @@
 namespace aech::graphics {
 class transparent_shadow_renderer_t : public ecs::system_t {
 public:
-    transparent_shadow_renderer_t(render_cache_t* render_cache, directional_light_t* directional_light);
-    void update();
+    transparent_shadow_renderer_t(render_cache_t *render_cache, directional_light_t *directional_light);
+    auto update() -> void;
 
 private:
-    material_t* m_material = &material_library::default_materials["transparent_shadow"];
-    framebuffer_t* m_shadow_map = &framebuffers["shadow_map"];
-    directional_light_t* m_dirlight {};
-    render_cache_t* m_render_cache {};
+    material_t *         m_material   = &material_library::default_materials["transparent_shadow"];
+    framebuffer_t *      m_shadow_map = &framebuffers["shadow_map"];
+    directional_light_t *m_dirlight{};
+    render_cache_t *     m_render_cache{};
 };
 } // namespace aech::graphics

@@ -3,8 +3,8 @@
 #include <iostream>
 
 namespace aech::graphics {
-texture_t::texture_t(uint32_t width,
-    uint32_t height,
+texture_t::texture_t(std::uint32_t width,
+    std::uint32_t height,
     texture_types::sized_internal_format sized_internal_format,
     texture_types::format format,
     texture_types::type type,
@@ -25,7 +25,7 @@ texture_t::texture_t(uint32_t width,
     glGenTextures(1, &m_id);
     bind();
 
-    const auto levels = m_mipmap ? static_cast<uint32_t>(floor(log2(std::max(m_width, m_height)))) + 1 : 1U;
+    const auto levels = m_mipmap ? static_cast<std::uint32_t>(floor(log2(std::max(m_width, m_height)))) + 1 : 1U;
     glTexStorage2D(static_cast<GLenum>(texture_types::target::twod),
         levels,
         static_cast<GLenum>(m_sized_internal_format),
@@ -81,7 +81,7 @@ texture_t::texture_t(texture_t&& rhs) noexcept
     rhs.m_id = 0;
 }
 
-texture_t& texture_t::operator=(texture_t&& rhs) noexcept
+auto texture_t::operator=(texture_t &&rhs) noexcept -> texture_t&
 {
     std::swap(m_id, rhs.m_id);
     m_width = rhs.m_width;
@@ -102,12 +102,12 @@ texture_t::~texture_t() noexcept
     glDeleteTextures(1, &m_id);
 }
 
-uint32_t texture_t::id() const
+auto texture_t::id() const -> std::uint32_t
 {
     return m_id;
 }
 
-void texture_t::bind(int32_t unit) const
+auto texture_t::bind(std::int32_t unit) const -> void
 {
     if (unit >= 0) {
         glActiveTexture(GL_TEXTURE0 + unit);
@@ -116,7 +116,7 @@ void texture_t::bind(int32_t unit) const
     glBindTexture(static_cast<GLenum>(texture_types::target::twod), m_id);
 }
 
-void texture_t::unbind()
+auto texture_t::unbind() -> void
 {
     glBindTexture(static_cast<GLenum>(texture_types::target::twod), 0);
 }

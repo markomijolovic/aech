@@ -14,34 +14,34 @@ public:
     // shuts GLFW and ImGui down
     ~window_manager_t();
 
-    [[nodiscard]] bool should_close() const;
-    void begin_frame() const;
-    void end_frame() const;
+    [[nodiscard]] auto should_close() const -> bool;
+    auto               begin_frame() const -> void;
+    auto               end_frame() const -> void;
 
-    [[nodiscard]] std::bitset<32> buttons() const;
-    [[nodiscard]] bool first_mouse() const;
-    [[nodiscard]] float x() const;
-    [[nodiscard]] float y() const;
+    [[nodiscard]] auto buttons() const -> std::bitset<32>;
+    [[nodiscard]] auto first_mouse() const -> bool;
+    [[nodiscard]] auto x() const -> float;
+    [[nodiscard]] auto y() const -> float;
 
-    void set_button(input_buttons button);
-    void reset_button(input_buttons button);
-    void set_first_mouse(bool f);
-    void set_x(float x);
-    void set_y(float y);
+    auto set_button(input_buttons button) -> void;
+    auto reset_button(input_buttons button) -> void;
+    auto set_first_mouse(bool f) -> void;
+    auto set_x(float x) -> void;
+    auto set_y(float y) -> void;
 
-    [[nodiscard]] uint32_t width() const;
-    [[nodiscard]] uint32_t height() const;
+    [[nodiscard]] auto width() const -> std::uint32_t;
+    [[nodiscard]] auto height() const -> std::uint32_t;
 
 private:
-    bool m_first_mouse { true };
-    float m_last_x {};
-    float m_last_y {};
+    bool  m_first_mouse{true};
+    float m_last_x{};
+    float m_last_y{};
 
     // 2.4 aspect ratio
-    uint32_t m_screen_width = 1920;
-    uint32_t m_screen_height = 800;
+    std::uint32_t m_screen_width  = 1920;
+    std::uint32_t m_screen_height = 800;
 
-    std::bitset<32> m_buttons {};
-    GLFWwindow* m_window {};
+    std::bitset<32> m_buttons{};
+    GLFWwindow *    m_window{};
 };
 } // namespace aech::graphics

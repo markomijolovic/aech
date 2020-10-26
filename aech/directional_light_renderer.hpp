@@ -12,20 +12,19 @@
 namespace aech::graphics {
 class directional_light_renderer_t : public ecs::system_t {
 public:
-    directional_light_renderer_t(render_cache_t* render_cache, directional_light_t* directional_light);
+    directional_light_renderer_t(render_cache_t *render_cache, directional_light_t *directional_light);
 
-    void update() const;
+    auto update() const -> void;
 
-    [[nodiscard]] framebuffer_t* render_target() const;
-    [[nodiscard]] mesh_filter_t mesh_filter() const;
+    [[nodiscard]] auto render_target() const -> framebuffer_t *;
+    [[nodiscard]] auto mesh_filter() const -> mesh_filter_t;
 
 private:
-    framebuffer_t* m_render_target = &framebuffers["default"];
-    mesh_filter_t m_mesh_filter {
+    framebuffer_t *m_render_target = &framebuffers["default"];
+    mesh_filter_t  m_mesh_filter{
         mesh_library::default_meshes["quad"].get(),
-        &material_library::default_materials["directional"]
-    };
-    render_cache_t* m_render_cache {};
-    directional_light_t* m_directional_light {};
+        &material_library::default_materials["directional"]};
+    render_cache_t *     m_render_cache{};
+    directional_light_t *m_directional_light{};
 };
 } // namespace aech::graphics

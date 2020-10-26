@@ -10,7 +10,7 @@ aech::graphics::render_cache_t::render_cache_t()
     glCullFace(GL_BACK);
 }
 
-void aech::graphics::render_cache_t::set_depth_test(bool enable)
+auto aech::graphics::render_cache_t::set_depth_test(bool enable) -> void
 {
     if (m_depth_test != enable) {
         if (m_depth_test = enable) {
@@ -21,7 +21,7 @@ void aech::graphics::render_cache_t::set_depth_test(bool enable)
     }
 }
 
-void aech::graphics::render_cache_t::set_depth_func(depth_func func)
+auto aech::graphics::render_cache_t::set_depth_func(depth_func func) -> void
 {
     if (m_depth_func != func) {
         m_depth_func = func;
@@ -29,7 +29,7 @@ void aech::graphics::render_cache_t::set_depth_func(depth_func func)
     }
 }
 
-void aech::graphics::render_cache_t::set_blend(bool enable)
+auto aech::graphics::render_cache_t::set_blend(bool enable) -> void
 {
     if (m_blend != enable) {
         if (m_blend = enable) {
@@ -40,16 +40,16 @@ void aech::graphics::render_cache_t::set_blend(bool enable)
     }
 }
 
-void aech::graphics::render_cache_t::set_blend(blend_func source, blend_func dest)
+auto aech::graphics::render_cache_t::set_blend(blend_func source, blend_func dest) -> void
 {
     if (m_blend_source != source || m_blend_dest != dest) {
         m_blend_source = source;
-        m_blend_dest = dest;
+        m_blend_dest   = dest;
         glBlendFunc(static_cast<GLenum>(source), static_cast<GLenum>(dest));
     }
 }
 
-void aech::graphics::render_cache_t::set_cull(bool enable)
+auto aech::graphics::render_cache_t::set_cull(bool enable) -> void
 {
     if (m_cull != enable) {
         if (m_cull = enable) {
@@ -60,7 +60,7 @@ void aech::graphics::render_cache_t::set_cull(bool enable)
     }
 }
 
-void aech::graphics::render_cache_t::set_cull_face(cull_face face)
+auto aech::graphics::render_cache_t::set_cull_face(cull_face face) -> void
 {
     if (m_cull_face != face) {
         m_cull_face = face;
@@ -68,23 +68,23 @@ void aech::graphics::render_cache_t::set_cull_face(cull_face face)
     }
 }
 
-void aech::graphics::render_cache_t::set_shader(shader_t* shader)
+auto aech::graphics::render_cache_t::set_shader(shader_t *shader) -> void
 {
-    if ((m_shader == nullptr) || *m_shader != *shader) {
+    if (m_shader == nullptr || *m_shader != *shader) {
         m_shader = shader;
         m_shader->use();
     }
 }
 
-void aech::graphics::render_cache_t::clear(graphics::clear bit)
+auto aech::graphics::render_cache_t::clear(graphics::clear bit) -> void
 {
     glClear(static_cast<GLenum>(bit));
 }
 
-void aech::graphics::render_cache_t::set_viewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height)
+auto aech::graphics::render_cache_t::set_viewport(std::uint32_t x, std::uint32_t y, std::uint32_t width, std::uint32_t height) -> void
 {
-    if (m_viewport_dimensions != std::array { x, y, width, height }) {
-        m_viewport_dimensions = { x, y, width, height };
+    if (m_viewport_dimensions != std::array{x, y, width, height}) {
+        m_viewport_dimensions = {x, y, width, height};
         glViewport(x, y, width, height);
     }
 }

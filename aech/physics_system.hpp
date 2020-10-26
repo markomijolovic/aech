@@ -8,6 +8,6 @@ public:
     constexpr static inline float gravity_constant = -9.81F;
 
 private:
-    void update(float delta_time);
+    auto update(float delta_time) -> void;
 };
 } // namespace aech::physics

@@ -1,25 +1,27 @@
 #include "window_manager.hpp"
+
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 #include "main.hpp"
+
 #include <GLFW\glfw3.h>
 #include <chrono>
 
-static void key_callback(GLFWwindow* window, int key, int scan_code, int action, int mode);
-static void mouse_callback(GLFWwindow* window, double x_pos, double y_pos);
+static auto key_callback(GLFWwindow *window, int key, int scan_code, int action, int mode) -> void;
+static auto mouse_callback(GLFWwindow *window, double x_pos, double y_pos) -> void;
 
-uint32_t aech::graphics::window_manager_t::width() const
+auto aech::graphics::window_manager_t::width() const -> std::uint32_t
 {
     return m_screen_width;
 }
 
-uint32_t aech::graphics::window_manager_t::height() const
+auto aech::graphics::window_manager_t::height() const -> std::uint32_t
 {
     return m_screen_height;
 }
 
-bool aech::graphics::window_manager_t::should_close() const
+auto aech::graphics::window_manager_t::should_close() const -> bool
 {
     return glfwWindowShouldClose(m_window) != 0;
 }
@@ -33,12 +35,12 @@ aech::graphics::window_manager_t::~window_manager_t()
     glfwTerminate();
 }
 
-void aech::graphics::window_manager_t::begin_frame() const
+auto aech::graphics::window_manager_t::begin_frame() const -> void
 {
     glfwPollEvents();
 }
 
-void aech::graphics::window_manager_t::end_frame() const
+auto aech::graphics::window_manager_t::end_frame() const -> void
 {
     glfwSwapBuffers(m_window);
 }
@@ -46,7 +48,7 @@ void aech::graphics::window_manager_t::end_frame() const
 aech::graphics::window_manager_t::window_manager_t()
 {
     if (glfwInit() == 0) {
-        throw std::exception {};
+        throw std::exception{};
     }
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -56,7 +58,7 @@ aech::graphics::window_manager_t::window_manager_t()
 
     m_window = glfwCreateWindow(m_screen_width, m_screen_height, "aech", nullptr, nullptr);
     if (m_window == nullptr) {
-        throw std::exception {};
+        throw std::exception{};
     }
 
     glfwMakeContextCurrent(m_window);
@@ -64,7 +66,7 @@ aech::graphics::window_manager_t::window_manager_t()
     glfwSwapInterval(0);
 
     if (gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress)) == 0) {
-        throw std::exception {};
+        throw std::exception{};
     }
 
     glfwSetKeyCallback(m_window, &key_callback);
@@ -84,7 +86,7 @@ aech::graphics::window_manager_t::window_manager_t()
     ImGui_ImplOpenGL3_Init("#version 450");
 }
 
-static void key_callback(GLFWwindow* window, int key, int /*scan_code*/, int action, int /*mode*/)
+static auto key_callback(GLFWwindow *window, int key, int /*scan_code*/, int action, int /*mode*/) -> void
 {
     using namespace aech;
     using namespace graphics;
@@ -137,7 +139,7 @@ static void key_callback(GLFWwindow* window, int key, int /*scan_code*/, int act
         }
 
         if (button_pressed) {
-            events::event_t event { events::window::keyboard };
+            events::event_t event{events::window::keyboard};
             event.set_param(events::window::params::keyboard, window_manager.buttons());
             engine.send_event(event);
         }
@@ -179,14 +181,14 @@ static void key_callback(GLFWwindow* window, int key, int /*scan_code*/, int act
         }
 
         if (button_released) {
-            events::event_t event { events::window::keyboard };
+            events::event_t event{events::window::keyboard};
             event.set_param(events::window::params::keyboard, window_manager.buttons());
             engine.send_event(event);
         }
     }
 }
 
-static void mouse_callback(GLFWwindow* /*window*/, double x_pos, double y_pos)
+static auto mouse_callback(GLFWwindow * /*window*/, double x_pos, double y_pos) -> void
 {
     using namespace aech;
     using namespace graphics;
@@ -202,53 +204,53 @@ static void mouse_callback(GLFWwindow* /*window*/, double x_pos, double y_pos)
     window_manager.set_x(static_cast<float>(x_pos));
     window_manager.set_y(static_cast<float>(y_pos));
 
-    std::pair<float, float> param = { x_offset, y_offset };
-    events::event_t event { events::window::mouse };
+    std::pair<float, float> param = {x_offset, y_offset};
+    events::event_t         event{events::window::mouse};
     event.set_param(events::window::params::mouse, param);
     engine.send_event(event);
 }
 
-void aech::graphics::window_manager_t::set_button(input_buttons button)
+auto aech::graphics::window_manager_t::set_button(input_buttons button) -> void
 {
-    m_buttons.set(static_cast<size_t>(button));
+    m_buttons.set(static_cast<std::size_t>(button));
 }
 
-void aech::graphics::window_manager_t::set_x(float x)
+auto aech::graphics::window_manager_t::set_x(float x) -> void
 {
     m_last_x = x;
 }
 
-void aech::graphics::window_manager_t::set_y(float y)
+auto aech::graphics::window_manager_t::set_y(float y) -> void
 {
     m_last_y = y;
 }
 
-std::bitset<32> aech::graphics::window_manager_t::buttons() const
+auto aech::graphics::window_manager_t::buttons() const -> std::bitset<32>
 {
     return m_buttons;
 }
 
-float aech::graphics::window_manager_t::x() const
+auto aech::graphics::window_manager_t::x() const -> float
 {
     return m_last_x;
 }
 
-float aech::graphics::window_manager_t::y() const
+auto aech::graphics::window_manager_t::y() const -> float
 {
     return m_last_y;
 }
 
-bool aech::graphics::window_manager_t::first_mouse() const
+auto aech::graphics::window_manager_t::first_mouse() const -> bool
 {
     return m_first_mouse;
 }
 
-void aech::graphics::window_manager_t::set_first_mouse(bool f)
+auto aech::graphics::window_manager_t::set_first_mouse(bool f) -> void
 {
     m_first_mouse = f;
 }
 
-void aech::graphics::window_manager_t::reset_button(input_buttons button)
+auto aech::graphics::window_manager_t::reset_button(input_buttons button) -> void
 {
-    m_buttons.reset(static_cast<size_t>(button));
+    m_buttons.reset(static_cast<std::size_t>(button));
 }

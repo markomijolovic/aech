@@ -1,4 +1,5 @@
 #include "engine.hpp"
+
 #include "camera.hpp"
 #include "directional_light.hpp"
 #include "light_probe.hpp"
@@ -10,7 +11,7 @@
 #include "shadow_caster.hpp"
 
 namespace aech {
-void engine_t::init()
+auto engine_t::init() -> void
 {
     register_component<transform_t>();
     register_component<graphics::scene_node_t>();
@@ -25,34 +26,34 @@ void engine_t::init()
     register_component<graphics::light_probe_t>();
 }
 
-entity_t engine_t::create_entity()
+auto engine_t::create_entity() -> entity_t
 {
     return m_entity_manager.create_entity();
 }
 
-void engine_t::destroy_entity(entity_t entity)
+auto engine_t::destroy_entity(entity_t entity) -> void
 {
     m_entity_manager.destroy_entity(entity);
     m_component_manager.entity_destroyed(entity);
     m_system_manager.entity_destroyed(entity);
 }
 
-void engine_t::set_root_node(entity_t root_node)
+auto engine_t::set_root_node(entity_t root_node) -> void
 {
     m_root_node = root_node;
 }
 
-entity_t engine_t::root_node() const
+auto engine_t::root_node() const -> entity_t
 {
     return m_root_node;
 }
 
-void engine_t::add_event_listener(event_id_t event_id, const std::function<void(events::event_t&)>& listener)
+auto engine_t::add_event_listener(event_id_t event_id, const std::function<void(events::event_t &)> &listener) -> void
 {
     m_event_manager.add_listener(event_id, listener);
 }
 
-void engine_t::send_event(events::event_t& event)
+auto engine_t::send_event(events::event_t &event) -> void
 {
     m_event_manager.send_event(event);
 }

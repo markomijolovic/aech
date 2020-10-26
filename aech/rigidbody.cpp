@@ -1,26 +1,26 @@
 #include "rigidbody.hpp"
 
-float aech::physics::rigidbody_t::mass() const
+auto aech::physics::rigidbody_t::mass() const -> float
 {
     return m_mass;
 }
 
-bool aech::physics::rigidbody_t::gravity() const
+auto aech::physics::rigidbody_t::gravity() const -> bool
 {
     return m_gravity;
 }
 
-bool aech::physics::rigidbody_t::kinematic() const
+auto aech::physics::rigidbody_t::kinematic() const -> bool
 {
     return m_kinematic;
 }
 
-aech::math::vec3_t aech::physics::rigidbody_t::velocity() const
+auto aech::physics::rigidbody_t::velocity() const -> aech::math::vec3_t
 {
     return m_velocity;
 }
 
-void aech::physics::rigidbody_t::add_velocity(const math::vec3_t& vel)
+auto aech::physics::rigidbody_t::add_velocity(const math::vec3_t &vel) -> void
 {
     m_velocity += vel;
 }

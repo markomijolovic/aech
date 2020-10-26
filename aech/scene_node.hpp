@@ -9,36 +9,36 @@ namespace aech::graphics {
 // todo: optimize transform computation with caching
 class scene_node_t {
 public:
-    [[nodiscard]] math::vec3_t get_local_position() const;
-    [[nodiscard]] math::vec3_t get_local_scale() const;
-    [[nodiscard]] math::vec3_t get_local_rotation() const;
-    [[nodiscard]] math::mat4_t get_transform() const;
-    [[nodiscard]] math::vec3_t get_world_position() const;
-    [[nodiscard]] math::vec3_t get_world_scale() const;
-    [[nodiscard]] bounding_box_t bounding_box() const;
-    void set_position(const math::vec3_t& position);
-    void set_rotation(const math::vec3_t& rotation) const;
-    void set_scale(const math::vec3_t& scale) const;
-    void set_scale(float scale) const;
-    void parent_changed() const;
-    void move(const math::vec3_t& offset) const;
+    [[nodiscard]] auto get_local_position() const -> math::vec3_t;
+    [[nodiscard]] auto get_local_scale() const -> math::vec3_t;
+    [[nodiscard]] auto get_local_rotation() const -> math::vec3_t;
+    [[nodiscard]] auto get_transform() const -> math::mat4_t;
+    [[nodiscard]] auto get_world_position() const -> math::vec3_t;
+    [[nodiscard]] auto get_world_scale() const -> math::vec3_t;
+    [[nodiscard]] auto bounding_box() const -> bounding_box_t;
+    auto               set_position(const math::vec3_t &position) -> void;
+    auto               set_rotation(const math::vec3_t &rotation) const -> void;
+    auto               set_scale(const math::vec3_t &scale) const -> void;
+    auto               set_scale(float scale) const -> void;
+    auto               parent_changed() const -> void;
+    auto               move(const math::vec3_t &offset) const -> void;
 
     // make array happy
     scene_node_t() = default;
-    explicit scene_node_t(transform_t* transform, scene_node_t* parent = nullptr);
+    explicit scene_node_t(transform_t *transform, scene_node_t *parent = nullptr);
 
-    void add_child(scene_node_t* node);
-    void remove_child(scene_node_t* node);
+    auto add_child(scene_node_t *node) -> void;
+    auto remove_child(scene_node_t *node) -> void;
 
-    void set_aabb(const bounding_box_t& aabb);
+    auto set_aabb(const bounding_box_t &aabb) -> void;
 
 private:
-    std::vector<scene_node_t*> m_children {};
-    bounding_box_t m_aabb {};
-    scene_node_t* m_parent {};
-    transform_t* m_transform {};
+    std::vector<scene_node_t *> m_children{};
+    bounding_box_t              m_aabb{};
+    scene_node_t *              m_parent{};
+    transform_t *               m_transform{};
     // transform cache
-    mutable math::mat4_t m_transform_matrix {};
-    mutable bool m_dirty { true };
+    mutable math::mat4_t m_transform_matrix{};
+    mutable bool         m_dirty{true};
 };
 } // namespace aech::graphics

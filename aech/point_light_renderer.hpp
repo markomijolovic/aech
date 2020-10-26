@@ -7,11 +7,11 @@
 namespace aech::graphics {
 class point_light_renderer_t : public ecs::system_t {
 public:
-    point_light_renderer_t(render_cache_t* render_cache, camera_t* camera);
-    void update();
+    point_light_renderer_t(render_cache_t *render_cache, camera_t *camera);
+    auto update() -> void;
 
 private:
-    camera_t* m_camera {};
-    render_cache_t* m_render_cache {};
+    camera_t *      m_camera{};
+    render_cache_t *m_render_cache{};
 };
 } // namespace aech::graphics

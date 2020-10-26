@@ -4,16 +4,6 @@
 #include <cstdint>
 
 namespace aech {
-using std::int16_t;
-using std::int32_t;
-using std::int64_t;
-using std::int8_t;
-
-using std::uint16_t;
-using std::uint32_t;
-using std::uint64_t;
-using std::uint8_t;
-
 // entity is just an ID
 using entity_t = std::uint32_t;
 
@@ -46,23 +36,23 @@ enum class input_buttons {
     o
 };
 
-constexpr uint32_t fnv1a_32(const char* s, std::size_t count)
+constexpr auto fnv1a_32(const char *s, std::size_t count) -> std::uint32_t
 {
-    return static_cast<uint32_t>(((count != 0U ? fnv1a_32(s, count - 1) : 2166136261U) ^ s[count]) * 16777619ULL);
+    return static_cast<std::uint32_t>(((count != 0U ? fnv1a_32(s, count - 1) : 2166136261U) ^ s[count]) * 16777619ULL);
 }
 
-constexpr uint32_t operator""_hash(const char* s, std::size_t count)
+constexpr auto operator""_hash(const char *s, std::size_t count) -> std::uint32_t
 {
     return fnv1a_32(s, count);
 }
 
 namespace events::window {
-    constexpr event_id_t keyboard = "Events::Window::KEYBOARD"_hash;
-    constexpr event_id_t mouse = "Events::Window::MOUSE"_hash;
+constexpr event_id_t keyboard = "Events::Window::KEYBOARD"_hash;
+constexpr event_id_t mouse    = "Events::Window::MOUSE"_hash;
 } // namespace events::window
 
 namespace events::window::params {
-    constexpr param_id_t keyboard = "Events::Window::Params::KEYBOARD"_hash;
-    constexpr param_id_t mouse { "Events::Window::Params::MOUSE"_hash };
+constexpr param_id_t keyboard = "Events::Window::Params::KEYBOARD"_hash;
+constexpr param_id_t mouse{"Events::Window::Params::MOUSE"_hash};
 } // namespace events::window::params
 } // namespace aech

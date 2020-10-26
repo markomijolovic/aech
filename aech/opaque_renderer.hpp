@@ -11,21 +11,20 @@
 namespace aech::graphics {
 class opaque_renderer_t : public ecs::system_t {
 public:
-    opaque_renderer_t(render_cache_t* render_cache, camera_t* camera);
+    opaque_renderer_t(render_cache_t *render_cache, camera_t *camera);
 
-    void update();
-    void setup_g_buffer() const;
-    void draw_entity(entity_t entity) const;
-    void draw_skybox() const;
-    [[nodiscard]] framebuffer_t* render_target() const;
+    auto               update() -> void;
+    auto               setup_g_buffer() const -> void;
+    auto               draw_entity(entity_t entity) const -> void;
+    auto               draw_skybox() const -> void;
+    [[nodiscard]] auto render_target() const -> framebuffer_t *;
 
 private:
-    camera_t* m_camera {};
-    framebuffer_t* m_render_target = &framebuffers["g_buffer"];
-    mesh_filter_t m_skybox_mf = mesh_filter_t {
+    camera_t *     m_camera{};
+    framebuffer_t *m_render_target = &framebuffers["g_buffer"];
+    mesh_filter_t  m_skybox_mf     = mesh_filter_t{
         mesh_library::default_meshes["cube"].get(),
-        &material_library::default_materials["skybox"]
-    };
-    render_cache_t* m_render_cache {};
+        &material_library::default_materials["skybox"]};
+    render_cache_t *m_render_cache{};
 };
 } // namespace aech::graphics

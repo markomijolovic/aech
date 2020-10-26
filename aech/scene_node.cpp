@@ -1,79 +1,80 @@
 #include "scene_node.hpp"
+
 #include "main.hpp"
 #include "mat.hpp"
 #include "transform.hpp"
 
 namespace aech::graphics {
-scene_node_t::scene_node_t(transform_t* transform, scene_node_t* parent)
-    : m_parent { parent }
-    , m_transform { transform }
+scene_node_t::scene_node_t(transform_t *transform, scene_node_t *parent)
+    : m_parent{parent}
+    , m_transform{transform}
 {
 }
 
-void scene_node_t::set_position(const math::vec3_t& position)
+auto scene_node_t::set_position(const math::vec3_t &position) -> void
 {
     m_transform->position = position;
-    m_dirty = true;
-    for (auto& child : m_children) {
+    m_dirty               = true;
+    for (auto &child: m_children) {
         child->parent_changed();
     }
 }
 
-void scene_node_t::parent_changed() const
+auto scene_node_t::parent_changed() const -> void
 {
     m_dirty = true;
-    for (const auto& child : m_children) {
+    for (const auto &child: m_children) {
         child->parent_changed();
     }
 }
 
-void scene_node_t::move(const math::vec3_t& offset) const
+auto scene_node_t::move(const math::vec3_t &offset) const -> void
 {
     m_transform->position += offset;
     m_dirty = true;
 }
 
-void scene_node_t::set_rotation(const math::vec3_t& rotation) const
+auto scene_node_t::set_rotation(const math::vec3_t &rotation) const -> void
 {
     m_transform->rotation = rotation;
-    m_dirty = true;
+    m_dirty               = true;
 }
 
-void scene_node_t::set_scale(const math::vec3_t& scale) const
+auto scene_node_t::set_scale(const math::vec3_t &scale) const -> void
 {
     m_transform->scale = scale;
-    m_dirty = true;
+    m_dirty            = true;
 }
 
-void scene_node_t::set_scale(float scale) const
+auto scene_node_t::set_scale(float scale) const -> void
 {
-    m_transform->scale = { scale, scale, scale };
-    m_dirty = true;
+    m_transform->scale = {scale, scale, scale};
+    m_dirty            = true;
 }
 
-math::vec3_t scene_node_t::get_local_position() const
+auto scene_node_t::get_local_position() const -> math::vec3_t
 {
     return m_transform->position;
 }
 
-math::vec3_t scene_node_t::get_local_scale() const
+auto scene_node_t::get_local_scale() const -> math::vec3_t
 {
     return m_transform->scale;
 }
 
-math::vec3_t scene_node_t::get_local_rotation() const
+auto scene_node_t::get_local_rotation() const -> math::vec3_t
 {
     return m_transform->rotation;
 }
 
-math::vec3_t scene_node_t::get_world_position() const
+auto scene_node_t::get_world_position() const -> math::vec3_t
 {
     const auto transform_matrix = get_transform();
-    const auto pos = transform_matrix * math::vec4_t { m_transform->position, 1.0F };
-    return math::vec3_t { pos };
+    const auto pos              = transform_matrix * math::vec4_t{m_transform->position, 1.0F};
+    return math::vec3_t{pos};
 }
 
-math::mat4_t scene_node_t::get_transform() const
+auto scene_node_t::get_transform() const -> math::mat4_t
 {
     if (!m_dirty) {
         return m_transform_matrix;
@@ -90,24 +91,23 @@ math::mat4_t scene_node_t::get_transform() const
     return m_transform_matrix;
 }
 
-math::vec3_t scene_node_t::get_world_scale() const
+auto scene_node_t::get_world_scale() const -> math::vec3_t
 {
     auto transform = get_transform();
-    return { transform[0][0], transform[1][1], transform[2][2] };
+    return {transform[0][0], transform[1][1], transform[2][2]};
 }
 
-bounding_box_t scene_node_t::bounding_box() const
+auto scene_node_t::bounding_box() const -> bounding_box_t
 {
     // TODO(Marko): how to transform aabb?
 
     const auto transform_matrix = get_transform();
     return {
         transform_matrix * m_aabb.min_coords,
-        transform_matrix * m_aabb.max_coords
-    };
+        transform_matrix * m_aabb.max_coords};
 }
 
-void scene_node_t::add_child(scene_node_t* node)
+auto scene_node_t::add_child(scene_node_t *node) -> void
 {
     if (node->m_parent != nullptr) {
         node->m_parent->remove_child(node);
@@ -116,7 +116,7 @@ void scene_node_t::add_child(scene_node_t* node)
     m_children.push_back(node);
 }
 
-void scene_node_t::remove_child(scene_node_t* node)
+auto scene_node_t::remove_child(scene_node_t *node) -> void
 {
     const auto it = std::find(std::begin(m_children), std::end(m_children), node);
     if (it != std::end(m_children)) {
@@ -124,7 +124,7 @@ void scene_node_t::remove_child(scene_node_t* node)
     }
 }
 
-void scene_node_t::set_aabb(const bounding_box_t& aabb)
+auto scene_node_t::set_aabb(const bounding_box_t &aabb) -> void
 {
     m_aabb = aabb;
 }

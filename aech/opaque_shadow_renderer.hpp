@@ -11,14 +11,14 @@
 namespace aech::graphics {
 class opaque_shadow_renderer_t : public ecs::system_t {
 public:
-    opaque_shadow_renderer_t(render_cache_t* render_cache, directional_light_t* dirlight);
-    void update();
-    [[nodiscard]] framebuffer_t* render_target() const;
+    opaque_shadow_renderer_t(render_cache_t *render_cache, directional_light_t *dirlight);
+    auto               update() -> void;
+    [[nodiscard]] auto render_target() const -> framebuffer_t *;
 
 private:
-    directional_light_t* m_dirlight {};
-    render_cache_t* m_render_cache {};
-    framebuffer_t* m_render_target = &framebuffers["shadow_map"];
-    material_t* m_material = &material_library::default_materials["opaque_shadow"];
+    directional_light_t *m_dirlight{};
+    render_cache_t *     m_render_cache{};
+    framebuffer_t *      m_render_target = &framebuffers["shadow_map"];
+    material_t *         m_material      = &material_library::default_materials["opaque_shadow"];
 };
 } // namespace aech::graphics

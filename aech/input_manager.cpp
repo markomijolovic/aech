@@ -1,13 +1,15 @@
 #include "input_manager.hpp"
+
 #include "main.hpp"
+
 #include <functional>
 
-void aech::input_manager_t::update(float dt)
+auto aech::input_manager_t::update(float dt) -> void
 {
-    if (!m_holding_o && m_buttons.test(static_cast<size_t>(input_buttons::o))) {
+    if (!m_holding_o && m_buttons.test(static_cast<std::size_t>(input_buttons::o))) {
         graphics::renderer.set_options(!graphics::renderer.options());
         m_holding_o = true;
-    } else if (!m_buttons.test(static_cast<size_t>(input_buttons::o))) {
+    } else if (!m_buttons.test(static_cast<std::size_t>(input_buttons::o))) {
         m_holding_o = false;
     }
 
@@ -15,30 +17,30 @@ void aech::input_manager_t::update(float dt)
         return;
     }
 
-    auto view_matrix = m_camera->view_matrix();
-    const auto right = math::vec3_t { view_matrix[0][0], view_matrix[0][1], view_matrix[0][2] };
-    const auto up = math::vec3_t { view_matrix[1][0], view_matrix[1][1], view_matrix[1][2] };
-    const auto forward = math::vec3_t { -view_matrix[2][0], -view_matrix[2][1], -view_matrix[2][2] };
+    auto       view_matrix = m_camera->view_matrix();
+    const auto right       = math::vec3_t{view_matrix[0][0], view_matrix[0][1], view_matrix[0][2]};
+    const auto up          = math::vec3_t{view_matrix[1][0], view_matrix[1][1], view_matrix[1][2]};
+    const auto forward     = math::vec3_t{-view_matrix[2][0], -view_matrix[2][1], -view_matrix[2][2]};
 
-    math::vec3_t trans {};
-    if (m_buttons.test(static_cast<size_t>(input_buttons::w))) {
+    math::vec3_t trans{};
+    if (m_buttons.test(static_cast<std::size_t>(input_buttons::w))) {
         trans += forward * dt * m_movement_speed;
     }
-    if (m_buttons.test(static_cast<size_t>(input_buttons::s))) {
+    if (m_buttons.test(static_cast<std::size_t>(input_buttons::s))) {
         trans -= forward * dt * m_movement_speed;
     }
 
-    if (m_buttons.test(static_cast<size_t>(input_buttons::q))) {
+    if (m_buttons.test(static_cast<std::size_t>(input_buttons::q))) {
         trans += up * dt * m_movement_speed;
     }
-    if (m_buttons.test(static_cast<size_t>(input_buttons::e))) {
+    if (m_buttons.test(static_cast<std::size_t>(input_buttons::e))) {
         trans -= up * dt * m_movement_speed;
     }
 
-    if (m_buttons.test(static_cast<size_t>(input_buttons::a))) {
+    if (m_buttons.test(static_cast<std::size_t>(input_buttons::a))) {
         trans -= right * dt * m_movement_speed;
     }
-    if (m_buttons.test(static_cast<size_t>(input_buttons::d))) {
+    if (m_buttons.test(static_cast<std::size_t>(input_buttons::d))) {
         trans += right * dt * m_movement_speed;
     }
     m_camera->translate(trans);
@@ -63,17 +65,17 @@ aech::input_manager_t::input_manager_t()
     engine.add_event_listener(events::window::keyboard, kl);
 }
 
-void aech::input_manager_t::mouse_listener(events::event_t& event)
+auto aech::input_manager_t::mouse_listener(events::event_t &event) -> void
 {
     m_offset = event.get_param<std::pair<float, float>>(events::window::params::mouse);
 }
 
-void aech::input_manager_t::keyboard_listener(events::event_t& event)
+auto aech::input_manager_t::keyboard_listener(events::event_t &event) -> void
 {
     m_buttons = event.get_param<std::bitset<32>>(events::window::params::keyboard);
 }
 
-void aech::input_manager_t::set_camera(camera_t* camera)
+auto aech::input_manager_t::set_camera(camera_t *camera) -> void
 {
     m_camera = camera;
 }

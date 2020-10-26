@@ -6,21 +6,21 @@ aech::graphics::framebuffer_cube_t::~framebuffer_cube_t() noexcept
     glDeleteFramebuffers(1, &id);
 }
 
-aech::graphics::framebuffer_cube_t& aech::graphics::framebuffer_cube_t::operator=(framebuffer_cube_t&& rhs) noexcept
+auto aech::graphics::framebuffer_cube_t::operator=(framebuffer_cube_t &&rhs) noexcept -> aech::graphics::framebuffer_cube_t &
 {
     std::swap(rbo_id, rhs.rbo_id);
     std::swap(id, rhs.id);
-    m_width = rhs.m_width;
-    m_height = rhs.m_height;
+    m_width   = rhs.m_width;
+    m_height  = rhs.m_height;
     m_texture = rhs.m_texture;
 
     return *this;
 }
 
-aech::graphics::framebuffer_cube_t::framebuffer_cube_t(texture_cube_t* texture, uint32_t width, uint32_t height)
-    : m_texture { texture }
-    , m_width { width }
-    , m_height { height }
+aech::graphics::framebuffer_cube_t::framebuffer_cube_t(texture_cube_t *texture, std::uint32_t width, std::uint32_t height)
+    : m_texture{texture}
+    , m_width{width}
+    , m_height{height}
 {
     glGenFramebuffers(1, &id);
     glGenRenderbuffers(1, &rbo_id);
@@ -30,36 +30,36 @@ aech::graphics::framebuffer_cube_t::framebuffer_cube_t(texture_cube_t* texture, 
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rbo_id);
 }
 
-void aech::graphics::framebuffer_cube_t::attach(uint32_t i, uint32_t miplevel) const
+auto aech::graphics::framebuffer_cube_t::attach(std::uint32_t i, std::uint32_t miplevel) const -> void
 {
     glFramebufferTexture2D(GL_FRAMEBUFFER,
-        GL_COLOR_ATTACHMENT0,
-        GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
-        m_texture->id(),
-        miplevel);
+                           GL_COLOR_ATTACHMENT0,
+                           GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
+                           m_texture->id(),
+                           miplevel);
 }
 
-void aech::graphics::framebuffer_cube_t::bind() const
+auto aech::graphics::framebuffer_cube_t::bind() const -> void
 {
     glBindFramebuffer(GL_FRAMEBUFFER, id);
 }
 
-aech::graphics::texture_cube_t* aech::graphics::framebuffer_cube_t::texture() const
+auto aech::graphics::framebuffer_cube_t::texture() const -> aech::graphics::texture_cube_t *
 {
     return m_texture;
 }
 
-void aech::graphics::framebuffer_cube_t::unbind()
+auto aech::graphics::framebuffer_cube_t::unbind() -> void
 {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-uint32_t aech::graphics::framebuffer_cube_t::width() const
+auto aech::graphics::framebuffer_cube_t::width() const -> std::uint32_t
 {
     return m_width;
 }
 
-uint32_t aech::graphics::framebuffer_cube_t::height() const
+auto aech::graphics::framebuffer_cube_t::height() const -> std::uint32_t
 {
     return m_height;
 }

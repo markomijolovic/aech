@@ -1,3 +1,9 @@
+# Update 26.10.2020.
+Most of the code was written last year so there's a lot of refactoring to be done (I will hopefully have some time for this during the next semester). 
+Nonetheless, here are some current screenshots of the renderer.
+![sponza1](/images/sponza1.png)
+![sponza2](/images/sponza2.png)
+
 # Aech
 Aech is a game engine that I am developing in my spare time to gain a deeper understanding of everything involved in making a AAA video game.
 The emphasis is on the 3D graphics subsystem as that is of my primary interest, however, the idea is to develop all the subsystems needed to create a modern video game, even though they won't be of high quality necessarily.
