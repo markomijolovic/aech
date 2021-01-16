@@ -55,9 +55,9 @@ float trilinear(vec3 p, vec3 x)
 {
 	float weight = 1;
 
-	weight *= (max(0, 1 - abs(p.x - x.x) / 2));
-	weight *= (max(0, 1 - abs(p.y - x.y) / 2));
-	weight *= (max(0, 1 - abs(p.z - x.z) / 2));
+	weight *= (max(0, 1 - abs(p.x - x.x) / 4.5));
+	weight *= (max(0, 1 - abs(p.y - x.y) / 4.5));
+	weight *= (max(0, 1 - abs(p.z - x.z) / 4.5));
 
 	return weight;
 }
@@ -82,10 +82,10 @@ void main()
 
 	vec3 dir = normalize(probe_position - world_position);
 
-	float weight = 1;
+	float weight = 0.33;
 	if (dot_product_weight)
 	{
-		weight = (dot(dir, normal) + 1) * 0.5;
+		weight *= (dot(dir, normal) + 1) * 0.5;
 	}
 	weight *= trilinear(probe_position, world_position);
 

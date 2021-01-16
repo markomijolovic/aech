@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <glad/glad.h>
 #include <ostream>
+#include <cmath>
 
 namespace aech::graphics {
 texture_cube_t::texture_cube_t(std::uint32_t                             width,

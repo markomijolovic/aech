@@ -5,7 +5,7 @@
 #include "imgui_impl_opengl3.h"
 #include "main.hpp"
 
-#include <GLFW\glfw3.h>
+#include <GLFW/glfw3.h>
 #include <chrono>
 
 static auto key_callback(GLFWwindow *window, int key, int scan_code, int action, int mode) -> void;

@@ -2,6 +2,7 @@
 
 #include <any>
 #include <unordered_map>
+#include <string>
 
 namespace aech::graphics {
 class texture_t;

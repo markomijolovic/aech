@@ -1,6 +1,7 @@
 #include "texture.hpp"
 #include <algorithm>
 #include <iostream>
+#include <cmath>
 
 namespace aech::graphics {
 texture_t::texture_t(std::uint32_t width,

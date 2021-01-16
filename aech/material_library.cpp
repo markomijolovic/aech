@@ -12,20 +12,20 @@ auto aech::graphics::material_library::generate_default_materials() -> void
     default_materials["default"] = {default_shader};
     default_materials["default"].set_texture("texture_albedo",
                                              resource_manager::load_texture("checkerboard.png",
-                                                                            "textures_pbr/default/checkerboard.png"),
+                                                                            "resources/default/checkerboard.png"),
                                              0);
     default_materials["default"].set_texture("texture_normal",
                                              resource_manager::load_texture("norm.png",
-                                                                            "textures_pbr/default/norm.png",
+                                                                            "resources/default/norm.png",
                                                                             false),
                                              1);
     default_materials["default"].set_texture("texture_metallic",
                                              resource_manager::load_texture("black.png",
-                                                                            "textures_pbr/default/black.png"),
+                                                                            "resources/default/black.png"),
                                              2);
     default_materials["default"].set_texture("texture_roughness",
                                              resource_manager::load_texture("checkerboard.png",
-                                                                            "textures_pbr/default/checkerboard.png"),
+                                                                            "resources/default/checkerboard.png"),
                                              3);
 
     const auto basic_shader = &resource_manager::load_shader("basic",

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "vec.hpp"
+#include <cmath>
 
 namespace aech::math {
 // returns the dot product of the given two vectors

@@ -2,6 +2,7 @@
 
 #include <bitset>
 #include <cstdint>
+#include <limits>
 
 namespace aech {
 // entity is just an ID

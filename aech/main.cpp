@@ -17,7 +17,7 @@ auto main() -> int
     engine.init();
     renderer.init();
 
-    const auto root_node  = resource_manager::load_mesh("textures_pbr/sponza.obj");
+    const auto root_node  = resource_manager::load_mesh("resources/sponza.obj");
     const auto scene_node = engine.get_component<scene_node_t>(root_node);
     scene_node.set_scale(0.01F);
     renderer.bake_probes();
