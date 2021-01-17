@@ -43,7 +43,7 @@ auto aech::graphics::transparent_renderer_t::update() const -> void
     glDrawBuffers(4, &attachments[0]);
 
     // sort back to front (roughly)
-    std::set<entity_t, decltype(&renderer_t::sort_back_to_front)> entities{
+    std::set<entity_t, decltype(&renderer_t::sort_back_to_front)> entities_sorted{
         &renderer_t::
             sort_back_to_front};
     for (auto entity: entities) {
@@ -51,10 +51,10 @@ auto aech::graphics::transparent_renderer_t::update() const -> void
         if (!m_camera->sees(scene_node)) {
             continue; // view frustum culling
         }
-        entities.insert(entity);
+        entities_sorted.insert(entity);
     }
 
-    for (auto entity: entities) {
+    for (auto entity: entities_sorted) {
         auto       view        = math::get_view_matrix(*m_camera->transform());
         auto &     scene_node  = engine.get_component<scene_node_t>(entity);
         auto &     mesh_filter = engine.get_component<mesh_filter_t>(entity);
