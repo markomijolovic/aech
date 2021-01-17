@@ -96,7 +96,7 @@ void main()
 	vec3 specular = prefiltered * (f * brdf.x + brdf.y);
 
 	//vec3 colour = attenuation * specular;
-	vec3 colour = specular;
+	vec3 colour = 0.33*specular;
 	// TODO: specular occlusion
 	if (ssao) colour *= texture(texture_ssao, uv).r;
 	fragment_colour = vec4(colour, 1.0);

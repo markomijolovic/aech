@@ -15,6 +15,7 @@ find_path(STB_INCLUDE_DIRS "stb.h")
 
 add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
 
+set_property(TARGET aech PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/")
 target_include_directories(aech PRIVATE ${STB_INCLUDE_DIRS})
 target_link_libraries(aech PRIVATE glfw)
 target_link_libraries(aech PRIVATE glad::glad)

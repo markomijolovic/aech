@@ -19,7 +19,8 @@ vec3 aces(const vec3 x) {
 void main()
 {
 	vec3 colour = texture(tex, uvs).rgb;
-	colour = aces(colour);
+	//colour = aces(colour);
+	colour = colour/(vec3(1)+colour);
 
 	// convert linear to sRGB
 

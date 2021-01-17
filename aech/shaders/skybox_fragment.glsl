@@ -8,5 +8,6 @@ uniform samplerCube skybox;
 
 void main()
 {
-	fragment_colour = texture(skybox, world_position);	
+	fragment_colour=vec4(0.6,0.6,0.6,1);
+	//fragment_colour = texture(skybox, world_position);	
 }

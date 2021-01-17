@@ -179,17 +179,17 @@ auto renderer_t::init() -> void
     m_ssao_shader->set_uniform("texture_position", m_opaque_renderer->render_target()->colour_attachments()[0]);
     m_ssao_shader->set_uniform("texture_normal", m_opaque_renderer->render_target()->colour_attachments()[1]);
 
-    for (float x = -12; x <= 11; x += 4.5) {
-        for (float y = 2.75; y <= 13; y += 4.5) {
-            for (float z = -5; z <= 5; z += 4.5) {
+    for (float x = -13.5; x <= 14; x += 4.2) {
+        for (float y = -2.5; y <= 15; y += 4.2) {
+            for (float z = -4.6; z <= 5.5; z += 4.2) {
                 const auto probe1 = engine.create_entity();
-                engine.add_component(probe1, transform_t{{x, y, z}, {}, {9, 9, 9}});
+                engine.add_component(probe1, transform_t{{x, y, z}, {}, {8.4, 8.4, 8.4}});
                 engine.add_component(probe1, scene_node_t{&engine.get_component<transform_t>(probe1)});
                 engine.add_component(probe1,
                                      light_probe_t{
                                          {x, y, z},
-                                         5,
-                                         5,
+                                         4,
+                                         4,
                                          &engine.get_component<scene_node_t>(probe1)});
                 engine.get_component<scene_node_t>(probe1).set_aabb(mesh_library::default_meshes["cube"].get()->calculate_aabb());
                 gi_renderer->add_probe(engine.get_component<light_probe_t>(probe1));

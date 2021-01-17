@@ -83,14 +83,14 @@ auto aech::graphics::gi_renderer_t::bake_probes() -> void
     for (std::size_t i{}; i < m_light_probes.size(); i++) {
         std::clog << std::setw(6) << std::fixed << std::setprecision(2) << static_cast<float>(i) / m_light_probes.size() * 100 << "%" << std::endl;
         const auto pos = m_light_probes[i].position();
-        create_radiance_cubemap(pos, i + m_reflection_probes.size());
-        create_irradiance_cubemap(i);
+        create_radiance_cubemap(pos, i + m_reflection_probes.size(),32,32);
+        create_irradiance_cubemap(i,32,32);
     }
 
     std::clog << "100.00%" << std::endl;
 }
 
-auto aech::graphics::gi_renderer_t::create_radiance_cubemap(math::vec3_t position, std::size_t probe_index) -> void
+auto aech::graphics::gi_renderer_t::create_radiance_cubemap(math::vec3_t position, std::size_t probe_index, std::uint32_t width, std::uint32_t height) -> void
 {
     const static auto capture_projection = math::perspective(90, 1, 0.01F, 1000.0F);
     m_render_cache->set_depth_test(true);
@@ -107,13 +107,13 @@ auto aech::graphics::gi_renderer_t::create_radiance_cubemap(math::vec3_t positio
 
     const auto tex = &resource_manager::texture_cubes["radiance" + std::to_string(probe_index)];
     *tex           = texture_cube_t{
-        1024,
-        1024,
+        width,
+        height,
         texture_types::sized_internal_format::rgb16f,
         texture_types::format::rgb,
         texture_types::type::floating_point};
 
-    const framebuffer_cube_t fbo{tex, 1024, 1024};
+    const framebuffer_cube_t fbo{tex, width, height};
     fbo.bind();
     m_render_cache->set_viewport(0, 0, fbo.width(), fbo.height());
 
@@ -181,31 +181,31 @@ auto aech::graphics::gi_renderer_t::create_radiance_cubemap(math::vec3_t positio
     framebuffer_cube_t::unbind();
 }
 
-auto aech::graphics::gi_renderer_t::create_preprocessed_environment_map(std::size_t probe_index) -> void
+auto aech::graphics::gi_renderer_t::create_preprocessed_environment_map(std::size_t probe_index, std::uint32_t width, std::uint32_t height) -> void
 {
     m_render_cache->set_cull(false);
     auto &probe = m_reflection_probes[probe_index];
 
     const auto prefiltered = &resource_manager::texture_cubes["prefiltered" + std::to_string(probe_index)];
     *prefiltered           = texture_cube_t{
-        128,
-        128,
+        width,
+        height,
         texture_types::sized_internal_format::rgb16f,
         texture_types::format::rgb,
         texture_types::type::floating_point};
     probe.set_prefiltered(prefiltered);
 
-    const framebuffer_cube_t prefilter_fbo{probe.prefiltered(), 128, 128};
+    const framebuffer_cube_t prefilter_fbo{probe.prefiltered(), width, height};
     prefilter_fbo.bind();
     m_render_cache->set_shader(m_prefilter_material->shader());
     m_prefilter_material->set_texture_cube("environment_map",
                                            &resource_manager::texture_cubes["radiance" + std::to_string(probe_index)],
                                            0);
     m_prefilter_material->set_uniform("projection", capture_projection);
-    const auto levels = static_cast<std::uint32_t>(floor(log2(128)) + 1);
+    const auto levels = static_cast<std::uint32_t>(floor(log2(width)) + 1);
 
     for (std::uint32_t mip = 0; mip < levels; mip++) {
-        const auto width  = static_cast<std::uint32_t>(128 * std::pow(0.5, mip));
+        const auto width  = static_cast<std::uint32_t>(height * std::pow(0.5, mip));
         const auto height = width;
         m_render_cache->set_viewport(0, 0, width, height);
 
@@ -225,15 +225,15 @@ auto aech::graphics::gi_renderer_t::create_preprocessed_environment_map(std::siz
     resource_manager::texture_cubes.erase("radiance" + std::to_string(probe_index));
 }
 
-auto aech::graphics::gi_renderer_t::create_irradiance_cubemap(std::size_t probe_index) -> void
+auto aech::graphics::gi_renderer_t::create_irradiance_cubemap(std::size_t probe_index, std::uint32_t width, std::uint32_t height) -> void
 {
     m_render_cache->set_cull(false);
     auto &probe = m_light_probes[probe_index];
 
     const auto irradiance = &resource_manager::texture_cubes["irradiance" + std::to_string(probe_index)];
     *irradiance           = texture_cube_t{
-        32,
-        32,
+        width,
+        height,
         texture_types::sized_internal_format::rgb16f,
         texture_types::format::rgb,
         texture_types::type::floating_point};
@@ -244,7 +244,7 @@ auto aech::graphics::gi_renderer_t::create_irradiance_cubemap(std::size_t probe_
                                                     &resource_manager::texture_cubes["radiance" + std::to_string(probe_index + m_reflection_probes.size())],
                                                     0);
 
-    const framebuffer_cube_t fbo{probe.irradiance(), 32, 32};
+    const framebuffer_cube_t fbo{probe.irradiance(), width, height};
     fbo.bind();
     m_render_cache->set_viewport(0, 0, fbo.width(), fbo.height());
     for (std::uint32_t i = 0; i < 6; i++) {

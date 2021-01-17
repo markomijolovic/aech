@@ -20,8 +20,8 @@ class gi_renderer_t : public ecs::system_t {
 public:
     gi_renderer_t(render_cache_t *render_cache, camera_t *camera);
 
-    auto create_preprocessed_environment_map(std::size_t probe_index) -> void;
-    auto create_irradiance_cubemap(std::size_t probe_index) -> void;
+    auto create_preprocessed_environment_map(std::size_t probe_index, std::uint32_t width = 128, std::uint32_t height = 128) -> void;
+    auto create_irradiance_cubemap(std::size_t probe_index, std::uint32_t width = 32, std::uint32_t height = 32) -> void;
 
     auto bake_probes() -> void;
     auto render_ambient_pass() -> void;
@@ -78,7 +78,7 @@ private:
         look_at({}, math::vec3_t{0, 0, 1}, {0, -1, 0}),
         look_at({}, math::vec3_t{0, 0, -1}, {0, -1, 0})};
 
-    void create_radiance_cubemap(math::vec3_t position, std::size_t probe_index);
+    void create_radiance_cubemap(math::vec3_t position, std::size_t probe_index, std::uint32_t width = 1024, std::uint32_t height = 1024);
 
     void process_radiance_map(std::size_t probe_index);
 };
