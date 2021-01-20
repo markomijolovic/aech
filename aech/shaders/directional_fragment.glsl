@@ -82,10 +82,10 @@ float shadow(vec3 position, float cosangle) {
 	vec2 texel_size = 1.0 / textureSize(light_shadow_map, 0);
 
 	// sample the shadow map 16 times
-	for (int i = 0; i < 4; i++) 
+	for (int i = 0; i < 16; i++)
 	{
 		int index = int(16.0*random(floor(position * 1000.0), i)) %16;
-		visibility -= 0.25*(1.0-texture( light_shadow_map, vec3(shadow_coords.xy + poisson_disk[index]*poisson_sampling_distance_multiplier*texel_size,  shadow_coords.z-bias )));
+		visibility -= (1.0/16.0)*(1.0-texture( light_shadow_map, vec3(shadow_coords.xy + poisson_disk[index]*poisson_sampling_distance_multiplier*texel_size,  shadow_coords.z-bias )));
 	}
 
 	return visibility;

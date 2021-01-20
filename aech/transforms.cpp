@@ -63,9 +63,11 @@ auto get_view_matrix(const transform_t &transform) -> mat4_t
 {
     mat4_t mat_pitch{};
     mat4_t mat_yaw{};
+    mat4_t mat_roll{};
     mat_pitch         = rotate(radians(-transform.rotation.x), {1, 0, 0});
     mat_yaw           = rotate(radians(-transform.rotation.y), {0, 1, 0});
-    const auto rotate = mat_pitch * mat_yaw;
+    mat_roll          = rotate(radians(-transform.rotation.z), {0, 0, 1});
+    const auto rotate = mat_pitch * mat_yaw * mat_roll;
     const auto trans  = translate(-transform.position.x, -transform.position.y, -transform.position.z);
     return rotate * trans;
 }

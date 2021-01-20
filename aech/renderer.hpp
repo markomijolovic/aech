@@ -56,9 +56,9 @@ private:
     shader_t *                                     m_specular_prefilter_shader{};
     shader_t *                                     m_post_process_shader{};
     shader_t *                                     m_tonemap_shader{};
-
-    shader_t *m_ssao_shader{};
-    shader_t *m_ssao_blur_shader{};
+    shader_t *                                     m_ssao_shader{};
+    shader_t *                                     m_ssao_blur_shader{};
+    transform_t *                                  m_dirlight_transform{};
 
     std::unique_ptr<texture_t> m_ssao_noise_texture{};
     std::vector<math::vec3_t>  m_ssao_kernel{};

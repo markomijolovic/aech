@@ -50,10 +50,11 @@ auto renderer_t::init() -> void
     m_post_process_shader = &resource_manager::shaders["post_process"];
 
     const auto dirlight = engine.create_entity();
-    engine.add_component(dirlight, transform_t{{0, 17.50, 0}, {-75, 10, -10}});
+    engine.add_component(dirlight, transform_t{{0, 17.50, 0}, {-100,38,-5}});
     engine.add_component(dirlight, directional_light_t{{1, 1, 1}, 5, &engine.get_component<transform_t>(dirlight)});
 
     auto dir = &engine.get_component<directional_light_t>(dirlight);
+    m_dirlight_transform=&engine.get_component<transform_t>(dirlight);
 
     const auto m_camera_entity = engine.create_entity();
     engine.add_component(m_camera_entity, transform_t{{0.0F, 0.0F, 0.0F}});
@@ -443,6 +444,9 @@ auto renderer_t::render_gui() -> void
 
         ImGui::Checkbox("ssao", &m_ssao);
         ImGui::SliderFloat("ssao hemisphere radius", &m_ssao_hemisphere_sampling_radius, 0.0F, 100.0F, "%.3f");
+
+        ImGui::SliderFloat3("sun rotation", &m_dirlight_transform->rotation[0], -180.0F,180.0F);
+        ImGui::NewLine();
 
         ImGui::End();
     }

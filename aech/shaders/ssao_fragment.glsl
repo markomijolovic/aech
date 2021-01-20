@@ -47,7 +47,6 @@ void main()
 		float _sample_depth = view_pos.z; // deptih in view space
 		
 		float range_check = smoothstep(0.0F, 1.0F, radius/ abs(view_pos.z - _sample_depth));
-		// maybe add bias?
 		occlusion += (_sample_depth >= _sample.z ? 1.0F:0.0F) * range_check;
 	}
 
