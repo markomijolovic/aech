@@ -18,20 +18,20 @@ uniform sampler2D texture_roughness;
 
 vec3 get_normal()
 {
-	mat3 tbn = mat3(tangent,bitangent, normal);
-	vec3 n = texture(texture_normal, uvs).rgb;
-	n = normalize(n * 2.0 - 1.0);
-	return normalize(tbn * n);
+    mat3 tbn = mat3(tangent, bitangent, normal);
+    vec3 n = texture(texture_normal, uvs).rgb;
+    n = normalize(n * 2.0 - 1.0);
+    return normalize(tbn * n);
 }
 
 void main()
 {
-	position = vec4(fragment_world_position, 1.0);
-	normal_out = vec4(get_normal(), 1.0);
-	albedo = texture(texture_albedo, uvs);
-	if (albedo.a < 0.5) discard;
-	//albedo = vec4(pow(texture(texture_albedo, uvs).rgb, vec3(2.2)), 1.0);
+    position = vec4(fragment_world_position, 1.0);
+    normal_out = vec4(get_normal(), 1.0);
+    albedo = texture(texture_albedo, uvs);
+    if (albedo.a < 0.5) discard;
+    //albedo = vec4(pow(texture(texture_albedo, uvs).rgb, vec3(2.2)), 1.0);
 
-	metallic_roughness_ao.r = texture(texture_metallic, uvs).r;
-	metallic_roughness_ao.g = texture(texture_roughness, uvs).r;
+    metallic_roughness_ao.r = texture(texture_metallic, uvs).r;
+    metallic_roughness_ao.g = texture(texture_roughness, uvs).r;
 }

@@ -14,9 +14,9 @@ uniform mat4 model;
 
 void main()
 {
-	uvs = in_uvs;
-	normal = vec3(transpose(inverse(model)) * vec4(normal, 0.0));
-	fragment_position = vec3(model * vec4(position, 1.0));
+    uvs = in_uvs;
+    normal = vec3(transpose(inverse(model)) * vec4(normal, 0.0));
+    fragment_position = vec3(model * vec4(position, 1.0));
 
-	gl_Position = projection * view * vec4(fragment_position, 1.0);
+    gl_Position = projection * view * vec4(fragment_position, 1.0);
 }

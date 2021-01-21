@@ -9,8 +9,8 @@ uniform mat4 view;
 
 void main()
 {
-	fragment_position = position;
-	vec4 clip_position = projection * mat4(mat3(view)) * vec4(position, 1.0);
+    fragment_position = position;
+    vec4 clip_position = projection * mat4(mat3(view)) * vec4(position, 1.0);
 
-	gl_Position = clip_position.xyww;
+    gl_Position = clip_position.xyww;
 }

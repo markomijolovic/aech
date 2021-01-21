@@ -9,9 +9,9 @@ out vec3 world_position;
 
 void main()
 {
-	world_position = position;
+    world_position = position;
 
-	vec4 clip_position = projection * mat4(mat3(view)) * vec4(world_position, 1.0);
+    vec4 clip_position = projection * mat4(mat3(view)) * vec4(world_position, 1.0);
 
-	gl_Position = clip_position.xyww;
+    gl_Position = clip_position.xyww;
 }

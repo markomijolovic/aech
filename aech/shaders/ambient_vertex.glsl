@@ -12,9 +12,9 @@ uniform mat4 model;
 
 void main()
 {
-	fragment_position = vec3(model * vec4(position, 1.0));
-	
-	screen_position = projection * view * vec4(fragment_position, 1.0);
-	pos = position;
-	gl_Position = screen_position;
+    fragment_position = vec3(model * vec4(position, 1.0));
+
+    screen_position = projection * view * vec4(fragment_position, 1.0);
+    pos = position;
+    gl_Position = screen_position;
 }

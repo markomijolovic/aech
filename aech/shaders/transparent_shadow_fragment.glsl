@@ -8,9 +8,9 @@ uniform sampler2D texture_albedo;
 
 void main()
 {
-	if (texture(texture_albedo, uvs).a < 0.5)
-	{
-		discard;
-	}
-	fragment_colour = vec4(vec3(gl_FragCoord.z), 1.0);
+    if (texture(texture_albedo, uvs).a < 0.5)
+    {
+        discard;
+    }
+    fragment_colour = vec4(vec3(gl_FragCoord.z), 1.0);
 }

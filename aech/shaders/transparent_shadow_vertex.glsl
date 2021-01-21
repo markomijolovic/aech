@@ -10,6 +10,6 @@ out vec2 uvs;
 
 void main()
 {
-	uvs = in_uvs;
-	gl_Position = projection * view * model * vec4(pos, 1.0);
+    uvs = in_uvs;
+    gl_Position = projection * view * model * vec4(pos, 1.0);
 }

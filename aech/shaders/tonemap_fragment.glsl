@@ -12,44 +12,44 @@ vec3 aces(const vec3 x) {
     const float c = 2.43;
     const float d = 0.59;
     const float e = 0.14;
-    return clamp((x * (a * x + b)) / (x * (c * x + d ) + e), 0.0, 1.0);
+    return clamp((x * (a * x + b)) / (x * (c * x + d) + e), 0.0, 1.0);
 }
 
 
 void main()
 {
-	vec3 colour = texture(tex, uvs).rgb;
-	//colour = aces(colour);
-	colour = colour/(vec3(1)+colour);
+    vec3 colour = texture(tex, uvs).rgb;
+    //colour = aces(colour);
+    colour = colour/(vec3(1)+colour);
 
-	// convert linear to sRGB
+    // convert linear to sRGB
 
-	if (colour.r > 0.0031308)
-	{
-		colour.r = 1.055 * pow(colour.r, 1/2.4) - 0.055;
-	}
-	else
-	{
-		colour.r = 12.92 * colour.r;
-	}
+    if (colour.r > 0.0031308)
+    {
+        colour.r = 1.055 * pow(colour.r, 1/2.4) - 0.055;
+    }
+    else
+    {
+        colour.r = 12.92 * colour.r;
+    }
 
-	if (colour.g > 0.0031308)
-	{
-		colour.g = 1.055 * pow(colour.g, 1/2.4) - 0.055;
-	}
-	else
-	{
-		colour.g = 12.92 * colour.g;
-	}
+    if (colour.g > 0.0031308)
+    {
+        colour.g = 1.055 * pow(colour.g, 1/2.4) - 0.055;
+    }
+    else
+    {
+        colour.g = 12.92 * colour.g;
+    }
 
-	if (colour.b > 0.0031308)
-	{
-		colour.b = 1.055 * pow(colour.b, 1/2.4) - 0.055;
-	}
-	else
-	{
-		colour.b = 12.92 * colour.b;
-	}
+    if (colour.b > 0.0031308)
+    {
+        colour.b = 1.055 * pow(colour.b, 1/2.4) - 0.055;
+    }
+    else
+    {
+        colour.b = 12.92 * colour.b;
+    }
 
-	fragment_colour = vec4(colour, 1.0);
+    fragment_colour = vec4(colour, 1.0);
 }

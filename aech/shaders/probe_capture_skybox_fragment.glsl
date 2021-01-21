@@ -8,7 +8,7 @@ uniform samplerCube skybox;
 
 void main()
 {
-	vec3 albedo = texture(skybox, fragment_position).rgb;
+    vec3 albedo = texture(skybox, fragment_position).rgb;
 
-	fragment_colour = vec4(albedo, 1.0);
+    fragment_colour = vec4(albedo, 1.0);
 }

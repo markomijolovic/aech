@@ -17,9 +17,9 @@ uniform float light_intensity;
 
 void main()
 {
-	vec4 albedo = texture(texture_albedo, uvs);
-	vec3 n = normalize(normal);
-	float metallic = texture(texture_metallic, uvs).r;
-	float roughness = texture(texture_roughness, uvs).r;
-	fragment_colour = albedo;
+    vec4 albedo = texture(texture_albedo, uvs);
+    vec3 n = normalize(normal);
+    float metallic = texture(texture_metallic, uvs).r;
+    float roughness = texture(texture_roughness, uvs).r;
+    fragment_colour = albedo;
 }

@@ -13,8 +13,8 @@ uniform vec4 colour;
 
 void main()
 {
-	position_out = vec4(position, 1.0F);
-	normal_out = vec4(normalize(normal), 1.0F);
-	albedo = colour;
-	metallic_roughness_ao = vec4(0.1F, 0.9F, 0.0F, 0.0F);
+    position_out = vec4(position, 1.0F);
+    normal_out = vec4(normalize(normal), 1.0F);
+    albedo = colour;
+    metallic_roughness_ao = vec4(0.1F, 0.9F, 0.0F, 0.0F);
 }

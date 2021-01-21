@@ -9,7 +9,7 @@ uniform mat4 view;
 
 void main()
 {
-	world_position = position;
+    world_position = position;
 
-	gl_Position = projection * view * vec4(position, 1.0);
+    gl_Position = projection * view * vec4(position, 1.0);
 }
