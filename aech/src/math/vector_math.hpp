@@ -7,7 +7,7 @@
 namespace aech::math {
 // returns the dot product of the given two vectors
 template <typename ScalarType, std::size_t Dimension>
-auto dot(const vec_t<ScalarType, Dimension> &a, const vec_t<ScalarType, Dimension> &b)
+auto dot(const vec_t<ScalarType, Dimension> &a, const vec_t<ScalarType, Dimension> &b) noexcept
 {
     auto ret = ScalarType{};
 
@@ -20,7 +20,7 @@ auto dot(const vec_t<ScalarType, Dimension> &a, const vec_t<ScalarType, Dimensio
 
 // returns the distance between the given two vectors
 template <typename ScalarType, std::size_t Dimension>
-auto distance(const vec_t<ScalarType, Dimension> &a, const vec_t<ScalarType, Dimension> &b)
+auto distance(const vec_t<ScalarType, Dimension> &a, const vec_t<ScalarType, Dimension> &b) noexcept
 {
     ScalarType retval{};
     for (std::size_t i = 0; i < a.data.size(); i++) {
@@ -31,7 +31,7 @@ auto distance(const vec_t<ScalarType, Dimension> &a, const vec_t<ScalarType, Dim
 
 // returns the cross product of two 3D vectors
 template <typename ScalarType>
-auto cross_product(const vec_t<ScalarType, 3> &a, const vec_t<ScalarType, 3> &b)
+auto cross_product(const vec_t<ScalarType, 3> &a, const vec_t<ScalarType, 3> &b) noexcept
 {
     return vec_t<ScalarType, 3>{
         a[1] * b[2] - a[2] * b[1],

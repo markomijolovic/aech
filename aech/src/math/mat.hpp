@@ -19,7 +19,7 @@ public:
     }
 
     // initialize from init_list of ScalarType
-    mat_t(std::initializer_list<ScalarType> init_list)
+    mat_t(std::initializer_list<ScalarType> init_list) noexcept
     {
         assert(init_list.size() == Dimension * Dimension);
 
@@ -34,7 +34,7 @@ public:
     }
 
     // initialize from init_list of vec_ts
-    mat_t(std::initializer_list<vec_t<ScalarType, Dimension>> init_list)
+    mat_t(std::initializer_list<vec_t<ScalarType, Dimension>> init_list) noexcept
     {
         assert(init_list.size() == Dimension);
 
@@ -43,14 +43,14 @@ public:
         }
     }
 
-    auto operator*=(const mat_t &rhs) -> mat_t &
+    auto operator*=(const mat_t &rhs) noexcept -> mat_t &
     {
         const auto result{*this};
 
         return *this = result * rhs;
     }
 
-    [[nodiscard]] auto operator*(const mat_t &rhs) const -> mat_t
+    [[nodiscard]] auto operator*(const mat_t &rhs) const noexcept -> mat_t
     {
         mat_t<ScalarType, Dimension> result{};
 
@@ -69,7 +69,7 @@ public:
         return result;
     }
 
-    [[nodiscard]] auto operator*(const vec_t<ScalarType, Dimension> &rhs) const -> vec_t<ScalarType, Dimension>
+    [[nodiscard]] auto operator*(const vec_t<ScalarType, Dimension> &rhs) const noexcept -> vec_t<ScalarType, Dimension>
     {
         vec_t<ScalarType, Dimension> result{};
 
@@ -80,7 +80,7 @@ public:
         return result;
     }
 
-    [[nodiscard]] auto operator*(ScalarType rhs) const -> mat_t
+    [[nodiscard]] auto operator*(ScalarType rhs) const noexcept -> mat_t
     {
         mat_t<ScalarType, Dimension> result{};
 
@@ -93,12 +93,12 @@ public:
         return result;
     }
 
-    auto operator[](std::size_t i) const -> const vec_t<ScalarType, Dimension> &
+    auto operator[](std::size_t i) const noexcept -> const vec_t<ScalarType, Dimension> &
     {
         return m_data[i];
     }
 
-    auto operator[](std::size_t i) -> vec_t<ScalarType, Dimension> &
+    auto operator[](std::size_t i) noexcept -> vec_t<ScalarType, Dimension> &
     {
         return m_data[i];
     }
@@ -108,7 +108,7 @@ private:
 };
 
 template <typename ScalarType, std::size_t Dimension>
-auto operator*(float lhs, const mat_t<ScalarType, Dimension> &rhs) -> mat_t<ScalarType, Dimension>
+auto operator*(float lhs, const mat_t<ScalarType, Dimension> &rhs) noexcept -> mat_t<ScalarType, Dimension>
 {
     return rhs * lhs;
 }

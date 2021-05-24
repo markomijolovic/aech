@@ -65,20 +65,20 @@ struct vec_t : detail::vec_t_storage<ScalarType, Dimension> {
 
     // initialize all components to scalar
     template <typename... Scalar>
-    vec_t(Scalar... args) requires(sizeof...(Scalar) >= 2)
+    vec_t(Scalar... args) noexcept requires(sizeof...(Scalar) >= 2)
     {
         auto init = {args...};
 
         std::copy(init.begin(), init.end(), data.begin());
     }
 
-    explicit vec_t(ScalarType scalar)
+    explicit vec_t(ScalarType scalar) noexcept
     {
         std::fill(data.begin(), data.end(), scalar);
     }
 
     // initialize from init list containing <= number of elements of vector
-    vec_t(std::initializer_list<ScalarType> init_list)
+    vec_t(std::initializer_list<ScalarType> init_list) noexcept
     {
         assert(init_list.size() <= Dimension);
 
@@ -87,7 +87,7 @@ struct vec_t : detail::vec_t_storage<ScalarType, Dimension> {
 
     // initialize from a vector (with OtherDimension == Dimension - 1) and a single scalar
     template <std::size_t OtherDimension>
-    vec_t(const vec_t<ScalarType, OtherDimension> &vec, ScalarType scalar)
+    vec_t(const vec_t<ScalarType, OtherDimension> &vec, ScalarType scalar) noexcept
     {
         assert(OtherDimension == Dimension - 1);
 
@@ -97,7 +97,7 @@ struct vec_t : detail::vec_t_storage<ScalarType, Dimension> {
 
     // initialize from a bigger vector (take as many elements as you need)
     template <std::size_t OtherDimension>
-    requires(OtherDimension > Dimension) explicit vec_t(const vec_t<ScalarType, OtherDimension> &vec)
+    requires(OtherDimension > Dimension) explicit vec_t(const vec_t<ScalarType, OtherDimension> &vec) noexcept
     {
         assert(OtherDimension > Dimension);
 
@@ -106,7 +106,7 @@ struct vec_t : detail::vec_t_storage<ScalarType, Dimension> {
 
     // initialize from another vector and init list
     template <std::size_t OtherDimension>
-    vec_t(const vec_t<ScalarType, OtherDimension> &vec, std::initializer_list<ScalarType> init_list)
+    vec_t(const vec_t<ScalarType, OtherDimension> &vec, std::initializer_list<ScalarType> init_list) noexcept
     {
         assert(OtherDimension + init_list.size() == Dimension);
 
@@ -114,7 +114,7 @@ struct vec_t : detail::vec_t_storage<ScalarType, Dimension> {
         std::copy(init_list.begin(), init_list.end(), it);
     }
 
-    auto operator+=(const vec_t &rhs) -> vec_t &
+    auto operator+=(const vec_t &rhs) noexcept -> vec_t &
     {
         for (std::size_t i = 0; i < Dimension; i++) {
             data[i] += rhs.data[i];
@@ -123,7 +123,7 @@ struct vec_t : detail::vec_t_storage<ScalarType, Dimension> {
         return *this;
     }
 
-    auto operator-=(const vec_t &rhs) -> vec_t &
+    auto operator-=(const vec_t &rhs) noexcept -> vec_t &
     {
         for (std::size_t i = 0; i < Dimension; i++) {
             data[i] -= rhs.data[i];
@@ -132,7 +132,7 @@ struct vec_t : detail::vec_t_storage<ScalarType, Dimension> {
         return *this;
     }
 
-    auto operator*=(float rhs) -> vec_t &
+    auto operator*=(float rhs) noexcept -> vec_t &
     {
         for (auto &el: data) {
             el *= rhs;
@@ -141,7 +141,7 @@ struct vec_t : detail::vec_t_storage<ScalarType, Dimension> {
         return *this;
     }
 
-    auto operator/=(float rhs) -> vec_t &
+    auto operator/=(float rhs) noexcept -> vec_t &
     {
         for (auto &el: data) {
             el /= rhs;
@@ -150,14 +150,14 @@ struct vec_t : detail::vec_t_storage<ScalarType, Dimension> {
         return *this;
     }
 
-    auto operator[](std::size_t index) -> ScalarType &
+    auto operator[](std::size_t index) noexcept -> ScalarType &
     {
         assert(index < Dimension);
 
         return data[index];
     }
 
-    auto operator[](std::size_t index) const -> const ScalarType &
+    auto operator[](std::size_t index) const noexcept -> const ScalarType &
     {
         assert(index < Dimension);
 
@@ -166,31 +166,31 @@ struct vec_t : detail::vec_t_storage<ScalarType, Dimension> {
 };
 
 template <std::size_t Dimension, typename ScalarType>
-auto operator+(vec_t<ScalarType, Dimension> lhs, const vec_t<ScalarType, Dimension> &rhs) -> vec_t<ScalarType, Dimension>
+auto operator+(vec_t<ScalarType, Dimension> lhs, const vec_t<ScalarType, Dimension> &rhs) noexcept -> vec_t<ScalarType, Dimension>
 {
     return lhs += rhs;
 }
 
 template <std::size_t Dimension, typename ScalarType>
-auto operator-(vec_t<ScalarType, Dimension> lhs, const vec_t<ScalarType, Dimension> &rhs) -> vec_t<ScalarType, Dimension>
+auto operator-(vec_t<ScalarType, Dimension> lhs, const vec_t<ScalarType, Dimension> &rhs) noexcept -> vec_t<ScalarType, Dimension>
 {
     return lhs -= rhs;
 }
 
 template <std::size_t Dimension, typename ScalarType>
-auto operator*(vec_t<ScalarType, Dimension> lhs, ScalarType rhs) -> vec_t<ScalarType, Dimension>
+auto operator*(vec_t<ScalarType, Dimension> lhs, ScalarType rhs) noexcept -> vec_t<ScalarType, Dimension>
 {
     return lhs *= rhs;
 }
 
 template <std::size_t Dimension, typename ScalarType>
-auto operator/(vec_t<ScalarType, Dimension> lhs, ScalarType rhs) -> vec_t<ScalarType, Dimension>
+auto operator/(vec_t<ScalarType, Dimension> lhs, ScalarType rhs) noexcept -> vec_t<ScalarType, Dimension>
 {
     return lhs /= rhs;
 }
 
 template <std::size_t Dimension, typename ScalarType>
-auto operator*(ScalarType lhs, vec_t<ScalarType, Dimension> rhs) -> vec_t<ScalarType, Dimension>
+auto operator*(ScalarType lhs, vec_t<ScalarType, Dimension> rhs) noexcept -> vec_t<ScalarType, Dimension>
 {
     return rhs *= lhs;
 }
